@@ -1,8 +1,8 @@
 module.exports = {
-    "singleQuote": true,
-    "semi": true,
-    "useTabs": false,
-    "tabWidth": 2,
-    "printWidth": 80,
-    "arrowParens": "always"
-}
+  singleQuote: true,
+  semi: true,
+  useTabs: false,
+  tabWidth: 2,
+  printWidth: 80,
+  arrowParens: 'always',
+};

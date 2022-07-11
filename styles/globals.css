@@ -1,7 +1,18 @@
+:root {
+  --global-background-color: #F7F8FA;
+  --divider-color: #E1E5EC;
+  --divider-sep-color: #C2C2C2;
+  --logo-color: #475366;
+  --text-color: #464646;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--global-background-color);
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }

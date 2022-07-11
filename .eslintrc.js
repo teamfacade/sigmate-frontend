@@ -34,17 +34,5 @@ module.exports = {
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',
     'no-console': 'warn',
-    'no-restricted-imports': [
-      'error',
-      {
-        paths: [
-          {
-            name: 'styled-components',
-            message: 'Import from styled-components/macro',
-          },
-        ],
-        patterns: ['!styled-components/macro'],
-      },
-    ],
   },
 };

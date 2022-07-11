@@ -26,7 +26,13 @@ module.exports = {
       'error',
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     ],
+    'prettier/prettier': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'import/no-named-as-default-member': 0,
+    'import/extensions': 'off',
+    'import/no-unresolved': 'off',
+    'no-unused-vars': 'off',
+    'no-use-before-define': 'off',
     'no-console': 'warn',
     'no-restricted-imports': [
       'error',

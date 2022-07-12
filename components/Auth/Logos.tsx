@@ -34,6 +34,6 @@ const Description = styled.p`
   color: var(--text-color);
   font-size: 14px;
   font-family: 'Inter', sans-serif;
-  text-align: start;
+  text-align: center;
   white-space: pre-wrap;
 `;

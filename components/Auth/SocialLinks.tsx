@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  margin-top: 50px;
 `;
 
 const Subheader = styled.p`

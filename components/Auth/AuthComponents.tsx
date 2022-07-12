@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { OAuthBtn, Divider, EmailForm } from '.';
+import { OAuthBtn } from '.';
 
 export default function AuthComponents() {
   return (
@@ -10,8 +10,10 @@ export default function AuthComponents() {
           <OAuthBtn service="google" />
           <OAuthBtn />
         </span>
+        {/*
         <Divider direction="row" separate />
         <EmailForm />
+      */}
       </Wrapper>
     </div>
   );

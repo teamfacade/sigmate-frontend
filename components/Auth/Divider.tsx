@@ -26,7 +26,7 @@ const Wrapper = styled.div<{ direction: string }>`
   flex-direction: ${({ direction }) => direction};
   align-items: center;
   width: ${({ direction }) => (direction === 'row' ? '100%' : 'auto')};
-  height: ${({ direction }) => (direction === 'column' ? '100%' : 'auto')};
+  height: ${({ direction }) => (direction === 'column' ? 'unset' : 'auto')};
 
   & > p {
     padding-bottom: 7px;
@@ -43,14 +43,14 @@ const DivBar = styled.div<{ direction: string; separate: boolean }>`
       if (separate) return 'calc(50% - 10px)';
       return '100%';
     }
-    return '2px';
+    return '1.5px';
   }};
   height: ${({ direction, separate }) => {
     if (direction === 'column') {
       if (separate) return 'calc(50% - 10px)';
-      return '150px';
+      return '100%';
     }
-    return '2px';
+    return '1.5px';
   }};
   background-color: var(--divider-color);
 `;

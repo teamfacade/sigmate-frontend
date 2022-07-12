@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import google from 'public/Icons/Google_Logo.svg';
+import { google } from 'public/Icons';
 
 type PropsType = {
   service?: string;

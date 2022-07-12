@@ -30,7 +30,7 @@ const Wrapper = styled.div`
     border-radius: 8px;
     border-width: 2px;
     border-style: solid;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
   }
 `;

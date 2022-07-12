@@ -13,4 +13,5 @@ export default function LogoWithLinks() {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 30vw;
 `;

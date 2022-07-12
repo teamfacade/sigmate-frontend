@@ -22,16 +22,18 @@ const Wrapper = styled.div`
 `;
 
 const Logo = styled.p`
-  margin: 0;
+  margin: 0 0 15px 0;
   color: var(--logo-color);
   font-size: 50px;
-  font-weight: 900;
+  font-weight: 500;
+  font-family: 'Claris Sans', sans-serif;
 `;
 
 const Description = styled.p`
   margin: 0;
   color: var(--text-color);
-  font-size: 16px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  text-align: start;
   white-space: pre-wrap;
-  text-align: center;
 `;

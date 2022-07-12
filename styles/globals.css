@@ -36,3 +36,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+p, span {
+  font-family: 'Inter', sans-serif;
+}

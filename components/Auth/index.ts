@@ -8,3 +8,4 @@ export { default as SocialLinks } from './SocialLinks';
 export { default as OAuthBtn } from './OAuthBtn';
 export { default as DownloadBtn } from './DownloadBtn';
 export { default as SNSBtn } from './SNSBtn';
+export { default as SNSIcon } from './SNSIcon';

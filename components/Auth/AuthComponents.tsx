@@ -4,11 +4,12 @@ import { OAuthBtn, Divider, EmailForm } from '.';
 export default function AuthComponents() {
   return (
     <div>
-      <h1>Log in / sign up</h1>
+      <Header>Log in / sign up</Header>
       <Wrapper>
-        <div>
+        <span>
           <OAuthBtn service="google" />
-        </div>
+          <OAuthBtn />
+        </span>
         <Divider direction="row" separate />
         <EmailForm />
       </Wrapper>
@@ -19,5 +20,25 @@ export default function AuthComponents() {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  width: 30vw;
+
+  & button {
+    position: relative;
+    width: 100%;
+    padding: 14px 0;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border-width: 2px;
+    border-style: solid;
+    font-size: 16px;
+    font-weight: 600;
+  }
+`;
+
+const Header = styled.span`
+  display: inline-block;
+  margin-bottom: 16px;
+  color: var(--logo-color);
+  font-size: 22px;
+  font-weight: bold;
 `;

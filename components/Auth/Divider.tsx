@@ -11,7 +11,7 @@ export default function Divider({ direction, separate }: PropsType) {
       {separate ? (
         <>
           <DivBar direction={direction} separate={separate} />
-          <p>OR</p>
+          <p>or</p>
           <DivBar direction={direction} separate={separate} />
         </>
       ) : (
@@ -24,13 +24,16 @@ export default function Divider({ direction, separate }: PropsType) {
 const Wrapper = styled.div<{ direction: string }>`
   display: flex;
   flex-direction: ${({ direction }) => direction};
+  align-items: center;
   width: ${({ direction }) => (direction === 'row' ? '100%' : 'auto')};
   height: ${({ direction }) => (direction === 'column' ? '100%' : 'auto')};
 
   & > p {
+    padding-bottom: 7px;
     margin: 0 20px;
     color: var(--divider-sep-color);
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 400;
   }
 `;
 
@@ -40,14 +43,14 @@ const DivBar = styled.div<{ direction: string; separate: boolean }>`
       if (separate) return 'calc(50% - 10px)';
       return '100%';
     }
-    return '5px';
+    return '2px';
   }};
   height: ${({ direction, separate }) => {
     if (direction === 'column') {
       if (separate) return 'calc(50% - 10px)';
       return '150px';
     }
-    return '5px';
+    return '2px';
   }};
   background-color: var(--divider-color);
 `;

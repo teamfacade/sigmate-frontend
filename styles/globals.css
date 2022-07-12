@@ -4,6 +4,12 @@
   --divider-sep-color: #C2C2C2;
   --logo-color: #475366;
   --text-color: #464646;
+  --button-google-name-color: #D2624A;
+  --button-google-background-color: #FEE3E6;
+  --button-google-border-color: #F6C7D1;
+  --button-metamask-name-color: #F6851B;
+  --button-metamask-background-color: #FFF6D8;
+  --button-metamastk-border-color: #F19C4A;
 }
 
 html,
@@ -15,6 +21,11 @@ body {
   background-color: var(--global-background-color);
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+#__next {
+  width: 100%;
+  height: 100%;
 }
 
 a {

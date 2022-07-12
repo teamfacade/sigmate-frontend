@@ -14,17 +14,17 @@ export default function EmailForm() {
 }
 
 const Form = styled.form`
-  width: 100%;
+  width: inherit;
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: inherit;
 `;
 
 const Submit = styled.button`
-  width: 100%;
+  width: inherit;
 `;
 
 const KeepSignIn = styled.div`
-  width: 100%;
+  width: inherit;
 `;

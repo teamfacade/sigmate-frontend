@@ -1,10 +1,9 @@
 import {
-  googlePlay as Google,
+  twitter as Twitter,
   telegram as Telegram,
   discord as Discord,
   medium as Medium,
 } from 'public/Icons';
-import Twitter from 'public/Icons/Twitter_logo.svg';
 
 type PropsType = {
   platform?: string;
@@ -13,7 +12,7 @@ type PropsType = {
 export default function SNSIcon({ platform = '' }: PropsType) {
   switch (platform) {
     case 'Twitter':
-      return <Google />;
+      return <Twitter />;
     case 'Telegram':
       return <Telegram />;
     case 'Discord':

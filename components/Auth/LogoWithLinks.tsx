@@ -13,5 +13,10 @@ export default function LogoWithLinks() {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 250px;
   width: 30vw;
+
+  @media (max-width: 640px) {
+    margin-top: 50px;
+  }
 `;

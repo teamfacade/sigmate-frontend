@@ -14,8 +14,14 @@ export default function AuthPage() {
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap-reverse;
   position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  @media (max-width: 640px) {
+    display: inline-block;
+    overflow: hidden;
+  }
 `;

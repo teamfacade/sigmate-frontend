@@ -22,6 +22,7 @@ export default function AuthComponents() {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 250px;
   width: 30vw;
 
   & button {

@@ -35,6 +35,10 @@ const Wrapper = styled.div<{ direction: string }>`
     font-size: 20px;
     font-weight: 400;
   }
+
+  @media (max-width: 640px) {
+    display: ${({ direction }) => (direction === 'column' ? 'none' : 'flex')};
+  }
 `;
 
 const DivBar = styled.div<{ direction: string; separate: boolean }>`

@@ -29,7 +29,10 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       {router.pathname === '/auth' ? (
         getLayout(<Component {...pageProps} />)
       ) : (
-        <Navbar>{getLayout(<Component {...pageProps} />)}</Navbar>
+        <>
+          <Navbar />
+          {getLayout(<Component {...pageProps} />)}
+        </>
       )}
     </>
   );

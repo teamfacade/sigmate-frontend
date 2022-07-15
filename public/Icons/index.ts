@@ -5,3 +5,5 @@ export { default as twitter } from './Twitter_logo.svg';
 export { default as discord } from './Discord_logo.svg';
 export { default as telegram } from './Telegram_logo.svg';
 export { default as medium } from './Medium_logo.svg';
+export { default as profile } from './ProfileIcon.svg';
+export { default as settings } from './Settings.svg';

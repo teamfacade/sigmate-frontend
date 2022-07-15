@@ -44,7 +44,10 @@ const LinksWrapper = styled.ul`
 
   li {
     list-style-type: none;
-    margin: 0 20px;
+
+    :not(:first-child) {
+      margin-left: 40px;
+    }
   }
 
   a {
@@ -52,6 +55,7 @@ const LinksWrapper = styled.ul`
     font-size: 16px;
     font-weight: bold;
     font-family: 'Inter', sans-serif;
+    white-space: nowrap;
 
     :hover {
       color: ${darken(0.1, colors.linkColor)};

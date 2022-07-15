@@ -33,7 +33,7 @@ const Wrapper = styled.div`
 `;
 
 const Logo = styled.a`
-  margin: 0;
+  margin: 0 40px 0 0;
   color: ${colors.logoColor};
   font-size: 35px;
   font-weight: 500;

@@ -1,17 +1,3 @@
-:root {
-  --global-background-color: #F7F8FA;
-  --divider-color: #E1E5EC;
-  --divider-sep-color: #C2C2C2;
-  --logo-color: #475366;
-  --text-color: #464646;
-  --button-google-name-color: #D2624A;
-  --button-google-background-color: #FEE3E6;
-  --button-google-border-color: #F6C7D1;
-  --button-metamask-name-color: #F6851B;
-  --button-metamask-background-color: #FFF6D8;
-  --button-metamastk-border-color: #F19C4A;
-}
-
 html,
 body {
   padding: 0;

@@ -46,6 +46,7 @@
     "fs": "^0.0.1-security",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
+    "polished": "^4.2.2",
     "prettier": "^2.7.1",
     "typescript": "4.7.4"
   }

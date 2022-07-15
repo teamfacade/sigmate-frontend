@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { google } from 'public/Icons';
 import { MouseEventHandler } from 'react';
+import { google } from 'public/Icons';
+import colors from 'styles/colorLib';
 
 type PropsType = {
   service?: string;
@@ -32,15 +33,15 @@ export default function OAuthBtn({ service = '', onClick }: PropsType) {
 }
 
 const GoogleBtn = styled.button`
-  color: var(--button-google-name-color);
-  background-color: var(--button-google-background-color);
-  border-color: var(--button-google-border-color);
+  color: ${colors.googleNameColor};
+  background-color: ${colors.googleBackgroundColor};
+  border-color: ${colors.googleBorderColor};
 `;
 
 const MetamaskBtn = styled.button`
-  color: var(--button-metamask-name-color);
-  background-color: var(--button-metamask-background-color);
-  border-color: var(--button-metamastk-border-color);
+  color: ${colors.metamaskNameColor};
+  background-color: ${colors.metamaskBackgroundColor};
+  border-color: ${colors.metamaskBorderColor};
 `;
 
 const Preparing = styled.button`

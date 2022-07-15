@@ -1,5 +1,6 @@
 import { useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
+import colors from 'styles/colorLib';
 import { OAuthBtn } from '.';
 import GoogleLogin from './GoogleLogin';
 
@@ -62,7 +63,7 @@ const Wrapper = styled.div`
 const Header = styled.span`
   display: inline-block;
   margin-bottom: 16px;
-  color: var(--logo-color);
+  color: ${colors.logoColor};
   font-size: 22px;
   font-weight: bold;
 `;

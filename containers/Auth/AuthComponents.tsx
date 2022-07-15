@@ -1,8 +1,8 @@
 import { useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import colors from 'styles/colorLib';
-import { OAuthBtn } from '.';
-import GoogleLogin from './GoogleLogin';
+import { OAuthBtn } from '../../components/Auth';
+import GoogleLogin from '../../components/Auth/GoogleLogin';
 
 declare global {
   interface Window {

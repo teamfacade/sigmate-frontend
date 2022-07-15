@@ -1,17 +1,19 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Links, Profile } from 'components/Nav';
+import { Links, Profile } from 'components/Navbar';
 import colors from 'styles/colorLib';
 
 export default function Navbar() {
   return (
-    <Wrapper>
-      <Link href="/">
-        <Logo>sigmate</Logo>
-      </Link>
-      <Links />
-      <Profile name="WK seo" description="Design Manager" />
-    </Wrapper>
+    <nav>
+      <Wrapper>
+        <Link href="/pages">
+          <Logo>sigmate</Logo>
+        </Link>
+        <Links />
+        <Profile name="WK seo" description="Design Manager" />
+      </Wrapper>
+    </nav>
   );
 }
 

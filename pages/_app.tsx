@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ReactElement, ReactNode } from 'react';
-import { Navbar } from 'components/global';
+import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
 
 export type NextPageWithLayout = NextPage & {
@@ -32,6 +32,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <>
           <Navbar />
           {getLayout(<Component {...pageProps} />)}
+          <Footer />
         </>
       )}
     </>

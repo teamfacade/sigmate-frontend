@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Logos, SocialLinks } from '../../components/Auth';
+import { Logos, SocialLinks } from '../../components/auth';
 
 export default function LogoWithLinks() {
   return (

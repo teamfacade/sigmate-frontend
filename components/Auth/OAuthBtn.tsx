@@ -1,23 +1,33 @@
 import styled from 'styled-components';
 import { google } from 'public/Icons';
+import { MouseEventHandler } from 'react';
 
 type PropsType = {
   service?: string;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function OAuthBtn({ service = '' }: PropsType) {
+export default function OAuthBtn({ service = '', onClick }: PropsType) {
   switch (service) {
     case 'google':
       return (
-        <GoogleBtn>
+        <GoogleBtn name={service} onClick={onClick}>
           <Google />
           Continue with Google
         </GoogleBtn>
       );
     case 'metamask':
-      return <MetamaskBtn>Continue with Metamask</MetamaskBtn>;
+      return (
+        <MetamaskBtn name={service} onClick={onClick}>
+          Continue with Metamask
+        </MetamaskBtn>
+      );
     default:
-      return <Preparing>Coming soon...</Preparing>;
+      return (
+        <Preparing name={service} onClick={onClick}>
+          Coming soon...
+        </Preparing>
+      );
   }
 }
 
@@ -36,7 +46,7 @@ const MetamaskBtn = styled.button`
 const Preparing = styled.button`
   color: gray;
   background-color: #eeeeee;
-  border-color: #7c7c7c;
+  border-color: #8a8a8a;
 `;
 
 const Google = styled(google)`

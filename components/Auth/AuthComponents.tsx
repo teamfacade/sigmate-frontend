@@ -1,13 +1,33 @@
+import { useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { OAuthBtn } from '.';
+import GoogleLogin from './GoogleLogin';
+
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
 export default function AuthComponents() {
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    switch (e.currentTarget.name) {
+      case 'google':
+        window.google.accounts.id.prompt();
+        break;
+      default:
+        // eslint-disable-next-line no-alert
+        alert('Comming soon');
+    }
+  }, []);
+
   return (
     <div>
       <Header>Log in / sign up</Header>
       <Wrapper>
         <span>
-          <OAuthBtn service="google" />
+          <GoogleLogin />
+          <OAuthBtn service="google" onClick={onClick} />
           <OAuthBtn />
         </span>
         {/*

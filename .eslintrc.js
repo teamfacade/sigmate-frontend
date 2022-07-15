@@ -35,5 +35,6 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-console': 'warn',
     'prettier/prettier': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };

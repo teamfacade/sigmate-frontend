@@ -26,19 +26,15 @@ module.exports = {
       'error',
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     ],
+    'react/jsx-props-no-spreading': 'off',
+    'react/require-default-props': 'off',
     'import/no-named-as-default-member': 0,
+    'import/extensions': 'off',
+    'import/no-unresolved': 'off',
+    'no-unused-vars': 'off',
+    'no-use-before-define': 'off',
     'no-console': 'warn',
-    'no-restricted-imports': [
-      'error',
-      {
-        paths: [
-          {
-            name: 'styled-components',
-            message: 'Import from styled-components/macro',
-          },
-        ],
-        patterns: ['!styled-components/macro'],
-      },
-    ],
+    'prettier/prettier': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };

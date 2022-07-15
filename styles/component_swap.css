@@ -1,0 +1,17 @@
+.swap-enter {
+    opacity: 0;
+}
+
+.swap-enter-active {
+    opacity: 1;
+    transition: opcity 200ms;
+}
+
+.swap-exit {
+    opacity: 1;
+}
+
+.swap-exit-active {
+    opacity: 0;
+    transition: opacity 200ms;
+}

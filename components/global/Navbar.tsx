@@ -5,7 +5,7 @@ type PropsType = {
   children: ReactNode;
 };
 
-export default function Layout({ children }: PropsType) {
+export default function Navbar({ children }: PropsType) {
   return (
     <NavBar>
       <main>{children}</main>
@@ -13,4 +13,6 @@ export default function Layout({ children }: PropsType) {
   );
 }
 
-const NavBar = styled.div``;
+const NavBar = styled.div`
+  background-color: #0070f3;
+`;

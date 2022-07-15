@@ -1,8 +1,10 @@
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { ReactElement, ReactNode } from 'react';
-import '../styles/globals.css';
+import { Navbar } from 'components/global';
+import 'styles/globals.css';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -14,6 +16,7 @@ type AppPropsWithLayout = AppProps & {
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
+  const router = useRouter();
 
   return (
     <>
@@ -23,7 +26,11 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"
         />
       </Head>
-      {getLayout(<Component {...pageProps} />)}
+      {router.pathname === '/auth' ? (
+        getLayout(<Component {...pageProps} />)
+      ) : (
+        <Navbar>{getLayout(<Component {...pageProps} />)}</Navbar>
+      )}
     </>
   );
 }

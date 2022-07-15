@@ -14,6 +14,7 @@ const colors = {
   metamaskNameColor: '#F6851B' as const,
   metamaskBackgroundColor: '#FFF6D8' as const,
   metamaskBorderColor: '#F19C4A' as const,
+  containerShadow: '#E4E4E4' as const,
 };
 
 export default colors;

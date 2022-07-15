@@ -10,7 +10,7 @@ export default memo(function Footer() {
         <Logo>sigmate</Logo>
         <ExternalLinks />
         <Copyright>
-          <p>{'© Copyright 2022 sigmate.\r\nAll rights reserved'}</p>
+          <p>© Copyright 2022 sigmate. All rights reserved</p>
         </Copyright>
       </Wrapper>
     </footer>
@@ -45,6 +45,6 @@ const Copyright = styled.div`
     color: ${colors.lightTextColor};
     font-size: 16px;
     font-family: 'Inter', sans-serif;
-    white-space: pre;
+    white-space: nowrap;
   }
 `;

@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ReactElement, ReactNode } from 'react';
+import { MainLayout } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
 
@@ -18,6 +19,8 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const router = useRouter();
 
+  console.log(router.pathname);
+
   return (
     <>
       <Head>
@@ -26,12 +29,14 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"
         />
       </Head>
-      {router.pathname === '/auth' ? (
+      {router.pathname.startsWith('/auth') ? (
         getLayout(<Component {...pageProps} />)
       ) : (
         <>
           <Navbar />
-          {getLayout(<Component {...pageProps} />)}
+          {router.pathname.startsWith('/main') && (
+            <MainLayout>{getLayout(<Component {...pageProps} />)}</MainLayout>
+          )}
           <Footer />
         </>
       )}

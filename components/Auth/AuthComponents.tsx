@@ -13,6 +13,7 @@ export default function AuthComponents() {
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     switch (e.currentTarget.name) {
       case 'google':
+        // @todo request google login to backend
         window.google.accounts.id.prompt();
         break;
       default:

@@ -11,17 +11,19 @@ type PropsType = {
 export default function MainLayout({ children }: PropsType) {
   return (
     <main>
-      <Wrapper>
-        <section>
-          <MainContentWrapper>{children}</MainContentWrapper>
-        </section>
-        <aside>
-          <Search />
-          <SideContentWrapper>
-            <SideContent />
-          </SideContentWrapper>
-        </aside>
-      </Wrapper>
+      <div style={{ display: 'flex' }}>
+        <Wrapper>
+          <section>
+            <MainContentWrapper>{children}</MainContentWrapper>
+          </section>
+          <aside>
+            <Search />
+            <SideContentWrapper>
+              <SideContent />
+            </SideContentWrapper>
+          </aside>
+        </Wrapper>
+      </div>
     </main>
   );
 }
@@ -29,6 +31,7 @@ export default function MainLayout({ children }: PropsType) {
 const Wrapper = styled.div`
   @media (min-width: 1024px) {
     display: inline-flex;
+    justify-content: center;
     flex-wrap: wrap;
   }
   @media (max-width: 1023px) {
@@ -41,7 +44,8 @@ const Wrapper = styled.div`
 
 const MainContentWrapper = styled.div`
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 20px;
+  padding: 40px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 1px 3px 0 ${colors.containerShadow};

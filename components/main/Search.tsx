@@ -16,7 +16,7 @@ const Form = styled.form`
   align-items: center;
   flex: 0 1 300px;
   padding: 7px 15px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   border-radius: 8px;
   border: none;
   color: #8894a7;

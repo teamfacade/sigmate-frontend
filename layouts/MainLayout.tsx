@@ -43,12 +43,14 @@ const Wrapper = styled.div`
 `;
 
 const MainContentWrapper = styled.div`
+  position: relative;
   display: inline-block;
   margin-right: 20px;
   padding: 40px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 1px 3px 0 ${colors.containerShadow};
+  overflow: hidden;
 
   @media (max-width: 1023px) {
     width: 100vw;

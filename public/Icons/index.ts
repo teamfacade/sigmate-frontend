@@ -9,3 +9,6 @@ export { default as profile } from './ProfileIcon.svg';
 export { default as settings } from './Settings.svg';
 export { default as searchIcon } from './Search_icon.svg';
 export { default as coins } from './Coins.svg';
+export { default as backgroundChart } from './Background_chart.svg';
+export { default as screenshotDesktop } from './Screenshot_desktop.png';
+export { default as screenshotPhone } from './Screenshot_phone.png';

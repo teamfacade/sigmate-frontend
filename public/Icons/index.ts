@@ -7,3 +7,5 @@ export { default as telegram } from './Telegram_logo.svg';
 export { default as medium } from './Medium_logo.svg';
 export { default as profile } from './ProfileIcon.svg';
 export { default as settings } from './Settings.svg';
+export { default as searchIcon } from './Search_icon.svg';
+export { default as coins } from './Coins.svg';

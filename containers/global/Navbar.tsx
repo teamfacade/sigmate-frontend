@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <nav>
       <Wrapper>
-        <Link href="/pages">
+        <Link href="/main">
           <Logo>sigmate</Logo>
         </Link>
         <Links />

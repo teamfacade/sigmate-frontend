@@ -23,7 +23,7 @@ export default memo(function Links() {
         </Link>
       </li>
       <li>
-        <Link href="/draw">
+        <Link href="/main/Draw">
           <a>event / draw</a>
         </Link>
       </li>

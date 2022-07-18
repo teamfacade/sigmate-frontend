@@ -45,6 +45,7 @@ const Wrapper = styled.div`
 const MainContentWrapper = styled.div`
   position: relative;
   display: inline-block;
+  max-width: 1000px;
   margin-right: 20px;
   padding: 40px;
   background-color: white;

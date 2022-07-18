@@ -63,10 +63,10 @@ const Edit = styled.div`
 
   p {
     display: inline-block;
-    padding: 7px 14px;
+    padding: 7px 0;
     margin: 0;
     color: #626262;
-    font-size: 12px;
+    font-size: 14px;
     font-family: 'Inter', sans-serif;
   }
 `;

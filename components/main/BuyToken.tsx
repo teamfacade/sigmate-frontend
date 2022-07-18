@@ -43,7 +43,7 @@ const Header = styled.h2`
 const Description = styled.p`
   margin: 0;
   color: #606060;
-  font-size: 12px;
+  font-size: 14px;
   font-family: 'Inter', sans-serif;
   white-space: pre;
 `;

@@ -1,13 +1,17 @@
 import { memo } from 'react';
 import styled from 'styled-components';
-import { TableRow } from 'components/main';
+import { SectionWrapper } from 'components/global';
+import { TableRow } from 'components/main/RecentEdits';
 
 export default memo(function RecentEdits() {
   return (
-    <Wrapper>
-      <Heading>Recent edits</Heading>
-      <hr />
+    <SectionWrapper header="Recent edits">
       <Table>
+        <colgroup>
+          <col />
+          <col style={{ width: '25%' }} />
+          <col style={{ width: '22%' }} />
+        </colgroup>
         <thead>
           <tr>
             <THead>Name</THead>
@@ -44,39 +48,29 @@ export default memo(function RecentEdits() {
           />
         </tbody>
       </Table>
-    </Wrapper>
+    </SectionWrapper>
   );
 });
 
-const Wrapper = styled.div`
-  width: 100%;
-
-  hr {
-    margin: 16px 0;
-    border: none;
-    border-bottom: 1px solid #dedede;
-  }
-`;
-
-const Heading = styled.h3`
-  margin: 0;
-  color: #323c4d;
-`;
-
 const Table = styled.table`
+  max-width: 1000px;
   border-spacing: 0 20px;
-  
-  th, td {
+
+  th,
+  td {
+    white-space: pre;
+
     :not(:first-child) {
       padding-left: 100px;
     }
   }
-  
+
   td {
     :not(:last-child) {
-      color: #276BFF;
+      color: #276bff;
       font-size: 15px;
       font-weight: bold;
+    }
   }
 `;
 

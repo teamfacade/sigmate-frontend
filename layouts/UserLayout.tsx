@@ -22,49 +22,52 @@ export default function UserLayout({ children }: PropsType) {
   return (
     <ClientRouterProvider initial="/user">
       <ClientRouter>
-        <SideItemsWrapper>
-          <SideItem
-            IconName="Account"
-            Content="Account"
-            Active={!current}
-          />
-          <SideItem
-            IconName="Points"
-            Content="Points"
-            Active={current === 'points'}
-          />
-          <SideItem
-            IconName="Edits"
-            Content="Edits"
-            Active={current === 'edits'}
-          />
-          <SideItem
-            IconName="Referrals"
-            Content="Referrals"
-            Active={current === 'referrals'}
-          />
-          <SideItem
-            IconName="Staking"
-            Content="Staking"
-            Active={current === 'staking'}
-          />
-          <SideItem
-            IconName="Calender"
-            Content="Calendar"
-            Active={current === 'calender'}
-          />
-        </SideItemsWrapper>
-        <ContentWrapper>{children}</ContentWrapper>
+        <Wrapper>
+          <SideItemsWrapper>
+            <SideItem IconName="Account" Content="Account" Active={!current} />
+            <SideItem
+              IconName="Points"
+              Content="Points"
+              Active={current === 'points'}
+            />
+            <SideItem
+              IconName="Edits"
+              Content="Edits"
+              Active={current === 'edits'}
+            />
+            <SideItem
+              IconName="Referrals"
+              Content="Referrals"
+              Active={current === 'referrals'}
+            />
+            <SideItem
+              IconName="Staking"
+              Content="Staking"
+              Active={current === 'staking'}
+            />
+            <SideItem
+              IconName="Calender"
+              Content="Calendar"
+              Active={current === 'calender'}
+            />
+          </SideItemsWrapper>
+          <ContentWrapper>{children}</ContentWrapper>
+        </Wrapper>
       </ClientRouter>
     </ClientRouterProvider>
   );
 }
 
+const Wrapper = styled.div`
+  display: flex;
+  padding: 0 30px 30px 30px;
+`;
+
 const SideItemsWrapper = styled.div`
   display: flex;
+  flex: 0 0 auto;
   flex-direction: column;
   justify-content: center;
-  padding-left: 30px;
   background-color: transparent;
 `;
 

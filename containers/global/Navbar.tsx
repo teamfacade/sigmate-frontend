@@ -11,7 +11,11 @@ export default function Navbar() {
           <Logo>sigmate</Logo>
         </Link>
         <Links />
-        <Profile name="WK seo" description="Design Manager" />
+        <Link href="/user">
+          <a>
+            <Profile name="WK seo" description="Design Manager" />
+          </a>
+        </Link>
       </Wrapper>
     </nav>
   );

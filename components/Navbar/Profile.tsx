@@ -26,6 +26,7 @@ const Wrapper = styled.div`
   flex: 0 0 auto;
   align-items: center;
   margin-left: 40px;
+  cursor: pointer;
 `;
 
 const TextWrapper = styled.div`

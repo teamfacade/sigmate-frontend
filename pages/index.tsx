@@ -1,5 +1,3 @@
-function HomePage() {
-  return <div>Welcome</div>;
+export default function MyApp() {
+  return <div>temp</div>;
 }
-
-export default HomePage;

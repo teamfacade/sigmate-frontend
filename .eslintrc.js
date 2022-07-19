@@ -31,6 +31,7 @@ module.exports = {
     'import/no-named-as-default-member': 0,
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',
     'no-console': 'warn',

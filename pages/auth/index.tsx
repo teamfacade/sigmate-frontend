@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import dynamic from 'next/dynamic';
-import { Divider, LogoWithLinks, AdditionalInfo } from 'components/Auth';
+import { LogoWithLinks } from 'containers/auth';
+import { Divider, AdditionalInfo } from 'components/auth';
 
 export default function AuthPage() {
   return (
@@ -21,7 +22,7 @@ export default function AuthPage() {
     To use window object in react code, prevent ssr of the component.
     https://velog.io/@taese0ng/Next.js-window%EA%B0%9D%EC%B2%B4%EA%B0%80-%EC%97%86%EB%8B%A4%EA%B3%A0%ED%95%A0%EB%95%8C
 */
-const AuthComponents = dynamic(() => import('components/Auth/AuthComponents'), {
+const AuthComponents = dynamic(() => import('containers/auth/AuthComponents'), {
   ssr: false,
 });
 

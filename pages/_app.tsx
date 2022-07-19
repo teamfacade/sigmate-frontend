@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ReactElement, ReactNode } from 'react';
-import { MainLayout } from 'layouts';
+import { MainLayout, UserLayout } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
 
@@ -36,6 +36,9 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <Navbar />
           {router.pathname.startsWith('/main') && (
             <MainLayout>{getLayout(<Component {...pageProps} />)}</MainLayout>
+          )}
+          {router.pathname.startsWith('/user') && (
+            <UserLayout>{getLayout(<Component {...pageProps} />)}</UserLayout>
           )}
           <Footer />
         </>

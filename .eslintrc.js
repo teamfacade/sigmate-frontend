@@ -38,4 +38,7 @@ module.exports = {
     'prettier/prettier': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },
+  globals: {
+    JSX: true,
+  },
 };

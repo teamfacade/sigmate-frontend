@@ -14,6 +14,12 @@ const colors = {
   metamaskNameColor: '#F6851B' as const,
   metamaskBackgroundColor: '#FFF6D8' as const,
   metamaskBorderColor: '#F19C4A' as const,
+  twitterNameColor: '#349CE2' as const,
+  twitterBackgroundColor: '#EEF7FF' as const,
+  twitterBorderColor: '#D3E8FB' as const,
+  discordNameColor: '#5566AA' as const,
+  discordBackgroundColor: '#CCD5F3' as const,
+  discordBorderColor: '#A7B7EB' as const,
   containerShadow: '#E4E4E4' as const,
 };
 

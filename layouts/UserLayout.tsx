@@ -2,7 +2,6 @@ import { ReactNode, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ClientRouterProvider, ClientRouter } from 'hooks/useSPARouting';
 import { SideItem } from 'components/user/Layout';
-import colors from '../styles/colorLib';
 
 type PropsType = {
   children: ReactNode;
@@ -72,13 +71,7 @@ const SideItemsWrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  position: relative;
-  display: inline-block;
-  max-width: 1000px;
-  margin-right: 20px;
-  padding: 40px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px 0 ${colors.containerShadow};
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  width: calc(100vw - 216px);
 `;

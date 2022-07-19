@@ -1,2 +1,2 @@
-// eslint-disable-next-line import/prefer-default-export
 export { default as SectionWrapper } from './SectionWrapper';
+export { default as BasicWrapper } from './BasicWrapper';

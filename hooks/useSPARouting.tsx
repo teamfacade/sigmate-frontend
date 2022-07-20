@@ -79,6 +79,7 @@ export function ClientRouter({
 export function ClientRoute({ path, component }: RouteProps) {
   const { route } = useContext(ClientRouterContext);
 
+  /* @todo querystring 또는 hash 대응 */
   return path === route ? component : null;
 }
 

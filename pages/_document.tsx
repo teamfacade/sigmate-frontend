@@ -18,10 +18,6 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap"
           rel="stylesheet"
         />
-        <link
-          rel="stylesheet"
-          href="//cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0/all.min.css"
-        />
       </Head>
       <body>
         <Main />

@@ -66,7 +66,7 @@ const SideItemsWrapper = styled.div`
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   background-color: transparent;
 `;
 

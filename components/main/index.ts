@@ -1,4 +1,3 @@
-export { default as Search } from './Search';
 export { default as SideRecentEdits } from './SideRecentEdits';
 export { default as BuyToken } from './BuyToken';
 export { default as MainImage } from './MainImage';

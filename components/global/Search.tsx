@@ -4,14 +4,14 @@ import { searchIcon as SearchIcon } from 'public/Icons';
 
 export default memo(function Search() {
   return (
-    <Form>
+    <SearchForm>
       <SearchIcon />
       <SearchBar placeholder="Search content..." />
-    </Form>
+    </SearchForm>
   );
 });
 
-const Form = styled.form`
+const SearchForm = styled.form`
   display: flex;
   align-items: center;
   flex: 0 1 300px;
@@ -30,4 +30,10 @@ const SearchBar = styled.input`
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: bold;
+
+  :focus-visible {
+    outline: none;
+  }
 `;
+
+export { SearchForm, SearchBar };

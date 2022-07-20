@@ -21,6 +21,7 @@ export default memo(function ImageWrapper({
 });
 
 const Outer = styled.div<{ width: string; height: string }>`
+  flex-shrink: 0;
   width: ${({ width }) => width};
   height: ${({ height }) => height};
 `;

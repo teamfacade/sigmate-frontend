@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { SideContent } from 'containers/main';
-import { Search } from 'components/main';
+import { Search } from 'components/global';
 import colors from 'styles/colorLib';
 
 type PropsType = {

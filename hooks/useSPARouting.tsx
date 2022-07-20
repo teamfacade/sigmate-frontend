@@ -79,7 +79,7 @@ export function ClientRouter({
 export function ClientRoute({ path, component }: RouteProps) {
   const { route } = useContext(ClientRouterContext);
 
-  return path.startsWith(route) ? component : null;
+  return path === route ? component : null;
 }
 
 export function ClientRouterProvider({

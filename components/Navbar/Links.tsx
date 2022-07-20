@@ -14,22 +14,22 @@ export default memo(function Links() {
       </li>
       <li>
         <Link href="/upcoming">
-          <a>upcoming</a>
+          <a>Upcoming</a>
         </Link>
       </li>
       <li>
         <Link href="/trending">
-          <a>STATS / trending</a>
+          <a>Stats / Trending</a>
         </Link>
       </li>
       <li>
         <Link href="/main/Draw">
-          <a>event / draw</a>
+          <a>Event / Draw</a>
         </Link>
       </li>
       <li>
         <Link href="/forum">
-          <a>forum</a>
+          <a>Forum</a>
         </Link>
       </li>
     </LinksWrapper>

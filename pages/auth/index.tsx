@@ -6,15 +6,17 @@ import { Divider, AdditionalInfo } from 'components/auth';
 
 export default function AuthPage() {
   return (
-    <Wrapper>
-      <AuthComponents />
-      {/* if there's no user name in received user info token */}
-      <CSSTransition in={false} timeout={300} classNames="swap" unmountOnExit>
-        <AdditionalInfo />
-      </CSSTransition>
-      <Divider direction="column" separate={false} />
-      <LogoWithLinks />
-    </Wrapper>
+    <div style={{ height: '100vh' }}>
+      <Wrapper>
+        <AuthComponents />
+        {/* if there's no user name in received user info token */}
+        <CSSTransition in={false} timeout={300} classNames="swap" unmountOnExit>
+          <AdditionalInfo />
+        </CSSTransition>
+        <Divider direction="column" separate={false} />
+        <LogoWithLinks />
+      </Wrapper>
+    </div>
   );
 }
 

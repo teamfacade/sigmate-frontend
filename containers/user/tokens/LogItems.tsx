@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import styled from 'styled-components';
-import { LogItem, LogHead } from 'components/user/points';
+import { LogItem, LogHead } from 'components/user/tokens';
 
 /* @todo 필요한 정보들을 알맞은 형식으로 서버에서 받아와야함 */
 export default memo(function LogItems() {

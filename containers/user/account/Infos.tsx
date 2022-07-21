@@ -7,7 +7,10 @@ import { BasicWrapper, SectionWrapper, ImageWrapper } from 'components/global';
 import { InfoItem } from 'components/user/account';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
-/* @todo : state 초깃값을 서버에서 받아온 사용자 정보로 지정, onClick에 업데이트된 값을 서버로 보내는 작업 추가 */
+/* @todo :
+     프로필 사진 변경 버튼 추가
+     state 초깃값을 서버에서 받아온 사용자 정보로 지정, onClick에 업데이트된 값을 서버로 보내는 작업 추가
+*/
 export default function Infos() {
   const [edit, setEdit] = useState(false);
   const [name, setName] = useState('Initial name');

@@ -1,14 +1,19 @@
+import styled from 'styled-components';
 import { BasicWrapper, SectionWrapper } from 'components/global';
-import { LogSearch } from 'components/user/points';
-import LogItems from './LogItems';
 
-export default function Points() {
+export default function Tokens() {
   return (
     <BasicWrapper>
-      <SectionWrapper header="Token Log" marginBottom="25px">
-        <LogSearch />
-        <LogItems />
+      <SectionWrapper header="Points" marginBottom="25px">
+        <Table>
+          <thead />
+          <tbody />
+        </Table>
       </SectionWrapper>
     </BasicWrapper>
   );
 }
+
+const Table = styled.table`
+  border-spacing: 0 10px;
+`;

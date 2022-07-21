@@ -22,6 +22,7 @@ type IconType = {
   Calender: SVGIcon;
   Edits: SVGIcon;
   Points: SVGIcon;
+  Tokens: SVGIcon;
   Referrals: SVGIcon;
   Staking: SVGIcon;
 };
@@ -31,6 +32,7 @@ const Icons: IconType = {
   Calender,
   Edits,
   Points,
+  Tokens: Points,
   Referrals,
   Staking,
 };

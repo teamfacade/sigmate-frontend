@@ -19,6 +19,11 @@ module.exports = {
         destination: '/main',
         permanent: true,
       },
+      {
+        source: '/user/:path',
+        destination: '/user',
+        permanent: true,
+      },
     ];
   },
 };

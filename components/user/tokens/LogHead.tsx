@@ -18,7 +18,7 @@ const HeadWrapper = styled.tr`
     font-family: 'Apple SD Gothic neo', sans-serif;
 
     :not(:first-child) {
-      padding-left: 40px;
+      padding-left: 5vw;
     }
   }
 `;

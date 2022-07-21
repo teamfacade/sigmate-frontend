@@ -33,4 +33,8 @@ export default function Amount({ crypto, quantity, ticker }: AmountType) {
 const AmountWrapper = styled.div`
   display: flex;
   align-items: center;
+
+  p {
+    white-space: pre;
+  }
 `;

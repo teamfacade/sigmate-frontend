@@ -26,6 +26,8 @@ const Form = styled(SearchForm)`
 const Bar = styled(SearchBar)`
   position: relative;
   top: -2px;
+  padding-left: 0;
+  margin-left: 12px;
   border-bottom: 1px solid transparent;
 
   :focus-visible {

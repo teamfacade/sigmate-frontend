@@ -81,7 +81,7 @@ const MultilineWrapper = styled.div`
 
 const CostWrapper = styled.div`
   p {
-    display: inline-block;
+    display: inline;
     margin: 0;
   }
 

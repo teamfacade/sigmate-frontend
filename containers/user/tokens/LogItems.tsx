@@ -43,12 +43,12 @@ const LogItemsWrapper = styled.table`
   border-spacing: 0 10px;
 
   td {
-    padding: 10px 0 10px 40px;
+    padding: 10px 0 10px 5vw;
     color: #626262;
     font-size: 15px;
   }
 
   td:last-child {
   }
-  padding-right: 40px;
+  padding-right: 5vw;
 `;

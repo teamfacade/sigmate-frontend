@@ -24,7 +24,7 @@ const SearchForm = styled.form`
 `;
 
 const SearchBar = styled.input`
-  padding-left: 5px;
+  padding-left: 12px;
   border: none;
   background-color: transparent;
   font-family: 'Inter', sans-serif;

@@ -6,6 +6,7 @@ import { ReactElement, ReactNode } from 'react';
 import { MainLayout, UserLayout } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
+import 'styles/MyCalendar.css';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -18,8 +19,6 @@ type AppPropsWithLayout = AppProps & {
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const router = useRouter();
-
-  console.log(router.pathname);
 
   return (
     <>

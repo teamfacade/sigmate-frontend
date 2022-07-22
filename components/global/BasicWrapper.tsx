@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 import colors from '../../styles/colorLib';
 
-const BasicWrapper = styled.div`
+const BasicWrapper = styled.div<CSSProperties>`
+  max-width: ${({ maxWidth }) => maxWidth};
   margin-right: 20px;
   padding: 40px;
   background-color: white;

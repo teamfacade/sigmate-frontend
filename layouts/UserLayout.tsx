@@ -50,9 +50,9 @@ export default function UserLayout({ children }: PropsType) {
               Active={current === 'staking'}
             />
             <SideItem
-              IconName="Calender"
+              IconName="Calendar"
               Content="Calendar"
-              Active={current === 'calender'}
+              Active={current === 'calendar'}
             />
           </SideItemsWrapper>
           <ContentWrapper>{children}</ContentWrapper>

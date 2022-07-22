@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ClientLink } from 'hooks/useSPARouting';
 import {
   Account,
-  Calender,
+  Calendar,
   Edits,
   Points,
   Referrals,
@@ -19,7 +19,7 @@ type SVGIcon = ReturnType<typeof Account>;
 type IconType = {
   [index: string]: SVGIcon;
   Account: SVGIcon;
-  Calender: SVGIcon;
+  Calendar: SVGIcon;
   Edits: SVGIcon;
   Points: SVGIcon;
   Tokens: SVGIcon;
@@ -29,7 +29,7 @@ type IconType = {
 
 const Icons: IconType = {
   Account,
-  Calender,
+  Calendar,
   Edits,
   Points,
   Tokens: Points,

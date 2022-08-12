@@ -1,6 +1,6 @@
 import { memo, forwardRef } from 'react';
 import styled from 'styled-components';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   edit: boolean;
@@ -49,7 +49,7 @@ const Textarea = styled.textarea<{ inputHeight: string }>`
   border: 1px solid #ebeef2;
   border-radius: 8px;
   background-color: transparent;
-  color: ${colors.textColor};
+  color: ${styles.colors.textColor};
   line-height: 27px;
   font-size: 18px;
   font-weight: 500;
@@ -67,7 +67,7 @@ const Content = styled.span<{ inputHeight: string }>`
   margin: 0 0 5px 0;
   border: 1px solid #dfe0e8;
   border-radius: 8px;
-  color: ${colors.textColor};
+  color: ${styles.colors.textColor};
   line-height: 27px;
   font-size: 18px;
   font-weight: 500;
@@ -75,7 +75,7 @@ const Content = styled.span<{ inputHeight: string }>`
 
 const Description = memo(styled.p`
   margin: 0;
-  color: ${colors.textColor};
+  color: ${styles.colors.textColor};
   font-size: 16px;
   white-space: pre-wrap;
 `);

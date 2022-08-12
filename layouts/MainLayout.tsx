@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { SideContent } from 'containers/main';
 import { Search } from 'components/global';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   children: ReactNode;
@@ -50,7 +50,7 @@ const MainContentWrapper = styled.div`
   padding: 40px;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 1px 3px 0 ${colors.containerShadow};
+  box-shadow: ${styles.shadows.containerShadow};
   overflow: hidden;
 
   @media (max-width: 1023px) {

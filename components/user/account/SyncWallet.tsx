@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { SectionWrapper, BasicWrapper } from 'components/global';
 import { Metamask as MetamaskIcon } from 'public/Icons/user/account';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 import { Description, ButtonWrapper } from './SyncBtnComponents';
 
 export default function UserPage() {
@@ -30,10 +30,10 @@ const MetamaskBtn = styled.button`
   flex-direction: column;
   align-items: center;
 
-  border-color: ${colors.metamaskBorderColor};
-  background-color: ${colors.metamaskBackgroundColor};
+  border-color: ${styles.colors.metamaskBorderColor};
+  background-color: ${styles.colors.metamaskBackgroundColor};
   font-weight: bolder;
-  color: ${colors.metamaskNameColor};
+  color: ${styles.colors.metamaskNameColor};
 
   p {
     margin: 10px 0 0 0;
@@ -43,7 +43,7 @@ const MetamaskBtn = styled.button`
 
 const CommingSoon = styled.button`
   border-color: #ebeef2;
-  background-color: ${colors.globalBackgroundColor};
+  background-color: ${styles.colors.globalBackgroundColor};
   font-weight: normal;
   color: #98a2b2;
 

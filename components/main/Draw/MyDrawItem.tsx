@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import { etherium as Etherium } from 'public/Icons';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   thumbnail?: string; // will be an image
@@ -11,8 +11,8 @@ type PropsType = {
   mintDate: string; // @todo 진짜 date면 timestamp -> date parser 필요
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default memo(function MyDrawItem({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   thumbnail = '',
   name,
   issuer,
@@ -61,7 +61,7 @@ const InfoWrapper = styled.div`
 
 const Name = styled.h2`
   margin: 0 0 10px 0;
-  color: ${colors.logoColor};
+  color: ${styles.colors.logoColor};
   font-size: 24px;
   font-weight: bold;
 `;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 import { SNSBtn } from '.';
 
 export default function SocialLinks() {
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 
 const Subheader = styled.p`
   margin: 0 0 10px 0;
-  color: ${colors.textColor};
+  color: ${styles.colors.textColor};
   font-size: 18px;
   font-weight: 500;
 `;

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import { ExternalLinks } from 'components/Footer';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 export default memo(function Footer() {
   return (
@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 
 const Logo = styled.p`
   margin: 0 40px 0 0;
-  color: ${colors.logoColor};
+  color: ${styles.colors.logoColor};
   font-size: 35px;
   font-weight: 500;
   font-family: 'Claris Sans', sans-serif;
@@ -42,7 +42,7 @@ const Copyright = styled.div`
 
   p {
     margin: 0;
-    color: ${colors.lightTextColor};
+    color: ${styles.colors.lightTextColor};
     font-size: 16px;
     font-family: 'Inter', sans-serif;
     white-space: nowrap;

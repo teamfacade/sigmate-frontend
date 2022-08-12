@@ -20,7 +20,16 @@ const colors = {
   discordNameColor: '#5566AA' as const,
   discordBackgroundColor: '#CCD5F3' as const,
   discordBorderColor: '#A7B7EB' as const,
-  containerShadow: '#E4E4E4' as const,
 };
 
-export default colors;
+const shadows = {
+  containerShadow: `0 1px 3px 0 #E4E4E4`,
+  modalShadow: '0 4px 4px 0 rgba(0, 0, 0, .25)',
+};
+
+const styles = {
+  colors,
+  shadows,
+};
+
+export default styles;

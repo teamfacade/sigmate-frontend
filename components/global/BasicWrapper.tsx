@@ -1,5 +1,5 @@
 import styled, { CSSProperties } from 'styled-components';
-import colors from '../../styles/colorLib';
+import styles from 'styles/styleLib';
 
 const BasicWrapper = styled.div<CSSProperties>`
   max-width: ${({ maxWidth }) => maxWidth};
@@ -7,7 +7,7 @@ const BasicWrapper = styled.div<CSSProperties>`
   padding: 40px;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 1px 3px 0 ${colors.containerShadow};
+  box-shadow: ${styles.shadows.containerShadow};
   overflow: hidden;
 `;
 

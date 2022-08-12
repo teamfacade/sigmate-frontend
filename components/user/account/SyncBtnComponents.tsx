@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 const Description = styled.p`
   max-width: 500px;
   height: 37px;
   margin: 0 0 15px 0;
-  color: ${colors.textColor};
+  color: ${styles.colors.textColor};
   white-space: pre-wrap;
 `;
 

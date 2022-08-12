@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import styled from 'styled-components';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 export default memo(function ExternalLinks() {
   return (
@@ -63,7 +63,7 @@ const Wrapper = styled.div`
   li {
     list-style-type: none;
     margin-bottom: 10px;
-    color: ${colors.lightTextColor};
+    color: ${styles.colors.lightTextColor};
     font-size: 13px;
     font-family: 'Inter', sans-serif;
   }

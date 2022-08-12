@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { Twitter, Discord } from 'public/Icons/user/account';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 import { Description, ButtonWrapper } from './SyncBtnComponents';
 
 export default function SyncSocial() {
@@ -60,10 +60,10 @@ const TwitterIcon = styled(Twitter)`
 `;
 
 const TwitterBtn = styled(SocialBtn)`
-  border-color: ${colors.twitterBorderColor};
-  background-color: ${colors.twitterBackgroundColor};
+  border-color: ${styles.colors.twitterBorderColor};
+  background-color: ${styles.colors.twitterBackgroundColor};
   font-weight: normal;
-  color: ${colors.twitterNameColor};
+  color: ${styles.colors.twitterNameColor};
 `;
 
 const DiscordIcon = styled(Discord)`
@@ -71,8 +71,8 @@ const DiscordIcon = styled(Discord)`
 `;
 
 const DiscordBtn = styled(SocialBtn)`
-  border-color: ${colors.discordBorderColor};
-  background-color: ${colors.discordBackgroundColor};
+  border-color: ${styles.colors.discordBorderColor};
+  background-color: ${styles.colors.discordBackgroundColor};
   font-weight: normal;
-  color: ${colors.discordNameColor};
+  color: ${styles.colors.discordNameColor};
 `;

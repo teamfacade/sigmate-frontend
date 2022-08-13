@@ -68,7 +68,7 @@ const Name = styled.h2`
 
 const Issuer = styled.p`
   margin: 0 0 15px 0;
-  color: #bfbfbf;
+  color: ${styles.colors.lighterTextColor};
   font-size: 16px;
   font-weight: lighter;
 `;
@@ -92,13 +92,13 @@ const MintInfoWrapper = styled.div`
 
     :nth-child(2) {
       padding-right: 8px;
-      border-right: 2px solid #bfbfbf;
+      border-right: 2px solid ${styles.colors.lighterTextColor};
       color: #4c596d;
     }
 
     :last-child {
       padding-left: 8px;
-      color: #276bff;
+      color: ${styles.colors.emphColor};
     }
   }
 `;

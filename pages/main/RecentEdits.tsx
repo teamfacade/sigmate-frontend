@@ -2,6 +2,7 @@ import { memo } from 'react';
 import styled from 'styled-components';
 import { SectionWrapper } from 'components/global';
 import { TableRow } from 'components/main/RecentEdits';
+import styles from 'styles/styleLib';
 
 export default memo(function RecentEdits() {
   return (
@@ -67,7 +68,7 @@ const Table = styled.table`
 
   td {
     :not(:last-child) {
-      color: #276bff;
+      color: ${styles.colors.emphColor};
       font-size: 15px;
       font-weight: bold;
     }

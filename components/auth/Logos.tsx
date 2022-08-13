@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 
 const Logo = styled.p`
   margin: 0 0 15px 0;
-  color: ${styles.styles.colors.logoColor};
+  color: ${styles.colors.logoColor};
   font-size: 50px;
   font-weight: 500;
   font-family: 'Claris Sans', sans-serif;

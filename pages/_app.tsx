@@ -7,6 +7,7 @@ import { MainLayout, UserLayout } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
 import 'styles/MyCalendar.css';
+import 'styles/ShowModal.css';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

@@ -46,7 +46,7 @@ const LinksWrapper = styled.ul`
     list-style-type: none;
 
     :not(:first-child) {
-      margin-left: 40px;
+      margin-left: 60px;
     }
   }
 

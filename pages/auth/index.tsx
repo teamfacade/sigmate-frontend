@@ -1,19 +1,13 @@
 import styled from 'styled-components';
-import { CSSTransition } from 'react-transition-group';
 import dynamic from 'next/dynamic';
 import { LogoWithLinks } from 'containers/auth';
-import { Divider, AdditionalInfo } from 'components/auth';
+import { Divider } from 'components/auth';
 
 export default function AuthPage() {
   return (
     <div style={{ height: '100vh' }}>
       <Wrapper>
         <AuthComponents />
-        {/* if there's no user name in received user info token */}
-        <CSSTransition in={false} timeout={300} classNames="swap" unmountOnExit>
-          <AdditionalInfo />
-        </CSSTransition>
-        <Divider direction="column" separate={false} />
         <LogoWithLinks />
       </Wrapper>
     </div>
@@ -31,11 +25,10 @@ const AuthComponents = dynamic(() => import('containers/auth/AuthComponents'), {
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   flex-wrap: wrap-reverse;
   position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  height: 100%;
 
   @media (max-width: 640px) {
     display: inline-block;

@@ -1,21 +1,19 @@
 import { useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
-import { OAuthBtn } from '../../components/auth';
-import GoogleLogin from '../../components/auth/GoogleLogin';
-
-declare global {
-  interface Window {
-    google: any;
-  }
-}
+import { OAuthBtn } from 'components/auth';
 
 export default function AuthComponents() {
+  // @todo OAuth 기능 구현
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     switch (e.currentTarget.name) {
-      case 'google':
-        // @todo request google login to backend
-        window.google.accounts.id.prompt();
+      case 'Google':
+        // eslint-disable-next-line no-alert
+        alert('Google Login');
+        break;
+      case 'Metamask':
+        // eslint-disable-next-line no-alert
+        alert('Metamask Login');
         break;
       default:
         // eslint-disable-next-line no-alert
@@ -24,45 +22,36 @@ export default function AuthComponents() {
   }, []);
 
   return (
-    <div>
-      <Header>Log in / sign up</Header>
-      <Wrapper>
-        <span>
-          <GoogleLogin />
-          <OAuthBtn service="google" onClick={onClick} />
-          <OAuthBtn />
-        </span>
-        {/*
-        <Divider direction="row" separate />
-        <EmailForm />
-      */}
-      </Wrapper>
-    </div>
+    <Wrapper>
+      <div>
+        <Header>Log in / sign up</Header>
+        <BtnWrapper>
+          <span>
+            <OAuthBtn service="Google" onClick={onClick} />
+            <OAuthBtn service="Metamask" onClick={onClick} />
+          </span>
+        </BtnWrapper>
+      </div>
+    </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
+  flex: 2 2 0;
   display: flex;
   flex-direction: column;
-  min-width: 250px;
-  width: 30vw;
+  align-items: center;
+  margin-bottom: 50px;
+`;
 
-  & button {
-    position: relative;
-    width: 100%;
-    padding: 14px 0;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    border-width: 2px;
-    border-style: solid;
-    font-size: 15px;
-    font-weight: 600;
-  }
+const BtnWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Header = styled.span`
   display: inline-block;
-  margin-bottom: 16px;
+  margin-bottom: 25px;
   color: ${styles.colors.logoColor};
   font-size: 22px;
   font-weight: bold;

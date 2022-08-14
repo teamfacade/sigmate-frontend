@@ -66,7 +66,7 @@ const Wrapper = styled.button<{ Active: boolean }>`
   display: flex;
   align-items: center;
   max-width: 256px;
-  padding: 15px 75px 15px 0;
+  padding: 15px 120px 15px 0;
   border: none;
   background-color: transparent;
 

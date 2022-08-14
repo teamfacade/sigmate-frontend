@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Links, Profile } from 'components/Navbar';
 import styles from 'styles/styleLib';
 
+// @todo 프로필 정보 사용자 정보로 변경
 export default function Navbar() {
   return (
     <nav>
@@ -27,7 +28,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 4rem;
-  padding: 0 30px;
+  padding: 0 70px;
   margin: 15px 0;
   background-color: transparent;
 

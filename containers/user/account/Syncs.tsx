@@ -13,7 +13,6 @@ export default function UserPage() {
 const SyncWrapper = styled.div`
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
 
   @media (max-width: 1350px) {
     display: block;

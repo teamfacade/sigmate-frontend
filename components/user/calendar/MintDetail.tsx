@@ -14,35 +14,36 @@ type PropsType = {
 export default memo(function MintDetail({ mint }: PropsType) {
   if (mint === undefined) {
     return <div>Something went wrong</div>;
-  } return (
-      <Wrapper>
-        <ImageWrapper width="680px" height="450px">
-          <Image src={UserImageEx} alt={`${mint.name} Image`} layout="fill" />
-        </ImageWrapper>
-        <Descriptions>
-          <FlexWrapper>
-            <Name>Minting Time / Date</Name>
-            <Content>{mint.date}</Content>
-          </FlexWrapper>
-          <FlexWrapper>
-            <Name>Minting Price</Name>
-            <Content>{mint.price}</Content>
-          </FlexWrapper>
-          <BtnWrapper>
-            <LinkBtn mintPage={false}>
-              <Link href={mint.wikiPage || 'https://namu.wiki'}>
-                <a>Wiki Page</a>
-              </Link>
-            </LinkBtn>
-            <LinkBtn mintPage>
-              <Link href={mint.mintPage || 'https://opensea.io'}>
-                <a>Minting Page</a>
-              </Link>
-            </LinkBtn>
-          </BtnWrapper>
-        </Descriptions>
-      </Wrapper>
-    );
+  }
+  return (
+    <Wrapper>
+      <ImageWrapper width="680px" height="415px">
+        <Image src={UserImageEx} alt={`${mint.name} Image`} layout="fill" />
+      </ImageWrapper>
+      <Descriptions>
+        <FlexWrapper>
+          <Name>Minting Time / Date</Name>
+          <Content>{mint.date}</Content>
+        </FlexWrapper>
+        <FlexWrapper>
+          <Name>Minting Price</Name>
+          <Content>{mint.price}</Content>
+        </FlexWrapper>
+        <BtnWrapper>
+          <LinkBtn mintPage={false}>
+            <Link href={mint.wikiPage || 'https://namu.wiki'}>
+              <a>Wiki Page</a>
+            </Link>
+          </LinkBtn>
+          <LinkBtn mintPage>
+            <Link href={mint.mintPage || 'https://opensea.io'}>
+              <a>Minting Page</a>
+            </Link>
+          </LinkBtn>
+        </BtnWrapper>
+      </Descriptions>
+    </Wrapper>
+  );
 });
 
 const Wrapper = styled.div`

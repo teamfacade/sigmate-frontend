@@ -97,7 +97,7 @@ export default memo(function CalendarModal({ date, onClick }: PropsType) {
           header={showDetail || date || 'MM.DD.YYYY'}
           marginBottom="16px"
         >
-          <Back onClick={onClickBack} display={showDetail !== ''}>
+          <Back onClick={onClickBack} show={showDetail !== ''}>
             {'<'}
           </Back>
           <Close onClick={onClick}>
@@ -154,8 +154,8 @@ const Close = styled.button`
   }
 `;
 
-const Back = styled(Close)<{ display: boolean }>`
-  display: ${({ display }) => (display ? 'initial' : 'none')};
+const Back = styled(Close)<{ show: boolean }>`
+  display: ${({ show }) => (show ? 'initial' : 'none')};
   top: 13px;
   right: 50px;
   font-size: 50px;

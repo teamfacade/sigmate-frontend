@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import { coins as Coins } from 'public/Icons';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 export default memo(function BuyToken() {
   return (
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   margin: 20px 0 7px 0;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 1px 3px 0 ${colors.containerShadow};
+  box-shadow: ${styles.shadows.containerShadow};
 
   svg {
     position: relative;

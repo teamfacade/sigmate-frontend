@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import styled from 'styled-components';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 import EditDate from './EditDate';
 
 export default memo(function RecentEdits() {
@@ -34,7 +34,7 @@ const Wrapper = styled.div`
   padding: 20px;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 1px 3px 0 ${colors.containerShadow};
+  box-shadow: ${styles.shadows.containerShadow};
 `;
 
 const Header = styled.h2`

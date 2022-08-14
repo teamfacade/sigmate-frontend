@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Links, Profile } from 'components/Navbar';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 export default function Navbar() {
   return (
@@ -11,7 +11,11 @@ export default function Navbar() {
           <Logo>sigmate</Logo>
         </Link>
         <Links />
-        <Profile name="WK seo" description="Design Manager" />
+        <Link href="/user">
+          <a>
+            <Profile name="WK seo" description="Design Manager" />
+          </a>
+        </Link>
       </Wrapper>
     </nav>
   );
@@ -34,7 +38,7 @@ const Wrapper = styled.div`
 
 const Logo = styled.a`
   margin: 0 40px 0 0;
-  color: ${colors.logoColor};
+  color: ${styles.colors.logoColor};
   font-size: 35px;
   font-weight: 500;
   font-family: 'Claris Sans', sans-serif;

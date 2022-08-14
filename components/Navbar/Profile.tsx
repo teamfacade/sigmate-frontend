@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import { profile as ProfileIcon, settings as Settings } from 'public/Icons';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   name: string;
@@ -26,6 +26,7 @@ const Wrapper = styled.div`
   flex: 0 0 auto;
   align-items: center;
   margin-left: 40px;
+  cursor: pointer;
 `;
 
 const TextWrapper = styled.div`
@@ -34,7 +35,7 @@ const TextWrapper = styled.div`
 
 const Name = styled.p`
   margin: 0;
-  color: ${colors.profileNameColor};
+  color: ${styles.colors.profileNameColor};
   font-size: 12px;
   font-weight: bolder;
   font-family: 'Inter', sans-serif;
@@ -42,7 +43,7 @@ const Name = styled.p`
 
 const Description = styled.p`
   margin: 0;
-  color: ${colors.profileDescriptionColor};
+  color: ${styles.colors.profileDescriptionColor};
   font-size: 10px;
   font-weight: bold;
   font-family: 'Inter', sans-serif;

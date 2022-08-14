@@ -1,12 +1,12 @@
 import { memo } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
-import ImageWrapper from '../ImageWrapper';
+import { ImageWrapper } from 'components/global';
 import {
   backgroundChart,
   screenshotDesktop,
   screenshotPhone,
-} from '../../public/Icons';
+} from 'public/Icons';
 
 export default memo(function MainImage() {
   return (

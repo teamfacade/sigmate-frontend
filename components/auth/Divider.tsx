@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   direction: 'row' | 'column';
@@ -32,7 +32,7 @@ const Wrapper = styled.div<{ direction: string }>`
   & > p {
     padding-bottom: 7px;
     margin: 0 20px;
-    color: ${colors.dividerSepColor};
+    color: ${styles.colors.dividerSepColor};
     font-size: 20px;
     font-weight: 400;
   }
@@ -57,5 +57,5 @@ const DivBar = styled.div<{ direction: string; separate: boolean }>`
     }
     return '1.5px';
   }};
-  background-color: ${colors.dividerColor};
+  background-color: ${styles.colors.dividerColor};
 `;

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { memo } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 
 export default memo(function Links() {
   return (
@@ -14,22 +14,22 @@ export default memo(function Links() {
       </li>
       <li>
         <Link href="/upcoming">
-          <a>upcoming</a>
+          <a>Upcoming</a>
         </Link>
       </li>
       <li>
         <Link href="/trending">
-          <a>STATS / trending</a>
+          <a>Stats / Trending</a>
         </Link>
       </li>
       <li>
         <Link href="/main/Draw">
-          <a>event / draw</a>
+          <a>Event / Draw</a>
         </Link>
       </li>
       <li>
         <Link href="/forum">
-          <a>forum</a>
+          <a>Forum</a>
         </Link>
       </li>
     </LinksWrapper>
@@ -51,18 +51,18 @@ const LinksWrapper = styled.ul`
   }
 
   a {
-    color: ${colors.linkColor};
+    color: ${styles.colors.linkColor};
     font-size: 16px;
     font-weight: bold;
     font-family: 'Inter', sans-serif;
     white-space: nowrap;
 
     :hover {
-      color: ${darken(0.1, colors.linkColor)};
+      color: ${darken(0.1, styles.colors.linkColor)};
     }
 
     :active {
-      color: ${darken(0.2, colors.linkColor)};
+      color: ${darken(0.2, styles.colors.linkColor)};
     }
   }
 `;

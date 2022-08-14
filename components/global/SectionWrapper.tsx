@@ -3,12 +3,17 @@ import styled from 'styled-components';
 
 type PropsType = {
   header: string;
+  marginBottom?: string;
   children: ReactNode;
 };
 
-export default memo(function SectionWrapper({ header, children }: PropsType) {
+export default memo(function SectionWrapper({
+  header,
+  marginBottom,
+  children,
+}: PropsType) {
   return (
-    <Wrapper>
+    <Wrapper marginBottom={marginBottom}>
       <Heading>{header}</Heading>
       <hr />
       {children}
@@ -16,11 +21,12 @@ export default memo(function SectionWrapper({ header, children }: PropsType) {
   );
 });
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ marginBottom: string | undefined }>`
   width: 100%;
 
   hr {
-    margin: 16px 0 30px 0;
+    margin: ${({ marginBottom }) =>
+      `16px 0 ${marginBottom || '30px'} 0`};
     border: none;
     border-bottom: 1px solid #dedede;
   }

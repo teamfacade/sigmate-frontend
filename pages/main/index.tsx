@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import styled from 'styled-components';
-import colors from 'styles/colorLib';
+import styles from 'styles/styleLib';
 import { MainImage, Team, Backers } from 'components/main';
 
 export default memo(function MainPage() {
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
 const Logo = styled.p`
   margin: 0 0 15px 0;
-  color: ${colors.logoColor};
+  color: ${styles.colors.logoColor};
   font-size: 60px;
   font-weight: 500;
   font-family: 'Claris Sans', sans-serif;

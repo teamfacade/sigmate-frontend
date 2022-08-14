@@ -64,7 +64,7 @@ export default function UserLayout({ children }: PropsType) {
 
 const Wrapper = styled.div`
   display: flex;
-  padding: 0 30px 30px 30px;
+  padding: 0 70px 90px 70px;
 `;
 
 const SideItemsWrapper = styled.div`
@@ -78,5 +78,4 @@ const SideItemsWrapper = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
-  width: calc(100vw - 216px);
 `;

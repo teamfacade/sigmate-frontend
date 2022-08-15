@@ -1,12 +1,11 @@
 import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import { Metamask } from 'public/Icons/user/account';
-import styles from 'styles/styleLib';
+import { Twitter, Discord } from 'public/Icons/user/account';
 
 interface StringKeyObj<T> {
   [index: string]: T;
-  Metamask: T;
-  ComingSoon: T;
+  Twitter: T;
+  Discord: T;
 }
 
 type ButtonStylesType = {
@@ -15,32 +14,37 @@ type ButtonStylesType = {
   color: string;
 };
 
-type SVGIcon = ReturnType<typeof Metamask>;
+type SVGIcon = ReturnType<typeof Twitter>;
 
 type PropsType = {
   name: string;
+  connected: boolean;
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
-const Icons: StringKeyObj<SVGIcon | undefined> = {
-  Metamask,
-  ComingSoon: undefined,
+const Icons: StringKeyObj<SVGIcon> = {
+  Twitter,
+  Discord,
 };
 
 const Colors: StringKeyObj<ButtonStylesType> = {
-  Metamask: {
-    border: '#F19C4A',
-    bgColor: '#FFF6D8',
-    color: '#F6851B',
+  Twitter: {
+    border: '#D3E8FB',
+    bgColor: '#EEF7FF',
+    color: '#349CE2',
   },
-  ComingSoon: {
-    border: '#ebeef2',
-    bgColor: styles.colors.globalBackgroundColor,
-    color: '#98a2b2',
+  Discord: {
+    border: '#A7B7EB',
+    bgColor: '#CCD5F3',
+    color: '#5566AA',
   },
 };
 
-export default memo(function WalletBtn({ name, onClick }: PropsType) {
+export default memo(function SocialBtn({
+  name,
+  connected,
+  onClick,
+}: PropsType) {
   const Icon = Icons[name];
 
   return (
@@ -53,12 +57,10 @@ export default memo(function WalletBtn({ name, onClick }: PropsType) {
       onClick={onClick}
     >
       <div>
-        {Icon && <Icon />}
-        {name === 'ComingSoon' ? (
-          <MWCS>More wallets coming soon</MWCS>
-        ) : (
-          <p>{name}</p>
-        )}
+        <Icon />
+        <p>
+          {connected ? 'Disconnect' : 'Connect'} <strong>{name}</strong>
+        </p>
       </div>
     </Btn>
   );
@@ -67,13 +69,12 @@ export default memo(function WalletBtn({ name, onClick }: PropsType) {
 const Btn = styled.button<ButtonStylesType>`
   width: 220px;
   height: 40px;
-  padding: 5px 0 7px;
+  padding: 7px 0 5px;
   border-radius: 8px;
   border: 2px solid ${({ border }) => border};
   background-color: ${({ bgColor }) => bgColor};
   color: ${({ color }) => color};
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 15px;
 
   & + & {
     margin-left: 12px;
@@ -88,9 +89,4 @@ const Btn = styled.button<ButtonStylesType>`
       margin: 0 0 0 5px;
     }
   }
-`;
-
-const MWCS = styled.p`
-  font-size: 13px;
-  font-weight: normal;
 `;

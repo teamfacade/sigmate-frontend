@@ -4,7 +4,7 @@ import { memo, useState, useRef, useCallback, MouseEventHandler } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { BasicWrapper, SectionWrapper, ImageWrapper } from 'components/global';
-import { InfoItem } from 'components/user/account';
+import { InfoItem, PFP } from 'components/user/account';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
 /* @todo :
@@ -14,11 +14,11 @@ import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 export default function Infos() {
   const [edit, setEdit] = useState(false);
   const [name, setName] = useState('Initial name');
-  const [email, setEmail] = useState('Initial@email.com');
+  const [displayName, setDisplayName] = useState('');
   const [bio, setBio] = useState('Tell us a little bit about yourself');
 
   const nameRef = useRef<HTMLTextAreaElement>(null);
-  const emailRef = useRef<HTMLTextAreaElement>(null);
+  const displayNameRef = useRef<HTMLTextAreaElement>(null);
   const bioRef = useRef<HTMLTextAreaElement>(null);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
@@ -26,58 +26,47 @@ export default function Infos() {
       setEdit(true);
     } else {
       setEdit(false);
-      nameRef &&
-        nameRef.current &&
-        nameRef.current.value &&
+      if (nameRef && nameRef.current && nameRef.current.value)
         setName(nameRef.current.value);
-      emailRef &&
-        emailRef.current &&
-        emailRef.current.value &&
-        setEmail(emailRef.current.value);
-      bioRef &&
-        bioRef.current &&
-        bioRef.current.value &&
+      if (
+        displayNameRef &&
+        displayNameRef.current &&
+        displayNameRef.current.value
+      )
+        setDisplayName(displayNameRef.current.value);
+      if (bioRef && bioRef.current && bioRef.current.value)
         setBio(bioRef.current.value);
     }
-  }, [edit, nameRef]);
+  }, [edit]);
 
   return (
     <BasicWrapper style={{ marginTop: '20px' }}>
       <SectionWrapper header="Account Setup" marginBottom="25px">
         <Wrapper>
-          <ImageWrapper width="200px" height="200px">
-            <Image
-              src={UserImageEx}
-              alt="Profile image"
-              layout="fill"
-              quality={100}
-            />
-          </ImageWrapper>
+          <PFP level={12.3} />
           <InfoWrapper>
             <InfoItem
               edit={edit}
-              header="Name"
+              header="User Name"
               content={name}
-              description={
-                'Your name may appear around GitHub where you contribute or are mentioned.\r\nYou can remove it at any time.'
-              }
+              description=""
               ref={nameRef}
             />
             <InfoItem
               edit={edit}
-              header="Email"
-              content={email}
+              header="Display Name"
+              content={displayName}
               description={
-                'You have set your email address to private.\r\nTo toggle email privacy, go to email settings and uncheck "Keep my email address private."'
+                'Your display name will be used in places where your profile needs to be displayed. If left blank, your username\r\nwill be used instead. Other users will still be able to see your username in your profile page.'
               }
-              ref={emailRef}
+              ref={displayNameRef}
             />
             <InfoItem
               edit={edit}
               header="Bio"
               content={bio}
               inputHeight="115px"
-              description="You can @mention other users and organizations to link to them."
+              description="Your bio will be publicly available in your profile page."
               ref={bioRef}
             />
             <EditBtn onClick={onClick}>{edit ? 'Submit' : 'Edit'}</EditBtn>
@@ -97,7 +86,7 @@ const Wrapper = styled.div`
 `;
 
 const InfoWrapper = memo(styled.div`
-  margin-left: 50px;
+  margin-left: 60px;
 `);
 
 const EditBtn = memo(styled.button`
@@ -110,4 +99,6 @@ const EditBtn = memo(styled.button`
   border: none;
   border-radius: 8px;
   font-weight: bolder;
+  font-family: 'Inter', sans-serif;
+  float: right;
 `);

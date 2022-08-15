@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { Twitter, Discord } from 'public/Icons/user/account';
 import styles from 'styles/styleLib';
-import { Description, ButtonWrapper } from './SyncBtnComponents';
 
 export default function SyncSocial() {
   return (
@@ -33,6 +32,24 @@ export default function SyncSocial() {
     </BasicWrapper>
   );
 }
+
+const Description = styled.p`
+  max-width: 500px;
+  height: 37px;
+  margin: 0 0 15px 0;
+  color: ${styles.colors.textColor};
+  font-size: 14px;
+  white-space: pre-wrap;
+
+  a {
+    color: ${styles.colors.emphColor};
+    font-size: 14px;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+`;
 
 const SocialBtn = styled.button`
   display: flex;

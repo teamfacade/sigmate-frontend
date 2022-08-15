@@ -14,12 +14,7 @@ const SyncWrapper = styled.div`
   display: flex;
   align-items: center;
 
-  @media (max-width: 1350px) {
-    display: block;
-    width: 100%;
-
-    div + div {
-      margin-top: 20px;
-    }
+  div + div {
+    margin-left: 20px;
   }
 `;

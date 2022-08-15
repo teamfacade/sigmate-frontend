@@ -1,26 +1,26 @@
+import { useState } from 'react';
 import styled from 'styled-components';
-import dynamic from 'next/dynamic';
-import { LogoWithLinks } from 'containers/auth';
-import { Divider } from 'components/auth';
+import { AuthComponents, AccSetup, LogoWithLinks } from 'containers/auth';
 
 export default function AuthPage() {
+  const [MoreInfo, setMoreInfo] = useState(false);
+
+  const onClickShow = () => setMoreInfo(true);
+  const onClickNotShow = () => setMoreInfo(false);
+
   return (
     <div style={{ height: '100vh' }}>
       <Wrapper>
-        <AuthComponents />
+        <LeftWrapper>
+          {MoreInfo ? <AccSetup /> : <AuthComponents />}
+        </LeftWrapper>
         <LogoWithLinks />
       </Wrapper>
+      <Btn onClick={onClickShow}>Signed in with google</Btn>
+      <Btn onClick={onClickNotShow}>Go Back</Btn>
     </div>
   );
 }
-
-/*
-    To use window object in react code, prevent ssr of the component.
-    https://velog.io/@taese0ng/Next.js-window%EA%B0%9D%EC%B2%B4%EA%B0%80-%EC%97%86%EB%8B%A4%EA%B3%A0%ED%95%A0%EB%95%8C
-*/
-const AuthComponents = dynamic(() => import('containers/auth/AuthComponents'), {
-  ssr: false,
-});
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,5 +33,23 @@ const Wrapper = styled.div`
   @media (max-width: 640px) {
     display: inline-block;
     overflow: hidden;
+  }
+`;
+
+const LeftWrapper = styled.div`
+  flex: 2 2 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+`;
+
+const Btn = styled.button`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
+  & + & {
+    margin-left: 20px;
   }
 `;

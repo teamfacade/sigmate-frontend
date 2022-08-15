@@ -22,27 +22,17 @@ export default function AuthComponents() {
   }, []);
 
   return (
-    <Wrapper>
-      <div>
-        <Header>Log in / sign up</Header>
-        <BtnWrapper>
-          <span>
-            <OAuthBtn service="Google" onClick={onClick} />
-            <OAuthBtn service="Metamask" onClick={onClick} />
-          </span>
-        </BtnWrapper>
-      </div>
-    </Wrapper>
+    <div>
+      <Header>Log in / sign up</Header>
+      <BtnWrapper>
+        <span>
+          <OAuthBtn service="Google" onClick={onClick} />
+          <OAuthBtn service="Metamask" onClick={onClick} />
+        </span>
+      </BtnWrapper>
+    </div>
   );
 }
-
-const Wrapper = styled.div`
-  flex: 2 2 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 50px;
-`;
 
 const BtnWrapper = styled.div`
   display: flex;

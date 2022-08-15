@@ -7,6 +7,8 @@ import styles from 'styles/styleLib';
 type PropsType = {
   service: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
+  width?: string;
+  height?: string;
 };
 
 type SVGIcon = ReturnType<typeof Google>;
@@ -27,11 +29,16 @@ const Margins: StringKeyObj<string> = {
   Metamask: '0 16px 0 0',
 };
 
-export default function OAuthBtn({ service, onClick }: PropsType) {
+export default function OAuthBtn({
+  service,
+  onClick,
+  width,
+  height,
+}: PropsType) {
   const Icon = Icons[service];
 
   return (
-    <Btn name={service} onClick={onClick}>
+    <Btn name={service} onClick={onClick} width={width} height={height}>
       <FlexWrapper>
         <SVGWrapper>
           <Icon style={{ margin: Margins[service] }} />
@@ -42,11 +49,14 @@ export default function OAuthBtn({ service, onClick }: PropsType) {
   );
 }
 
-const Btn = styled.button`
+const Btn = styled.button<{
+  width: string | undefined;
+  height: string | undefined;
+}>`
     display: block;
     position: relative;
-    width: 490px;
-    height: 67px;
+    width: ${({ width }) => (width || '490px')};
+    height: ${({ height }) => (height || '67px')};
     padding: 0;
     border-radius: 8px;
     border: none;

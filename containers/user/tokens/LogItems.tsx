@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import { LogItem, LogHead } from 'components/user/tokens';
+import styles from 'styles/styleLib';
 
 /* @todo 필요한 정보들을 알맞은 형식으로 서버에서 받아와야함 */
 export default memo(function LogItems() {
@@ -44,7 +45,7 @@ const LogItemsWrapper = styled.table`
 
   td {
     padding: 10px 0 10px 5vw;
-    color: #626262;
+    color: ${styles.colors.logColor};
     font-size: 15px;
   }
 

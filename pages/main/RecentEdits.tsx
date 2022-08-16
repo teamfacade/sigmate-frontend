@@ -76,7 +76,7 @@ const Table = styled.table`
 `;
 
 const THead = styled.th`
-  color: #626262;
+  color: ${styles.colors.logColor};
   text-align: left;
   font-size: 15px;
   font-weight: bold;

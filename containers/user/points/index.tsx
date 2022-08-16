@@ -23,6 +23,9 @@ export type LogType = {
   amount: string;
 };
 
+// @todo total값 역시 데이터로 받아온 것을 쓰기
+const total = 482;
+
 export default function Logs() {
   const [selected, setSelected] = useState('Point');
   const [logs, setLogs] = useState<LogType[]>([]);
@@ -96,7 +99,7 @@ export default function Logs() {
         case 'ToLast':
           // eslint-disable-next-line
           alert(`Fetch 10 ${selected} logs from ((total / 10) * 10)th log`);
-          setCurPage(Math.floor(482 / 10) + 1);
+          setCurPage(Math.floor(total / 10) + 1);
           break;
         default:
           break;
@@ -144,7 +147,7 @@ export default function Logs() {
       {selected === 'Point' && (
         <PageMoveBtns
           curPage={curPage}
-          total={Math.floor(482 / 10) + 1}
+          totalPage={Math.floor(total / 10) + 1}
           onClickPageMoveBtn={onClickPageMoveBtn}
           onClickPageNumBtn={onClickPageNumBtn}
         />

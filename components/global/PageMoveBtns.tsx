@@ -5,28 +5,24 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   curPage: number;
-  total: number;
+  totalPage: number;
   onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement>;
   onClickPageNumBtn: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function PageMoveBtns({
   curPage,
-  total,
+  totalPage,
   onClickPageMoveBtn,
   onClickPageNumBtn,
 }: PropsType) {
   const start = useMemo(() => (curPage <= 6 ? 1 : curPage - 5), [curPage]);
   const nums = useMemo(() => {
-    let length;
-
     return Array.from(
-      { length: total - curPage >= 5 ? 10 : total - curPage + 6 },
+      { length: totalPage - curPage >= 5 ? 10 : totalPage - curPage + 6 },
       (_, i) => start + i
     );
   }, [curPage, start]);
-
-  console.log(total, curPage);
 
   return (
     <Wrapper>
@@ -55,7 +51,7 @@ export default memo(function PageMoveBtns({
       <MoveBtn
         name="Next"
         margin="0 12px 0 12px"
-        disabled={total - curPage === 0}
+        disabled={totalPage - curPage === 0}
         onClick={onClickPageMoveBtn}
       >
         <Next />

@@ -72,12 +72,21 @@ const Wrapper = styled.div`
 `;
 
 const MoveBtn = styled.button<{ margin: string }>`
-  padding: 7px 12px;
+  position: relative;
+  width: 34px;
+  height: 34px;
   margin: ${({ margin }) => margin};
   background-color: transparent;
   border-radius: 8px;
   border: 1px solid ${styles.colors.lightBorderColor};
   font-family: 'Inter', sans-serif;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 const PageBtn = styled.button<{ cur: boolean }>`

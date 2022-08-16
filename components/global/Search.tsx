@@ -1,6 +1,6 @@
 import { FormEventHandler, memo } from 'react';
 import styled from 'styled-components';
-import { searchIcon as SearchIcon } from 'public/Icons';
+import { SearchIcon } from 'public/Icons/global';
 
 type PropsType = {
   placeholder?: string;
@@ -16,7 +16,7 @@ export default memo(function Search({
   return (
     <SearchForm transparent={!!transparentBg} onSubmit={onSubmit}>
       <SearchBar
-        placeholder={placeholder || 'Search content...'}
+        placeholder={placeholder || 'Search...'}
         underline={!!transparentBg}
       />
       <Btn>
@@ -33,7 +33,6 @@ const SearchForm = memo(styled.form<{ transparent: boolean }>`
   padding: 7px 15px;
   border-radius: 8px;
   border: none;
-  color: #8894a7;
   background-color: ${({ transparent }) =>
     transparent ? 'transparent' : '#ebedf1'};
 `);
@@ -45,9 +44,14 @@ const SearchBar = memo(styled.input<{ underline: boolean }>`
   border: none;
   border-bottom: 2px solid transparent;
   background-color: transparent;
+  color: #8894a7;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: bold;
+
+  ::placeholder {
+    color: #98a2b2;
+  }
 
   :focus-visible {
     outline: none;

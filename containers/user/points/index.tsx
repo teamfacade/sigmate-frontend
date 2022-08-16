@@ -137,7 +137,7 @@ export default function Logs() {
           <div style={{ width: '180px' }}>
             <Search
               transparentBg
-              placeholder="Search Sources"
+              placeholder="Search Sources..."
               onSubmit={onSubmit}
             />
           </div>

@@ -186,6 +186,7 @@ const ConvertBtn = styled.button`
   top: 0;
   right: 0;
   height: 34px;
+  padding: 0 10px;
   border: none;
   border-radius: 8px;
   background-color: ${styles.colors.emphColor};

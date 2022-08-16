@@ -22,6 +22,7 @@ export default memo(function SectionWrapper({
 });
 
 const Wrapper = styled.div<{ marginBottom: string | undefined }>`
+  position: relative;
   width: 100%;
 
   hr {

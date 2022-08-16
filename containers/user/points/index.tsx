@@ -30,6 +30,7 @@ export default function Logs() {
 
   useEffect(
     () =>
+      // @todo 초기 데이터 긁어오기
       setLogs([
         {
           timestamp: 1658389880695,

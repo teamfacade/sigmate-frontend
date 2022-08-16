@@ -183,7 +183,7 @@ const OtherUtilsWrapper = styled.div`
 
 const ConvertBtn = styled.button`
   position: absolute;
-  top: 1px;
+  top: 0;
   right: 0;
   height: 34px;
   border: none;

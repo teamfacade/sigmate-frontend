@@ -16,6 +16,7 @@ import {
   PageMoveBtns,
 } from 'components/global';
 import { LogSelect } from 'components/user/points';
+import styles from 'styles/styleLib';
 
 export type LogType = {
   timestamp: number;
@@ -108,6 +109,12 @@ export default function Logs() {
     [selected, curPage]
   );
 
+  const onClickConvert: MouseEventHandler<HTMLButtonElement> =
+    useCallback(() => {
+      // eslint-disable-next-line no-alert
+      alert('Coming soon');
+    }, []);
+
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
     e.preventDefault();
     // eslint-disable-next-line no-alert
@@ -145,12 +152,19 @@ export default function Logs() {
         </UtilsWrapper>
       </SectionWrapper>
       {selected === 'Point' && (
-        <PageMoveBtns
-          curPage={curPage}
-          totalPage={Math.floor(total / 10) + 1}
-          onClickPageMoveBtn={onClickPageMoveBtn}
-          onClickPageNumBtn={onClickPageNumBtn}
-        />
+        <OtherUtilsWrapper>
+          <PageMoveBtns
+            curPage={curPage}
+            totalPage={Math.floor(total / 10) + 1}
+            onClickPageMoveBtn={onClickPageMoveBtn}
+            onClickPageNumBtn={onClickPageNumBtn}
+          />
+          <ConvertBtn onClick={onClickConvert}>
+            <p>{`Convert ${selected} to ${
+              selected === 'Point' ? 'Tokens' : 'Points'
+            }`}</p>
+          </ConvertBtn>
+        </OtherUtilsWrapper>
       )}
     </BasicWrapper>
   );
@@ -161,4 +175,28 @@ const UtilsWrapper = styled.div`
   position: absolute;
   top: -5px;
   right: 0;
+`;
+
+const OtherUtilsWrapper = styled.div`
+  position: relative;
+`;
+
+const ConvertBtn = styled.button`
+  position: absolute;
+  top: 1px;
+  right: 0;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background-color: ${styles.colors.emphColor};
+  color: #ffffff;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+
+  p {
+    position: relative;
+    top: -1px;
+    margin: 0;
+  }
 `;

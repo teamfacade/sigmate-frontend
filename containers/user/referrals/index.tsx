@@ -4,17 +4,17 @@ import {
   useCallback,
   useEffect,
   useState,
+  memo,
 } from 'react';
+import ReferralLogs from 'containers/user/referrals/ReferralLogs';
 import {
   BasicWrapper,
   SectionWrapper,
-  LogTable,
   PageMoveBtns,
   Search,
 } from 'components/global';
-import { LogHead, LogItem } from 'components/user/referrals';
+import { MyReferral } from 'components/user/referrals';
 import styled from 'styled-components';
-import { LogSelect } from '../../../components/user/points';
 
 export type RefLogType = {
   timestamp: number;
@@ -109,26 +109,15 @@ export default function Referrals() {
   return (
     <BasicWrapper>
       <SectionWrapper header="Referral" marginBottom="20px">
-        <LogTable>
-          <LogHead />
-          {refLogs.map((refLog) => {
-            return (
-              <LogItem
-                key={refLog.timestamp}
-                timestamp={refLog.timestamp}
-                username={refLog.username}
-                amount={refLog.amount}
-              />
-            );
-          })}
-        </LogTable>
-        <UtilsWrapper>
+        <MyReferral refCode="F2810230" />
+        <ReferralLogs refLogs={refLogs} />
+        <UtilWrapper>
           <Search
             transparentBg
             placeholder="Search a user..."
             onSubmit={onSubmit}
           />
-        </UtilsWrapper>
+        </UtilWrapper>
         <PageMoveBtns
           curPage={curPage}
           totalPage={Math.floor(total / 10) + 1}
@@ -140,9 +129,9 @@ export default function Referrals() {
   );
 }
 
-const UtilsWrapper = styled.div`
+const UtilWrapper = memo(styled.div`
   width: 180px;
   position: absolute;
   top: -5px;
   right: 0;
-`;
+`);

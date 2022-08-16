@@ -7,6 +7,8 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
+import PointsLog from 'containers/user/points/PointsLog';
+import TokensLog from 'containers/user/points/TokensLog';
 import {
   BasicWrapper,
   SectionWrapper,
@@ -14,8 +16,6 @@ import {
   PageMoveBtns,
 } from 'components/global';
 import { LogSelect } from 'components/user/points';
-import PointsLog from 'containers/user/points/PointsLog';
-import TokensLog from 'containers/user/points/TokensLog';
 
 export type LogType = {
   timestamp: number;

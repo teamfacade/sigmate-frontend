@@ -65,7 +65,7 @@ const Edit = styled.div`
     display: inline-block;
     padding: 7px 0;
     margin: 0;
-    color: #626262;
+    color: ${styles.colors.logColor};
     font-size: 14px;
     font-family: 'Inter', sans-serif;
   }

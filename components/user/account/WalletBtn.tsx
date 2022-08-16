@@ -34,7 +34,7 @@ const Colors: StringKeyObj<ButtonStylesType> = {
     color: '#F6851B',
   },
   ComingSoon: {
-    border: '#ebeef2',
+    border: styles.colors.lightBorderColor,
     bgColor: styles.colors.globalBackgroundColor,
     color: '#98a2b2',
   },

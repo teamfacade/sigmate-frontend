@@ -78,7 +78,7 @@ const EditBtn = styled.button`
   width: 94px;
   height: 32px;
   background-color: #ffffff;
-  border: 1px solid #ebeef2;
+  border: 1px solid ${styles.colors.lightBorderColor};
   border-radius: 8px;
   cursor: pointer;
 

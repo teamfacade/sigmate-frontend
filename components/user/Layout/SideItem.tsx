@@ -9,6 +9,7 @@ import {
   Referrals,
   Staking,
 } from 'public/Icons/user/Layout';
+import styles from 'styles/styleLib';
 
 type SVGIcon = ReturnType<typeof Account>;
 
@@ -75,7 +76,7 @@ const Wrapper = styled.button<{ Active: boolean }>`
 
   p {
     margin: 0;
-    color: ${({ Active }) => (Active ? '#2563EB' : '#606C80')};
+    color: ${({ Active }) => (Active ? '#2563EB' : styles.colors.dimTextColor)};
     font-size: 15px;
     font-weight: bold;
   }

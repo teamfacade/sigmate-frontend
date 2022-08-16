@@ -46,7 +46,7 @@ const Textarea = styled.textarea<{ inputHeight: string }>`
   height: ${({ inputHeight }) => inputHeight};
   padding: 5px 10px;
   margin: 0 0 5px 0;
-  border: 1px solid #ebeef2;
+  border: 1px solid ${styles.colors.lightBorderColor};
   border-radius: 8px;
   background-color: #fafbfc;
   color: ${styles.colors.textColor};

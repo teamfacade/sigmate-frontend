@@ -26,7 +26,7 @@ const LogTable = memo(styled.table`
   }
 
   tr {
-    background-color: #fafbfc;
+    background-color: ${styles.colors.tableRowColor};
 
     td {
       padding: 10px 200px 10px 0;

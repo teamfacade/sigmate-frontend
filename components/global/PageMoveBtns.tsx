@@ -40,6 +40,7 @@ export default memo(function PageMoveBtns({
       {nums.map((num) => {
         return (
           <PageBtn
+            key={num}
             value={num}
             cur={curPage === num}
             onClick={onClickPageNumBtn}

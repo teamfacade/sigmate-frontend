@@ -13,6 +13,7 @@ const colors = {
   dimTextColor: '#606C80' as const,
   lightBorderColor: '#EBEEF2' as const,
   linkColor: '#98A2B2' as const,
+  tableRowColor: '#FAFBFC' as const,
   profileDescriptionColor: '#A3B6CC' as const,
   profileNameColor: '#294566' as const,
   twitterNameColor: '#349CE2' as const,

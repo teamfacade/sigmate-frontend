@@ -3,8 +3,9 @@ import { useState, useCallback, useEffect, MouseEventHandler } from 'react';
 import { default as MyCalendar, OnChangeDateCallback } from 'react-calendar';
 import { CSSTransition } from 'react-transition-group';
 import convertDate from 'hooks/convertDate';
+import CalendarModal from 'containers/user/calendar/CalendarModal';
 import { BasicWrapper, SectionWrapper } from 'components/global';
-import CalendarModal from './CalendarModal';
+import { ScheduleThumbnail } from 'components/user/calendar';
 
 type ScheduleType = { [index: string]: MintingType[] };
 
@@ -105,7 +106,7 @@ export default function Calendar() {
 
   const onChange: OnChangeDateCallback = useCallback((value: Date) => {
     setShowModal(true);
-    setCalDate(convertDate(value, 'MMDDYYYY', '.'));
+    setCalDate(convertDate(value, 'MonthDDYYYY', '.'));
     setMintingKey(convertDate(value, 'key', '.'));
   }, []);
 
@@ -127,6 +128,20 @@ export default function Calendar() {
             locale="en-US"
             maxDetail="month"
             minDetail="month"
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tileContent={({ date }) => {
+              const formattedDate = convertDate(date, 'key', '.');
+              if (
+                Object.keys(schedules).find((when) => when === formattedDate)
+              ) {
+                return (
+                  <ScheduleThumbnail
+                    length={schedules[formattedDate].length}
+                    firstName={schedules[formattedDate][0].name}
+                  />
+                );
+              } return <div />;
+            }}
           />
         </SectionWrapper>
       </BasicWrapper>

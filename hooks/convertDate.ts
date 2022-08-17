@@ -24,7 +24,7 @@ const regex = /(,*\s|\/)/g;
 
 export default function convertDate(
   event: Date,
-  format: 'time' | 'MMDDYYYY' | 'key',
+  format: 'time' | 'MonthDDYYYY' | 'key',
   delimiter: string | undefined
 ) {
   let converted = '';
@@ -33,7 +33,7 @@ export default function convertDate(
     case 'time':
       converted = logFormatter.format(event);
       break;
-    case 'MMDDYYYY':
+    case 'MonthDDYYYY':
       converted = MDYFormatter.format(event);
       break;
     case 'key':

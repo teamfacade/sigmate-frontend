@@ -91,15 +91,17 @@
 }
 .react-calendar__tile {
     position: relative;
-    max-width: 100%;
+    height: 128px;
     aspect-ratio: 1 / 1;
-    padding: 10px 6.6667px;
+    padding: 15px;
     border-right: 1px solid #EEEEEE !important;
     border-bottom: 1px solid #EEEEEE !important;
     background: none;
     text-align: start;
     line-height: 16px;
 }
+
+/*
 .react-calendar__tile abbr {
     position: absolute;
     top: min(0.8vw, 9px);
@@ -108,6 +110,18 @@
     font-weight: 500;
     font-family: 'Inter', sans-serif;
 }
+*/
+
+
+.react-calendar__tile abbr {
+    position: absolute;
+    top: 9px;
+    left: 15px;
+    font-size: min(1.5vw, 16.8px);
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
 .react-calendar__tile:disabled {
     background-color: #f0f0f0;
 }

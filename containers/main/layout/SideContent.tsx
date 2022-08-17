@@ -1,14 +1,16 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import { SideRecentEdits } from 'containers/main/layout';
-import { BuyToken } from 'components/main/Layout';
+import { Adsense } from 'components/main/Layout';
 import { SocialLinks } from 'components/auth';
 
 export default memo(function SideContent() {
   return (
     <>
       <SideRecentEdits />
-      <BuyToken />
+      {/* <BuyToken /> */}
+      <Adsense />
+      <Adsense />
       <SocialLinkWrapper>
         <p>Social Link</p>
         <SocialLinks />

@@ -2,7 +2,7 @@ import { memo } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
-const LogTable = memo(styled.table`
+const LogTable = memo(styled.table<{ gap: string | undefined }>`
   border-spacing: 0 10px;
 
   thead {
@@ -14,7 +14,7 @@ const LogTable = memo(styled.table`
     }
 
     th {
-      padding: 0 200px 0 0;
+      padding: 0 ${({ gap }) => (gap || '200px')} 0 0;
       color: ${styles.colors.dimTextColor};
       font-size: 15px;
       text-align: start;
@@ -29,7 +29,7 @@ const LogTable = memo(styled.table`
     background-color: ${styles.colors.tableRowColor};
 
     td {
-      padding: 10px 200px 10px 0;
+      padding: 10px ${({ gap }) => (gap || '200px')} 10px 0;
       color: ${styles.colors.logColor};
       font-size: 15px;
       text-align: start;

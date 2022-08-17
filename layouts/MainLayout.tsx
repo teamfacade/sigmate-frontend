@@ -17,7 +17,7 @@ export default function MainLayout({ children }: PropsType) {
             <MainContentWrapper>{children}</MainContentWrapper>
           </section>
           <aside>
-            <Search />
+            <Search placeholder="Search content..." />
             <SideContentWrapper>
               <SideContent />
             </SideContentWrapper>
@@ -62,6 +62,7 @@ const MainContentWrapper = styled.div`
 const SideContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
 
   @media (max-width: 1023px) {
     width: 100vw;

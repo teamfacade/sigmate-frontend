@@ -28,6 +28,7 @@ export default memo(function Search({
 
 const SearchForm = memo(styled.form<{ transparent: boolean }>`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   flex: 0 1 300px;
   padding: 7px 15px;
@@ -40,7 +41,7 @@ const SearchForm = memo(styled.form<{ transparent: boolean }>`
 const SearchBar = memo(styled.input<{ underline: boolean }>`
   position: relative;
   top: 2px;
-  width: 120px;
+  width: 100%;
   border: none;
   border-bottom: 2px solid transparent;
   background-color: transparent;
@@ -62,7 +63,7 @@ const SearchBar = memo(styled.input<{ underline: boolean }>`
 
 const Btn = styled.button`
   position: relative;
-  top: 3px;
+  top: 2px;
   background-color: transparent;
   border: none;
   cursor: pointer;

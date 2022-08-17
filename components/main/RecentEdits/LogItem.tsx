@@ -10,7 +10,7 @@ type PropsType = {
 
 export default memo(function LogItem({ name, editor, timestamp }: PropsType) {
   const time = useMemo(
-    () => convertDate(new Date(timestamp), 'log', undefined),
+    () => convertDate(new Date(timestamp), 'time', undefined),
     [timestamp]
   );
 

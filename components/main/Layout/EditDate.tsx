@@ -7,7 +7,7 @@ type PropsType = {
 
 export default memo(function EditDate({ timestamp }: PropsType) {
   const time = useMemo(
-    () => convertDate(new Date(timestamp), 'sideRecentEdit', '/'),
+    () => convertDate(new Date(timestamp), 'MMDDYYYY', '/'),
     [timestamp]
   );
 

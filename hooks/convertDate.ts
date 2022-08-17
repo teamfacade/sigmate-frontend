@@ -8,27 +8,36 @@ const logFormatter = new Intl.DateTimeFormat('en', {
   hourCycle: 'h24',
 });
 
-const sideRecentEditFormatter = new Intl.DateTimeFormat('en', {
+const MDYFormatter = new Intl.DateTimeFormat('en', {
   month: 'short',
   day: '2-digit',
   year: 'numeric',
 });
 
-const regex = /,*\s/g;
+const KeyFormatter = new Intl.DateTimeFormat('en', {
+  month: '2-digit',
+  day: '2-digit',
+  year: 'numeric',
+});
+
+const regex = /(,*\s|\/)/g;
 
 export default function convertDate(
   event: Date,
-  format: 'log' | 'sideRecentEdit',
+  format: 'time' | 'MMDDYYYY' | 'key',
   delimiter: string | undefined
 ) {
   let converted = '';
 
   switch (format) {
-    case 'log':
+    case 'time':
       converted = logFormatter.format(event);
       break;
-    case 'sideRecentEdit':
-      converted = sideRecentEditFormatter.format(event);
+    case 'MMDDYYYY':
+      converted = MDYFormatter.format(event);
+      break;
+    case 'key':
+      converted = KeyFormatter.format(event);
       break;
     default:
       break;

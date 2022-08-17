@@ -17,7 +17,7 @@ export default memo(function LogItem({
   amount,
 }: PropsType) {
   const time = useMemo(
-    () => convertDate(new Date(timestamp), 'log', undefined),
+    () => convertDate(new Date(timestamp), 'time', undefined),
     [timestamp]
   );
 

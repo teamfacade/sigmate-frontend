@@ -5,21 +5,26 @@ export default function LogoWithLinks() {
   return (
     <Wrapper>
       <Logos />
-      <SocialLinks />
+      <SocialLinkWrapper>
+        <SocialLinks />
+      </SocialLinkWrapper>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  min-width: 250px;
-  width: 30vw;
+  align-items: center;
   height: 100%;
-  background-color: #ffffff;
-  border-left: 2px solid #f0f0f0;
+  margin: auto;
+`;
 
-  @media (max-width: 640px) {
-    margin-top: 50px;
-  }
+const SocialLinkWrapper = styled.div`
+  position: absolute;
+  right: 77px;
+  bottom: 77px;
 `;

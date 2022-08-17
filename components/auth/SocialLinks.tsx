@@ -32,10 +32,7 @@ export default function SocialLinks() {
 }
 
 const Wrapper = styled.div`
-  position: absolute;
-  right: 77px;
-  bottom: 77px;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -43,7 +40,6 @@ const Wrapper = styled.div`
 
 const LinkWrapper = styled.div`
   display: flex;
-  width: 100%;
   overflow-x: scroll;
 
   button {

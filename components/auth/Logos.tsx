@@ -20,7 +20,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: auto;
 `;
 
 const Logo = styled.p`

@@ -14,7 +14,9 @@ export default function AuthPage() {
         <LeftWrapper>
           {MoreInfo ? <AccSetup /> : <AuthComponents />}
         </LeftWrapper>
-        <LogoWithLinks />
+        <RightWrapper>
+          <LogoWithLinks />
+        </RightWrapper>
       </Wrapper>
       <Btn onClick={onClickShow}>Signed in with google</Btn>
       <Btn onClick={onClickNotShow}>Go Back</Btn>
@@ -42,6 +44,14 @@ const LeftWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 50px;
+`;
+
+const RightWrapper = styled.div`
+  min-width: 250px;
+  width: 30vw;
+  height: 100%;
+  background-color: #ffffff;
+  border-left: 2px solid #f0f0f0;
 `;
 
 const Btn = styled.button`

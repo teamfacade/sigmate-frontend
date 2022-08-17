@@ -29,16 +29,9 @@ export default function MainLayout({ children }: PropsType) {
 }
 
 const Wrapper = styled.div`
-  @media (min-width: 1024px) {
-    display: inline-flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  @media (max-width: 1023px) {
-    flex-direction: column;
-    align-items: center;
-    flex-wrap: nowrap;
-  }
+  display: inline-flex;
+  justify-content: center;
+
   margin: 0 auto 30px auto;
 `;
 
@@ -52,19 +45,11 @@ const MainContentWrapper = styled.div`
   border-radius: 8px;
   box-shadow: ${styles.shadows.containerShadow};
   overflow: hidden;
-
-  @media (max-width: 1023px) {
-    width: 100vw;
-    margin-right: 0;
-  }
 `;
 
 const SideContentWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-
-  @media (max-width: 1023px) {
-    width: 100vw;
-  }
 `;

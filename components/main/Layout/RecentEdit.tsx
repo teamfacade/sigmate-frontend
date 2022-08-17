@@ -42,6 +42,7 @@ const Edit = styled.div`
   }
 
   a p {
+    margin-left: 35px;
     color: ${styles.colors.emphColor};
   }
 `;

@@ -7,6 +7,7 @@ export default memo(function Adsense() {
 
 const Wrapper = styled.div`
   height: 250px;
+  padding: 20px;
   margin-top: 20px;
   background-color: #ebedf1;
   border-radius: 8px;

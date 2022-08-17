@@ -37,6 +37,7 @@ export default memo(function MintingItem({
 
 const Wrapper = styled.div`
   width: 327px;
+  height: fit-content;
   border-radius: 8px;
   background-color: ${styles.colors.modalContentBgColor};
 `;

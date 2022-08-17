@@ -18,6 +18,7 @@ export default memo(function MainImage() {
             alt="deskop page screenshot"
             layout="fill"
             quality={100}
+            priority
           />
         </ImageWrapper>
         <PhoneImg>
@@ -27,6 +28,7 @@ export default memo(function MainImage() {
               alt="phone page screenshot"
               layout="fill"
               quality={100}
+              priority
             />
           </ImageWrapper>
         </PhoneImg>

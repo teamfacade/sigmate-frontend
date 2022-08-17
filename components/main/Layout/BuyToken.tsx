@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   height: 159px;
-  margin: 20px 0 7px 0;
+  margin: 20px 0 0 0;
   background-color: white;
   border-radius: 8px;
   box-shadow: ${styles.shadows.containerShadow};

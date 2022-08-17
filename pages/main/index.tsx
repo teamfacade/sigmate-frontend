@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
-import { MainImage, Team, Backers } from 'components/main';
+import { MainImage, Team, Backers } from 'components/main/LandingPage';
 
 export default memo(function MainPage() {
   return (

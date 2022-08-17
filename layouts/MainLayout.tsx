@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-import { SideContent } from 'containers/main';
+import { SideContent } from 'containers/main/layout';
 import { Search } from 'components/global';
 import styles from 'styles/styleLib';
 

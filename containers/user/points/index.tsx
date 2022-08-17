@@ -26,6 +26,28 @@ export type LogType = {
 
 // @todo total값 역시 데이터로 받아온 것을 쓰기
 const total = 482;
+const ExLogs = [
+  {
+    timestamp: 1658389880695,
+    source: 'Daily login',
+    amount: '10',
+  },
+  {
+    timestamp: 1658389880696,
+    source: 'Daily login',
+    amount: '10',
+  },
+  {
+    timestamp: 1658389880697,
+    source: 'Token buy',
+    amount: '-10',
+  },
+  {
+    timestamp: 1658389880698,
+    source: 'Daily login',
+    amount: '10',
+  },
+];
 
 export default function Logs() {
   const [selected, setSelected] = useState('Point');
@@ -35,28 +57,7 @@ export default function Logs() {
   useEffect(
     () =>
       // @todo 초기 데이터 긁어오기
-      setLogs([
-        {
-          timestamp: 1658389880695,
-          source: 'Daily login',
-          amount: '10',
-        },
-        {
-          timestamp: 1658389880696,
-          source: 'Daily login',
-          amount: '10',
-        },
-        {
-          timestamp: 1658389880697,
-          source: 'Token buy',
-          amount: '-10',
-        },
-        {
-          timestamp: 1658389880698,
-          source: 'Daily login',
-          amount: '10',
-        },
-      ]),
+      setLogs(ExLogs),
     []
   );
 

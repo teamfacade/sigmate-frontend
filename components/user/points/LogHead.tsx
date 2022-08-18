@@ -4,10 +4,9 @@ export default memo(function LogHead() {
   return (
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Task</th>
-        <th>Entity</th>
-        <th>Point</th>
+        <th>Time(UTC)</th>
+        <th>Sources</th>
+        <th>Amount</th>
       </tr>
     </thead>
   );

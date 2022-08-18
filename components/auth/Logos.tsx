@@ -1,25 +1,25 @@
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
+import { CostNBnfit } from 'public/Icons/auth';
 
 export default function Logos() {
   return (
     <Wrapper>
-      <Logo>sigmate</Logo>
+      <CostNBnfit />
+      <Logo>Sigmate</Logo>
       <Description>
-        {
-          'Maximize your NFT investment in sigmate.\r\nVarious features provided by Sigmate Maximize your NFT investment in sigmate.'
-        }
+        {'Maximize your\r\nNFT investment with Sigmate.'}
       </Description>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: auto;
 `;
 
 const Logo = styled.p`
@@ -31,9 +31,10 @@ const Logo = styled.p`
 `;
 
 const Description = styled.p`
+  max-width: 284px;
   margin: 0;
   color: ${styles.colors.textColor};
-  font-size: 14px;
+  font-size: 20px;
   font-family: 'Inter', sans-serif;
   text-align: center;
   white-space: pre-wrap;

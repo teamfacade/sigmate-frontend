@@ -22,11 +22,11 @@ export default memo(function SectionWrapper({
 });
 
 const Wrapper = styled.div<{ marginBottom: string | undefined }>`
+  position: relative;
   width: 100%;
 
   hr {
-    margin: ${({ marginBottom }) =>
-      `16px 0 ${marginBottom || '30px'} 0`};
+    margin: ${({ marginBottom }) => `18px 0 ${marginBottom || '30px'} 0`};
     border: none;
     border-bottom: 1px solid #dedede;
   }

@@ -1,59 +1,99 @@
-import styled from 'styled-components';
 import { MouseEventHandler } from 'react';
-import { google } from 'public/Icons';
+import styled from 'styled-components';
+import { darken } from 'polished';
+import { Google, Metamask } from 'public/Icons/auth';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  service?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  service: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
+  width?: string;
+  height?: string;
 };
 
-export default function OAuthBtn({ service = '', onClick }: PropsType) {
-  switch (service) {
-    case 'google':
-      return (
-        <GoogleBtn name={service} onClick={onClick}>
-          <Google />
-          Continue with Google
-        </GoogleBtn>
-      );
-    case 'metamask':
-      return (
-        <MetamaskBtn name={service} onClick={onClick}>
-          Continue with Metamask
-        </MetamaskBtn>
-      );
-    default:
-      return (
-        <Preparing name={service} onClick={onClick}>
-          Coming soon...
-        </Preparing>
-      );
-  }
+type SVGIcon = ReturnType<typeof Google>;
+
+interface StringKeyObj<T> {
+  [index: string]: T;
+  Google: T;
+  Metamask: T;
 }
 
-const GoogleBtn = styled.button`
-  color: ${styles.colors.googleNameColor};
-  background-color: ${styles.colors.googleBackgroundColor};
-  border-color: ${styles.colors.googleBorderColor};
+const Icons: StringKeyObj<SVGIcon> = {
+  Google,
+  Metamask,
+};
+
+const Margins: StringKeyObj<string> = {
+  Google: '0 19px 0 5px',
+  Metamask: '0 16px 0 0',
+};
+
+export default function OAuthBtn({
+  service,
+  onClick,
+  width,
+  height,
+}: PropsType) {
+  const Icon = Icons[service];
+
+  return (
+    <Btn name={service} onClick={onClick} width={width} height={height}>
+      <FlexWrapper>
+        <SVGWrapper>
+          <Icon style={{ margin: Margins[service] }} />
+        </SVGWrapper>
+        <p>{`Continue with ${service}`}</p>
+      </FlexWrapper>
+    </Btn>
+  );
+}
+
+const Btn = styled.button<{
+  width: string | undefined;
+  height: string | undefined;
+}>`
+    display: block;
+    position: relative;
+    width: ${({ width }) => (width || '490px')};
+    height: ${({ height }) => (height || '67px')};
+    padding: 0;
+    border-radius: 8px;
+    border: none;
+    background-color: #FFFFFF;
+    color: ${styles.colors.logoColor};
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: ${styles.shadows.containerShadow};\
+    cursor: pointer;
+  
+    & + & {
+      margin-top: 15px;
+    }
+  
+    &:active {
+      background-color: ${darken(0.01, '#FFFFFF')};
+    }
 `;
 
-const MetamaskBtn = styled.button`
-  color: ${styles.colors.metamaskNameColor};
-  background-color: ${styles.colors.metamaskBackgroundColor};
-  border-color: ${styles.colors.metamaskBorderColor};
+const FlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    margin-left: 65px;
+  }
 `;
 
-const Preparing = styled.button`
-  color: gray;
-  background-color: #eeeeee;
-  border-color: #8a8a8a;
-`;
-
-const Google = styled(google)`
-  width: 24px;
+const SVGWrapper = styled.span`
   position: absolute;
-  top: 48%;
-  right: 50%;
-  transform: translate(-370%, -50%);
+  left: 0;
+  margin-left: 21px;
+  border-right: 2px solid #e1e5ec;
+
+  svg {
+    position: relative;
+    top: 2px;
+  }
 `;

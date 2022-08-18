@@ -2,8 +2,9 @@ import { memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
-import type { MintingType } from 'containers/user/calendar/CalendarModal';
+import type { MintingType } from 'containers/user/calendar';
 import { ImageWrapper } from 'components/global';
+import convertDate from 'hooks/convertDate';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 import styles from 'styles/styleLib';
 
@@ -23,7 +24,7 @@ export default memo(function MintDetail({ mint }: PropsType) {
       <Descriptions>
         <FlexWrapper>
           <Name>Minting Time / Date</Name>
-          <Content>{mint.date}</Content>
+          <Content>{convertDate(new Date(mint.date), 'time', ' ')}</Content>
         </FlexWrapper>
         <FlexWrapper>
           <Name>Minting Price</Name>
@@ -88,9 +89,13 @@ const LinkBtn = styled.button<{ mintPage: boolean }>`
   border: 1px solid ${styles.colors.emphColor};
   background-color: ${({ mintPage }) =>
     mintPage ? styles.colors.emphColor : 'transparent'};
-  color: ${({ mintPage }) => (mintPage ? '#FFFFFF' : styles.colors.emphColor)};
   font-size: 15px;
   white-space: nowrap;
+
+  a {
+    color: ${({ mintPage }) =>
+      mintPage ? '#FFFFFF' : styles.colors.emphColor};
+  }
 
   & + & {
     margin-left: 7px;

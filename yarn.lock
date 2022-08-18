@@ -1320,14 +1320,14 @@
     "semver" "^7.3.7"
     "tsutils" "^3.21.0"
 
-"@typescript-eslint/parser@^5.0.0", "@typescript-eslint/parser@^5.30.5":
-  "integrity" "sha512-zj251pcPXI8GO9NDKWWmygP6+UjwWmrdf9qMW/L/uQJBM/0XbU2inxe5io/234y/RCvwpKEYjZ6c1YrXERkK4Q=="
-  "resolved" "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-5.30.5.tgz"
-  "version" "5.30.5"
+"@typescript-eslint/parser@^5.0.0", "@typescript-eslint/parser@^5.33.0":
+  "integrity" "sha512-cgM5cJrWmrDV2KpvlcSkelTBASAs1mgqq+IUGKJvFxWrapHpaRy5EXPQz9YaKF3nZ8KY18ILTiVpUtbIac86/w=="
+  "resolved" "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-5.33.0.tgz"
+  "version" "5.33.0"
   dependencies:
-    "@typescript-eslint/scope-manager" "5.30.5"
-    "@typescript-eslint/types" "5.30.5"
-    "@typescript-eslint/typescript-estree" "5.30.5"
+    "@typescript-eslint/scope-manager" "5.33.0"
+    "@typescript-eslint/types" "5.33.0"
+    "@typescript-eslint/typescript-estree" "5.33.0"
     "debug" "^4.3.4"
 
 "@typescript-eslint/scope-manager@5.30.5":
@@ -1337,6 +1337,14 @@
   dependencies:
     "@typescript-eslint/types" "5.30.5"
     "@typescript-eslint/visitor-keys" "5.30.5"
+
+"@typescript-eslint/scope-manager@5.33.0":
+  "integrity" "sha512-/Jta8yMNpXYpRDl8EwF/M8It2A9sFJTubDo0ATZefGXmOqlaBffEw0ZbkbQ7TNDK6q55NPHFshGBPAZvZkE8Pw=="
+  "resolved" "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-5.33.0.tgz"
+  "version" "5.33.0"
+  dependencies:
+    "@typescript-eslint/types" "5.33.0"
+    "@typescript-eslint/visitor-keys" "5.33.0"
 
 "@typescript-eslint/type-utils@5.30.5":
   "integrity" "sha512-k9+ejlv1GgwN1nN7XjVtyCgE0BTzhzT1YsQF0rv4Vfj2U9xnslBgMYYvcEYAFVdvhuEscELJsB7lDkN7WusErw=="
@@ -1352,6 +1360,11 @@
   "resolved" "https://registry.npmjs.org/@typescript-eslint/types/-/types-5.30.5.tgz"
   "version" "5.30.5"
 
+"@typescript-eslint/types@5.33.0":
+  "integrity" "sha512-nIMt96JngB4MYFYXpZ/3ZNU4GWPNdBbcB5w2rDOCpXOVUkhtNlG2mmm8uXhubhidRZdwMaMBap7Uk8SZMU/ppw=="
+  "resolved" "https://registry.npmjs.org/@typescript-eslint/types/-/types-5.33.0.tgz"
+  "version" "5.33.0"
+
 "@typescript-eslint/typescript-estree@5.30.5":
   "integrity" "sha512-qGTc7QZC801kbYjAr4AgdOfnokpwStqyhSbiQvqGBLixniAKyH+ib2qXIVo4P9NgGzwyfD9I0nlJN7D91E1VpQ=="
   "resolved" "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-5.30.5.tgz"
@@ -1359,6 +1372,19 @@
   dependencies:
     "@typescript-eslint/types" "5.30.5"
     "@typescript-eslint/visitor-keys" "5.30.5"
+    "debug" "^4.3.4"
+    "globby" "^11.1.0"
+    "is-glob" "^4.0.3"
+    "semver" "^7.3.7"
+    "tsutils" "^3.21.0"
+
+"@typescript-eslint/typescript-estree@5.33.0":
+  "integrity" "sha512-tqq3MRLlggkJKJUrzM6wltk8NckKyyorCSGMq4eVkyL5sDYzJJcMgZATqmF8fLdsWrW7OjjIZ1m9v81vKcaqwQ=="
+  "resolved" "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-5.33.0.tgz"
+  "version" "5.33.0"
+  dependencies:
+    "@typescript-eslint/types" "5.33.0"
+    "@typescript-eslint/visitor-keys" "5.33.0"
     "debug" "^4.3.4"
     "globby" "^11.1.0"
     "is-glob" "^4.0.3"
@@ -1383,6 +1409,14 @@
   "version" "5.30.5"
   dependencies:
     "@typescript-eslint/types" "5.30.5"
+    "eslint-visitor-keys" "^3.3.0"
+
+"@typescript-eslint/visitor-keys@5.33.0":
+  "integrity" "sha512-/XsqCzD4t+Y9p5wd9HZiptuGKBlaZO5showwqODii5C0nZawxWLF+Q6k5wYHBrQv96h6GYKyqqMHCSTqta8Kiw=="
+  "resolved" "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-5.33.0.tgz"
+  "version" "5.33.0"
+  dependencies:
+    "@typescript-eslint/types" "5.33.0"
     "eslint-visitor-keys" "^3.3.0"
 
 "@wojtekmaj/date-utils@^1.0.2":
@@ -1687,6 +1721,15 @@
     "slice-ansi" "^5.0.0"
     "string-width" "^5.0.0"
 
+"clipboard@^2.0.11":
+  "integrity" "sha512-C+0bbOqkezLIsmWSvlsXS0Q0bmkugu7jcfMIACB+RDEntIzQIkdr148we28AfSloQLRdZlYL/QYyrq05j/3Faw=="
+  "resolved" "https://registry.npmjs.org/clipboard/-/clipboard-2.0.11.tgz"
+  "version" "2.0.11"
+  dependencies:
+    "good-listener" "^1.2.2"
+    "select" "^1.1.2"
+    "tiny-emitter" "^2.0.0"
+
 "color-convert@^1.9.0":
   "integrity" "sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg=="
   "resolved" "https://registry.npmjs.org/color-convert/-/color-convert-1.9.3.tgz"
@@ -1869,6 +1912,11 @@
   dependencies:
     "has-property-descriptors" "^1.0.0"
     "object-keys" "^1.1.1"
+
+"delegate@^3.1.2":
+  "integrity" "sha512-IofjkYBZaZivn0V8nnsMJGBr4jVLxHDheKSW88PyxS5QC4Vo9ZbZVvhzlSxY87fVq3STR6r+4cGepyHkcWOQSw=="
+  "resolved" "https://registry.npmjs.org/delegate/-/delegate-3.2.0.tgz"
+  "version" "3.2.0"
 
 "dir-glob@^3.0.1":
   "integrity" "sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA=="
@@ -2465,6 +2513,13 @@
     "ignore" "^5.2.0"
     "merge2" "^1.4.1"
     "slash" "^3.0.0"
+
+"good-listener@^1.2.2":
+  "integrity" "sha512-goW1b+d9q/HIwbVYZzZ6SsTr4IgE+WA44A0GmPIQstuOrgsFcT7VEJ48nmr9GaRtNu0XTKacFLGnBPAM6Afouw=="
+  "resolved" "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz"
+  "version" "1.2.2"
+  dependencies:
+    "delegate" "^3.1.2"
 
 "has-bigints@^1.0.1", "has-bigints@^1.0.2":
   "integrity" "sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ=="
@@ -3399,6 +3454,11 @@
   dependencies:
     "loose-envify" "^1.1.0"
 
+"select@^1.1.2":
+  "integrity" "sha512-OwpTSOfy6xSs1+pwcNrv0RBMOzI39Lp3qQKUTPVVPRjCdNa5JH/oPRiqsesIskK8TVgmRiHwO4KXlV2Li9dANA=="
+  "resolved" "https://registry.npmjs.org/select/-/select-1.1.2.tgz"
+  "version" "1.1.2"
+
 "semver@^6.1.1", "semver@^6.1.2", "semver@^6.3.0":
   "integrity" "sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw=="
   "resolved" "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz"
@@ -3660,6 +3720,11 @@
   "integrity" "sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg=="
   "resolved" "https://registry.npmjs.org/through/-/through-2.3.8.tgz"
   "version" "2.3.8"
+
+"tiny-emitter@^2.0.0":
+  "integrity" "sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q=="
+  "resolved" "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz"
+  "version" "2.1.0"
 
 "to-fast-properties@^2.0.0":
   "integrity" "sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog=="

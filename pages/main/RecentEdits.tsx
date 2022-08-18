@@ -1,84 +1,155 @@
-import { memo } from 'react';
+import {
+  memo,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import styled from 'styled-components';
-import { SectionWrapper } from 'components/global';
-import { TableRow } from 'components/main/RecentEdits';
-import styles from 'styles/styleLib';
+import { EditLogs } from 'containers/main/RecentEdits';
+import { SectionWrapper, PageMoveBtns } from 'components/global';
+import { LogSelect } from 'components/main/RecentEdits';
+
+export type EditType = {
+  name: string;
+  editor: string;
+  timestamp: number;
+};
+
+const total = 482;
+const ExEditLogs = [
+  {
+    name: 'Superwalk Genesis',
+    editor: 'Limeahn',
+    timestamp: 1660719274403,
+  },
+  {
+    name: 'The Meta Kongz',
+    editor: 'WKSeo',
+    timestamp: 1660719274404,
+  },
+  {
+    name: 'Klaycity District',
+    editor: 'jmyung',
+    timestamp: 1660719274405,
+  },
+  {
+    name: 'Metatoy Dragonz',
+    editor: 'Sigmate',
+    timestamp: 1660719274406,
+  },
+  {
+    name: 'G.rilla OFFICIAL',
+    editor: 'Limeahn',
+    timestamp: 1660719274407,
+  },
+  {
+    name: 'Syltare',
+    editor: 'Limeahn',
+    timestamp: 1660719274408,
+  },
+  {
+    name: 'KLAYDICE GENESIS',
+    editor: 'Limeahn',
+    timestamp: 1660719274409,
+  },
+  {
+    name: 'THE SNKRZ NFT',
+    editor: 'jmyung',
+    timestamp: 1660719274400,
+  },
+  {
+    name: 'Sunmiya Club',
+    editor: 'mung3477',
+    timestamp: 1660719274401,
+  },
+  {
+    name: 'Puuvilla Society',
+    editor: 'Sigmate',
+    timestamp: 1660719274402,
+  },
+];
 
 export default memo(function RecentEdits() {
+  const [selected, setSelected] = useState('All');
+  const [curPage, setCurPage] = useState(1);
+  const [editLogs, setEditLogs] = useState<EditType[]>([]);
+
+  useEffect(() => {
+    setEditLogs(ExEditLogs);
+  }, []);
+
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    setSelected(e.currentTarget.name);
+  }, []);
+
+  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      setCurPage(parseInt(e.currentTarget.value, 10));
+      // eslint-disable-next-line no-alert
+      alert(
+        `Fetch 10 ${selected} edit logs from ${
+          (parseInt(e.currentTarget.value, 10) - 1) * 10
+        }th log`
+      );
+    },
+    [selected]
+  );
+
+  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      switch (e.currentTarget.name) {
+        case 'ToFirst':
+          // eslint-disable-next-line no-alert
+          alert(`Fetch 10 ${selected} edit logs from 0th log`);
+          setCurPage(1);
+          break;
+        case 'Prev':
+          // eslint-disable-next-line no-alert
+          alert(
+            `Fetch 10 ${selected} edit logs from ${
+              (curPage - 1 - 1) * 10
+            }th log`
+          );
+          setCurPage((cur) => cur - 1);
+          break;
+        case 'Next':
+          // eslint-disable-next-line
+          alert(`Fetch 10 ${selected} edit logs from ${curPage * 10}th log`);
+          setCurPage((cur) => cur + 1);
+          break;
+        case 'ToLast':
+          // eslint-disable-next-line
+          alert(
+            `Fetch 10 ${selected} edit logs from ((total / 10) * 10)th log`
+          );
+          setCurPage(Math.floor(total / 10) + 1);
+          break;
+        default:
+          break;
+      }
+    },
+    [selected, curPage]
+  );
+
   return (
     <SectionWrapper header="Recent edits">
-      <Table>
-        <colgroup>
-          <col />
-          <col style={{ width: '25%' }} />
-          <col style={{ width: '22%' }} />
-        </colgroup>
-        <thead>
-          <tr>
-            <THead>Name</THead>
-            <THead>Editor</THead>
-            <THead>Edited Date</THead>
-          </tr>
-        </thead>
-        <tbody>
-          {/* @todo 서버에서 받은 데이터들을 map 함수를 통해 렌더링 */}
-          <TableRow
-            article="Edited Content"
-            editor="admin"
-            timestamp={1658125040429}
-          />
-          <TableRow
-            article="Edited t"
-            editor="admin"
-            timestamp={1658125040429}
-          />
-          <TableRow
-            article="Edited Content"
-            editor="admin"
-            timestamp={1658125040429}
-          />
-          <TableRow
-            article="Edited Content"
-            editor="admin"
-            timestamp={1658125040429}
-          />
-          <TableRow
-            article="Edited Content"
-            editor="admin"
-            timestamp={1658125040429}
-          />
-        </tbody>
-      </Table>
+      <EditLogs editLogs={editLogs} />
+      <PageMoveBtns
+        curPage={curPage}
+        totalPage={total}
+        onClickPageMoveBtn={onClickPageMoveBtn}
+        onClickPageNumBtn={onClickPageNumBtn}
+      />
+      <UtilWrapper>
+        <LogSelect selected={selected} onClick={onClick} />
+      </UtilWrapper>
     </SectionWrapper>
   );
 });
 
-const Table = styled.table`
-  max-width: 1000px;
-  border-spacing: 0 20px;
-
-  th,
-  td {
-    white-space: pre;
-
-    :not(:first-child) {
-      padding-left: 100px;
-    }
-  }
-
-  td {
-    :not(:last-child) {
-      color: ${styles.colors.emphColor};
-      font-size: 15px;
-      font-weight: bold;
-    }
-  }
-`;
-
-const THead = styled.th`
-  color: #626262;
-  text-align: left;
-  font-size: 15px;
-  font-weight: bold;
-  font-family: 'AppleSDGothicNeo', sans-serif;
+const UtilWrapper = styled.div`
+  position: absolute;
+  top: -5px;
+  right: 0;
 `;

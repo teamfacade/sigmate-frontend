@@ -1,78 +1,51 @@
+import { MouseEventHandler, useCallback } from 'react';
 import styled from 'styled-components';
 import { BasicWrapper, SectionWrapper } from 'components/global';
-import { Twitter, Discord } from 'public/Icons/user/account';
+import { SocialBtn } from 'components/user/account';
 import styles from 'styles/styleLib';
-import { Description, ButtonWrapper } from './SyncBtnComponents';
 
 export default function SyncSocial() {
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    if (e.currentTarget.name === 'Twitter') {
+      // eslint-disable-next-line no-alert
+      alert('Connect Twitter');
+    } else {
+      // eslint-disable-next-line no-alert
+      alert('Disconnect Discord');
+    }
+  }, []);
+
   return (
     <BasicWrapper>
       <SectionWrapper header="Sync Social Accounts" marginBottom="10px">
         <Description>
           {
-            'Register your SNS accounts.\r\nYou can share your opinions with others.'
+            'Connect your social account to easily login with them and\r\n(optionally) display them in your public profile.'
           }
         </Description>
         <ButtonWrapper>
-          <TwitterBtn>
-            <TwitterIcon />
-            <div>
-              <span>Connect</span>
-              <span>Twitter</span>
-            </div>
-          </TwitterBtn>
-          <DiscordBtn>
-            <DiscordIcon />
-            <div>
-              <span>Connect</span>
-              <span>Discord</span>
-            </div>
-          </DiscordBtn>
+          <SocialBtn name="Twitter" connected={false} onClick={onClick} />
+          <SocialBtn name="Discord" connected onClick={onClick} />
         </ButtonWrapper>
       </SectionWrapper>
     </BasicWrapper>
   );
 }
 
-const SocialBtn = styled.button`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const Description = styled.p`
+  max-width: 500px;
+  height: 37px;
+  margin: 0 0 15px 0;
+  color: ${styles.colors.textColor};
+  font-size: 14px;
+  white-space: pre-wrap;
 
-  div {
-    padding: 0 11px;
-    margin-top: 10px;
-
-    span {
-      margin: 10px 0 0 0;
-      text-align: center;
-    }
-
-    span + span {
-      padding-left: 5px;
-      font-weight: bolder;
-    }
+  a {
+    color: ${styles.colors.emphColor};
+    font-size: 14px;
   }
 `;
 
-const TwitterIcon = styled(Twitter)`
-  margin: 9px 0 11px 0;
-`;
-
-const TwitterBtn = styled(SocialBtn)`
-  border-color: ${styles.colors.twitterBorderColor};
-  background-color: ${styles.colors.twitterBackgroundColor};
-  font-weight: normal;
-  color: ${styles.colors.twitterNameColor};
-`;
-
-const DiscordIcon = styled(Discord)`
-  margin: 7px 0;
-`;
-
-const DiscordBtn = styled(SocialBtn)`
-  border-color: ${styles.colors.discordBorderColor};
-  background-color: ${styles.colors.discordBackgroundColor};
-  font-weight: normal;
-  color: ${styles.colors.discordNameColor};
+const ButtonWrapper = styled.div`
+  display: flex;
 `;

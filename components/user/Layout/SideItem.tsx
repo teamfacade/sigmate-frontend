@@ -9,6 +9,7 @@ import {
   Referrals,
   Staking,
 } from 'public/Icons/user/Layout';
+import styles from 'styles/styleLib';
 
 type SVGIcon = ReturnType<typeof Account>;
 
@@ -22,7 +23,6 @@ type IconType = {
   Calendar: SVGIcon;
   Edits: SVGIcon;
   Points: SVGIcon;
-  Tokens: SVGIcon;
   Referrals: SVGIcon;
   Staking: SVGIcon;
 };
@@ -32,7 +32,6 @@ const Icons: IconType = {
   Calendar,
   Edits,
   Points,
-  Tokens: Points,
   Referrals,
   Staking,
 };
@@ -56,7 +55,7 @@ export default memo(function SideItem({
     >
       <Wrapper name={IconName} Active={Active}>
         <Icon fill={Active ? '#2563EB' : '#DADEE5'} />
-        <p>{Content}</p>
+        <p>{`${Content}${Content === 'Points' ? ' / Tokens' : ''}`}</p>
       </Wrapper>
     </ClientLink>
   );
@@ -65,7 +64,6 @@ export default memo(function SideItem({
 const Wrapper = styled.button<{ Active: boolean }>`
   display: flex;
   align-items: center;
-  max-width: 256px;
   padding: 15px 120px 15px 0;
   border: none;
   background-color: transparent;
@@ -78,7 +76,7 @@ const Wrapper = styled.button<{ Active: boolean }>`
 
   p {
     margin: 0;
-    color: ${({ Active }) => (Active ? '#2563EB' : '#606C80')};
+    color: ${({ Active }) => (Active ? '#2563EB' : styles.colors.dimTextColor)};
     font-size: 15px;
     font-weight: bold;
   }

@@ -1,5 +1,6 @@
 import { memo, MouseEventHandler, useState, useCallback } from 'react';
 import styled from 'styled-components';
+import type { MintingType } from 'containers/user/calendar';
 import { SectionWrapper } from 'components/global';
 import { Mintings, MintDetail } from 'components/user/calendar';
 import { Close as CloseIcon } from 'public/Icons/global';
@@ -7,75 +8,19 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   date?: string;
+  mintings: MintingType[];
   onClick: MouseEventHandler<HTMLButtonElement>;
-};
-
-export type MintingType = {
-  name: string;
-  publisher: string;
-  thumbnailURL: string;
-  date: string;
-  price: string;
-  wikiPage?: string;
-  mintPage?: string;
 };
 
 /* @todo
   1. 사용자가 민팅 세부 정보를 누를 때마다 O(n) 만큼의 탐색 없이 바로 데이터를 찾을 수 있는 방법?
   2. shallow comparison 때문에 매번 리렌더링되는 MintDetail의 성능 개선
 */
-export default memo(function CalendarModal({ date, onClick }: PropsType) {
-  const mintings: MintingType[] = [
-    {
-      name: '#56382',
-      publisher: 'Neon District Statistics One Team',
-      thumbnailURL: '',
-      date: '24.12.2022',
-      price: '10ETH',
-    },
-    {
-      name: '#34382',
-      publisher: 'Neon District Statistics One Team',
-      thumbnailURL: '',
-      date: '24.12.2022',
-      price: '10ETH',
-    },
-    {
-      name: '#19',
-      publisher: 'Neon District Statistics One Team',
-      thumbnailURL: '',
-      date: '24.12.2022',
-      price: '10ETH',
-    },
-    {
-      name: '#2382',
-      publisher: 'Neon District Statistics One Team',
-      thumbnailURL: '',
-      date: '24.12.2022',
-      price: '10ETH',
-    },
-    {
-      name: '#655',
-      publisher: 'Neon District Statistics One Team',
-      thumbnailURL: '',
-      date: '24.12.2022',
-      price: '10ETH',
-    },
-    {
-      name: '#56383',
-      publisher: 'Neon District Statistics One Team',
-      thumbnailURL: '',
-      date: '24.12.2022',
-      price: '10ETH',
-    },
-    {
-      name: '#56384',
-      publisher: 'Neon District Statistics One Team',
-      thumbnailURL: '',
-      date: '24.12.2022',
-      price: '10ETH',
-    },
-  ];
+export default memo(function CalendarModal({
+  date,
+  mintings,
+  onClick,
+}: PropsType) {
   const [showDetail, setShowDetail] = useState('');
 
   const onClickMintItem: MouseEventHandler<HTMLDivElement> = useCallback(
@@ -139,9 +84,9 @@ const Modal = styled.div`
 
 const Close = styled.button`
   position: absolute;
-  top: 0;
+  top: -3px;
   right: 0;
-  margin: 28px 32px 16px 0;
+  margin: 0;
   border: none;
   background-color: transparent;
   color: #c7cdd6;
@@ -156,7 +101,7 @@ const Close = styled.button`
 
 const Back = styled(Close)<{ show: boolean }>`
   display: ${({ show }) => (show ? 'initial' : 'none')};
-  top: 13px;
+  top: -18px;
   right: 50px;
   font-size: 50px;
   margin: 0 30px 0 0;

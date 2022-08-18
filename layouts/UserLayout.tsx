@@ -25,11 +25,6 @@ export default function UserLayout({ children }: PropsType) {
           <SideItemsWrapper>
             <SideItem IconName="Account" Content="Account" Active={!current} />
             <SideItem
-              IconName="Tokens"
-              Content="Tokens"
-              Active={current === 'tokens'}
-            />
-            <SideItem
               IconName="Points"
               Content="Points"
               Active={current === 'points'}

@@ -46,14 +46,15 @@ const Textarea = styled.textarea<{ inputHeight: string }>`
   height: ${({ inputHeight }) => inputHeight};
   padding: 5px 10px;
   margin: 0 0 5px 0;
-  border: 1px solid #ebeef2;
+  border: 1px solid ${styles.colors.lightBorderColor};
   border-radius: 8px;
-  background-color: transparent;
+  background-color: #fafbfc;
   color: ${styles.colors.textColor};
   line-height: 27px;
   font-size: 18px;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
+  resize: none;
 
   :focus {
     outline: none;
@@ -74,8 +75,9 @@ const Content = styled.span<{ inputHeight: string }>`
 `;
 
 const Description = memo(styled.p`
-  margin: 0;
-  color: ${styles.colors.textColor};
-  font-size: 16px;
+  margin: 12px 0 0 0;
+  padding-left: 10px;
+  color: ${styles.colors.logoColor};
+  font-size: 14px;
   white-space: pre-wrap;
 `);

@@ -1,39 +1,45 @@
+import Link from 'next/link';
 import styled from 'styled-components';
-import styles from 'styles/styleLib';
 import { SNSBtn } from '.';
 
 export default function SocialLinks() {
   return (
     <Wrapper>
-      <Subheader>Social Links</Subheader>
       <LinkWrapper>
-        <SNSBtn platform="Twitter" />
-        <SNSBtn platform="Telegram" />
-        <SNSBtn platform="Discord" />
-        <SNSBtn platform="Medium" />
+        <Link href="https://twitter.com/SigmateOfficial">
+          <a>
+            <SNSBtn platform="Twitter" />
+          </a>
+        </Link>
+        <Link href="https://t.me/sigmateofficial">
+          <a>
+            <SNSBtn platform="Telegram" />
+          </a>
+        </Link>
+        <Link href="https://discord.gg/sprK4kWDze">
+          <a>
+            <SNSBtn platform="Discord" />
+          </a>
+        </Link>
+        <Link href="https://medium.com/@sigmateofficial">
+          <a>
+            <SNSBtn platform="Medium" />
+          </a>
+        </Link>
       </LinkWrapper>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 50px;
-`;
-
-const Subheader = styled.p`
-  margin: 0 0 10px 0;
-  color: ${styles.colors.textColor};
-  font-size: 18px;
-  font-weight: 500;
 `;
 
 const LinkWrapper = styled.div`
   display: flex;
-  width: 100%;
   overflow-x: scroll;
 
   button {
@@ -42,6 +48,7 @@ const LinkWrapper = styled.div`
     height: 48px;
     border: none;
     border-radius: 8px;
+    cursor: pointer;
 
     svg {
       position: absolute;
@@ -51,7 +58,7 @@ const LinkWrapper = styled.div`
     }
   }
 
-  button + button {
+  a + a {
     margin-left: 15px;
   }
 `;

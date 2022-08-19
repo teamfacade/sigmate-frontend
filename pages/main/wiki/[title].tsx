@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { EditBlock } from 'containers/main/wiki';
+import { Title } from 'components/main/wiki/edit';
 import styled from 'styled-components';
 
 type BlockType = {
@@ -37,7 +38,7 @@ const createNewBlock = (tag: string) => ({
 });
 
 export default function WikiEdit() {
-  // const [title, setTitle] = useState(ExArticle.title);
+  const [title, setTitle] = useState(ExArticle.title);
   const [blocks, setBlocks] = useState<BlockType[]>(ExArticle.blocks);
 
   const onClickSelect: (id: number, tag: string) => void = useCallback(
@@ -53,10 +54,7 @@ export default function WikiEdit() {
   );
 
   const removeBlock: (id: number) => void = useCallback((id) => {
-    setBlocks((curState) => {
-      const newState = curState.filter((block) => block.id !== id);
-      return newState || curState;
-    });
+    setBlocks((curState) => curState.filter((block) => block.id !== id));
   }, []);
 
   const onFinishFix: (id: number, content: string) => void = useCallback(
@@ -73,9 +71,7 @@ export default function WikiEdit() {
 
   return (
     <Wrapper>
-      <span>Title: </span>
-      <input type="text" />
-      <hr />
+      <Title title={title} setTitle={setTitle} onClickSelect={onClickSelect} />
       {blocks.map((block) => {
         return (
           <EditBlock

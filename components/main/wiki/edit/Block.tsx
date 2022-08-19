@@ -11,8 +11,9 @@ import styled from 'styled-components';
 
 type PropsType = {
   id: number;
+  isTitle?: boolean;
   onClickSelect: (id: number, tag: string) => void;
-  removeBlock: (id: number) => void;
+  removeBlock?: (id: number) => void;
   children: ReactNode;
 };
 
@@ -33,6 +34,7 @@ const options: OptionType[] = [
 
 export default memo(function Block({
   id,
+  isTitle,
   onClickSelect,
   removeBlock,
   children,
@@ -55,7 +57,7 @@ export default memo(function Block({
 
   const onClickRemove: MouseEventHandler<HTMLButtonElement> =
     useCallback(() => {
-      removeBlock(id);
+      if (removeBlock) removeBlock(id);
     }, [removeBlock, id]);
 
   const onChange: SelectChangeEventHandler = useCallback(
@@ -80,7 +82,7 @@ export default memo(function Block({
         {showBtn && (
           <>
             <Btn onClick={onClickAdd}>+</Btn>
-            <Btn onClick={onClickRemove}>-</Btn>
+            {!isTitle && <Btn onClick={onClickRemove}>-</Btn>}
           </>
         )}
         {showSelect && (

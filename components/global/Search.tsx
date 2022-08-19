@@ -16,6 +16,7 @@ export default memo(function Search({
   return (
     <SearchForm transparent={!!transparentBg} onSubmit={onSubmit}>
       <SearchBar
+        name="bar"
         placeholder={placeholder || 'Search...'}
         underline={!!transparentBg}
       />

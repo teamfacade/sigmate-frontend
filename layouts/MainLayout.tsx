@@ -1,14 +1,15 @@
-import { ReactNode } from 'react';
+import { FormEventHandler, ReactNode, useCallback } from 'react';
 import styled from 'styled-components';
 import { SideContent } from 'containers/main/layout';
 import { Search } from 'components/global';
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  onSearch: FormEventHandler<HTMLFormElement>;
   children: ReactNode;
 };
 
-export default function MainLayout({ children }: PropsType) {
+export default function MainLayout({ onSearch, children }: PropsType) {
   return (
     <main>
       <div style={{ display: 'flex' }}>
@@ -17,7 +18,7 @@ export default function MainLayout({ children }: PropsType) {
             <MainContentWrapper>{children}</MainContentWrapper>
           </section>
           <aside>
-            <Search placeholder="Search content..." />
+            <Search placeholder="Search content..." onSubmit={onSearch} />
             <SideContentWrapper>
               <SideContent />
             </SideContentWrapper>

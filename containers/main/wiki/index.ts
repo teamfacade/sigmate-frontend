@@ -1,1 +1,1 @@
-export { default as BlockComponent } from './BlockComponent';
+export { default as EditBlock } from './EditBlock';

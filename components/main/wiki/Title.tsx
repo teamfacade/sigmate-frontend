@@ -8,13 +8,13 @@ type PropsType = {
 export default memo(function Heading({ content }: PropsType) {
   return (
     <>
-      <H3>{content}</H3>
+      <H1>{content}</H1>
       <Hr />
     </>
   );
 });
 
-const H3 = memo(styled.h3`
+const H1 = memo(styled.h1`
   margin: 0;
   margin-bottom: 10px;
 `);

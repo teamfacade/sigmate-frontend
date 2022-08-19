@@ -1,11 +1,16 @@
 import { useState, useCallback } from 'react';
-import { BlockComponent } from 'containers/main/wiki';
+import { EditBlock } from 'containers/main/wiki';
 import styled from 'styled-components';
 
 type BlockType = {
   id: number;
   tag: string;
   content: string;
+};
+
+type ArticleType = {
+  title: string;
+  blocks: BlockType[];
 };
 
 const ExBlocks: BlockType[] = [
@@ -20,14 +25,20 @@ const ExBlocks: BlockType[] = [
   },
 ];
 
+const ExArticle: ArticleType = {
+  title: 'Example',
+  blocks: ExBlocks,
+};
+
 const createNewBlock = (tag: string) => ({
   id: Date.now(),
   tag,
-  content: 'Input Contents...',
+  content: '',
 });
 
 export default function WikiEdit() {
-  const [blocks, setBlocks] = useState<BlockType[]>(ExBlocks);
+  // const [title, setTitle] = useState(ExArticle.title);
+  const [blocks, setBlocks] = useState<BlockType[]>(ExArticle.blocks);
 
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
@@ -40,6 +51,13 @@ export default function WikiEdit() {
     },
     []
   );
+
+  const removeBlock: (id: number) => void = useCallback((id) => {
+    setBlocks((curState) => {
+      const newState = curState.filter((block) => block.id !== id);
+      return newState || curState;
+    });
+  }, []);
 
   const onFinishFix: (id: number, content: string) => void = useCallback(
     (id, content) => {
@@ -60,13 +78,13 @@ export default function WikiEdit() {
       <hr />
       {blocks.map((block) => {
         return (
-          <BlockComponent
+          <EditBlock
             key={block.id}
-            edit
             id={block.id}
             tag={block.tag}
             content={block.content}
             onClickSelect={onClickSelect}
+            removeBlock={removeBlock}
             onFinishFix={onFinishFix}
           />
         );

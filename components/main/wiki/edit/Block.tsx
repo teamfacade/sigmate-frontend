@@ -12,6 +12,7 @@ import styled from 'styled-components';
 type PropsType = {
   id: number;
   onClickSelect: (id: number, tag: string) => void;
+  removeBlock: (id: number) => void;
   children: ReactNode;
 };
 
@@ -30,9 +31,10 @@ const options: OptionType[] = [
   { value: 'h', label: 'Heading' },
 ];
 
-export default memo(function EditBlock({
+export default memo(function Block({
   id,
   onClickSelect,
+  removeBlock,
   children,
 }: PropsType) {
   const [showBtn, setShowBtn] = useState(false);
@@ -50,6 +52,11 @@ export default memo(function EditBlock({
     setShowBtn(false);
     setShowSelect(true);
   }, []);
+
+  const onClickRemove: MouseEventHandler<HTMLButtonElement> =
+    useCallback(() => {
+      removeBlock(id);
+    }, [removeBlock, id]);
 
   const onChange: SelectChangeEventHandler = useCallback(
     (selected) => {
@@ -73,7 +80,7 @@ export default memo(function EditBlock({
         {showBtn && (
           <>
             <Btn onClick={onClickAdd}>+</Btn>
-            <Btn>-</Btn>
+            <Btn onClick={onClickRemove}>-</Btn>
           </>
         )}
         {showSelect && (

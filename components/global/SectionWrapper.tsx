@@ -1,5 +1,6 @@
 import { memo, ReactNode } from 'react';
 import styled from 'styled-components';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   header: string;
@@ -38,5 +39,5 @@ const Wrapper = styled.div<{ marginBottom: string | undefined }>`
 
 const Heading = styled.h3`
   margin: 0;
-  color: #323c4d;
+  color: ${styles.colors.headerColor};
 `;

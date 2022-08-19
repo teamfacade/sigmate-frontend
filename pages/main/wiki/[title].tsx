@@ -1,11 +1,13 @@
 import { InferGetStaticPropsType, GetStaticPropsContext } from 'next';
 import { getAllArticleTitles, getArticleData } from 'lib/main/wiki/getWikiData';
 import { WikiEdit } from 'containers/main/wiki/edit';
+import { NoArticleYet } from 'components/main/wiki/read';
 
 export default function WikiPage({
   article,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  if (article.blocks.length === 0) return <div>No article yet</div>;
+  if (article.blocks.length === 0)
+    return <NoArticleYet title={article.title} />;
   return <WikiEdit article={article} />;
 }
 

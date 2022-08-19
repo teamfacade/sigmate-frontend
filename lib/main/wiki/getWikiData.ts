@@ -1,4 +1,4 @@
-type BlockType = {
+export type BlockType = {
   id: number;
   tag: string;
   content: string;
@@ -7,6 +7,29 @@ type BlockType = {
 const ExBlocks: BlockType[] = [
   {
     id: 1,
+    tag: 'p',
+    content:
+      'the cites of the word in classical literature, discovere\n' +
+      'of "de Finibus Bonorum et Malorum" (The Extremes of G\n' +
+      'ethics, very popular during the Renaissance. The first \n' +
+      'line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
+  },
+  {
+    id: 2,
+    tag: 'h',
+    content: 'Content',
+  },
+  {
+    id: 3,
+    tag: 'p',
+    content:
+      'the cites of the word in classical literature, discovere\n' +
+      'of "de Finibus Bonorum et Malorum" (The Extremes of G\n' +
+      'ethics, very popular during the Renaissance. The first \n' +
+      'line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
+  },
+  {
+    id: 4,
     tag: 'p',
     content:
       'the cites of the word in classical literature, discovere\n' +

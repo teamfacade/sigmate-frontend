@@ -1,16 +1,11 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import type { BlockType } from 'lib/main/wiki/getWikiData';
 import { EditBlock } from 'containers/main/wiki/edit';
 import { Title } from 'components/main/wiki/edit';
 import styled from 'styled-components';
 
-type BlockType = {
-  id: number;
-  tag: string;
-  content: string;
-};
-
-type ArticleType = {
+export type ArticleType = {
   title: string;
   blocks: BlockType[];
 };

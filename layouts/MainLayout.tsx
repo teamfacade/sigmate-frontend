@@ -1,4 +1,4 @@
-import { FormEventHandler, ReactNode, useCallback } from 'react';
+import { FormEventHandler, ReactNode } from 'react';
 import styled from 'styled-components';
 import { SideContent } from 'containers/main/layout';
 import { Search } from 'components/global';

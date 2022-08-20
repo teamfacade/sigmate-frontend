@@ -6,8 +6,7 @@ import {
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { getArticleEditData, BlockType } from 'lib/main/wiki/getWikiData';
-import { WikiEdit } from 'containers/main/wiki/edit';
-import { Summary } from 'components/main/wiki/edit';
+import { WikiEdit, Summary } from 'containers/main/wiki/edit';
 
 export default function WikiEditPage({
   article,
@@ -27,7 +26,12 @@ export default function WikiEditPage({
 
   return (
     <>
-      <WikiEdit title={article.title} blocks={blocks} setBlocks={setBlocks} />
+      <WikiEdit
+        newArticle={false}
+        title={article.title}
+        blocks={blocks}
+        setBlocks={setBlocks}
+      />
       <Summary summary={summary} onChange={onSummaryChange} onClick={onSave} />
     </>
   );

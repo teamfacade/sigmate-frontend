@@ -2,7 +2,7 @@ import { useCallback, SetStateAction, Dispatch, memo } from 'react';
 import styled from 'styled-components';
 import type { BlockType } from 'lib/main/wiki/getWikiData';
 import { EditBlock } from 'containers/main/wiki/edit';
-import { Title } from 'components/main/wiki/edit';
+import { Title, EditableTitle } from 'components/main/wiki/edit';
 import styles from 'styles/styleLib';
 
 export type ArticleType = {
@@ -11,7 +11,9 @@ export type ArticleType = {
 };
 
 type PropsType = {
+  newArticle: boolean;
   title: string;
+  setTitle?: Dispatch<SetStateAction<string>>;
   blocks: BlockType[];
   setBlocks: Dispatch<SetStateAction<BlockType[]>>;
 };
@@ -22,7 +24,13 @@ const createNewBlock = (tag: string) => ({
   content: '',
 });
 
-export default memo(function WikiEdit({ title, blocks, setBlocks }: PropsType) {
+export default memo(function WikiEdit({
+  newArticle,
+  title,
+  setTitle,
+  blocks,
+  setBlocks,
+}: PropsType) {
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
       setBlocks((curState) => {
@@ -53,8 +61,15 @@ export default memo(function WikiEdit({ title, blocks, setBlocks }: PropsType) {
 
   return (
     <div>
-      <Title title={title} onClickSelect={onClickSelect} />
+      {!newArticle && <Title title={title} onClickSelect={onClickSelect} />}
       <ContentWrapper>
+        {newArticle && (
+          <EditableTitle
+            title={title}
+            setTitle={setTitle}
+            onClickSelect={onClickSelect}
+          />
+        )}
         {blocks.map((block) => {
           return (
             <EditBlock

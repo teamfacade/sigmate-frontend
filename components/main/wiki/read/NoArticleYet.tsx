@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
@@ -11,7 +12,11 @@ export default function NoArticleYet({ title }: PropsType) {
       <h1>{title}</h1>
       <FlexWrapper>
         <p>Can&apos;t find what you are looking for?</p>
-        <button type="button">Create new article</button>
+        <button type="button">
+          <Link href="/main/wiki-new-article">
+            <a>Create new article</a>
+          </Link>
+        </button>
       </FlexWrapper>
     </Wrapper>
   );
@@ -45,8 +50,11 @@ const FlexWrapper = styled.div`
     border: none;
     border-radius: 8px;
     background-color: ${styles.colors.emphColor};
-    color: #ffffff;
     font-size: 18px;
     cursor: pointer;
+
+    a {
+      color: #ffffff;
+    }
   }
 `;

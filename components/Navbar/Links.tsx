@@ -8,7 +8,7 @@ export default memo(function Links() {
   return (
     <LinksWrapper>
       <li>
-        <Link href="/main/recentEdits">
+        <Link href="/main/recent-edits">
           <a>Recent Edits</a>
         </Link>
       </li>

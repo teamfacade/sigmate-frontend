@@ -66,10 +66,7 @@ export default memo(function Heading({
             onKeyDown={onKeyDown}
           />
         ) : (
-          <>
-            <H1>{title}</H1>
-            <Hr />
-          </>
+          <H1>{title}</H1>
         )}
       </Button>
     </Block>
@@ -77,10 +74,5 @@ export default memo(function Heading({
 });
 
 const H1 = memo(styled.h1`
-  margin: 0;
-  margin-bottom: 10px;
-`);
-
-const Hr = memo(styled.hr`
-  margin: 0;
+  margin: 0 0 40px 0;
 `);

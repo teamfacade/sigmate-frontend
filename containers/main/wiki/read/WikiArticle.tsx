@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { ArticleType } from 'containers/main/wiki/edit/WikiEdit';
 import { Title, ReadComponent } from 'components/main/wiki/read';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   article: ArticleType;
@@ -19,10 +20,27 @@ export default function WikiArticle({ article }: PropsType) {
           />
         );
       })}
+      <EditBtn>Edit</EditBtn>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
+  position: relative;
   padding-left: 80px;
+`;
+
+const EditBtn = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 133px;
+  height: 45px;
+  border: none;
+  border-radius: 8px;
+  background-color: ${styles.colors.emphColor};
+  color: #ffffff;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
 `;

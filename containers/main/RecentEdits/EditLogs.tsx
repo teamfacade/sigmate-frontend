@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import type { EditType } from 'pages/main/RecentEdits';
+import type { EditType } from 'pages/main/recent-edits';
 import { LogTable } from 'components/global';
 import { LogHead, LogItem } from 'components/main/RecentEdits';
 

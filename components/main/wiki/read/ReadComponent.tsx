@@ -17,7 +17,7 @@ const Components: StringKeyObj<typeof Paragraph> = {
   h: Heading,
 };
 
-export default memo(function EditComponent({ tag, content }: PropsType) {
+export default memo(function ReadComponent({ tag, content }: PropsType) {
   const Component = Components[tag];
 
   switch (tag) {

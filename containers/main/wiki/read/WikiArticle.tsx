@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { ArticleType } from 'containers/main/wiki/edit/WikiEdit';
 import { Title, ReadComponent } from 'components/main/wiki/read';
@@ -20,7 +21,11 @@ export default function WikiArticle({ article }: PropsType) {
           />
         );
       })}
-      <EditBtn>Edit</EditBtn>
+      <EditBtn>
+        <Link href={`/main/wiki-edit/${article.title}`}>
+          <a>Edit</a>
+        </Link>
+      </EditBtn>
     </Wrapper>
   );
 }
@@ -39,8 +44,11 @@ const EditBtn = styled.button`
   border: none;
   border-radius: 8px;
   background-color: ${styles.colors.emphColor};
-  color: #ffffff;
   font-size: 18px;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
+
+  a {
+    color: #ffffff;
+  }
 `;

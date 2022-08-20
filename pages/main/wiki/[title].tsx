@@ -1,5 +1,8 @@
 import { InferGetStaticPropsType, GetStaticPropsContext } from 'next';
-import { getAllArticleTitles, getArticleData } from 'lib/main/wiki/getWikiData';
+import {
+  getAllArticleTitles,
+  getArticleReadData,
+} from 'lib/main/wiki/getWikiData';
 import { WikiArticle } from 'containers/main/wiki/read';
 import { NoArticleYet } from 'components/main/wiki/read';
 
@@ -29,7 +32,7 @@ export async function getStaticPaths() {
 // direct database queries.
 export async function getStaticProps({ params }: GetStaticPropsContext) {
   // @todo Fetch necessary data for the wiki article using params.title
-  const article = getArticleData(params?.title as string);
+  const article = getArticleReadData(params?.title as string);
   return {
     props: {
       article,

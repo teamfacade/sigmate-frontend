@@ -1,9 +1,9 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useCallback, SetStateAction, Dispatch, memo } from 'react';
+import styled from 'styled-components';
 import type { BlockType } from 'lib/main/wiki/getWikiData';
 import { EditBlock } from 'containers/main/wiki/edit';
 import { Title } from 'components/main/wiki/edit';
-import styled from 'styled-components';
+import styles from 'styles/styleLib';
 
 export type ArticleType = {
   title: string;
@@ -11,7 +11,9 @@ export type ArticleType = {
 };
 
 type PropsType = {
-  article: ArticleType;
+  title: string;
+  blocks: BlockType[];
+  setBlocks: Dispatch<SetStateAction<BlockType[]>>;
 };
 
 const createNewBlock = (tag: string) => ({
@@ -20,16 +22,7 @@ const createNewBlock = (tag: string) => ({
   content: '',
 });
 
-export default function WikiEdit({ article }: PropsType) {
-  const [title, setTitle] = useState(article.title);
-  const [blocks, setBlocks] = useState<BlockType[]>(article.blocks);
-  const router = useRouter();
-
-  useEffect(() => {
-    setTitle(article.title);
-    setBlocks(article.blocks);
-  }, [router.query.title]);
-
+export default memo(function WikiEdit({ title, blocks, setBlocks }: PropsType) {
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
       setBlocks((curState) => {
@@ -59,25 +52,32 @@ export default function WikiEdit({ article }: PropsType) {
   );
 
   return (
-    <Wrapper>
-      <Title title={title} setTitle={setTitle} onClickSelect={onClickSelect} />
-      {blocks.map((block) => {
-        return (
-          <EditBlock
-            key={block.id}
-            id={block.id}
-            tag={block.tag}
-            content={block.content}
-            onClickSelect={onClickSelect}
-            removeBlock={removeBlock}
-            onFinishFix={onFinishFix}
-          />
-        );
-      })}
-    </Wrapper>
+    <div>
+      <Title title={title} onClickSelect={onClickSelect} />
+      <ContentWrapper>
+        {blocks.map((block) => {
+          return (
+            <EditBlock
+              key={block.id}
+              id={block.id}
+              tag={block.tag}
+              content={block.content}
+              onClickSelect={onClickSelect}
+              removeBlock={removeBlock}
+              onFinishFix={onFinishFix}
+            />
+          );
+        })}
+      </ContentWrapper>
+    </div>
   );
-}
+});
 
-const Wrapper = styled.div`
-  padding-left: 80px;
+const ContentWrapper = styled.div`
+  height: 870px;
+  padding: 39px 49px 39px 60px;
+  border: 1px solid ${styles.colors.darkBorderColor};
+  border-radius: 8px;
+  background-color: ${styles.colors.tableRowColor};
+  overflow-y: scroll;
 `;

@@ -16,6 +16,7 @@ const colors = {
   tableRowColor: '#FAFBFC' as const,
   hrColor: '#DEDEDE' as const,
   lightBorderColor: '#EBEEF2' as const,
+  darkBorderColor: '#E4E4E4' as const,
   profileDescriptionColor: '#A3B6CC' as const,
   profileNameColor: '#294566' as const,
   twitterNameColor: '#349CE2' as const,
@@ -27,7 +28,7 @@ const colors = {
 };
 
 const shadows = {
-  containerShadow: `0 1px 3px 0 #E4E4E4`,
+  containerShadow: `0 1px 3px 0 ${colors.darkBorderColor}`,
   modalShadow: '0 4px 4px 0 rgba(0, 0, 0, .25)',
 };
 

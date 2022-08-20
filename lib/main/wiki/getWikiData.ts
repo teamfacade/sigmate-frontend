@@ -73,7 +73,7 @@ export function getAllArticleTitles() {
   });
 }
 
-export function getArticleData(title: string) {
+export function getArticleReadData(title: string) {
   /*
         Returns an object that has all needed data to render wiki page,
         which looks like this:
@@ -84,6 +84,16 @@ export function getArticleData(title: string) {
         }
     */
 
+  // @todo blocks 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
+  const blocks: BlockType[] = title === 'empty' ? [] : ExBlocks;
+
+  return {
+    title,
+    blocks,
+  };
+}
+
+export function getArticleEditData(title: string) {
   // @todo blocks 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
   const blocks: BlockType[] = title === 'empty' ? [] : ExBlocks;
 

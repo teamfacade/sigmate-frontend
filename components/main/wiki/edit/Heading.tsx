@@ -15,8 +15,8 @@ export default memo(function Heading({ content }: PropsType) {
 });
 
 const H3 = memo(styled.h3`
-  margin: 0;
-  margin-bottom: 10px;
+  margin: 0 0 10px 0;
+  font-family: 'Inter', sans-serif;
 `);
 
 const Hr = memo(styled.hr`

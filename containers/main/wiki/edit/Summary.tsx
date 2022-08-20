@@ -24,10 +24,14 @@ export default memo(function Summary({
       <DisclaimWrapper>
         <input type="checkbox" />
         <span>
-          undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance.
+          undoubtable source. Lorem Ipsum comes from sections 1.10.32 and
+          1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and
+          Evil) by Cicero, written in 45 BC. This book is a treatise on the
+          theory of ethics, very popular during the Renaissance.
         </span>
         <Disclaimer>
-          comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
+          comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et
+          Malorum"
         </Disclaimer>
       </DisclaimWrapper>
       <SaveBtn onClick={onClick}>Save</SaveBtn>

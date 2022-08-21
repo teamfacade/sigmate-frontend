@@ -25,6 +25,9 @@ const colors = {
   discordNameColor: '#5566AA' as const,
   discordBackgroundColor: '#CCD5F3' as const,
   discordBorderColor: '#A7B7EB' as const,
+  lightThumbsUpColor: '#EEF7FF' as const,
+  lightWarningColor: '#FBEFEF' as const,
+  warningColor: '#DC2626' as const,
 };
 
 const shadows = {

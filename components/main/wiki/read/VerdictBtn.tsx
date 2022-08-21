@@ -16,7 +16,7 @@ type PropsType = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   name: string;
   content?: string;
-  voted: 'ThumbsUp' | 'Warning' | '';
+  voted: string;
   commented?: boolean;
 };
 
@@ -29,14 +29,14 @@ const Icons: StringKeyObj<typeof ThumbsUp> = {
 
 const colors: ColorsType = {
   background: {
-    ThumbsUp: '#EEF7FF',
-    Warning: '#FBEFEF',
+    ThumbsUp: styles.colors.lightThumbsUpColor,
+    Warning: styles.colors.lightWarningColor,
     Comment: '#EEF7FF',
     More: 'transparent',
   },
   content: {
     ThumbsUp: styles.colors.emphColor,
-    Warning: '#DC2626',
+    Warning: styles.colors.warningColor,
     Comment: '#377BFF',
     More: '#727272',
   },

@@ -14,17 +14,19 @@ import styles from 'styles/styleLib';
 type PropsType = {
   id: number;
   setShowVerdictModal: Dispatch<SetStateAction<number>>;
+  voted: string;
+  onClickVerdict: MouseEventHandler<HTMLButtonElement>;
   children: ReactNode;
 };
 
 export default memo(function VerdictBlock({
   id,
   setShowVerdictModal,
+  voted,
+  onClickVerdict,
   children,
 }: PropsType) {
   const [showBtn, setShowBtn] = useState(false);
-  const [showSelect, setShowSelect] = useState(false);
-  const [voted, setVoted] = useState<'ThumbsUp' | 'Warning' | ''>('');
   const [commented, setCommented] = useState(false);
 
   const onMouseEnter: MouseEventHandler<HTMLDivElement> = useCallback(
@@ -38,12 +40,6 @@ export default memo(function VerdictBlock({
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       switch (e.currentTarget.name) {
-        case 'ThumbsUp':
-          setVoted('ThumbsUp');
-          break;
-        case 'Warning':
-          setVoted('Warning');
-          break;
         case 'Comment':
           setShowBtn(false);
           setCommented(true);
@@ -65,13 +61,13 @@ export default memo(function VerdictBlock({
       {showBtn && (
         <BtnWrapper>
           <VerdictBtn
-            onClick={onClick}
+            onClick={onClickVerdict}
             name="ThumbsUp"
             content="2400"
             voted={voted}
           />
           <VerdictBtn
-            onClick={onClick}
+            onClick={onClickVerdict}
             name="Warning"
             content="351"
             voted={voted}

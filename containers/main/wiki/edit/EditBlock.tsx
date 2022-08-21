@@ -18,7 +18,7 @@ type PropsType = {
   removeBlock: (id: number) => void;
 };
 
-export default memo(function BlockComponent({
+export default memo(function EditBlock({
   id,
   tag,
   content,

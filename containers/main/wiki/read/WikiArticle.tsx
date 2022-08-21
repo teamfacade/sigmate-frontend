@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { ArticleType } from 'containers/main/wiki/edit/WikiEdit';
-import { Title, ReadComponent } from 'components/main/wiki/read';
+import { ReadBlock } from 'containers/main/wiki/read';
+import { Title } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
 
 type PropsType = {
@@ -9,15 +11,19 @@ type PropsType = {
 };
 
 export default function WikiArticle({ article }: PropsType) {
+  const [showVerdictModal, setShowVerdictModal] = useState(-1);
+
   return (
     <Wrapper>
       <Title title={article.title} />
       {article.blocks.map((block) => {
         return (
-          <ReadComponent
+          <ReadBlock
             key={block.id}
+            id={block.id}
             tag={block.tag}
             content={block.content}
+            setShowVerdictModal={setShowVerdictModal}
           />
         );
       })}

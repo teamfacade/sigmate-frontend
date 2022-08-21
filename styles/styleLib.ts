@@ -28,6 +28,7 @@ const colors = {
 };
 
 const shadows = {
+  verdictBtnShadow: '0 4px 10px 0 rgba(58, 63, 69, .15)',
   containerShadow: `0 1px 3px 0 ${colors.darkBorderColor}`,
   modalShadow: '0 4px 4px 0 rgba(0, 0, 0, .25)',
 };

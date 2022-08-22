@@ -40,6 +40,7 @@ export default function VerdictModal({
           />
         </VerdictBtnWrapper>
         <CommunityVerdict
+          verdict={verdict}
           showCommVerdict={showCommVerdict}
           onClick={onClickShowCommVerdict}
         />
@@ -63,7 +64,7 @@ const Modal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 440px;
+  width: fit-content;
   padding: 19px 24px 30px;
   background-color: #ffffff;
   border-radius: 8px;

@@ -80,6 +80,10 @@ const Btn = styled.button<{ activate: boolean; name: string }>`
     activate ? colors.content.activated[name] : colors.content.normal[name]};
   cursor: pointer;
 
+  & + & {
+    margin-left: 13px;
+  }
+
   :hover {
     background-color: ${({ name }) => colors.background.activated[name]};
     color: ${({ name }) => colors.content.activated[name]};

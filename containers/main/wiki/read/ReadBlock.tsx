@@ -22,6 +22,11 @@ type PropsType = {
   onMouseDown: MouseEventHandler<HTMLDivElement>;
 };
 
+export type VoteType = {
+  voted: string;
+  timestamp: string;
+};
+
 export default memo(function ReadBlock({
   id,
   tag,
@@ -31,10 +36,16 @@ export default memo(function ReadBlock({
   setShowVerdictModal,
   onMouseDown,
 }: PropsType) {
-  const [voted, setVoted] = useState(verdict?.voted || '');
+  const [vote, setVote] = useState<VoteType>({
+    voted: verdict?.voted || '',
+    timestamp: new Date(Date.now()).toISOString(),
+  });
   const onClickVerdict: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
-      setVoted(e.currentTarget.name);
+      setVote({
+        voted: e.currentTarget.name,
+        timestamp: new Date(Date.now()).toISOString(),
+      });
     },
     [verdict]
   );
@@ -44,7 +55,7 @@ export default memo(function ReadBlock({
       <VerdictBlock
         id={id}
         setShowVerdictModal={setShowVerdictModal}
-        voted={voted}
+        voted={vote.voted}
         verdict={verdict}
         onClickVerdict={onClickVerdict}
       >
@@ -57,6 +68,7 @@ export default memo(function ReadBlock({
         unmountOnExit
       >
         <VerdictModal
+          vote={vote}
           verdict={verdict}
           onMouseDown={onMouseDown}
           onClick={onClickVerdict}

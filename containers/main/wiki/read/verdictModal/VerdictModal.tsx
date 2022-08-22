@@ -2,16 +2,22 @@ import { MouseEventHandler, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { VerdictType } from 'lib/main/wiki/getWikiData';
 import { CommunityVerdict } from 'containers/main/wiki/read/verdictModal';
-import { VerdictModalBtn } from 'components/main/wiki/read/verdictModal';
+import {
+  VerdictModalBtn,
+  VerdictLog,
+} from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
+import { VoteType } from '../ReadBlock';
 
 type PropsType = {
+  vote: VoteType;
   verdict: VerdictType;
   onMouseDown: MouseEventHandler<HTMLDivElement>;
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default function VerdictModal({
+  vote,
   verdict,
   onMouseDown,
   onClick,
@@ -28,17 +34,14 @@ export default function VerdictModal({
       <Modal onMouseDown={(e) => e.stopPropagation()}>
         <Msg>What is your verdict on this content?</Msg>
         <VerdictBtnWrapper>
-          <VerdictModalBtn
-            name="ThumbsUp"
-            voted={verdict?.voted || ''}
-            onClick={onClick}
-          />
+          <VerdictModalBtn name="Verify" voted={vote.voted} onClick={onClick} />
           <VerdictModalBtn
             name="Warning"
-            voted={verdict?.voted || ''}
+            voted={vote.voted}
             onClick={onClick}
           />
         </VerdictBtnWrapper>
+        <VerdictLog vote={vote} />
         <CommunityVerdict
           verdict={verdict}
           showCommVerdict={showCommVerdict}
@@ -75,7 +78,7 @@ const Msg = styled.p`
   margin: 0 0 13px 0;
   color: ${styles.colors.logoColor};
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 140%;
 `;
 

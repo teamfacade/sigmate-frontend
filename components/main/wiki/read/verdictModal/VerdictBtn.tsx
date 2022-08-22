@@ -21,7 +21,7 @@ type PropsType = {
 };
 
 const Icons: StringKeyObj<typeof ThumbsUp> = {
-  ThumbsUp,
+  Verify: ThumbsUp,
   Warning,
   Comment,
   More,
@@ -29,13 +29,13 @@ const Icons: StringKeyObj<typeof ThumbsUp> = {
 
 const colors: ColorsType = {
   background: {
-    ThumbsUp: styles.colors.lightThumbsUpColor,
+    Verify: styles.colors.lightThumbsUpColor,
     Warning: styles.colors.lightWarningColor,
     Comment: '#EEF7FF',
     More: 'transparent',
   },
   content: {
-    ThumbsUp: styles.colors.emphColor,
+    Verify: styles.colors.emphColor,
     Warning: styles.colors.warningColor,
     Comment: '#377BFF',
     More: '#727272',

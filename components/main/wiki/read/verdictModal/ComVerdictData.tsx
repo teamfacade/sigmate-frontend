@@ -23,12 +23,12 @@ export default memo(function ComVerdictData({ show, verdict }: PropsType) {
         </div>
         <FlexWrapper>
           <Details
-            name="verify"
+            name="Verify"
             verify={verdict.verify}
             warning={verdict.warning}
           />
           <Details
-            name="warning"
+            name="Warning"
             verify={verdict.verify}
             warning={verdict.warning}
           />

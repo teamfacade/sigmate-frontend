@@ -65,7 +65,7 @@ export default memo(function VerdictBlock({
         <BtnWrapper>
           <VerdictBtn
             onClick={onClickVerdict}
-            name="ThumbsUp"
+            name="Verify"
             content={verdict?.verify.toString(10)}
             voted={voted}
           />

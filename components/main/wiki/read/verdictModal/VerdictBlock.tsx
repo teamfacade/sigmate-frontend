@@ -6,31 +6,43 @@ import {
   useCallback,
   Dispatch,
   SetStateAction,
+  useMemo,
 } from 'react';
 import styled from 'styled-components';
 import { VerdictType } from 'lib/main/wiki/getWikiData';
 import { VerdictBtn } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
+import { VoteType } from '../../../../../containers/main/wiki/read/WikiArticle';
 
 type PropsType = {
   id: number;
-  setShowVerdictModal: Dispatch<SetStateAction<boolean>>;
-  voted: string;
+  setShowModal: Dispatch<SetStateAction<number>>;
   verdict: VerdictType;
-  onClickVerdict: MouseEventHandler<HTMLButtonElement>;
   children: ReactNode;
 };
 
 export default memo(function VerdictBlock({
   id,
-  setShowVerdictModal,
-  voted,
+  setShowModal,
   verdict,
-  onClickVerdict,
   children,
 }: PropsType) {
   const [showBtn, setShowBtn] = useState(false);
   const [commented, setCommented] = useState(false);
+  const [vote, setVote] = useState<VoteType>({
+    voted: verdict?.voted || '',
+    timestamp: new Date(Date.now()).toISOString(),
+  });
+
+  const onClickVerdict: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      setVote({
+        voted: e.currentTarget.name,
+        timestamp: new Date(Date.now()).toISOString(),
+      });
+    },
+    []
+  );
 
   const onMouseEnter: MouseEventHandler<HTMLDivElement> = useCallback(
     () => setShowBtn(true),
@@ -49,17 +61,29 @@ export default memo(function VerdictBlock({
           break;
         case 'More':
           setShowBtn(false);
-          setShowVerdictModal(true);
+          setShowModal(id);
           break;
         default:
           break;
       }
     },
-    [setShowVerdictModal, id]
+    [id]
   );
 
+  const percentage = useMemo(() => {
+    if (verdict) {
+      const { verify, warning } = verdict;
+      return ((verify / (verify + warning)) * 100).toFixed(1);
+    }
+    return 0;
+  }, [verdict]);
+
   return (
-    <Wrapper onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <Wrapper
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      percentage={percentage}
+    >
       {children}
       {showBtn && (
         <BtnWrapper>
@@ -67,19 +91,19 @@ export default memo(function VerdictBlock({
             onClick={onClickVerdict}
             name="Verify"
             content={verdict?.verify.toString(10)}
-            voted={voted}
+            voted={vote.voted}
           />
           <VerdictBtn
             onClick={onClickVerdict}
             name="Warning"
             content={verdict?.warning.toString(10)}
-            voted={voted}
+            voted={vote.voted}
           />
           <VerdictBtn
             onClick={onClick}
             name="Comment"
             content={verdict?.comments.length.toString(10)}
-            voted={voted}
+            voted={vote.voted}
             commented={commented}
           />
           <VerdictBtn onClick={onClick} name="More" voted="" />
@@ -89,10 +113,21 @@ export default memo(function VerdictBlock({
   );
 });
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ percentage: number }>`
   position: relative;
   padding: 20px;
   border: 1px solid transparent;
+  border-left: 4px solid
+    ${({ percentage }) => {
+      if (percentage > 50)
+        return `rgba(39, 107, 255, ${(((percentage - 50) * 2) / 100).toFixed(
+          2
+        )})`;
+      if (percentage === 50) return 'transparent';
+      return `rgba(220, 38, 38, ${(((50 - percentage) * 2) / 100).toFixed(
+          2
+        )})`;
+    }} !important;
 
   :hover {
     border-color: #276bff;

@@ -1,6 +1,7 @@
 import { MouseEventHandler, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { VerdictType } from 'lib/main/wiki/getWikiData';
+import { VoteType } from 'containers/main/wiki/read/WikiArticle';
 import {
   CommunityVerdict,
   Opinion,
@@ -10,21 +11,28 @@ import {
   VerdictLog,
 } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
-import { VoteType } from '../ReadBlock';
 
 type PropsType = {
-  vote: VoteType;
   verdict: VerdictType;
   onMouseDown: MouseEventHandler<HTMLDivElement>;
-  onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function VerdictModal({
-  vote,
-  verdict,
-  onMouseDown,
-  onClick,
-}: PropsType) {
+export default function VerdictModal({ verdict, onMouseDown }: PropsType) {
+  const [vote, setVote] = useState<VoteType>({
+    voted: verdict?.voted || '',
+    timestamp: new Date(Date.now()).toISOString(),
+  });
+
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      setVote({
+        voted: e.currentTarget.name,
+        timestamp: new Date(Date.now()).toISOString(),
+      });
+    },
+    [verdict]
+  );
+
   return (
     <Background onMouseDown={onMouseDown}>
       <Modal onMouseDown={(e) => e.stopPropagation()}>

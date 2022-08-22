@@ -1,20 +1,31 @@
-import { useState, useCallback, MouseEventHandler, memo } from 'react';
+import { useState, useCallback, useMemo, MouseEventHandler, memo } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { CSSTransition } from 'react-transition-group';
 import { ArticleType } from 'containers/main/wiki/edit/WikiEdit';
 import { ReadBlock } from 'containers/main/wiki/read';
+import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
 import { Title } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
+
+export type VoteType = {
+  voted: string;
+  timestamp: string;
+};
 
 type PropsType = {
   article: ArticleType;
 };
 
 export default function WikiArticle({ article }: PropsType) {
-  const [showVerdictModal, setShowVerdictModal] = useState(false);
+  const [showModal, setShowModal] = useState(-1);
+  const modalVerdict = useMemo(
+    () => article.blocks.find((block) => block.id === showModal)?.verdict,
+    [showModal]
+  );
 
   const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowVerdictModal(false),
+    () => setShowModal(-1),
     []
   );
 
@@ -28,10 +39,8 @@ export default function WikiArticle({ article }: PropsType) {
             id={block.id}
             tag={block.tag}
             content={block.content}
-            showVerdictModal={showVerdictModal}
-            setShowVerdictModal={setShowVerdictModal}
+            setShowModal={setShowModal}
             verdict={block.verdict}
-            onMouseDown={onMouseDown}
           />
         );
       })}
@@ -40,6 +49,14 @@ export default function WikiArticle({ article }: PropsType) {
           <a>Edit</a>
         </Link>
       </EditBtn>
+      <CSSTransition
+        in={showModal !== -1}
+        timeout={300}
+        classNames="show-modal"
+        unmountOnExit
+      >
+        <VerdictModal verdict={modalVerdict} onMouseDown={onMouseDown} />
+      </CSSTransition>
     </Wrapper>
   );
 }

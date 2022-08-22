@@ -58,7 +58,7 @@ const ExBlocks: BlockType[] = [
     id: 2,
     tag: 'h',
     content: 'Content',
-    verdict: ExVerdict,
+    verdict: { ...ExVerdict, warning: 2500 },
   },
   {
     id: 3,
@@ -68,7 +68,7 @@ const ExBlocks: BlockType[] = [
       'of "de Finibus Bonorum et Malorum" (The Extremes of G\n' +
       'ethics, very popular during the Renaissance. The first \n' +
       'line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
-    verdict: ExVerdict,
+    verdict: { ...ExVerdict, warning: 3500 },
   },
   {
     id: 4,
@@ -78,7 +78,7 @@ const ExBlocks: BlockType[] = [
       'of "de Finibus Bonorum et Malorum" (The Extremes of G\n' +
       'ethics, very popular during the Renaissance. The first \n' +
       'line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
-    verdict: ExVerdict,
+    verdict: { ...ExVerdict, warning: 700 },
   },
 ];
 

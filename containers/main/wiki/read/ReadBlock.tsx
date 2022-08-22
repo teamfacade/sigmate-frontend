@@ -1,5 +1,6 @@
 import { memo, Dispatch, SetStateAction, MouseEventHandler } from 'react';
-import { ReadComponent, VerdictBlock } from 'components/main/wiki/read';
+import { ReadComponent } from 'components/main/wiki/read';
+import { VerdictBlock } from 'components/main/wiki/read/verdictModal';
 
 type PropsType = {
   id: number;

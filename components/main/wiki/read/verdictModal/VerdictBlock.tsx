@@ -8,7 +8,7 @@ import {
   SetStateAction,
 } from 'react';
 import styled from 'styled-components';
-import { VerdictBtn } from 'components/main/wiki/read';
+import { VerdictBtn } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
 
 type PropsType = {

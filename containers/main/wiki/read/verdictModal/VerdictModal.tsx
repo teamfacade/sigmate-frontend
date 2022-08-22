@@ -1,6 +1,7 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { VerdictModalBtn } from 'components/main/wiki/read';
+import { CommunityVerdict } from 'containers/main/wiki/read/verdictModal';
+import { VerdictModalBtn } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
 
 type PropsType = {
@@ -9,6 +10,13 @@ type PropsType = {
 };
 
 export default function VerdictModal({ onMouseDown, onClick }: PropsType) {
+  const [showCommVerdict, setShowCommVerdict] = useState(false);
+
+  const onClickShowCommVerdict: MouseEventHandler<HTMLButtonElement> =
+    useCallback(() => {
+      setShowCommVerdict((curShow) => !curShow);
+    }, []);
+
   return (
     <Background onMouseDown={onMouseDown}>
       <Modal onMouseDown={(e) => e.stopPropagation()}>
@@ -17,6 +25,10 @@ export default function VerdictModal({ onMouseDown, onClick }: PropsType) {
           <VerdictModalBtn name="ThumbsUp" voted="ThumbsUp" onClick={onClick} />
           <VerdictModalBtn name="Warning" voted="ThumbsUp" onClick={onClick} />
         </VerdictBtnWrapper>
+        <CommunityVerdict
+          showCommVerdict={showCommVerdict}
+          onClick={onClickShowCommVerdict}
+        />
       </Modal>
     </Background>
   );
@@ -38,7 +50,7 @@ const Modal = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 440px;
-  padding: 19px 24px;
+  padding: 19px 24px 30px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: ${styles.shadows.modalShadow};

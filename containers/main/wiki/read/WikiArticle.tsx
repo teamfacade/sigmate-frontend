@@ -1,9 +1,10 @@
-import { useState, useCallback, MouseEventHandler } from 'react';
+import { useState, useCallback, MouseEventHandler, memo } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { ArticleType } from 'containers/main/wiki/edit/WikiEdit';
-import { ReadBlock, VerdictModal } from 'containers/main/wiki/read';
+import { ReadBlock } from 'containers/main/wiki/read';
+import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
 import { Title } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
 
@@ -20,7 +21,9 @@ export default function WikiArticle({ article }: PropsType) {
     []
   );
   const onClickVerdict: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => setVoted(e.currentTarget.name),
+    (e) => {
+      setVoted(e.currentTarget.name);
+    },
     []
   );
 
@@ -57,12 +60,12 @@ export default function WikiArticle({ article }: PropsType) {
   );
 }
 
-const Wrapper = styled.div`
+const Wrapper = memo(styled.div`
   position: relative;
   padding-left: 80px;
-`;
+`);
 
-const EditBtn = styled.button`
+const EditBtn = memo(styled.button`
   position: absolute;
   top: 0;
   right: 0;
@@ -78,4 +81,4 @@ const EditBtn = styled.button`
   a {
     color: #ffffff;
   }
-`;
+`);

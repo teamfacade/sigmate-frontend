@@ -1,15 +1,21 @@
 import { MouseEventHandler, useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { VerdictType } from 'lib/main/wiki/getWikiData';
 import { CommunityVerdict } from 'containers/main/wiki/read/verdictModal';
 import { VerdictModalBtn } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  verdict: VerdictType;
   onMouseDown: MouseEventHandler<HTMLDivElement>;
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function VerdictModal({ onMouseDown, onClick }: PropsType) {
+export default function VerdictModal({
+  verdict,
+  onMouseDown,
+  onClick,
+}: PropsType) {
   const [showCommVerdict, setShowCommVerdict] = useState(false);
 
   const onClickShowCommVerdict: MouseEventHandler<HTMLButtonElement> =
@@ -22,8 +28,16 @@ export default function VerdictModal({ onMouseDown, onClick }: PropsType) {
       <Modal onMouseDown={(e) => e.stopPropagation()}>
         <Msg>What is your verdict on this content?</Msg>
         <VerdictBtnWrapper>
-          <VerdictModalBtn name="ThumbsUp" voted="ThumbsUp" onClick={onClick} />
-          <VerdictModalBtn name="Warning" voted="ThumbsUp" onClick={onClick} />
+          <VerdictModalBtn
+            name="ThumbsUp"
+            voted={verdict?.voted || ''}
+            onClick={onClick}
+          />
+          <VerdictModalBtn
+            name="Warning"
+            voted={verdict?.voted || ''}
+            onClick={onClick}
+          />
         </VerdictBtnWrapper>
         <CommunityVerdict
           showCommVerdict={showCommVerdict}

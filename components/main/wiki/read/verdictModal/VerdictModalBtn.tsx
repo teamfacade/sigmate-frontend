@@ -21,7 +21,7 @@ type ColorsType = {
 type PropsType = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   name: 'ThumbsUp' | 'Warning';
-  voted: 'ThumbsUp' | 'Warning' | '';
+  voted: string;
 };
 
 const Icons: StringKeyObj<typeof ThumbsUp> = {

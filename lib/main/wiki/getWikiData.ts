@@ -1,7 +1,46 @@
+type CommentType = {
+  id: number;
+  username: string;
+  comment: string;
+};
+
+export type VerdictType =
+  | {
+      verify: number;
+      warning: number;
+      voted: string;
+      comments: CommentType[];
+    }
+  | undefined;
+
 export type BlockType = {
   id: number;
   tag: string;
   content: string;
+  verdict?: VerdictType;
+};
+
+const ExVerdict: VerdictType = {
+  verify: 2400,
+  warning: 351,
+  voted: '',
+  comments: [
+    {
+      id: 1,
+      username: 'jmyung0803',
+      comment: 'This is not a fraud!',
+    },
+    {
+      id: 2,
+      username: 'limeAhn',
+      comment: 'This is not a fraud!',
+    },
+    {
+      id: 3,
+      username: 'kwang jin',
+      comment: 'This is a fraud!',
+    },
+  ],
 };
 
 const ExBlocks: BlockType[] = [
@@ -13,11 +52,13 @@ const ExBlocks: BlockType[] = [
       'of "de Finibus Bonorum et Malorum" (The Extremes of G\n' +
       'ethics, very popular during the Renaissance. The first \n' +
       'line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
+    verdict: ExVerdict,
   },
   {
     id: 2,
     tag: 'h',
     content: 'Content',
+    verdict: ExVerdict,
   },
   {
     id: 3,
@@ -27,6 +68,7 @@ const ExBlocks: BlockType[] = [
       'of "de Finibus Bonorum et Malorum" (The Extremes of G\n' +
       'ethics, very popular during the Renaissance. The first \n' +
       'line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
+    verdict: ExVerdict,
   },
   {
     id: 4,
@@ -36,6 +78,7 @@ const ExBlocks: BlockType[] = [
       'of "de Finibus Bonorum et Malorum" (The Extremes of G\n' +
       'ethics, very popular during the Renaissance. The first \n' +
       'line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
+    verdict: ExVerdict,
   },
 ];
 
@@ -81,10 +124,11 @@ export function getArticleReadData(title: string) {
         {
             title: string;
             blocks: BlockType[];
+            verdict: VerdictType;
         }
     */
 
-  // @todo blocks 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
+  // @todo blocks, 검증 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
   const blocks: BlockType[] = title === 'empty' ? [] : ExBlocks;
 
   return {

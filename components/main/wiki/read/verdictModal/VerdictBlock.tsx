@@ -8,13 +8,15 @@ import {
   SetStateAction,
 } from 'react';
 import styled from 'styled-components';
+import { VerdictType } from 'lib/main/wiki/getWikiData';
 import { VerdictBtn } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
 
 type PropsType = {
   id: number;
-  setShowVerdictModal: Dispatch<SetStateAction<number>>;
+  setShowVerdictModal: Dispatch<SetStateAction<boolean>>;
   voted: string;
+  verdict: VerdictType;
   onClickVerdict: MouseEventHandler<HTMLButtonElement>;
   children: ReactNode;
 };
@@ -23,6 +25,7 @@ export default memo(function VerdictBlock({
   id,
   setShowVerdictModal,
   voted,
+  verdict,
   onClickVerdict,
   children,
 }: PropsType) {
@@ -46,7 +49,7 @@ export default memo(function VerdictBlock({
           break;
         case 'More':
           setShowBtn(false);
-          setShowVerdictModal(id);
+          setShowVerdictModal(true);
           break;
         default:
           break;
@@ -63,19 +66,19 @@ export default memo(function VerdictBlock({
           <VerdictBtn
             onClick={onClickVerdict}
             name="ThumbsUp"
-            content="2400"
+            content={verdict?.verify.toString(10)}
             voted={voted}
           />
           <VerdictBtn
             onClick={onClickVerdict}
             name="Warning"
-            content="351"
+            content={verdict?.warning.toString(10)}
             voted={voted}
           />
           <VerdictBtn
             onClick={onClick}
             name="Comment"
-            content="14"
+            content={verdict?.comments.length.toString(10)}
             voted={voted}
             commented={commented}
           />

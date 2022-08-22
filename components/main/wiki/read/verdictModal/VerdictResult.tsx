@@ -20,7 +20,7 @@ const Result = styled.span<{ result: number }>`
   color: ${({ result }) => {
     if (result < 0) return styles.colors.warningColor;
     if (result > 0) return styles.colors.emphColor;
-    return '#727272';
+    return styles.colors.verdictModalTextColor;
   }};
   font-size: 14px;
   line-height: 140%;

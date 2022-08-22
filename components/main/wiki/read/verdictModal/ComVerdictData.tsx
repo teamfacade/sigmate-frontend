@@ -2,6 +2,7 @@ import { memo, useMemo } from 'react';
 import styled from 'styled-components';
 import { VerdictType } from 'lib/main/wiki/getWikiData';
 import { Details, VerdictResult } from 'components/main/wiki/read/verdictModal';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   show: boolean;
@@ -46,7 +47,7 @@ const Wrapper = styled.div<{ show: boolean }>`
 `;
 
 const Text = styled.span`
-  color: #727272;
+  color: ${styles.colors.verdictModalTextColor};
   font-size: 14px;
   line-height: 140%;
   font-weight: 300;

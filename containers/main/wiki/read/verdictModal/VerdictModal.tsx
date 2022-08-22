@@ -1,7 +1,10 @@
 import { MouseEventHandler, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { VerdictType } from 'lib/main/wiki/getWikiData';
-import { CommunityVerdict } from 'containers/main/wiki/read/verdictModal';
+import {
+  CommunityVerdict,
+  Opinion,
+} from 'containers/main/wiki/read/verdictModal';
 import {
   VerdictModalBtn,
   VerdictLog,
@@ -22,13 +25,6 @@ export default function VerdictModal({
   onMouseDown,
   onClick,
 }: PropsType) {
-  const [showCommVerdict, setShowCommVerdict] = useState(false);
-
-  const onClickShowCommVerdict: MouseEventHandler<HTMLButtonElement> =
-    useCallback(() => {
-      setShowCommVerdict((curShow) => !curShow);
-    }, []);
-
   return (
     <Background onMouseDown={onMouseDown}>
       <Modal onMouseDown={(e) => e.stopPropagation()}>
@@ -42,11 +38,8 @@ export default function VerdictModal({
           />
         </VerdictBtnWrapper>
         <VerdictLog vote={vote} />
-        <CommunityVerdict
-          verdict={verdict}
-          showCommVerdict={showCommVerdict}
-          onClick={onClickShowCommVerdict}
-        />
+        <Opinion />
+        <CommunityVerdict verdict={verdict} />
       </Modal>
     </Background>
   );

@@ -27,6 +27,7 @@ const colors = {
   discordBorderColor: '#A7B7EB' as const,
   lightThumbsUpColor: '#EEF7FF' as const,
   lightWarningColor: '#FBEFEF' as const,
+  verdictModalTextColor: '#727272' as const,
   warningColor: '#DC2626' as const,
 };
 

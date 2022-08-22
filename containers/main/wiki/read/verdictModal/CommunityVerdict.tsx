@@ -1,4 +1,4 @@
-import { MouseEventHandler, memo } from 'react';
+import { MouseEventHandler, memo, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { ComVerdictData } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
@@ -6,18 +6,20 @@ import { VerdictType } from 'lib/main/wiki/getWikiData';
 
 type PropsType = {
   verdict: VerdictType;
-  showCommVerdict: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default memo(function CommunityVerdict({
-  verdict,
-  showCommVerdict,
-  onClick,
-}: PropsType) {
+export default memo(function CommunityVerdict({ verdict }: PropsType) {
+  const [showCommVerdict, setShowCommVerdict] = useState(false);
+
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+    setShowCommVerdict((curShow) => !curShow);
+  }, []);
+
   return (
     <>
-      <Btn onClick={onClick}>Show Community Verdict ▶</Btn>
+      <Btn onClick={onClick}>{`Show Community Verdict ${
+        showCommVerdict ? '▼' : '▶'
+      }`}</Btn>
       <ComVerdictWrapper>
         <ComVerdictData verdict={verdict} show={showCommVerdict} />
       </ComVerdictWrapper>
@@ -27,7 +29,7 @@ export default memo(function CommunityVerdict({
 
 const Btn = styled.button`
   padding: 0;
-  margin: 50px 0 0 0;
+  margin: 8px 0 0 0;
   background-color: transparent;
   border: none;
   color: ${styles.colors.logoColor};

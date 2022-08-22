@@ -66,7 +66,7 @@ export default memo(function VerdictBtn({ onClick, name, voted }: PropsType) {
 });
 
 const Btn = styled.button<{ activate: boolean; name: string }>`
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   width: 190px;
   padding: 8px 0;
   margin: 0;

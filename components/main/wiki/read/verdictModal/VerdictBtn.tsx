@@ -38,7 +38,7 @@ const colors: ColorsType = {
     Verify: styles.colors.emphColor,
     Warning: styles.colors.warningColor,
     Comment: '#377BFF',
-    More: '#727272',
+    More: styles.colors.verdictModalTextColor,
   },
 };
 
@@ -74,7 +74,7 @@ const Btn = styled.button<{ activate: boolean; name: string }>`
   background-color: ${({ activate, name }) =>
     activate ? colors.background[name] : 'transparent'};
   color: ${({ activate, name }) =>
-    activate ? colors.content[name] : '#727272'};
+    activate ? colors.content[name] : styles.colors.verdictModalTextColor};
   cursor: pointer;
 
   :hover {
@@ -96,7 +96,7 @@ const Btn = styled.button<{ activate: boolean; name: string }>`
   svg {
     path {
       fill: ${({ activate, name }) =>
-        activate ? colors.content[name] : '#727272'};
+        activate ? colors.content[name] : styles.colors.verdictModalTextColor};
     }
   }
 `;

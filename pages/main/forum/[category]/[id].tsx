@@ -35,9 +35,9 @@ export default function Article() {
       <Wrapper>
         <ArticleContent article={ExArticle} />
       </Wrapper>
-      {/* <Wrapper>
-                <Comments/>
-            </Wrapper> */}
+      <Wrapper>
+        <Comments />
+      </Wrapper>
     </>
   );
 }

@@ -29,6 +29,7 @@ const colors = {
   lightWarningColor: '#FBEFEF' as const,
   verdictModalTextColor: '#727272' as const,
   warningColor: '#DC2626' as const,
+  emptyColor: '#EBEDF1' as const,
 };
 
 const shadows = {

@@ -1,6 +1,7 @@
 import { FormEventHandler, memo } from 'react';
 import styled from 'styled-components';
 import { SearchIcon } from 'public/Icons/global';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   placeholder?: string;
@@ -36,7 +37,7 @@ const SearchForm = memo(styled.form<{ transparent: boolean }>`
   border-radius: 8px;
   border: none;
   background-color: ${({ transparent }) =>
-    transparent ? 'transparent' : '#ebedf1'};
+    transparent ? 'transparent' : styles.colors.emptyColor};
 `);
 
 const SearchBar = memo(styled.input<{ underline: boolean }>`

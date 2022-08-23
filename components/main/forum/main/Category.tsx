@@ -41,6 +41,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: ${styles.shadows.containerShadow};
+  overflow: hidden;
 `;
 
 const NoImage = styled.div`

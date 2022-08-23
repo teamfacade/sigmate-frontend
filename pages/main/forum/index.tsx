@@ -67,7 +67,7 @@ export default function ForumMain() {
   return (
     <Wrapper>
       <SearchUtils />
-      <Categories Categories={CategoriesEx} />
+      <Categories categories={CategoriesEx} />
       <PageMoveBtns
         totalPage={total}
         curPage={curPage}

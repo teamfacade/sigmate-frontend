@@ -24,17 +24,17 @@ export default memo(function Content({
     <Link href={`/main/forum/${category}/${id}`}>
       <a>
         <Wrapper>
-          {imageURL && (
-            <ImageWrapper width="350px" height="365px">
-              <Image src={imageURL} alt="Thumbnail" />
-            </ImageWrapper>
-          )}
           <TextWrapper>
             <Title>{title}</Title>
             <EllipsisContent>{`${content.slice(0, 650)}${
               content.length > 650 && '...'
             }`}</EllipsisContent>
           </TextWrapper>
+          {imageURL && (
+            <ImageWrapper width="350px" height="365px">
+              <Image src={imageURL} alt="Thumbnail" />
+            </ImageWrapper>
+          )}
         </Wrapper>
       </a>
     </Link>

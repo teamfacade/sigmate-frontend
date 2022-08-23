@@ -49,5 +49,6 @@ const Wrapper = styled.div`
   height: 340px;
   margin-top: 18px;
   border-radius: 8px;
+  background-color: #ffffff;
   box-shadow: ${styles.shadows.containerShadow};
 `;

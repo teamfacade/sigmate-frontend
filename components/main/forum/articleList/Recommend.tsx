@@ -22,12 +22,13 @@ export default memo(function Recommend({ recommend }: PropsType) {
 });
 
 const Wrapper = styled.div`
-  width: 55px;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  width: 55px;
+  height: 100%;
+  padding-top: 15px;
   border-right: 1px solid ${styles.colors.dividerColor};
 `;
 

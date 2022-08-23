@@ -1,8 +1,7 @@
 const colors = {
   globalBackgroundColor: '#F7F8FA' as const,
   modalContentBgColor: '#FDFDFD' as const,
-  dividerColor: '#E1E5EC' as const,
-  dividerSepColor: '#C2C2C2' as const,
+  dividerColor: '#D7DCE4' as const,
   logoColor: '#475366' as const,
   logColor: '#626262' as const,
   emphColor: '#276BFF' as const,
@@ -30,6 +29,7 @@ const colors = {
   verdictModalTextColor: '#727272' as const,
   warningColor: '#DC2626' as const,
   emptyColor: '#EBEDF1' as const,
+  forumSubTextColor: '#8894A7' as const,
 };
 
 const shadows = {

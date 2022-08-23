@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import { DrawImage } from 'public/Icons';
+import styles from 'styles/styleLib';
 
 export default memo(function Introduction() {
   return (
@@ -9,7 +10,9 @@ export default memo(function Introduction() {
       <PhraseWrapper>
         <Heading>Event & Draw</Heading>
         <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text.It has roots in a piece of clasBC, making  over 2000 years old. Richard McClintock, a Latin professor at Hking  over 2000king  over 2000
+          Contrary to popular belief, Lorem Ipsum is not simply random text.It
+          has roots in a piece of clasBC, making over 2000 years old. Richard
+          McClintock, a Latin professor at Hking over 2000king over 2000
         </p>
         <button type="button">visit</button>
       </PhraseWrapper>
@@ -36,5 +39,5 @@ const PhraseWrapper = styled.div`
 
 const Heading = styled.h3`
   margin: 0;
-  color: #323c4d;
+  color: ${styles.colors.headerColor};
 `;

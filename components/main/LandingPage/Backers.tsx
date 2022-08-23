@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import { BackerIcons } from 'public/Icons';
+import styles from 'styles/styleLib';
 
 export default memo(function Backers() {
   return (
@@ -25,5 +26,5 @@ const Wrapper = styled.div`
 
 const Heading = styled.h3`
   margin: 0;
-  color: #323c4d;
+  color: ${styles.colors.headerColor};
 `;

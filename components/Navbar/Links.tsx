@@ -8,27 +8,27 @@ export default memo(function Links() {
   return (
     <LinksWrapper>
       <li>
-        <Link href="/main/RecentEdits">
+        <Link href="/main/recent-edits">
           <a>Recent Edits</a>
         </Link>
       </li>
       <li>
-        <Link href="/upcoming">
+        <Link href="/main/upcoming">
           <a>Upcoming</a>
         </Link>
       </li>
       <li>
-        <Link href="/trending">
+        <Link href="/main/trending">
           <a>Stats / Trending</a>
         </Link>
       </li>
       <li>
-        <Link href="/main/Draw">
+        <Link href="/main/draw">
           <a>Event / Draw</a>
         </Link>
       </li>
       <li>
-        <Link href="/forum">
+        <Link href="/main/forum">
           <a>Forum</a>
         </Link>
       </li>

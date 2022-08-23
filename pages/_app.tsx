@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useCallback, FormEventHandler } from 'react';
 import { MainLayout, UserLayout } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
@@ -23,6 +23,17 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const router = useRouter();
 
+  const onSearch: FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      const title = (e.target as HTMLFormElement).bar.value;
+      (e.target as HTMLFormElement).bar.value = '';
+      router.push(`/main/wiki/${title}`);
+    },
+    [router]
+  );
+
   return (
     <>
       <Head>
@@ -38,7 +49,9 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <>
           <Navbar />
           {router.pathname.startsWith('/main') && (
-            <MainLayout>{getLayout(<Component {...pageProps} />)}</MainLayout>
+            <MainLayout onSearch={onSearch}>
+              {getLayout(<Component {...pageProps} />)}
+            </MainLayout>
           )}
           {router.pathname.startsWith('/user') && (
             <UserLayout>{getLayout(<Component {...pageProps} />)}</UserLayout>

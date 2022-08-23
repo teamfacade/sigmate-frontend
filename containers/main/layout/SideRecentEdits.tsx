@@ -65,7 +65,7 @@ const Wrapper = styled.div`
 const Header = styled.h2`
   margin: 0;
   padding-bottom: 20px;
-  color: #323c4d;
+  color: ${styles.colors.headerColor};
   font-size: 16px;
   font-weight: bold;
   font-family: 'Inter', sans-serif;

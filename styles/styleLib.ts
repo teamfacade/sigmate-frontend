@@ -11,9 +11,12 @@ const colors = {
   lightTextColor: '#676767' as const,
   lighterTextColor: '#BFBFBF' as const,
   dimTextColor: '#606C80' as const,
-  lightBorderColor: '#EBEEF2' as const,
+  headerColor: '#323C4D' as const,
   linkColor: '#98A2B2' as const,
   tableRowColor: '#FAFBFC' as const,
+  hrColor: '#DEDEDE' as const,
+  lightBorderColor: '#EBEEF2' as const,
+  darkBorderColor: '#E4E4E4' as const,
   profileDescriptionColor: '#A3B6CC' as const,
   profileNameColor: '#294566' as const,
   twitterNameColor: '#349CE2' as const,
@@ -22,10 +25,15 @@ const colors = {
   discordNameColor: '#5566AA' as const,
   discordBackgroundColor: '#CCD5F3' as const,
   discordBorderColor: '#A7B7EB' as const,
+  lightThumbsUpColor: '#EEF7FF' as const,
+  lightWarningColor: '#FBEFEF' as const,
+  verdictModalTextColor: '#727272' as const,
+  warningColor: '#DC2626' as const,
 };
 
 const shadows = {
-  containerShadow: `0 1px 3px 0 #E4E4E4`,
+  verdictBtnShadow: '0 4px 10px 0 rgba(58, 63, 69, .15)',
+  containerShadow: `0 1px 3px 0 ${colors.darkBorderColor}`,
   modalShadow: '0 4px 4px 0 rgba(0, 0, 0, .25)',
 };
 

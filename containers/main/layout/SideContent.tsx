@@ -11,6 +11,11 @@ const WhatsHappening = dynamic(
   { ssr: false }
 );
 
+const Debate = dynamic(
+  () => import('containers/main/wiki/read/sideItems/Debate'),
+  { ssr: false }
+);
+
 export default memo(function SideContent() {
   const router = useRouter();
 
@@ -22,7 +27,7 @@ export default memo(function SideContent() {
         router.query.title !== 'empty' && (
           <>
             <WhatsHappening title={router.query.title as string} />
-            {/* <Debate title={router.query.title}/> */}
+            <Debate title={router.query.title as string} />
           </>
         )}
       <Adsense />

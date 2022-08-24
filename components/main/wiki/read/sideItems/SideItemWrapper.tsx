@@ -54,7 +54,7 @@ const Header = styled.h2`
 
 const FoldBtn = styled.button<{ show: boolean }>`
   position: absolute;
-  top: 20px;
+  top: ${({ show }) => (show ? '22px' : '25px')};
   right: 20px;
   background-color: transparent;
   border: none;

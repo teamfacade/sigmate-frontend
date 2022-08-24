@@ -26,6 +26,8 @@ const colors = {
   discordNameColor: '#5566AA' as const,
   discordBackgroundColor: '#CCD5F3' as const,
   discordBorderColor: '#A7B7EB' as const,
+  metamaskNameColor: '#F6851B' as const,
+  metamaskBackgroundColor: '#FFF6D8' as const,
   lightThumbsUpColor: '#EEF7FF' as const,
   lightWarningColor: '#FBEFEF' as const,
   verdictModalTextColor: '#727272' as const,

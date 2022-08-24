@@ -112,11 +112,7 @@ export default function Referrals() {
         <MyReferral refCode="F2810230" />
         <ReferralLogs refLogs={refLogs} />
         <UtilWrapper>
-          <Search
-            transparentBg
-            placeholder="Search a user..."
-            onSubmit={onSubmit}
-          />
+          <Search white placeholder="Search a user..." onSubmit={onSubmit} />
         </UtilWrapper>
         <PageMoveBtns
           curPage={curPage}

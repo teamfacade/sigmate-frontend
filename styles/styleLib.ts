@@ -1,8 +1,9 @@
+import { darken } from 'polished';
+
 const colors = {
   globalBackgroundColor: '#F7F8FA' as const,
   modalContentBgColor: '#FDFDFD' as const,
-  dividerColor: '#E1E5EC' as const,
-  dividerSepColor: '#C2C2C2' as const,
+  dividerColor: '#D7DCE4' as const,
   logoColor: '#475366' as const,
   logColor: '#626262' as const,
   emphColor: '#276BFF' as const,
@@ -29,6 +30,8 @@ const colors = {
   lightWarningColor: '#FBEFEF' as const,
   verdictModalTextColor: '#727272' as const,
   warningColor: '#DC2626' as const,
+  emptyColor: '#EBEDF1' as const,
+  forumSubTextColor: '#8894A7' as const,
 };
 
 const shadows = {
@@ -41,5 +44,35 @@ const styles = {
   colors,
   shadows,
 };
+
+export const BlueBtnStyle = `
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background-color: ${styles.colors.emphColor};
+  color: #ffffff;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  
+  :disabled {
+    background-color: ${styles.colors.verdictModalTextColor};
+  }
+  
+  :hover {
+    background-color: ${darken(0.3, styles.colors.emphColor)};
+  }
+  
+  a {
+    color: #ffffff;
+  }
+`;
+
+export const WrapperStyle = `
+  padding: 40px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: ${styles.shadows.containerShadow};
+`;
 
 export default styles;

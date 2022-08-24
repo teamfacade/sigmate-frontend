@@ -5,17 +5,24 @@ import { Search } from 'components/global';
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  needsWrapper: boolean;
   onSearch: FormEventHandler<HTMLFormElement>;
   children: ReactNode;
 };
 
-export default function MainLayout({ onSearch, children }: PropsType) {
+export default function MainLayout({
+  needsWrapper,
+  onSearch,
+  children,
+}: PropsType) {
   return (
     <main>
       <div style={{ display: 'flex' }}>
         <Wrapper>
           <section>
-            <MainContentWrapper>{children}</MainContentWrapper>
+            <MainContentWrapper needsWrapper={needsWrapper}>
+              {children}
+            </MainContentWrapper>
           </section>
           <aside>
             <Search placeholder="Search content..." onSubmit={onSearch} />
@@ -36,15 +43,24 @@ const Wrapper = styled.div`
   margin: 0 auto 30px auto;
 `;
 
-const MainContentWrapper = styled.div`
+const MainContentWrapper = styled.div<{ needsWrapper: boolean }>`
   position: relative;
   display: inline-block;
   margin-right: 20px;
-  padding: 40px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: ${styles.shadows.containerShadow};
   overflow: hidden;
+
+  ${({ needsWrapper }) =>
+    needsWrapper
+      ? `
+          padding: 40px;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: ${styles.shadows.containerShadow};
+        `
+      : `
+          padding: 0;
+          background-color: transparent;
+        `}
 `;
 
 const SideContentWrapper = styled.div`

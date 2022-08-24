@@ -143,11 +143,7 @@ export default function Logs() {
         </CSSTransition>
         <UtilsWrapper>
           <div style={{ width: '180px' }}>
-            <Search
-              transparentBg
-              placeholder="Search Sources..."
-              onSubmit={onSubmit}
-            />
+            <Search white placeholder="Search Sources..." onSubmit={onSubmit} />
           </div>
           <LogSelect selected={selected} onClick={onClick} />
         </UtilsWrapper>

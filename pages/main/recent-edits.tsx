@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 import styled from 'styled-components';
-import { EditLogs } from 'containers/main/RecentEdits';
+import { EditLogs } from 'containers/main/recentEdits';
 import { SectionWrapper, PageMoveBtns } from 'components/global';
 import { LogSelect } from 'components/main/RecentEdits';
 

@@ -18,11 +18,7 @@ export default memo(function Search({
 }: PropsType) {
   return (
     <SearchForm width={width} white={!!white} onSubmit={onSubmit}>
-      <SearchBar
-        name="bar"
-        placeholder={placeholder || 'Search...'}
-        underline={!!white}
-      />
+      <SearchBar name="bar" placeholder={placeholder || 'Search...'} />
       <Btn>
         <SearchIcon />
       </Btn>
@@ -35,7 +31,7 @@ const SearchForm = memo(styled.form<{ width: string; white: boolean }>`
   justify-content: space-between;
   align-items: center;
   flex: 0 1 300px;
-  width: ${({ width }) => (width || 'initial')};
+  width: ${({ width }) => width || 'initial'};
   padding: 0 0 0 15px;
   border-radius: 8px;
   border: 1px solid
@@ -44,7 +40,7 @@ const SearchForm = memo(styled.form<{ width: string; white: boolean }>`
     white ? '#FFFFFF' : styles.colors.emptyColor};
 `);
 
-const SearchBar = memo(styled.input<{ underline: boolean }>`
+const SearchBar = memo(styled.input`
   position: relative;
   top: 2px;
   width: 100%;
@@ -63,8 +59,6 @@ const SearchBar = memo(styled.input<{ underline: boolean }>`
 
   :focus-visible {
     outline: none;
-    border-bottom-color: ${({ underline }) =>
-      underline ? '#CACBD0' : 'transparent'};
   }
 `);
 

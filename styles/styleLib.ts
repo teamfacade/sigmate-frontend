@@ -61,6 +61,10 @@ export const BlueBtnStyle = `
   :hover {
     background-color: ${darken(0.3, styles.colors.emphColor)};
   }
+  
+  a {
+    color: #ffffff;
+  }
 `;
 
 export default styles;

@@ -20,8 +20,4 @@ export default memo(function PostBtn({ category }: PropsType) {
 const BlueBtn = styled.button`
   ${BlueBtnStyle};
   padding: 0 12px;
-
-  a {
-    color: #ffffff;
-  }
 `;

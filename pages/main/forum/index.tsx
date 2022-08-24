@@ -5,8 +5,8 @@ import { PageMoveBtns } from 'components/global';
 
 const CategoriesEx = [
   { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
+  { name: 'Game', description: 'For PFP Users', imageURL: '' },
+  { name: 'PFP', description: 'For PFP Users', imageURL: '' },
   { name: 'Best', description: 'For PFP Users', imageURL: '' },
   { name: 'Best', description: 'For PFP Users', imageURL: '' },
   { name: 'Best', description: 'For PFP Users', imageURL: '' },

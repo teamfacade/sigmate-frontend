@@ -10,8 +10,8 @@ type PropsType = {
 export default memo(function PostBtn({ category }: PropsType) {
   return (
     <BlueBtn>
-      <Link href={`main/forum/post/${category}`}>
-        <a>Make new</a>
+      <Link href={`/main/forum/${category}/new-post`}>
+        <a>Post new</a>
       </Link>
     </BlueBtn>
   );
@@ -19,5 +19,5 @@ export default memo(function PostBtn({ category }: PropsType) {
 
 const BlueBtn = styled.button`
   ${BlueBtnStyle};
-  padding: 0 12px;
+  padding: 9px 30px;
 `;

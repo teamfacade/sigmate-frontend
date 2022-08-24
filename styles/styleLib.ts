@@ -53,6 +53,7 @@ export const BlueBtnStyle = `
   color: #ffffff;
   font-size: 18px;
   font-family: 'Inter', sans-serif;
+  cursor: pointer;
   
   :disabled {
     background-color: ${styles.colors.verdictModalTextColor};
@@ -65,6 +66,13 @@ export const BlueBtnStyle = `
   a {
     color: #ffffff;
   }
+`;
+
+export const WrapperStyle = `
+  padding: 40px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: ${styles.shadows.containerShadow};
 `;
 
 export default styles;

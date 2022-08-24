@@ -50,7 +50,12 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <Navbar />
           {router.pathname.startsWith('/main') && (
             <MainLayout
-              needsWrapper={!router.pathname.startsWith('/main/forum')}
+              needsWrapper={
+                !(
+                  router.pathname.startsWith('/main/forum') ||
+                  router.pathname.startsWith('/main/upcoming')
+                )
+              }
               onSearch={onSearch}
             >
               {getLayout(<Component {...pageProps} />)}

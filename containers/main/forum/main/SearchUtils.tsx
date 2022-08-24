@@ -1,7 +1,6 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import { Search } from 'components/global';
-import styles from 'styles/styleLib';
 
 export default memo(function SearchUtils() {
   return (

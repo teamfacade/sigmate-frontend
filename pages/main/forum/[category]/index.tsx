@@ -1,7 +1,9 @@
 import { MouseEventHandler, useCallback, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Search, PageMoveBtns } from 'components/global';
 import { ArticleThumbnail } from 'containers/main/forum/articleList';
+import { PostBtn } from 'components/main/forum/articleList';
 
 type ArticleType = {
   id: number;
@@ -40,6 +42,7 @@ const total = 42;
 
 export default function ArticleLists() {
   const [curPage, setCurPage] = useState(1);
+  const router = useRouter();
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -86,9 +89,12 @@ export default function ArticleLists() {
 
   return (
     <>
-      <SearchWrapper>
+      <UtilWrapper>
         <Search white placeholder="Search..." />
-      </SearchWrapper>
+        {router.query.category !== 'Best' && (
+          <PostBtn category={router.query.category as string} />
+        )}
+      </UtilWrapper>
       {ExAtricles.map((article) => (
         <ArticleThumbnail
           key={article.id}
@@ -113,6 +119,8 @@ export default function ArticleLists() {
   );
 }
 
-const SearchWrapper = styled.div`
-  width: 430px;
+const UtilWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;

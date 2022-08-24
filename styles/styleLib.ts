@@ -1,3 +1,5 @@
+import { darken } from 'polished';
+
 const colors = {
   globalBackgroundColor: '#F7F8FA' as const,
   modalContentBgColor: '#FDFDFD' as const,
@@ -42,5 +44,23 @@ const styles = {
   colors,
   shadows,
 };
+
+export const BlueBtnStyle = `
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background-color: ${styles.colors.emphColor};
+  color: #ffffff;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  
+  :disabled {
+    background-color: ${styles.colors.verdictModalTextColor};
+  }
+  
+  :hover {
+    background-color: ${darken(0.3, styles.colors.emphColor)};
+  }
+`;
 
 export default styles;

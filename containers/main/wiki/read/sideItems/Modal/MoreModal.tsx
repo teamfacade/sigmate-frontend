@@ -1,6 +1,12 @@
-import { memo, MouseEventHandler, forwardRef } from 'react';
+import {
+  memo,
+  MouseEventHandler,
+  forwardRef,
+  useState,
+  useCallback,
+} from 'react';
 import styled from 'styled-components';
-import { Contents } from 'containers/main/wiki/read/sideItems/Modal';
+import { Contents, BlurDiv } from 'containers/main/wiki/read/sideItems/Modal';
 import { SectionWrapper } from 'components/global';
 import { Close as CloseIcon } from 'public/Icons/global';
 import styles from 'styles/styleLib';
@@ -15,6 +21,13 @@ export default memo(
     { header, onClick },
     ref
   ) {
+    const [signedIn, setSignedIn] = useState(false);
+
+    const onClickSignBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
+      () => setSignedIn((current) => !current),
+      []
+    );
+
     return (
       <Background ref={ref}>
         <Modal>
@@ -23,8 +36,12 @@ export default memo(
               <CloseIcon />
             </Close>
             <Contents header={header} />
+            {!signedIn && <BlurDiv />}
           </SectionWrapper>
         </Modal>
+        <button type="button" onClick={onClickSignBtn}>
+          SignIn/Out
+        </button>
       </Background>
     );
   })

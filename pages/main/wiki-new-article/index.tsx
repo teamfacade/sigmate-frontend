@@ -4,8 +4,7 @@ import { BlockType } from 'lib/main/wiki/getWikiData';
 
 export default function MakeNewArticle() {
   const [phase, setPhase] = useState(1);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isAboutNFT, setIsAboutNFT] = useState(true);
+  const [topic, setTopic] = useState('Others');
   const [title, setTitle] = useState('');
   const [blocks, setBlocks] = useState<BlockType[]>([]);
 
@@ -16,7 +15,7 @@ export default function MakeNewArticle() {
   const onClickStart: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       setPhase((curPhase) => curPhase + 1);
-      setIsAboutNFT(e.currentTarget.name === 'AboutNFT');
+      setTopic(e.currentTarget.name);
     },
     []
   );
@@ -35,6 +34,7 @@ export default function MakeNewArticle() {
       return (
         <NewArticle
           onClick={onClickSubmit}
+          topic={topic}
           title={title}
           setTitle={setTitle}
           blocks={blocks}

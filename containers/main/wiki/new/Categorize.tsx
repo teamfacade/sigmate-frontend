@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { Types } from 'containers/main/wiki/new/Guidelines';
 import { SectionWrapper } from 'components/global';
-import { Type } from 'components/main/wiki/new';
+import { TypeExample } from 'components/main/wiki/new';
 import BlueBtn from 'components/main/wiki/BlueBtn';
 import styles from 'styles/styleLib';
 
@@ -18,9 +18,17 @@ export default function Categorize({ onClick }: PropsType) {
       <SectionWrapper header="Start New Article" marginBottom="20px">
         <NextBtnWrapper>
           <CategorizeQuestion>
-            Is this article content about NFT? (e.g. Collection, specific # NFT etc.)
+            Is this article content about the NFT Collection?
           </CategorizeQuestion>
-          <BlueBtn name="AboutNFT" onClick={onClick}>
+          <BlueBtn name="Collection" onClick={onClick}>
+            Start
+          </BlueBtn>
+        </NextBtnWrapper>
+        <NextBtnWrapper>
+          <CategorizeQuestion>
+            Is this article content about a specific # NFT?
+          </CategorizeQuestion>
+          <BlueBtn name="Token" onClick={onClick}>
             Start
           </BlueBtn>
         </NextBtnWrapper>
@@ -30,12 +38,13 @@ export default function Categorize({ onClick }: PropsType) {
         marginBottom="20px"
       >
         {Types.map((type) => {
-          return <Type key={type}>{type}</Type>;
+          return <TypeExample key={type}>{type}</TypeExample>;
         })}
       </SectionWrapper>
       <NextBtnWrapper marginTop="40px">
         <CategorizeQuestion>
-          Is this article content other than NFT? (e.g. Team, Crypto, Person etc.)
+          Is this article content other than NFT? (e.g. Team, Crypto, Person
+          etc.)
         </CategorizeQuestion>
         <BlueBtn name="Others" onClick={onClick}>
           Start
@@ -46,19 +55,19 @@ export default function Categorize({ onClick }: PropsType) {
         marginBottom="20px"
       >
         {Others.map((type) => {
-          return <Type key={type}>{type}</Type>;
+          return <TypeExample key={type}>{type}</TypeExample>;
         })}
       </SectionWrapper>
     </>
   );
 }
 
-const NextBtnWrapper = styled.div<{ marginTop: string | undefined }>`
+const NextBtnWrapper = styled.div<{ marginTop?: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: ${({ marginTop }) => (marginTop || '0')} 0 40px 0;
+  margin: ${({ marginTop }) => marginTop || '0'} 0 40px 0;
 `;
 
 const CategorizeQuestion = styled.div`

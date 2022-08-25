@@ -1,5 +1,6 @@
 import { MouseEventHandler, Dispatch, SetStateAction } from 'react';
 import { BlockType } from 'lib/main/wiki/getWikiData';
+import { BasicInfos } from 'containers/main/wiki/new';
 import { WikiEdit } from 'containers/main/wiki/edit';
 import { SectionWrapper } from 'components/global';
 import { DisclaimWrapper, Disclaimer } from 'components/main/wiki/edit';
@@ -7,6 +8,7 @@ import BlueBtn from 'components/main/wiki/BlueBtn';
 
 type PropsType = {
   onClick: MouseEventHandler<HTMLButtonElement>;
+  topic: string;
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
   blocks: BlockType[];
@@ -15,6 +17,7 @@ type PropsType = {
 
 export default function NewArticle({
   onClick,
+  topic,
   title,
   setTitle,
   blocks,
@@ -22,6 +25,7 @@ export default function NewArticle({
 }: PropsType) {
   return (
     <SectionWrapper header="Start New Article" marginBottom="20px">
+      <BasicInfos topic={topic} />
       <WikiEdit
         newArticle
         title={title}
@@ -32,7 +36,8 @@ export default function NewArticle({
       <DisclaimWrapper>
         <input type="checkbox" />
         <span>
-          All of the Content above must be filled in order to claim article creation award.
+          All of the Content above must be filled in order to claim article
+          creation award.
         </span>
         <Disclaimer>
           {

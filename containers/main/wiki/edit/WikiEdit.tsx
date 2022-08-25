@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import type { BlockType } from 'lib/main/wiki/getWikiData';
 import { EditBlock } from 'containers/main/wiki/edit';
 import { Title, EditableTitle } from 'components/main/wiki/edit';
-import { Types } from 'components/main/wiki/read';
+import { Types, KeyInfo } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
 
 export type ArticleType = {
@@ -74,6 +74,22 @@ export default memo(function WikiEdit({
           />
         )}
         <Types types={types} />
+        <KeyInfo
+          name="Sigmate"
+          thumbnailUrl=""
+          team="sigmate"
+          rugpool=""
+          type=""
+          utility="Game"
+          WLPrice="0.25 ETH"
+          publicPrice="0.3 ETH"
+          currentPrice="1.5 ETH"
+          discordUrl="https://www.naver.com"
+          twitterUrl="https://www.twitter.com/bellygom"
+          officialSiteUrl="localhost:3000/main"
+          chain="ETH"
+          marketplace="Opensea"
+        />
         {blocks.map((block) => {
           return (
             <EditBlock

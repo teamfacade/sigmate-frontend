@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import Select, { ActionMeta, MultiValue } from 'react-select';
+import Select from 'react-select';
+import { ReactSelectTypes } from 'index';
 
 const options = [
   { value: 'Giveaway', label: 'Giveaway' },
@@ -14,31 +14,10 @@ const options = [
   { value: 'Social', label: 'Social' },
 ];
 
-type OptionType = {
-  value: string;
-  label: string;
+type PropsType = {
+  onChange: ReactSelectTypes.MultiSelectChangeEventHandler;
 };
 
-type SelectChangeEventHandler = (
-  option: MultiValue<OptionType>,
-  actionMeta: ActionMeta<OptionType>
-) => void;
-
-export default function SelectTypes() {
-  const [selectedOption, setSelectedOption] = useState<OptionType[]>([]);
-
-  const onChange: SelectChangeEventHandler = useCallback((selected) => {
-    if (selected) {
-      setSelectedOption(selected.concat());
-    }
-  }, []);
-
-  return (
-    <Select
-      defaultValue={selectedOption}
-      onChange={onChange}
-      options={options}
-      isMulti
-    />
-  );
+export default function SelectTypes({ onChange }: PropsType) {
+  return <Select onChange={onChange} options={options} isMulti />;
 }

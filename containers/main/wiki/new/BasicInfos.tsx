@@ -1,15 +1,23 @@
-import { memo, useCallback, FormEventHandler } from 'react';
+import {
+  memo,
+  useCallback,
+  FormEventHandler,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import {
   SelectTypes,
   MarketPlaceUrlInput,
   TokenInfoInput,
 } from 'components/main/wiki/new';
+import { ReactSelectTypes } from 'index';
 
 type PropsType = {
   topic: string;
+  onChangeTypes: ReactSelectTypes.MultiSelectChangeEventHandler;
 };
 
-export default memo(function BasicInfos({ topic }: PropsType) {
+export default memo(function BasicInfos({ topic, onChangeTypes }: PropsType) {
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
     e.preventDefault();
     if (topic === 'Collection') {
@@ -24,23 +32,25 @@ export default memo(function BasicInfos({ topic }: PropsType) {
     } else if (topic === 'Token') {
       // eslint-disable-next-line no-console
       console.log(
-        `Contract Address: ${ 
+        `Contract Address: ${
           (e.currentTarget.elements.namedItem('Address') as HTMLInputElement)
-            ?.value}`
+            ?.value
+        }`
       );
       // eslint-disable-next-line no-console
       console.log(
-        `Token ID: ${ 
-          (e.currentTarget.elements.namedItem('ID') as HTMLInputElement)?.value}`
+        `Token ID: ${
+          (e.currentTarget.elements.namedItem('ID') as HTMLInputElement)?.value
+        }`
       );
     }
   }, []);
 
   return (
-    <>
-      <SelectTypes />
-      {topic === 'Collection' && <MarketPlaceUrlInput onSubmit={onSubmit} />}
-      {topic === 'Token' && <TokenInfoInput onSubmit={onSubmit} />}
-    </>
+    <div>
+        <SelectTypes onChange={onChangeTypes} />
+        {topic === 'Collection' && <MarketPlaceUrlInput onSubmit={onSubmit} />}
+        {topic === 'Token' && <TokenInfoInput onSubmit={onSubmit} />}
+      </div>
   );
 });

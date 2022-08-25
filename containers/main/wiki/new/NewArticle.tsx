@@ -1,10 +1,17 @@
-import { MouseEventHandler, Dispatch, SetStateAction } from 'react';
+import {
+  MouseEventHandler,
+  Dispatch,
+  SetStateAction,
+  useState,
+  useCallback,
+} from 'react';
 import { BlockType } from 'lib/main/wiki/getWikiData';
 import { BasicInfos } from 'containers/main/wiki/new';
 import { WikiEdit } from 'containers/main/wiki/edit';
 import { SectionWrapper } from 'components/global';
 import { DisclaimWrapper, Disclaimer } from 'components/main/wiki/edit';
 import BlueBtn from 'components/main/wiki/BlueBtn';
+import { ReactSelectTypes } from 'index';
 
 type PropsType = {
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -23,12 +30,24 @@ export default function NewArticle({
   blocks,
   setBlocks,
 }: PropsType) {
+  const [selectedOption, setSelectedOption] = useState<
+    ReactSelectTypes.OptionType[]
+  >([]);
+
+  const onChangeTypes: ReactSelectTypes.MultiSelectChangeEventHandler =
+    useCallback((selected) => {
+      if (selected) {
+        setSelectedOption(selected.concat());
+      }
+    }, []);
+
   return (
     <SectionWrapper header="Start New Article" marginBottom="20px">
-      <BasicInfos topic={topic} />
+      <BasicInfos topic={topic} onChangeTypes={onChangeTypes} />
       <WikiEdit
         newArticle
         title={title}
+        types={selectedOption.map((selected) => selected.value)}
         setTitle={setTitle}
         blocks={blocks}
         setBlocks={setBlocks}

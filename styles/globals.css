@@ -23,6 +23,10 @@ p, span {
   font-family: 'Inter', sans-serif;
 }
 
+aside {
+  max-width: 252px;
+}
+
 @font-face {
   font-family: 'Inter';
   src: url('../public/Fonts/Inter-Light-BETA.woff') format('woff');

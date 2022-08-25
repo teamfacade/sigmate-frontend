@@ -1,7 +1,9 @@
-import { memo } from 'react';
+import { memo, useState, useCallback, useRef, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { CSSTransition } from 'react-transition-group';
 import { Happened } from 'containers/main/wiki/read/sideItems';
+import { MoreModal } from 'containers/main/wiki/read/sideItems/Modal';
 import { SideItemWrapper } from 'components/main/wiki/read/sideItems';
 import styles from 'styles/styleLib';
 
@@ -48,22 +50,49 @@ export default memo(function WhatsHappening({ title }: PropsType) {
   // eslint-disable-next-line
   console.log(`What's happening at ${title}?`);
 
+  const [showModal, setShowModal] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const onClickMore: MouseEventHandler<HTMLButtonElement> = useCallback(
+    () => setShowModal(true),
+    []
+  );
+  const onClickClose: MouseEventHandler<HTMLButtonElement> = useCallback(
+    () => setShowModal(false),
+    []
+  );
+
   return (
-    <SideItemWrapper header={"What's happening"}>
-      {ExHappens.slice(0, 3).map((happen, idx) => (
-        <Happened
-          key={happen.id}
-          index={idx}
-          platform={happen.platform}
-          author={happen.author}
-          timestamp={happen.timestamp}
-          content={happen.content}
+    <>
+      <SideItemWrapper header={"What's happening"}>
+        {ExHappens.slice(0, 3).map((happen, idx) => (
+          <Happened
+            key={happen.id}
+            index={idx}
+            platform={happen.platform}
+            author={happen.author}
+            timestamp={happen.timestamp}
+            content={happen.content}
+          />
+        ))}
+        <BtnWrapper>
+          <MoreBtn onClick={onClickMore}>more...</MoreBtn>
+        </BtnWrapper>
+      </SideItemWrapper>
+      <CSSTransition
+        in={showModal}
+        timeout={300}
+        unmountOnExit
+        classNames="show-modal"
+        nodeRef={modalRef}
+      >
+        <MoreModal
+          header={"What's happening"}
+          onClick={onClickClose}
+          ref={modalRef}
         />
-      ))}
-      <BtnWrapper>
-        <MoreBtn>more...</MoreBtn>
-      </BtnWrapper>
-    </SideItemWrapper>
+      </CSSTransition>
+    </>
   );
 });
 

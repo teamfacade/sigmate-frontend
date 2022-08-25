@@ -15,6 +15,7 @@ export default memo(function TimeDiff({ index, timestamp }: PropsType) {
 const Wrapper = styled.div<{ index: number }>`
   height: 18px;
   padding: 1px 10px;
+  margin: 3px 0 0 0;
   border-radius: 3px;
   text-align: center;
   font-size: 10px;
@@ -39,7 +40,10 @@ const Wrapper = styled.div<{ index: number }>`
                 color: ${styles.colors.twitterNameColor};
               `;
       default:
-        return ``;
+        return `
+                background-color: transparent;
+                color: #686868;
+                `;
     }
   }}
 `;

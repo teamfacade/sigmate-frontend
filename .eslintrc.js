@@ -29,6 +29,8 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/require-default-props': 'off',
     'react/no-unescaped-entities': 'off',
+    'react/no-unused-prop-types': 'off',
+    'react/prop-types': 'off',
     'import/no-named-as-default-member': 0,
     'import/extensions': 'off',
     'import/no-unresolved': 'off',

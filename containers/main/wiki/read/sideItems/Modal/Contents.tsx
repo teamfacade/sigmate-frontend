@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState, useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { Content } from 'components/main/wiki/read/sideItems/modal';
 
@@ -84,12 +84,24 @@ function isDebate(content: DebateType | HappenedType): content is DebateType {
 
 export default memo(function Contents({ header }: PropsType) {
   /* https://velog.io/@zeros0623/TypeScript-%EA%B3%A0%EA%B8%89-%ED%83%80%EC%9E%85#%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%A0%95%EC%9D%98-%ED%83%80%EC%9E%85-%EA%B0%80%EB%93%9Cuser-defined-type-guards */
-  const ExContents: HappenedType[] | DebateType[] =
-    header === 'Debate' ? ExDebates : ExHappens;
+  const [contents, setContents] = useState<HappenedType[] | DebateType[]>(
+    header === 'Debate' ? ExDebates : ExHappens
+  );
+
+  const onScroll: MouseEventHandler<HTMLDivElement> = useCallback((e) => {
+    const { scrollHeight, scrollTop } = e.currentTarget;
+    if (scrollHeight - scrollTop < 515) {
+      setContents((current) => {
+        if (isDebate(current[0]))
+          return (current as DebateType[]).concat(ExDebates);
+        return (current as HappenedType[]).concat(ExHappens);
+      });
+    }
+  }, []);
 
   return (
-    <ContentWrapper>
-      {ExContents.map((content) => (
+    <ContentWrapper onScroll={onScroll}>
+      {contents.map((content) => (
         <Content
           key={content.id}
           platform={isDebate(content) ? '' : content.platform}

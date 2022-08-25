@@ -1,7 +1,14 @@
-import { memo } from 'react';
+import { memo, MouseEventHandler, useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { darken } from 'polished';
 import styles from 'styles/styleLib';
-import { EllipsisText, PFP, Platform, TimeDiff } from '../index';
+import {
+  EllipsisText,
+  PFP,
+  Platform,
+  TimeDiff,
+} from 'components/main/wiki/read/sideItems';
+import { FullText } from 'components/main/wiki/read/sideItems/modal';
 
 type PropsType = {
   index?: number;
@@ -12,6 +19,8 @@ type PropsType = {
   content: string;
 };
 
+const maxWord = 195;
+
 export default memo(function Content({
   index = -1,
   platform,
@@ -20,6 +29,13 @@ export default memo(function Content({
   timestamp,
   content,
 }: PropsType) {
+  const [showMore, setShowMore] = useState(false);
+
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
+    () => setShowMore((current) => !current),
+    []
+  );
+
   return (
     <Wrapper>
       <InfoWrapper>
@@ -29,7 +45,13 @@ export default memo(function Content({
           <TimeDiff index={index} timestamp={timestamp} />
         </InfoInnerWrapper>
       </InfoWrapper>
-      <EllipsisText height="42px" maxWord={160} content={content} />
+      {content.length < maxWord || showMore ? (
+        <FullText content={content} onClick={onClick} />
+      ) : (
+        <EllipsisText height="42px" maxWord={maxWord} content={content}>
+          <UnfoldBtn onClick={onClick}>See more</UnfoldBtn>
+        </EllipsisText>
+      )}
     </Wrapper>
   );
 });
@@ -37,6 +59,10 @@ export default memo(function Content({
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 14px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: ${styles.shadows.containerShadow};
 
   & + & {
     margin-top: 15px;
@@ -62,4 +88,24 @@ const Author = styled.p`
   font-size: 14px;
   font-weight: 700;
   line-height: 160%;
+`;
+
+const UnfoldBtn = styled.button`
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  color: ${styles.colors.emphColor};
+  font-size: 14px;
+  font-weight: 300;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+
+  :hover,
+  :active {
+    color: ${darken(0.3, styles.colors.emphColor)};
+  }
 `;

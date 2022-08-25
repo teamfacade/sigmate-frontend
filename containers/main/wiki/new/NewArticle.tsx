@@ -43,30 +43,32 @@ export default function NewArticle({
 
   return (
     <SectionWrapper header="Start New Article" marginBottom="20px">
-      <BasicInfos topic={topic} onChangeTypes={onChangeTypes} />
-      <WikiEdit
-        newArticle
-        title={title}
-        types={selectedOption.map((selected) => selected.value)}
-        setTitle={setTitle}
-        blocks={blocks}
-        setBlocks={setBlocks}
-      />
-      <DisclaimWrapper>
-        <input type="checkbox" />
-        <span>
-          All of the Content above must be filled in order to claim article
-          creation award.
-        </span>
-        <Disclaimer>
-          {
-            ' comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" '
-          }
-        </Disclaimer>
-      </DisclaimWrapper>
-      <BlueBtn width="162px" margin="29px 0 0 0" onClick={onClick}>
-        Submit
-      </BlueBtn>
+      <form>
+        <BasicInfos topic={topic} onChangeTypes={onChangeTypes} />
+        <WikiEdit
+          newArticle
+          title={title}
+          types={selectedOption.map((selected) => selected.value)}
+          setTitle={setTitle}
+          blocks={blocks}
+          setBlocks={setBlocks}
+        />
+        <DisclaimWrapper>
+          <input type="checkbox" />
+          <span>
+            All of the Content above must be filled in order to claim article
+            creation award.
+          </span>
+          <Disclaimer>
+            {
+              ' comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" '
+            }
+          </Disclaimer>
+        </DisclaimWrapper>
+        <BlueBtn width="162px" margin="29px 0 0 0" onClick={onClick}>
+          Submit
+        </BlueBtn>
+      </form>
     </SectionWrapper>
   );
 }

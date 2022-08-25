@@ -6,6 +6,7 @@ import styles from 'styles/styleLib';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
 type PropsType = {
+  edit?: boolean;
   name: string;
   thumbnailUrl: string;
   team: string;
@@ -23,6 +24,7 @@ type PropsType = {
 };
 
 export default memo(function KeyInfo({
+  edit = false,
   name,
   thumbnailUrl,
   team,
@@ -62,13 +64,21 @@ export default memo(function KeyInfo({
           <p>Team</p>
         </TableItem>
         <TableItem gridArea="Td_Team">
-          <p>{team}</p>
+          {edit ? (
+            <textarea name="team" rows={1} placeholder="Type team name" />
+          ) : (
+            <p>{team}</p>
+          )}
         </TableItem>
         <TableItem gridArea="Tr_Rugpool">
           <p>Rugpool</p>
         </TableItem>
         <TableItem gridArea="Td_Rugpool">
-          <p>{rugpool}</p>
+          {edit ? (
+            <textarea name="rugpool" rows={1} placeholder="Any rugpools?" />
+          ) : (
+            <p>{rugpool}</p>
+          )}
         </TableItem>
         <TableItem gridArea="Th_Category">
           <p>Category</p>
@@ -83,7 +93,15 @@ export default memo(function KeyInfo({
           <p>Utility</p>
         </TableItem>
         <TableItem gridArea="Td_Utility">
-          <p>{utility}</p>
+          {edit ? (
+            <textarea
+              name="utility"
+              rows={1}
+              placeholder="What utilities does it have?"
+            />
+          ) : (
+            <p>{utility}</p>
+          )}
         </TableItem>
         <TableItem gridArea="Th_Price">
           <p>Minting Price</p>
@@ -139,7 +157,15 @@ export default memo(function KeyInfo({
         </TableItem>
         <TableItem gridArea="Tr_Marketplace" />
         <TableItem gridArea="Td_MarketPlace">
-          <p>{marketplace}</p>
+          {edit ? (
+            <textarea
+              name="marketplace"
+              rows={1}
+              placeholder="Ex) opensea ..."
+            />
+          ) : (
+            <p>{marketplace}</p>
+          )}
         </TableItem>
       </Table>
     </>
@@ -227,5 +253,27 @@ const TableItem = styled.div<{ gridArea: string }>`
         return `font-size: 14px; font-weight: 500; text-align: center;`;
       return `padding-left: 14px; font-size: 13px; font-weight: 300; text-align: start`;
     }};
+  }
+
+  textarea {
+    width: 100%;
+    margin: 0;
+    padding-left: 14px;
+    color: ${styles.colors.logColor};
+    font-size: 13px;
+    font-weight: 300;
+    font-family: 'Inter', sans-serif;
+    line-height: 160%;
+    text-align: start;
+    border: none;
+    resize: none;
+
+    :focus-visible {
+      outline: none;
+    }
+
+    ::placeholder {
+      color: #c4c4c4;
+    }
   }
 `;

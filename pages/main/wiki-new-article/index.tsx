@@ -19,11 +19,14 @@ export default function MakeNewArticle() {
     },
     []
   );
-  const onClickSubmit: MouseEventHandler<HTMLButtonElement> =
-    useCallback(() => {
+  const onClickSubmit: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      e.preventDefault();
       // eslint-disable-next-line no-alert
       alert('submit!');
-    }, []);
+    },
+    []
+  );
 
   switch (phase) {
     case 1:

@@ -75,6 +75,7 @@ export default memo(function WikiEdit({
         )}
         <Types types={types} />
         <KeyInfo
+          edit
           name="Sigmate"
           thumbnailUrl=""
           team="sigmate"

@@ -61,7 +61,7 @@ const InfoInnerWrapper = styled.div`
 const Author = styled.p`
   margin: 0;
   color: ${styles.colors.logColor};
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 160%;
 `;

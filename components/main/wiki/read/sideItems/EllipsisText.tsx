@@ -38,4 +38,5 @@ const Text = styled.p<{ height: string }>`
   font-size: 13px;
   font-weight: 300;
   line-height: 160%;
+  overflow: hidden;
 `;

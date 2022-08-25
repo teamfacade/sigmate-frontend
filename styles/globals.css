@@ -27,6 +27,11 @@ aside {
   max-width: 252px;
 }
 
+button:hover, button:active {
+  filter: brightness(0.7);
+  cursor: pointer;
+}
+
 @font-face {
   font-family: 'Inter';
   src: url('../public/Fonts/Inter-Light-BETA.woff') format('woff');

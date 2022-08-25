@@ -25,7 +25,9 @@ const Background = styled.div`
   align-items: center;
   width: 100%;
   height: calc(100% - 56px);
+  border-radius: 8px;
   backdrop-filter: blur(25px);
+  z-index: 3;
 `;
 
 const Text = styled.p`

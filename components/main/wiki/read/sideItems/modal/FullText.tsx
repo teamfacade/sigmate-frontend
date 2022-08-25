@@ -6,15 +6,22 @@ import styles from 'styles/styleLib';
 type PropsType = {
   content: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
+  showHide: boolean;
 };
 
-export default memo(function EllipsisText({ content, onClick }: PropsType) {
+export default memo(function EllipsisText({
+  content,
+  onClick,
+  showHide,
+}: PropsType) {
   return (
     <div>
       <Text>{content}</Text>
-      <BtnWrapper>
-        <HideBtn onClick={onClick}>Hide</HideBtn>
-      </BtnWrapper>
+      {showHide && (
+        <BtnWrapper>
+          <HideBtn onClick={onClick}>Hide</HideBtn>
+        </BtnWrapper>
+      )}
     </div>
   );
 });
@@ -26,6 +33,7 @@ const Text = styled.p`
   font-size: 13px;
   font-weight: 300;
   line-height: 160%;
+  line-break: anywhere;
 `;
 
 const BtnWrapper = styled.div`

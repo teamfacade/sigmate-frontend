@@ -1,9 +1,11 @@
-import { memo } from 'react';
+import { memo, MouseEventHandler, useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
 import { DebateItem } from 'containers/main/wiki/read/sideItems';
 import { SideItemWrapper } from 'components/main/wiki/read/sideItems';
 import styles from 'styles/styleLib';
+import { CSSTransition } from 'react-transition-group';
+import { MoreModal } from './Modal';
 
 type DebateType = {
   id: number;
@@ -48,22 +50,45 @@ export default memo(function Debate({ title }: PropsType) {
   // eslint-disable-next-line
   console.log(`Debate at ${title}`);
 
+  const [showModal, setShowModal] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const onClickMore: MouseEventHandler<HTMLButtonElement> = useCallback(
+    () => setShowModal(true),
+    []
+  );
+  const onClickClose: MouseEventHandler<HTMLButtonElement> = useCallback(
+    () => setShowModal(false),
+    []
+  );
+
   return (
-    <SideItemWrapper header="Debate">
-      {ExDebates.slice(0, 3).map((debate, idx) => (
-        <DebateItem
-          key={debate.id}
-          index={idx}
-          PFPUrl={debate.PFPUrl}
-          author={debate.author}
-          timestamp={debate.timestamp}
-          content={debate.content}
-        />
-      ))}
-      <BtnWrapper>
-        <MoreBtn>more...</MoreBtn>
-      </BtnWrapper>
-    </SideItemWrapper>
+    <>
+      <SideItemWrapper header="Debate">
+        {ExDebates.slice(0, 3).map((debate, idx) => (
+          <DebateItem
+            key={debate.id}
+            index={idx}
+            PFPUrl={debate.PFPUrl}
+            author={debate.author}
+            timestamp={debate.timestamp}
+            content={debate.content}
+          />
+        ))}
+        <BtnWrapper>
+          <MoreBtn onClick={onClickMore}>more...</MoreBtn>
+        </BtnWrapper>
+      </SideItemWrapper>
+      <CSSTransition
+        in={showModal}
+        timeout={300}
+        unmountOnExit
+        classNames="show-modal"
+        nodeRef={modalRef}
+      >
+        <MoreModal header="Debate" onClick={onClickClose} ref={modalRef} />
+      </CSSTransition>
+    </>
   );
 });
 

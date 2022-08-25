@@ -1,6 +1,9 @@
-import { memo, useState, useCallback, MouseEventHandler } from 'react';
+import { memo, useState, useCallback, useRef, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import { Content } from 'components/main/wiki/read/sideItems/modal';
+import {
+  Content,
+  DebateInput,
+} from 'components/main/wiki/read/sideItems/modal';
 
 /** EX */
 type HappenedType = {
@@ -88,6 +91,8 @@ export default memo(function Contents({ header }: PropsType) {
     header === 'Debate' ? ExDebates : ExHappens
   );
 
+  const debateInputRef = useRef<HTMLTextAreaElement>(null);
+
   const onScroll: MouseEventHandler<HTMLDivElement> = useCallback((e) => {
     const { scrollHeight, scrollTop } = e.currentTarget;
     if (scrollHeight - scrollTop < 515) {
@@ -99,23 +104,47 @@ export default memo(function Contents({ header }: PropsType) {
     }
   }, []);
 
+  const onClickWrite: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+    if (debateInputRef.current) {
+      const newOpinion: DebateType = {
+        id: Date.now(),
+        PFPUrl: '',
+        author: 'WK SEO',
+        timestamp: new Date(Date.now()).toISOString(),
+        content: debateInputRef.current.value || '',
+      };
+
+      debateInputRef.current.value = '';
+
+      setContents((current) => {
+        return [newOpinion].concat(current as DebateType[]);
+      });
+    }
+  }, [contents]);
+
   return (
-    <ContentWrapper onScroll={onScroll}>
-      {contents.map((content) => (
-        <Content
-          key={content.id}
-          platform={isDebate(content) ? '' : content.platform}
-          PFPUrl={isDebate(content) ? content.PFPUrl : ''}
-          author={content.author}
-          timestamp={content.timestamp}
-          content={content.content}
-        />
-      ))}
-    </ContentWrapper>
+    <>
+      {header === 'Debate' && (
+        <DebateInput onClick={onClickWrite} ref={debateInputRef} />
+      )}
+      <ContentWrapper onScroll={onScroll}>
+        {contents.map((content) => (
+          <Content
+            key={content.id}
+            platform={isDebate(content) ? '' : content.platform}
+            PFPUrl={isDebate(content) ? content.PFPUrl : ''}
+            author={content.author}
+            timestamp={content.timestamp}
+            content={content.content}
+          />
+        ))}
+      </ContentWrapper>
+    </>
   );
 });
 
 const ContentWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 510px;

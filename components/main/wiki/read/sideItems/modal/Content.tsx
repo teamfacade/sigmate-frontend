@@ -19,7 +19,7 @@ type PropsType = {
   content: string;
 };
 
-const maxWord = 195;
+const maxWord = 190;
 
 export default memo(function Content({
   index = -1,
@@ -39,14 +39,22 @@ export default memo(function Content({
   return (
     <Wrapper>
       <InfoWrapper>
-        {PFPUrl ? <PFP PFPUrl={PFPUrl} /> : <Platform platform={platform} />}
+        {PFPUrl !== undefined ? (
+          <PFP PFPUrl={PFPUrl} />
+        ) : (
+          <Platform platform={platform} />
+        )}
         <InfoInnerWrapper>
           <Author>{author}</Author>
           <TimeDiff index={index} timestamp={timestamp} />
         </InfoInnerWrapper>
       </InfoWrapper>
       {content.length < maxWord || showMore ? (
-        <FullText content={content} onClick={onClick} />
+        <FullText
+          content={content}
+          onClick={onClick}
+          showHide={maxWord < content.length}
+        />
       ) : (
         <EllipsisText height="42px" maxWord={maxWord} content={content}>
           <UnfoldBtn onClick={onClick}>See more</UnfoldBtn>

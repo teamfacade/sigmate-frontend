@@ -46,7 +46,7 @@ const Wrapper = styled.div`
 const MainContentWrapper = styled.div<{ needsWrapper: boolean }>`
   position: relative;
   display: inline-block;
-  margin-right: 20px;
+  margin: 0 20px 0 70px;
   overflow: hidden;
 
   ${({ needsWrapper }) =>

@@ -173,6 +173,7 @@ const Table = styled.div`
     'Th_Marketplace Tr_Marketplace  Td_MarketPlace';
   grid-template-rows: 40px 215px repeat(11, 30px);
   grid-template-columns: 115px 190px 195px;
+  width: fit-content;
   border: 1px solid ${styles.colors.hrColor};
   border-bottom: none;
 `;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { EditBlock } from 'containers/main/wiki/edit';
 import { Title, EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
 import { Types } from 'components/main/wiki/read';
+import { SelectTypes } from 'components/main/wiki/new';
 import styles from 'styles/styleLib';
 
 export type ArticleType = {
@@ -13,8 +14,9 @@ export type ArticleType = {
 type PropsType = {
   newArticle: boolean;
   title: string;
-  types?: string[];
   setTitle?: Dispatch<SetStateAction<string>>;
+  types?: string[];
+  onChangeTypes?: MultiSelectChangeEventHandler;
   blocks: BlockType[];
   setBlocks: Dispatch<SetStateAction<BlockType[]>>;
 };
@@ -29,6 +31,7 @@ export default memo(function WikiEdit({
   newArticle,
   title,
   types = [],
+  onChangeTypes,
   setTitle,
   blocks,
   setBlocks,
@@ -63,7 +66,14 @@ export default memo(function WikiEdit({
 
   return (
     <div>
-      {!newArticle && <Title title={title} onClickSelect={onClickSelect} />}
+      {!newArticle && (
+        <>
+          <Title title={title} onClickSelect={onClickSelect} />
+          <SelectTypes
+            onChange={onChangeTypes as MultiSelectChangeEventHandler}
+          />
+        </>
+      )}
       <ContentWrapper>
         {newArticle && (
           <EditableTitle

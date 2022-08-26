@@ -49,4 +49,5 @@ const Description = styled.p`
 
 const ButtonWrapper = styled.div`
   display: flex;
+  flex-direction: column;
 `;

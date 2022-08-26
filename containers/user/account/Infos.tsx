@@ -1,11 +1,8 @@
-/* eslint-disable no-unused-expressions */
-
 import { memo, useState, useRef, useCallback, MouseEventHandler } from 'react';
-import Image from 'next/image';
 import styled from 'styled-components';
-import { BasicWrapper, SectionWrapper, ImageWrapper } from 'components/global';
-import { InfoItem, PFP } from 'components/user/account';
-import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
+import { BasicWrapper, SectionWrapper } from 'components/global';
+import { InfoItem, PFP, MakePublic } from 'components/user/account';
+import styles from 'styles/styleLib';
 
 /* @todo :
      프로필 사진 변경 버튼 추가
@@ -15,7 +12,7 @@ export default function Infos() {
   const [edit, setEdit] = useState(false);
   const [name, setName] = useState('Initial name');
   const [displayName, setDisplayName] = useState('');
-  const [bio, setBio] = useState('Tell us a little bit about yourself');
+  const [bio, setBio] = useState('');
 
   const nameRef = useRef<HTMLTextAreaElement>(null);
   const displayNameRef = useRef<HTMLTextAreaElement>(null);
@@ -69,7 +66,13 @@ export default function Infos() {
               description="Your bio will be publicly available in your profile page."
               ref={bioRef}
             />
-            <EditBtn onClick={onClick}>{edit ? 'Submit' : 'Edit'}</EditBtn>
+            <Header>Make my account public</Header>
+            <MakePublic edit={edit} name="Twitter" />
+            <MakePublic edit={edit} name="Discord" />
+            <Description>
+              When enabled, your social account will be publically available in your profile page.
+            </Description>
+            <EditBtn onClick={onClick}>{edit ? 'Save' : 'Edit'}</EditBtn>
           </InfoWrapper>
         </Wrapper>
       </SectionWrapper>
@@ -87,6 +90,21 @@ const Wrapper = styled.div`
 
 const InfoWrapper = memo(styled.div`
   margin-left: 60px;
+`);
+
+const Header = memo(styled.h2`
+  margin: 50px 0 15px 0;
+  font-size: 18px;
+  font-weight: bold;
+  white-space: pre;
+`);
+
+const Description = memo(styled.p`
+  margin: 12px 0 0 0;
+  padding-left: 10px;
+  color: ${styles.colors.logoColor};
+  font-size: 14px;
+  white-space: pre-wrap;
 `);
 
 const EditBtn = memo(styled.button`

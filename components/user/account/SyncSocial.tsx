@@ -9,9 +9,12 @@ export default function SyncSocial() {
     if (e.currentTarget.name === 'Twitter') {
       // eslint-disable-next-line no-alert
       alert('Connect Twitter');
-    } else {
+    } else if (e.currentTarget.name === 'Discord') {
       // eslint-disable-next-line no-alert
       alert('Disconnect Discord');
+    } else {
+      // eslint-disable-next-line no-alert
+      alert('Continue with google');
     }
   }, []);
 
@@ -26,6 +29,7 @@ export default function SyncSocial() {
         <ButtonWrapper>
           <SocialBtn name="Twitter" connected={false} onClick={onClick} />
           <SocialBtn name="Discord" connected onClick={onClick} />
+          <SocialBtn name="Google" connected onClick={onClick} />
         </ButtonWrapper>
       </SectionWrapper>
     </BasicWrapper>
@@ -48,4 +52,5 @@ const Description = styled.p`
 
 const ButtonWrapper = styled.div`
   display: flex;
+  flex-direction: column;
 `;

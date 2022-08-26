@@ -5,13 +5,8 @@ import { CSSTransition } from 'react-transition-group';
 import { ArticleType } from 'containers/main/wiki/edit/WikiEdit';
 import { ReadBlock } from 'containers/main/wiki/read';
 import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
-import { KeyInfo, Title, Types } from 'components/main/wiki/read';
+import { ReadKeyInfo, Title, Types } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
-
-export type VoteType = {
-  voted: string;
-  timestamp: string;
-};
 
 type PropsType = {
   article: ArticleType;
@@ -35,7 +30,8 @@ export default function WikiArticle({ article }: PropsType) {
     <Wrapper>
       <Title title={article.title} />
       <Types types={types} />
-      <KeyInfo
+      <ReadKeyInfo
+        setShowModal={setShowModal}
         name="Sigmate"
         thumbnailUrl=""
         team="sigmate"

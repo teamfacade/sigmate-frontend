@@ -1,9 +1,8 @@
 import { useCallback, SetStateAction, Dispatch, memo } from 'react';
 import styled from 'styled-components';
-import type { BlockType } from 'lib/main/wiki/getWikiData';
 import { EditBlock } from 'containers/main/wiki/edit';
-import { Title, EditableTitle } from 'components/main/wiki/edit';
-import { Types, KeyInfo } from 'components/main/wiki/read';
+import { Title, EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
+import { Types } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
 
 export type ArticleType = {
@@ -74,8 +73,7 @@ export default memo(function WikiEdit({
           />
         )}
         <Types types={types} />
-        <KeyInfo
-          edit
+        <EditKeyInfo
           name="Sigmate"
           thumbnailUrl=""
           team="sigmate"

@@ -32,6 +32,12 @@ button:hover, button:active {
   cursor: pointer;
 }
 
+hr {
+  border-right-width: 0;
+  border-left-width: 0;
+  border-top-width: 0;
+}
+
 @font-face {
   font-family: 'Inter';
   src: url('../public/Fonts/Inter-Light-BETA.woff') format('woff');

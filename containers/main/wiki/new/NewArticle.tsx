@@ -5,7 +5,6 @@ import {
   useState,
   useCallback,
 } from 'react';
-import { BlockType } from 'lib/main/wiki/getWikiData';
 import { BasicInfos } from 'containers/main/wiki/new';
 import { WikiEdit } from 'containers/main/wiki/edit';
 import { SectionWrapper } from 'components/global';

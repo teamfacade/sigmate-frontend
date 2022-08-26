@@ -5,5 +5,6 @@ export { default as Title } from './Title';
 export { default as Button } from './Button';
 export { default as EditComponent } from './EditComponent';
 export { default as EditableTitle } from './EditableTitle';
+export { default as EditKeyInfo } from './EditKeyInfo';
 export { default as DisclaimWrapper } from './DisclaimWrapper';
 export { default as Disclaimer } from './Disclaimer';

@@ -1,13 +1,4 @@
-import {
-  memo,
-  Dispatch,
-  SetStateAction,
-  MouseEventHandler,
-  useState,
-  useCallback,
-} from 'react';
-import { VerdictType } from 'lib/main/wiki/getWikiData';
-import { VoteType } from 'containers/main/wiki/read/WikiArticle';
+import { memo, Dispatch, SetStateAction } from 'react';
 import { ReadComponent } from 'components/main/wiki/read';
 import { VerdictBlock } from 'components/main/wiki/read/verdictModal';
 
@@ -28,7 +19,7 @@ export default memo(function ReadBlock({
 }: PropsType) {
   return (
     <VerdictBlock id={id} setShowModal={setShowModal} verdict={verdict}>
-        <ReadComponent tag={tag} content={content} />
-      </VerdictBlock>
+      <ReadComponent tag={tag} content={content} />
+    </VerdictBlock>
   );
 });

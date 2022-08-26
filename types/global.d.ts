@@ -1,5 +1,4 @@
 import { ActionMeta, MultiValue, SingleValue } from 'react-select';
-import { VerdictType } from '../lib/main/wiki/getWikiData';
 
 declare global {
   type OptionType = {
@@ -22,6 +21,26 @@ declare global {
     tag: string;
     content: string;
     verdict?: VerdictType;
+  };
+
+  type CommentType = {
+    id: number;
+    username: string;
+    comment: string;
+  };
+
+  type VerdictType =
+    | {
+        verify: number;
+        warning: number;
+        voted: string;
+        comments: CommentType[];
+      }
+    | undefined;
+
+  type VoteType = {
+    voted: string;
+    timestamp: string;
   };
 
   type ProfileType = {

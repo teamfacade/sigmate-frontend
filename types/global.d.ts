@@ -1,6 +1,17 @@
 import { ActionMeta, MultiValue, SingleValue } from 'react-select';
+import { NextPage } from 'next';
+import { ReactElement, ReactNode } from 'react';
+import { AppProps } from 'next/app';
 
 declare global {
+  type NextPageWithLayout = NextPage & {
+    getLayout?: (page: ReactElement) => ReactNode;
+  };
+
+  type AppPropsWithLayout = AppProps & {
+    Component: NextPageWithLayout;
+  };
+
   interface StringKeyObj<T> {
     [index: string]: T;
   }

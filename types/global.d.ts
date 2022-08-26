@@ -1,6 +1,10 @@
 import { ActionMeta, MultiValue, SingleValue } from 'react-select';
 
 declare global {
+  interface StringKeyObj<T> {
+    [index: string]: T;
+  }
+
   type OptionType = {
     value: string;
     label: string;
@@ -49,7 +53,7 @@ declare global {
     displayName: string;
     bio: string;
     level: number;
-    twitterUrl?: string;
+    twitterID?: string;
     discordID?: string;
   };
 }

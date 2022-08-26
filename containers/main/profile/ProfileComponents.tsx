@@ -7,7 +7,7 @@ type PropsType = {
   displayName: string;
   bio: string;
   level: number;
-  twitterUrl?: string;
+  twitterID?: string;
   discordID?: string;
 };
 
@@ -17,7 +17,7 @@ export default function ProfileComponents({
   displayName,
   bio,
   level,
-  twitterUrl = '',
+  twitterID = '',
   discordID = '',
 }: PropsType) {
   return (
@@ -28,7 +28,7 @@ export default function ProfileComponents({
         displayName={displayName}
         level={level}
       />
-      <BioAndSocials bio={bio} twitterUrl={twitterUrl} discordID={discordID} />
+      <BioAndSocials bio={bio} twitterID={twitterID} discordID={discordID} />
     </Wrapper>
   );
 }

@@ -2,7 +2,6 @@ import { memo } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { Discord, Twitter } from 'public/Icons/main/wiki/read/SideItems';
-import { StringKeyObj } from 'index';
 
 type PropsType = {
   platform: string;

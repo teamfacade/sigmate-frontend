@@ -6,10 +6,6 @@ declare module '*.svg' {
   export default ReactComponent;
 }
 
-declare interface StringKeyObj<T> {
-  [index: string]: T;
-}
-
 declare namespace ReactSelectTypes {
   type OptionType = {
     value: string;

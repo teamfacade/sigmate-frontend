@@ -1,7 +1,3 @@
-interface StringKeyObj<T> {
-  [index: string]: T;
-}
-
 type TimeComponentType = {
   now: string;
   before: string;
@@ -84,7 +80,8 @@ export function getPrettyTimeDiff(dateString: string, lang = 'en') {
 
   if (diff < SECOND) {
     return now;
-  } if (diff < MINUTE) {
+  }
+  if (diff < MINUTE) {
     num = Math.floor(diff / SECOND);
     unit = 'second';
   } else if (diff < HOUR) {

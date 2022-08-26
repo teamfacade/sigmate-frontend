@@ -2,12 +2,6 @@ import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { Twitter, Discord } from 'public/Icons/user/account';
 
-interface StringKeyObj<T> {
-  [index: string]: T;
-  Twitter: T;
-  Discord: T;
-}
-
 type ButtonStylesType = {
   border: string;
   bgColor: string;

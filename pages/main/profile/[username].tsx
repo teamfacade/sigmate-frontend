@@ -8,16 +8,16 @@ export default function Profile({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <SectionWrapper header="Profile" marginBottom="40px">
-        <ProfileComponents
-          PFPUrl={profile.PFPUrl}
-          username={profile.username}
-          displayName={profile.displayName}
-          bio={profile.bio}
-          level={profile.level}
-          twitterUrl={profile.twitterUrl}
-          discordID={profile.discordID}
-        />
-      </SectionWrapper>
+      <ProfileComponents
+        PFPUrl={profile.PFPUrl}
+        username={profile.username}
+        displayName={profile.displayName}
+        bio={profile.bio}
+        level={profile.level}
+        twitterID={profile.twitterID}
+        discordID={profile.discordID}
+      />
+    </SectionWrapper>
   );
 }
 

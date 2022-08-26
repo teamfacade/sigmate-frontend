@@ -3,12 +3,6 @@ import styled from 'styled-components';
 import { Metamask } from 'public/Icons/user/account';
 import styles from 'styles/styleLib';
 
-interface StringKeyObj<T> {
-  [index: string]: T;
-  Metamask: T;
-  ComingSoon: T;
-}
-
 type ButtonStylesType = {
   border: string;
   bgColor: string;

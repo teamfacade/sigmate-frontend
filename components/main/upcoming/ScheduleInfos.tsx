@@ -3,10 +3,6 @@ import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { Etherium } from 'public/Icons/main/upcoming';
 
-interface StringKeyObj<T> {
-  [index: string]: T;
-}
-
 const SymbolIcons: StringKeyObj<typeof Etherium> = {
   ETH: Etherium,
 };

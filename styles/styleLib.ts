@@ -34,6 +34,10 @@ const colors = {
   warningColor: '#DC2626' as const,
   emptyColor: '#EBEDF1' as const,
   forumSubTextColor: '#8894A7' as const,
+  positiveTextColor: '#0D9488' as const,
+  positiveBgColor: '#E0F2F2' as const,
+  negativeTextColor: '#E54646' as const,
+  negativeBgColor: '#FDECEC' as const,
 };
 
 const shadows = {

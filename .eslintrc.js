@@ -40,6 +40,7 @@ module.exports = {
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',
     'no-console': 'warn',
+    'no-undef': 'off',
     'prettier/prettier': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },

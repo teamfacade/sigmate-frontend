@@ -5,6 +5,19 @@ declare global {
     [index: string]: T;
   }
 
+  type MintingType = {
+    name: string;
+    publisher: string;
+    thumbnailURL: string;
+    date: number;
+    price: string;
+    wikiPage?: string;
+    mintPage?: string;
+    twitterUrl?: string;
+    telegramUrl?: string;
+    discordUrl?: string;
+  };
+
   type OptionType = {
     value: string;
     label: string;

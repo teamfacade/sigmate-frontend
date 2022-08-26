@@ -1,21 +1,31 @@
-import { memo, ReactNode } from 'react';
+import { memo, MouseEventHandler, ReactNode } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
+import { ModalBack } from 'public/Icons/global';
 
 type PropsType = {
+  onClickBack?: MouseEventHandler<HTMLButtonElement>;
   header: string;
   marginBottom?: string;
   children: ReactNode;
 };
 
 export default memo(function SectionWrapper({
+  onClickBack,
   header,
   marginBottom,
   children,
 }: PropsType) {
   return (
     <Wrapper marginBottom={marginBottom}>
-      <Heading>{header}</Heading>
+      <HeadWrapper>
+        {onClickBack && (
+          <TransparentBtn onClick={onClickBack}>
+            <ModalBack />
+          </TransparentBtn>
+        )}
+        <Heading>{header}</Heading>
+      </HeadWrapper>
       <hr />
       {children}
     </Wrapper>
@@ -34,6 +44,28 @@ const Wrapper = styled.div<{ marginBottom: string | undefined }>`
 
   & + & {
     margin-top: 50px;
+  }
+`;
+
+const HeadWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const TransparentBtn = styled.button`
+  padding: 0;
+  margin: 0 15px 0 0;
+  background-color: transparent;
+  border: none;
+
+  svg path {
+    fill: #c7cdd6;
+  }
+
+  :hover {
+    svg path {
+      filter: brightness(0.7);
+    }
   }
 `;
 

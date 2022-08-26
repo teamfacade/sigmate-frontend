@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import type { MintingType } from 'containers/user/calendar';
 import { MouseEventHandler } from 'react';
 import styles from 'styles/styleLib';
 import { MintingItem } from '.';
@@ -27,11 +26,12 @@ export default function Mintings({ mintings, onClickMintItem }: PropsType) {
         })}
       </Grid>
     );
-  } return (
-      <Empty>
-        <p>No mintings today</p>
-      </Empty>
-    );
+  }
+  return (
+    <Empty>
+      <p>No mintings today</p>
+    </Empty>
+  );
 }
 
 const Grid = styled.div`

@@ -1,6 +1,5 @@
 import { memo, MouseEventHandler, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import type { MintingType } from 'containers/user/calendar';
 import { SectionWrapper } from 'components/global';
 import { Mintings, MintDetail } from 'components/user/calendar';
 import { Close as CloseIcon } from 'public/Icons/global';
@@ -39,12 +38,10 @@ export default memo(function CalendarModal({
     <Background>
       <Modal>
         <SectionWrapper
+          onClickBack={showDetail ? onClickBack : undefined}
           header={showDetail || date || 'MM.DD.YYYY'}
           marginBottom="16px"
         >
-          <Back onClick={onClickBack} show={showDetail !== ''}>
-            {'<'}
-          </Back>
           <Close onClick={onClick}>
             <CloseIcon />
           </Close>

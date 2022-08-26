@@ -17,6 +17,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768852,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#34382',
@@ -24,6 +27,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768853,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#19',
@@ -31,6 +37,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768854,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#2382',
@@ -38,6 +47,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768855,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#655',
@@ -45,6 +57,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768856,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#56383',
@@ -52,6 +67,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768857,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#56384',
@@ -59,6 +77,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768858,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
   ],
   '08.02.2022': [
@@ -68,6 +89,8 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768852,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#34382',
@@ -75,6 +98,8 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768853,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
     },
   ],
   '08.15.2022': [
@@ -86,16 +111,6 @@ const ExSchedules: ScheduleType = {
       price: '10ETH',
     },
   ],
-};
-
-export type MintingType = {
-  name: string;
-  publisher: string;
-  thumbnailURL: string;
-  date: number;
-  price: string;
-  wikiPage?: string;
-  mintPage?: string;
 };
 
 export default function Calendar() {
@@ -140,7 +155,8 @@ export default function Calendar() {
                     firstName={schedules[formattedDate][0].name}
                   />
                 );
-              } return <div />;
+              }
+              return <div />;
             }}
           />
         </SectionWrapper>

@@ -6,14 +6,13 @@ import {
   CommentContent,
   CommentPFP,
 } from 'components/main/forum/article';
-import { CommentType } from 'containers/main/forum/article/Comments';
 
 type PropsType = {
   id: number;
   PFPUrl: string;
   author: string;
   text: string;
-  replies: CommentType[];
+  replies: ForumCommentType[];
   recommend: number;
   isReply?: boolean;
 };

@@ -80,6 +80,15 @@ declare global {
     twitterID?: string;
     discordID?: string;
   };
+
+  type ForumCommentType = {
+    id: number;
+    PFPUrl: string;
+    author: string;
+    text: string;
+    replies: ForumCommentType[];
+    recommend: number;
+  };
 }
 
 export {};

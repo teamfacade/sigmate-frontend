@@ -1,10 +1,9 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import { Comment } from 'components/main/forum/article';
-import { CommentType } from 'containers/main/forum/article/Comments';
 
 type PropsType = {
-  replies: CommentType[];
+  replies: ForumCommentType[];
   show: boolean;
 };
 

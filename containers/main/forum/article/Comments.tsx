@@ -3,16 +3,7 @@ import styled from 'styled-components';
 import { Comment } from 'components/main/forum/article';
 import styles from 'styles/styleLib';
 
-export type CommentType = {
-  id: number;
-  PFPUrl: string;
-  author: string;
-  text: string;
-  replies: CommentType[];
-  recommend: number;
-};
-
-const ExComment: CommentType = {
+const ExComment: ForumCommentType = {
   id: 1,
   PFPUrl: '',
   author: 'Puvilla',
@@ -62,7 +53,7 @@ const ExComment: CommentType = {
   recommend: 232,
 };
 
-const Excomments: CommentType[] = [
+const Excomments: ForumCommentType[] = [
   ExComment,
   { ...ExComment, id: 2 },
   { ...ExComment, id: 3 },

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { Comment } from 'components/main/forum/article';
 import styles from 'styles/styleLib';
@@ -61,7 +61,11 @@ const Excomments: ForumCommentType[] = [
   { ...ExComment, id: 5 },
 ];
 
-export default memo(function Comments() {
+type PropsType = {
+  setShowModal: Dispatch<SetStateAction<ForumCommentReportType>>;
+};
+
+export default memo(function Comments({ setShowModal }: PropsType) {
   return (
     <Wrapper>
       {Excomments.map((comment) => (
@@ -74,6 +78,7 @@ export default memo(function Comments() {
           replies={comment.replies}
           recommend={comment.recommend}
           isReply={false}
+          setShowModal={setShowModal}
         />
       ))}
     </Wrapper>

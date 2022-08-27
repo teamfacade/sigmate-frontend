@@ -9,6 +9,7 @@ type PropsType = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   isReply?: boolean;
   showReportBtn: boolean;
+  onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function CommentBtns({
@@ -17,22 +18,23 @@ export default memo(function CommentBtns({
   onClick,
   isReply,
   showReportBtn,
+  onClickReport,
 }: PropsType) {
   return (
     <BtnWrapper>
       {!isReply && <ReplyBtn onClick={onClick}>{`reply ${length}`}</ReplyBtn>}
       <VoteBtn>
-        <div>
-          <button type="button">
-            <CommentUpVote />
-          </button>
-          <p>{recommend}</p>
-          <button type="button">
-            <CommentDownVote />
-          </button>
-        </div>
+        <button type="button">
+          <CommentUpVote />
+        </button>
+        <p>{recommend}</p>
+        <button type="button">
+          <CommentDownVote />
+        </button>
       </VoteBtn>
-      <ReportBtn show={showReportBtn}>Report</ReportBtn>
+      <ReportBtn show={showReportBtn} onClick={onClickReport}>
+        Report
+      </ReportBtn>
     </BtnWrapper>
   );
 });
@@ -41,6 +43,7 @@ const BtnWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
   margin-top: 10px;
 
   > button {
@@ -63,17 +66,20 @@ const ReplyBtn = styled.button`
   cursor: pointer;
 `;
 
-const VoteBtn = styled.button`
+const WhiteBtnStyle = `
   padding: 2px 15px;
   color: ${styles.colors.logColor};
   border: 1px solid #ececec;
+  border-radius: 8px;
   background-color: #ffffff;
   font-size: 14px;
   font-weight: 700;
+`;
 
-  div {
-    display: inline-flex;
-    align-items: center;
+const VoteBtn = styled.div`
+  ${WhiteBtnStyle};
+  display: inline-flex;
+  align-items: center;
 
     button {
       position: relative;
@@ -91,7 +97,9 @@ const VoteBtn = styled.button`
   }
 `;
 
-const ReportBtn = styled(VoteBtn)<{ show: boolean }>`
+const ReportBtn = styled.button<{ show: boolean }>`
+  ${WhiteBtnStyle};
   display: ${({ show }) => (show ? 'inline' : 'none')};
-  float: right;
+  position: absolute;
+  right: 0;
 `;

@@ -101,6 +101,11 @@ declare global {
     content: string;
     imageURL: string;
   };
+
+  type ForumCommentReportType = {
+    type: 'comment' | 'reply';
+    id: number;
+  };
 }
 
 export {};

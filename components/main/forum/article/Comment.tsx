@@ -1,4 +1,11 @@
-import { memo, MouseEventHandler, useCallback, useState } from 'react';
+import {
+  memo,
+  useCallback,
+  useState,
+  MouseEventHandler,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import styled from 'styled-components';
 import {
   CommentReplies,
@@ -15,9 +22,9 @@ type PropsType = {
   replies: ForumCommentType[];
   recommend: number;
   isReply?: boolean;
+  setShowModal: Dispatch<SetStateAction<ForumCommentReportType>>;
 };
 
-// eslint-disable-next-line react/no-unused-prop-types
 export default memo(function Comment({
   id,
   PFPUrl,
@@ -26,12 +33,18 @@ export default memo(function Comment({
   replies,
   recommend,
   isReply,
+  setShowModal,
 }: PropsType) {
   const [showReplies, setShowReplies] = useState(false);
   const [showReportBtn, setShowReportBtn] = useState(false);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShowReplies((curShow) => !curShow),
+    []
+  );
+
+  const onClickReport: MouseEventHandler<HTMLButtonElement> = useCallback(
+    () => setShowModal({ type: isReply ? 'reply' : 'comment', id }),
     []
   );
 
@@ -56,10 +69,15 @@ export default memo(function Comment({
             onClick={onClick}
             isReply={isReply}
             showReportBtn={showReportBtn}
+            onClickReport={onClickReport}
           />
         </SubWrapper>
       </FlexWrapper>
-      <CommentReplies replies={replies} show={showReplies} />
+      <CommentReplies
+        replies={replies}
+        show={showReplies}
+        setShowModal={setShowModal}
+      />
     </Wrapper>
   );
 });
@@ -79,6 +97,7 @@ const SubWrapper = styled.div`
 `;
 
 const FlexWrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
 `;

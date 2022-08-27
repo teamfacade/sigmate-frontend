@@ -2,19 +2,7 @@ import styled from 'styled-components';
 import { ArticleContent, Comments } from 'containers/main/forum/article';
 import styles from 'styles/styleLib';
 
-type ArticleType = {
-  id: number;
-  category: string;
-  recommend: number;
-  author: string;
-  tags: string[];
-  timestamp: string;
-  title: string;
-  content: string;
-  imageURL: string;
-};
-
-const ExArticle: ArticleType = {
+const ExArticle: ForumArticleType = {
   id: 1,
   category: 'Game',
   recommend: 322,

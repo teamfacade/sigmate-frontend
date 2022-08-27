@@ -89,6 +89,18 @@ declare global {
     replies: ForumCommentType[];
     recommend: number;
   };
+
+  type ForumArticleType = {
+    id: number;
+    category: string;
+    recommend: number;
+    author: string;
+    tags: string[];
+    timestamp: string;
+    title: string;
+    content: string;
+    imageURL: string;
+  };
 }
 
 export {};

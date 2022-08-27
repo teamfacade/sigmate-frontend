@@ -1,16 +1,14 @@
 import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
-import {
-  CommentDownVote,
-  CommentUpVote,
-} from '../../../../public/Icons/main/forum';
+import { CommentDownVote, CommentUpVote } from 'public/Icons/main/forum';
 
 type PropsType = {
   length: number;
   recommend: number;
   onClick: MouseEventHandler<HTMLButtonElement>;
   isReply?: boolean;
+  showReportBtn: boolean;
 };
 
 export default memo(function CommentBtns({
@@ -18,6 +16,7 @@ export default memo(function CommentBtns({
   recommend,
   onClick,
   isReply,
+  showReportBtn,
 }: PropsType) {
   return (
     <BtnWrapper>
@@ -33,12 +32,14 @@ export default memo(function CommentBtns({
           </button>
         </div>
       </VoteBtn>
+      <ReportBtn show={showReportBtn}>Report</ReportBtn>
     </BtnWrapper>
   );
 });
 
 const BtnWrapper = styled.div`
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   margin-top: 10px;
 
@@ -88,4 +89,9 @@ const VoteBtn = styled.button`
       margin: 0 3px;
     }
   }
+`;
+
+const ReportBtn = styled(VoteBtn)<{ show: boolean }>`
+  display: ${({ show }) => (show ? 'inline' : 'none')};
+  float: right;
 `;

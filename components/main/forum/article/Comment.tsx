@@ -28,14 +28,24 @@ export default memo(function Comment({
   isReply,
 }: PropsType) {
   const [showReplies, setShowReplies] = useState(false);
+  const [showReportBtn, setShowReportBtn] = useState(false);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShowReplies((curShow) => !curShow),
     []
   );
 
+  const onMouseOver: MouseEventHandler<HTMLDivElement> = useCallback(
+    () => setShowReportBtn(true),
+    []
+  );
+  const onMouseLeave: MouseEventHandler<HTMLDivElement> = useCallback(
+    () => setShowReportBtn(false),
+    []
+  );
+
   return (
-    <Wrapper>
+    <Wrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
       <FlexWrapper>
         <CommentPFP PFPUrl={PFPUrl} />
         <SubWrapper>
@@ -45,6 +55,7 @@ export default memo(function Comment({
             recommend={recommend}
             onClick={onClick}
             isReply={isReply}
+            showReportBtn={showReportBtn}
           />
         </SubWrapper>
       </FlexWrapper>

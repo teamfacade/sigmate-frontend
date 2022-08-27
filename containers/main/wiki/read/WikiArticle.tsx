@@ -1,10 +1,18 @@
-import { useState, useCallback, useMemo, MouseEventHandler, memo } from 'react';
+import {
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+  MouseEventHandler,
+  memo,
+} from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { ArticleType } from 'containers/main/wiki/edit/WikiEdit';
 import { ReadBlock } from 'containers/main/wiki/read';
 import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
+import { Modal } from 'components/global';
 import { ReadKeyInfo, Title, Types } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
 
@@ -16,6 +24,8 @@ const types = ['Game', 'Utility'];
 
 export default function WikiArticle({ article }: PropsType) {
   const [showModal, setShowModal] = useState(-1);
+  const ModalRef = useRef<HTMLDivElement>(null);
+
   const modalVerdict = useMemo(
     () => article.blocks.find((block) => block.id === showModal)?.verdict,
     [showModal]
@@ -69,8 +79,13 @@ export default function WikiArticle({ article }: PropsType) {
         timeout={300}
         classNames="show-modal"
         unmountOnExit
+        nodeRef={ModalRef}
       >
-        <VerdictModal verdict={modalVerdict} onMouseDown={onMouseDown} />
+        <VerdictModal
+          verdict={modalVerdict}
+          onMouseDown={onMouseDown}
+          ref={ModalRef}
+        />
       </CSSTransition>
     </Wrapper>
   );

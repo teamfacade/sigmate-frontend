@@ -1,4 +1,10 @@
-import { useState, useCallback, useEffect, MouseEventHandler } from 'react';
+import {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  MouseEventHandler,
+} from 'react';
 // eslint-disable-next-line import/no-named-default
 import { default as MyCalendar, OnChangeDateCallback } from 'react-calendar';
 import { CSSTransition } from 'react-transition-group';
@@ -118,6 +124,7 @@ export default function Calendar() {
   const [showModal, setShowModal] = useState(false);
   const [calDate, setCalDate] = useState('');
   const [mintingKey, setMintingKey] = useState('');
+  const ModalRef = useRef<HTMLDivElement>(null);
 
   const onChange: OnChangeDateCallback = useCallback((value: Date) => {
     setShowModal(true);
@@ -166,11 +173,13 @@ export default function Calendar() {
         timeout={300}
         classNames="show-modal"
         unmountOnExit
+        nodeRef={ModalRef}
       >
         <CalendarModal
           date={calDate}
           mintings={schedules[mintingKey]}
           onClick={onClick}
+          ref={ModalRef}
         />
       </CSSTransition>
     </>

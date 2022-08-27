@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { Contents, BlurDiv } from 'containers/main/wiki/read/sideItems/Modal';
-import { SectionWrapper } from 'components/global';
+import { SectionWrapper, Modal } from 'components/global';
 import { Close as CloseIcon } from 'public/Icons/global';
 import styles from 'styles/styleLib';
 
@@ -29,8 +29,8 @@ export default memo(
     );
 
     return (
-      <Background ref={ref}>
-        <Modal>
+      <>
+        <Modal ref={ref}>
           <SectionWrapper header={header} marginBottom="16px">
             <Close onClick={onClick}>
               <CloseIcon />
@@ -42,32 +42,10 @@ export default memo(
         <button type="button" onClick={onClickSignBtn}>
           SignIn/Out
         </button>
-      </Background>
+      </>
     );
   })
 );
-
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-`;
-
-const Modal = styled.div`
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 750px;
-  padding: 33px;
-  background-color: ${styles.colors.globalBackgroundColor};
-  border-radius: 10px;
-  overflow-y: hidden;
-  box-shadow: ${styles.shadows.modalShadow};
-`;
 
 const Close = styled.button`
   position: absolute;

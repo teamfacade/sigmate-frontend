@@ -1,4 +1,11 @@
-import { FormEventHandler, memo } from 'react';
+import {
+  FormEventHandler,
+  memo,
+  useRef,
+  useState,
+  useCallback,
+  ChangeEventHandler,
+} from 'react';
 import styled from 'styled-components';
 import { SearchIcon } from 'public/Icons/global';
 import styles from 'styles/styleLib';
@@ -16,10 +23,20 @@ export default memo(function Search({
   onSubmit,
   white,
 }: PropsType) {
+  const [empty, setEmpty] = useState(true);
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => setEmpty(e.currentTarget.value === ''),
+    []
+  );
+
   return (
     <SearchForm width={width} white={!!white} onSubmit={onSubmit}>
-      <SearchBar name="bar" placeholder={placeholder || 'Search...'} />
-      <Btn>
+      <SearchBar
+        name="bar"
+        placeholder={placeholder || 'Search...'}
+        onChange={onChange}
+      />
+      <Btn disabled={empty}>
         <SearchIcon />
       </Btn>
     </SearchForm>

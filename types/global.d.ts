@@ -102,6 +102,8 @@ declare global {
     imageURL: string;
   };
 
+  type ForumSearchFilter = 'Category' | 'Title' | 'Content';
+
   type ForumCommentReportType = {
     type: 'comment' | 'reply';
     id: number;

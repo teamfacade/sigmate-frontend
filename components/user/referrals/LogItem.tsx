@@ -26,7 +26,7 @@ export default memo(function LogItem({
       <tr>
         <td>{time}</td>
         <ProfileLink>
-          <Link href="https://naver.com">
+          <Link href={`/main/profile/${username}`}>
             <a>{username}</a>
           </Link>
         </ProfileLink>

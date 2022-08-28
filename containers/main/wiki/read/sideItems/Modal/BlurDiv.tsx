@@ -26,7 +26,7 @@ const Background = styled.div`
   width: 100%;
   height: calc(100% - 56px);
   border-radius: 8px;
-  backdrop-filter: blur(25px);
+  backdrop-filter: blur(10px);
   z-index: 3;
 `;
 

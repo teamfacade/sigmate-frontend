@@ -9,11 +9,11 @@ type PropsType = {
 
 export default memo(function PostBtn({ category }: PropsType) {
   return (
-    <BlueBtn>
-      <Link href={`/main/forum/${category}/new-post`}>
-        <a>Post new</a>
-      </Link>
-    </BlueBtn>
+    <Link href={`/main/forum/${category}/new-post`} passHref>
+      <a>
+        <BlueBtn>Post new</BlueBtn>
+      </a>
+    </Link>
   );
 });
 

@@ -1,5 +1,11 @@
-import { useState, useCallback, ChangeEventHandler } from 'react';
+import {
+  useState,
+  useCallback,
+  ChangeEventHandler,
+  FocusEventHandler,
+} from 'react';
 import styled from 'styled-components';
+import { parseTags } from 'lib/main/forum/parseTags';
 import {
   SingleLineTextArea,
   MainContentTextArea,
@@ -27,11 +33,21 @@ export default function NewPost() {
     }
   }, []);
 
+  const onBlurTagTextArea: FocusEventHandler<HTMLTextAreaElement> = useCallback(
+    (e) => setTag(parseTags(e.currentTarget.value).toString()),
+    []
+  );
+
   return (
     <Wrapper>
       <SingleLineTextArea name="Title" value={title} onChange={onChange} />
       <MainContentTextArea name="Content" value={content} onChange={onChange} />
-      <SingleLineTextArea name="Tag" value={tag} onChange={onChange} />
+      <SingleLineTextArea
+        name="Tag"
+        value={tag}
+        onChange={onChange}
+        onBlur={onBlurTagTextArea}
+      />
       <BtnWrapper>
         <BlueBtn>Post</BlueBtn>
       </BtnWrapper>

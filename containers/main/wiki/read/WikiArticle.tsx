@@ -12,7 +12,6 @@ import { CSSTransition } from 'react-transition-group';
 import { ArticleType } from 'containers/main/wiki/edit/WikiEdit';
 import { ReadBlock } from 'containers/main/wiki/read';
 import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
-import { Modal } from 'components/global';
 import { ReadKeyInfo, Title, Types } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
 
@@ -69,11 +68,12 @@ export default function WikiArticle({ article }: PropsType) {
           />
         );
       })}
-      <EditBtn>
-        <Link href={`/main/wiki-edit/${article.title}`}>
-          <a>Edit</a>
-        </Link>
-      </EditBtn>
+
+      <Link href={`/main/wiki-edit/${article.title}`} passHref>
+        <a>
+          <EditBtn>Edit</EditBtn>
+        </a>
+      </Link>
       <CSSTransition
         in={showModal !== -1}
         timeout={300}
@@ -104,12 +104,9 @@ const EditBtn = memo(styled.button`
   height: 45px;
   border: none;
   border-radius: 8px;
+  color: #ffffff;
   background-color: ${styles.colors.emphColor};
   font-size: 18px;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-
-  a {
-    color: #ffffff;
-  }
 `);

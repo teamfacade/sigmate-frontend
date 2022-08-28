@@ -1,4 +1,4 @@
-import { memo, ChangeEventHandler } from 'react';
+import { memo, ChangeEventHandler, FocusEventHandler } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
@@ -6,17 +6,25 @@ type PropsType = {
   name: string;
   value: string;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
+  onBlur?: FocusEventHandler<HTMLTextAreaElement>;
 };
 
 export default memo(function SingleLineTextArea({
   name,
   value,
   onChange,
+  onBlur,
 }: PropsType) {
   return (
     <div>
       <Name>{name}</Name>
-      <TextArea name={name} rows={1} value={value} onChange={onChange} />
+      <TextArea
+        name={name}
+        rows={1}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
     </div>
   );
 });

@@ -18,6 +18,11 @@ declare global {
     timestamp: number;
   };
 
+  type RecentEditType = {
+    timestamp: number;
+    title: string;
+  };
+
   interface StringKeyObj<T> {
     [index: string]: T;
   }

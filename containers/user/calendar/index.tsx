@@ -150,6 +150,7 @@ export default function Calendar() {
             locale="en-US"
             maxDetail="month"
             minDetail="month"
+            className="my-calendar"
             // eslint-disable-next-line react/no-unstable-nested-components
             tileContent={({ date }) => {
               const formattedDate = convertDate(date, 'key', '.');

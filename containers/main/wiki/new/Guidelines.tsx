@@ -1,7 +1,7 @@
 import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { SectionWrapper, Search } from 'components/global';
-import { Type } from 'components/main/wiki/new';
+import { TypeExample } from 'components/main/wiki/new';
 import BlueBtn from 'components/main/wiki/BlueBtn';
 import styles from 'styles/styleLib';
 
@@ -27,7 +27,11 @@ export default function Guidelines({ onClick }: PropsType) {
     <>
       <SectionWrapper header="Preliminary Notes" marginBottom="20px">
         <Description margin="0 0 50px 0">
-          Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure  comes from sections 1.10.32 and 1.
+          Contrary to popular belief, Lorem Ipsum is not simply random text. It
+          has roots in a piece of classical Latin literature from 45 BC, making
+          it over 2000 years old. Richard McClintock, a Latin professor at
+          Hampden-Sydney College in Virginia, looked up one of the more obscure
+          comes from sections 1.10.32 and 1.
         </Description>
       </SectionWrapper>
       <SectionWrapper header="How to Start New Article" marginBottom="20px">
@@ -51,7 +55,11 @@ export default function Guidelines({ onClick }: PropsType) {
           <Search />
         </div>
         <Description margin="10px 0 30px 0">
-          4. Now choose an appropriate general topic area below, choose the best sub-topic that fits your subject, and use that link to go to its page. Add your request there by clicking "edit" at the appropriate heading. Give a brief description, with links if possible, for the proposed topic, to aid others in understanding your request.
+          4. Now choose an appropriate general topic area below, choose the best
+          sub-topic that fits your subject, and use that link to go to its page.
+          Add your request there by clicking "edit" at the appropriate heading.
+          Give a brief description, with links if possible, for the proposed
+          topic, to aid others in understanding your request.
         </Description>
         <Description margin="0 0 60px ">
           {'Help maintain the list by moving misplaced or unsorted requests to the appropriate section.\n' +
@@ -65,7 +73,7 @@ export default function Guidelines({ onClick }: PropsType) {
         marginBottom="20px"
       >
         {Types.map((type) => {
-          return <Type key={type}>{type}</Type>;
+          return <TypeExample key={type}>{type}</TypeExample>;
         })}
         <BlueBtn absoluteRight onClick={onClick}>
           Next
@@ -76,7 +84,7 @@ export default function Guidelines({ onClick }: PropsType) {
 }
 
 const Description = styled.p<{ margin: string | undefined }>`
-  margin: ${({ margin }) => (margin || '0')};
+  margin: ${({ margin }) => margin || '0'};
   color: ${styles.colors.headerColor};
   font-size: 14px;
   line-height: 160%;

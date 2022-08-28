@@ -5,14 +5,24 @@ import {
   MouseEventHandler,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import { getArticleEditData, BlockType } from 'lib/main/wiki/getWikiData';
+import { getArticleEditData } from 'lib/main/wiki/getWikiData';
 import { WikiEdit, Summary } from 'containers/main/wiki/edit';
 
 export default function WikiEditPage({
   article,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [selectedOption, setSelectedOption] = useState<OptionType[]>([]);
   const [blocks, setBlocks] = useState<BlockType[]>(article.blocks);
   const [summary, setSummary] = useState('');
+
+  const onChangeTypes: MultiSelectChangeEventHandler = useCallback(
+    (selected) => {
+      if (selected) {
+        setSelectedOption(selected.concat());
+      }
+    },
+    []
+  );
 
   const onSummaryChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => setSummary(e.target.value),
@@ -28,6 +38,8 @@ export default function WikiEditPage({
     <>
       <WikiEdit
         newArticle={false}
+        types={selectedOption.map((selected) => selected.value)}
+        onChangeTypes={onChangeTypes}
         title={article.title}
         blocks={blocks}
         setBlocks={setBlocks}

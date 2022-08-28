@@ -6,12 +6,6 @@ import {
 } from 'react';
 import { Heading, Paragraph } from './index';
 
-interface StringKeyObj<T> {
-  [index: string]: T;
-  p: T;
-  h: T;
-}
-
 type PropsType = {
   tag: string;
   content: string;

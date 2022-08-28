@@ -13,12 +13,6 @@ type PropsType = {
 
 type SVGIcon = ReturnType<typeof Google>;
 
-interface StringKeyObj<T> {
-  [index: string]: T;
-  Google: T;
-  Metamask: T;
-}
-
 const Icons: StringKeyObj<SVGIcon> = {
   Google,
   Metamask,
@@ -55,8 +49,8 @@ const Btn = styled.button<{
 }>`
     display: block;
     position: relative;
-    width: ${({ width }) => (width || '490px')};
-    height: ${({ height }) => (height || '67px')};
+    width: ${({ width }) => width || '490px'};
+    height: ${({ height }) => height || '67px'};
     padding: 0;
     border-radius: 8px;
     border: none;

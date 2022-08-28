@@ -1,8 +1,14 @@
-import { useState, useCallback, useEffect, MouseEventHandler } from 'react';
+import {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  MouseEventHandler,
+} from 'react';
 // eslint-disable-next-line import/no-named-default
 import { default as MyCalendar, OnChangeDateCallback } from 'react-calendar';
 import { CSSTransition } from 'react-transition-group';
-import convertDate from 'hooks/convertDate';
+import convertDate from 'lib/global/convertDate';
 import CalendarModal from 'containers/user/calendar/CalendarModal';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { ScheduleThumbnail } from 'components/user/calendar';
@@ -17,6 +23,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768852,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#34382',
@@ -24,6 +33,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768853,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#19',
@@ -31,6 +43,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768854,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#2382',
@@ -38,6 +53,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768855,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#655',
@@ -45,6 +63,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768856,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#56383',
@@ -52,6 +73,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768857,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#56384',
@@ -59,6 +83,9 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768858,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
+      discordUrl: 'https://www.tradingview.com',
     },
   ],
   '08.02.2022': [
@@ -68,6 +95,8 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768852,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      discordUrl: 'https://www.tradingview.com',
     },
     {
       name: '#34382',
@@ -75,6 +104,8 @@ const ExSchedules: ScheduleType = {
       thumbnailURL: '',
       date: 1660722768853,
       price: '10ETH',
+      twitterUrl: 'https://www.twitter.com/elonmusk',
+      telegramUrl: 'https://www.naver.com',
     },
   ],
   '08.15.2022': [
@@ -88,21 +119,12 @@ const ExSchedules: ScheduleType = {
   ],
 };
 
-export type MintingType = {
-  name: string;
-  publisher: string;
-  thumbnailURL: string;
-  date: number;
-  price: string;
-  wikiPage?: string;
-  mintPage?: string;
-};
-
 export default function Calendar() {
   const [schedules, setSchedules] = useState<ScheduleType>({});
   const [showModal, setShowModal] = useState(false);
   const [calDate, setCalDate] = useState('');
   const [mintingKey, setMintingKey] = useState('');
+  const ModalRef = useRef<HTMLDivElement>(null);
 
   const onChange: OnChangeDateCallback = useCallback((value: Date) => {
     setShowModal(true);
@@ -128,6 +150,7 @@ export default function Calendar() {
             locale="en-US"
             maxDetail="month"
             minDetail="month"
+            className="my-calendar"
             // eslint-disable-next-line react/no-unstable-nested-components
             tileContent={({ date }) => {
               const formattedDate = convertDate(date, 'key', '.');
@@ -140,7 +163,8 @@ export default function Calendar() {
                     firstName={schedules[formattedDate][0].name}
                   />
                 );
-              } return <div />;
+              }
+              return <div />;
             }}
           />
         </SectionWrapper>
@@ -150,11 +174,13 @@ export default function Calendar() {
         timeout={300}
         classNames="show-modal"
         unmountOnExit
+        nodeRef={ModalRef}
       >
         <CalendarModal
           date={calDate}
           mintings={schedules[mintingKey]}
           onClick={onClick}
+          ref={ModalRef}
         />
       </CSSTransition>
     </>

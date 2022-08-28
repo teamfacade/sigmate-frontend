@@ -13,6 +13,11 @@ a {
   color: #276BFF;
   text-decoration: none;
   font-family: 'Inter', sans-serif;
+  cursor: pointer;
+
+  :hover, :active {
+    filter: brightness(0.7);
+  }
 }
 
 * {
@@ -21,6 +26,21 @@ a {
 
 p, span {
   font-family: 'Inter', sans-serif;
+}
+
+aside {
+  max-width: 252px;
+}
+
+button:hover, button:active {
+  filter: brightness(0.7);
+  cursor: pointer;
+}
+
+hr {
+  border-right-width: 0;
+  border-left-width: 0;
+  border-top-width: 0;
 }
 
 @font-face {

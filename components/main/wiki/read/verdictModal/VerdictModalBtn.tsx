@@ -3,10 +3,6 @@ import styled from 'styled-components';
 import { ThumbsUp, Warning } from 'public/Icons/main/wiki/read';
 import styles from 'styles/styleLib';
 
-interface StringKeyObj<T> {
-  [index: string]: T;
-}
-
 type ColorsType = {
   background: {
     normal: StringKeyObj<string>;

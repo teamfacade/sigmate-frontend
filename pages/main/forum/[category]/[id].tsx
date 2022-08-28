@@ -1,20 +1,11 @@
+import { useState, useRef, useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
+import { CSSTransition } from 'react-transition-group';
 import { ArticleContent, Comments } from 'containers/main/forum/article';
+import { Modal } from 'components/global';
 import styles from 'styles/styleLib';
 
-type ArticleType = {
-  id: number;
-  category: string;
-  recommend: number;
-  author: string;
-  tags: string[];
-  timestamp: string;
-  title: string;
-  content: string;
-  imageURL: string;
-};
-
-const ExArticle: ArticleType = {
+const ExArticle: ForumArticleType = {
   id: 1,
   category: 'Game',
   recommend: 322,
@@ -30,14 +21,36 @@ const ExArticle: ArticleType = {
 };
 
 export default function Article() {
+  const [showModal, setShowModal] = useState<ForumCommentReportType>({
+    type: 'comment',
+    id: -1,
+  });
+  const ModalRef = useRef<HTMLDivElement>(null);
+
+  const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
+    () => setShowModal({ type: 'comment', id: -1 }),
+    []
+  );
+
   return (
     <>
       <Wrapper>
         <ArticleContent article={ExArticle} />
       </Wrapper>
       <Wrapper>
-        <Comments />
+        <Comments setShowModal={setShowModal} />
       </Wrapper>
+      <CSSTransition
+        in={showModal.id >= 0}
+        timeout={300}
+        classNames="show-modal"
+        unmountOnExit
+        nodeRef={ModalRef}
+      >
+        <Modal onMouseDown={onMouseDown} ref={ModalRef}>
+          <p>{`Report about ${showModal.type}'s comment ${showModal.id}`}</p>
+        </Modal>
+      </CSSTransition>
     </>
   );
 }

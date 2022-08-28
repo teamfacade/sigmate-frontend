@@ -2,11 +2,11 @@ import { memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
-import type { MintingType } from 'containers/user/calendar';
 import { ImageWrapper } from 'components/global';
-import convertDate from 'hooks/convertDate';
+import convertDate from 'lib/global/convertDate';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 import styles from 'styles/styleLib';
+import SocialLink from './SocialLink';
 
 type PropsType = {
   mint?: MintingType;
@@ -31,16 +31,29 @@ export default memo(function MintDetail({ mint }: PropsType) {
           <Content>{mint.price}</Content>
         </FlexWrapper>
         <BtnWrapper>
-          <LinkBtn mintPage={false}>
-            <Link href={mint.wikiPage || 'https://namu.wiki'}>
-              <a>Wiki Page</a>
-            </Link>
-          </LinkBtn>
-          <LinkBtn mintPage>
-            <Link href={mint.mintPage || 'https://opensea.io'}>
-              <a>Minting Page</a>
-            </Link>
-          </LinkBtn>
+          <InnerBtnWrapper>
+            {mint.twitterUrl && (
+              <SocialLink platform="Twitter" url={mint.twitterUrl} />
+            )}
+            {mint.telegramUrl && (
+              <SocialLink platform="Telegram" url={mint.telegramUrl} />
+            )}
+            {mint.discordUrl && (
+              <SocialLink platform="Discord" url={mint.discordUrl} />
+            )}
+          </InnerBtnWrapper>
+          <InnerBtnWrapper>
+            <LinkBtn mintPage={false}>
+              <Link href={mint.wikiPage || 'https://namu.wiki'}>
+                <a>Wiki Page</a>
+              </Link>
+            </LinkBtn>
+            <LinkBtn mintPage>
+              <Link href={mint.mintPage || 'https://opensea.io'}>
+                <a>Minting Page</a>
+              </Link>
+            </LinkBtn>
+          </InnerBtnWrapper>
         </BtnWrapper>
       </Descriptions>
     </Wrapper>
@@ -77,8 +90,16 @@ const Name = styled(Content)`
 
 const BtnWrapper = styled.div`
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   margin-top: 31px;
+`;
+
+const InnerBtnWrapper = styled.div`
+  display: flex;
+
+  a + a {
+    margin-left: 7px;
+  }
 `;
 
 const LinkBtn = styled.button<{ mintPage: boolean }>`

@@ -9,15 +9,14 @@ import {
   useMemo,
 } from 'react';
 import styled from 'styled-components';
-import { VerdictType } from 'lib/main/wiki/getWikiData';
 import { VerdictBtn } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
-import { VoteType } from '../../../../../containers/main/wiki/read/WikiArticle';
 
 type PropsType = {
   id: number;
   setShowModal: Dispatch<SetStateAction<number>>;
   verdict: VerdictType;
+  padding?: boolean;
   children: ReactNode;
 };
 
@@ -25,6 +24,7 @@ export default memo(function VerdictBlock({
   id,
   setShowModal,
   verdict,
+  padding = true,
   children,
 }: PropsType) {
   const [showBtn, setShowBtn] = useState(false);
@@ -82,6 +82,7 @@ export default memo(function VerdictBlock({
     <Wrapper
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      padding={padding}
       percentage={percentage}
     >
       {children}
@@ -113,10 +114,9 @@ export default memo(function VerdictBlock({
   );
 });
 
-const Wrapper = styled.div<{ percentage: number }>`
+const Wrapper = styled.div<{ padding: boolean; percentage: number }>`
   position: relative;
-  padding: 20px;
-  border: 1px solid transparent;
+  padding: ${({ padding }) => (padding ? '20px' : '0')};
   border-left: 4px solid
     ${({ percentage }) => {
       if (percentage > 50)
@@ -124,13 +124,11 @@ const Wrapper = styled.div<{ percentage: number }>`
           2
         )})`;
       if (percentage === 50) return 'transparent';
-      return `rgba(220, 38, 38, ${(((50 - percentage) * 2) / 100).toFixed(
-          2
-        )})`;
+      return `rgba(220, 38, 38, ${(((50 - percentage) * 2) / 100).toFixed(2)})`;
     }} !important;
 
   :hover {
-    border-color: #276bff;
+    border: 1px solid #276bff;
   }
 `;
 

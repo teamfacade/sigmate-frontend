@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
-const Type = styled.p`
+const TypeExample = styled.p`
   margin: 0 0 5px 0;
   color: ${styles.colors.emphColor};
   font-size: 14px;
@@ -9,4 +9,4 @@ const Type = styled.p`
   text-align: left;
 `;
 
-export default Type;
+export default TypeExample;

@@ -1,11 +1,24 @@
-import { memo } from 'react';
+import {
+  memo,
+  useState,
+  Dispatch,
+  SetStateAction,
+  FormEventHandler,
+} from 'react';
 import styled from 'styled-components';
 import { Search } from 'components/global';
+import { SearchFilter } from 'components/main/forum/main';
 
-export default memo(function SearchUtils() {
+type PropsType = {
+  setFilter: Dispatch<SetStateAction<ForumSearchFilter>>;
+  onSearch: FormEventHandler<HTMLFormElement>;
+};
+
+export default memo(function SearchUtils({ setFilter, onSearch }: PropsType) {
   return (
     <Wrapper>
-      <Search white />
+      <SearchFilter setFilter={setFilter} />
+      <Search white onSubmit={onSearch} />
     </Wrapper>
   );
 });

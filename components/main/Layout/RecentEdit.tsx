@@ -13,7 +13,7 @@ export default memo(function RecentEdit({ timestamp, title }: PropsType) {
   return (
     <Edit>
       <EditDate timestamp={timestamp} />
-      <Link href={`https://namu.wiki/w/${title}`}>
+      <Link href={`/main/wiki/${title}`}>
         <a>
           <p>{title}</p>
         </a>

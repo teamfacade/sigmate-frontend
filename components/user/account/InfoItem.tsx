@@ -18,7 +18,13 @@ export default forwardRef<HTMLTextAreaElement, PropsType>(function InfoItem(
     <Wrapper>
       <Header>{header}</Header>
       {edit ? (
-        <Textarea placeholder={content} inputHeight={inputHeight} ref={ref} />
+        <Textarea
+          placeholder={
+            header === 'Bio' ? 'Tell us a little bit about yourself' : content
+          }
+          inputHeight={inputHeight}
+          ref={ref}
+        />
       ) : (
         <Content inputHeight={inputHeight}>{content}</Content>
       )}
@@ -52,12 +58,16 @@ const Textarea = styled.textarea<{ inputHeight: string }>`
   color: ${styles.colors.textColor};
   line-height: 27px;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 300;
   font-family: 'Inter', sans-serif;
   resize: none;
 
   :focus {
     outline: none;
+  }
+
+  ::placeholder {
+    color: #c4c4c4;
   }
 `;
 
@@ -71,7 +81,7 @@ const Content = styled.span<{ inputHeight: string }>`
   color: ${styles.colors.textColor};
   line-height: 27px;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 300;
 `;
 
 const Description = memo(styled.p`

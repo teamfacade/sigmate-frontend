@@ -1,11 +1,10 @@
-import { MouseEventHandler, useState, useCallback } from 'react';
+import { MouseEventHandler, useState, useCallback, forwardRef } from 'react';
 import styled from 'styled-components';
-import { VerdictType } from 'lib/main/wiki/getWikiData';
-import { VoteType } from 'containers/main/wiki/read/WikiArticle';
 import {
   CommunityVerdict,
   Opinion,
 } from 'containers/main/wiki/read/verdictModal';
+import { Modal } from 'components/global';
 import {
   VerdictModalBtn,
   VerdictLog,
@@ -17,7 +16,10 @@ type PropsType = {
   onMouseDown: MouseEventHandler<HTMLDivElement>;
 };
 
-export default function VerdictModal({ verdict, onMouseDown }: PropsType) {
+export default forwardRef<HTMLDivElement, PropsType>(function VerdictModal(
+  { verdict, onMouseDown },
+  ref
+) {
   const [vote, setVote] = useState<VoteType>({
     voted: verdict?.voted || '',
     timestamp: new Date(Date.now()).toISOString(),
@@ -34,46 +36,18 @@ export default function VerdictModal({ verdict, onMouseDown }: PropsType) {
   );
 
   return (
-    <Background onMouseDown={onMouseDown}>
-      <Modal onMouseDown={(e) => e.stopPropagation()}>
-        <Msg>What is your verdict on this content?</Msg>
-        <VerdictBtnWrapper>
-          <VerdictModalBtn name="Verify" voted={vote.voted} onClick={onClick} />
-          <VerdictModalBtn
-            name="Warning"
-            voted={vote.voted}
-            onClick={onClick}
-          />
-        </VerdictBtnWrapper>
-        <VerdictLog vote={vote} />
-        <Opinion />
-        <CommunityVerdict verdict={verdict} />
-      </Modal>
-    </Background>
+    <Modal overflow="initial" onMouseDown={onMouseDown} ref={ref}>
+      <Msg>What is your verdict on this content?</Msg>
+      <VerdictBtnWrapper>
+        <VerdictModalBtn name="Verify" voted={vote.voted} onClick={onClick} />
+        <VerdictModalBtn name="Warning" voted={vote.voted} onClick={onClick} />
+      </VerdictBtnWrapper>
+      <VerdictLog vote={vote} />
+      <Opinion />
+      <CommunityVerdict verdict={verdict} />
+    </Modal>
   );
-}
-
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 1;
-`;
-
-const Modal = styled.div`
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: fit-content;
-  padding: 19px 24px 30px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: ${styles.shadows.modalShadow};
-`;
+});
 
 const Msg = styled.p`
   margin: 0 0 13px 0;

@@ -1,14 +1,18 @@
-import { memo } from 'react';
+import { memo, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { Comment } from 'components/main/forum/article';
-import { CommentType } from 'containers/main/forum/article/Comments';
+import { Comment, CommentInput } from 'components/main/forum/article';
 
 type PropsType = {
-  replies: CommentType[];
+  replies: ForumCommentType[];
   show: boolean;
+  setShowModal: Dispatch<SetStateAction<ForumCommentReportType>>;
 };
 
-export default memo(function CommentReplies({ replies, show }: PropsType) {
+export default memo(function CommentReplies({
+  replies,
+  show,
+  setShowModal,
+}: PropsType) {
   return (
     <RepliesWrapper>
       <ReplyWrapper show={show}>
@@ -22,8 +26,10 @@ export default memo(function CommentReplies({ replies, show }: PropsType) {
             replies={[]}
             recommend={reply.recommend}
             isReply
+            setShowModal={setShowModal}
           />
         ))}
+        <CommentInput />
       </ReplyWrapper>
     </RepliesWrapper>
   );

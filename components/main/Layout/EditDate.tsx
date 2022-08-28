@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react';
-import convertDate from 'hooks/convertDate';
+import convertDate from 'lib/global/convertDate';
 
 type PropsType = {
   timestamp: number;

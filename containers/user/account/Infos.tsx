@@ -1,11 +1,11 @@
-/* eslint-disable no-unused-expressions */
-
 import { memo, useState, useRef, useCallback, MouseEventHandler } from 'react';
-import Image from 'next/image';
 import styled from 'styled-components';
-import { BasicWrapper, SectionWrapper, ImageWrapper } from 'components/global';
-import { InfoItem, PFP } from 'components/user/account';
-import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
+import { BasicWrapper, SectionWrapper } from 'components/global';
+import {
+  InfoItem,
+  PFP,
+  SocialsPublicityToggles,
+} from 'components/user/account';
 
 /* @todo :
      프로필 사진 변경 버튼 추가
@@ -15,7 +15,7 @@ export default function Infos() {
   const [edit, setEdit] = useState(false);
   const [name, setName] = useState('Initial name');
   const [displayName, setDisplayName] = useState('');
-  const [bio, setBio] = useState('Tell us a little bit about yourself');
+  const [bio, setBio] = useState('');
 
   const nameRef = useRef<HTMLTextAreaElement>(null);
   const displayNameRef = useRef<HTMLTextAreaElement>(null);
@@ -69,7 +69,8 @@ export default function Infos() {
               description="Your bio will be publicly available in your profile page."
               ref={bioRef}
             />
-            <EditBtn onClick={onClick}>{edit ? 'Submit' : 'Edit'}</EditBtn>
+            <SocialsPublicityToggles edit={edit} />
+            <EditBtn onClick={onClick}>{edit ? 'Save' : 'Edit'}</EditBtn>
           </InfoWrapper>
         </Wrapper>
       </SectionWrapper>

@@ -1,12 +1,6 @@
 import { memo } from 'react';
 import { Heading, Paragraph } from 'components/main/wiki/read';
 
-interface StringKeyObj<T> {
-  [index: string]: T;
-  p: T;
-  h: T;
-}
-
 type PropsType = {
   tag: string;
   content: string;

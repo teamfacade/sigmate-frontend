@@ -32,7 +32,7 @@ const Wrapper = styled.div<{ direction: string }>`
   & > p {
     padding-bottom: 7px;
     margin: 0 20px;
-    color: ${styles.colors.dividerSepColor};
+    color: ${styles.colors.dividerColor};
     font-size: 20px;
     font-weight: 400;
   }

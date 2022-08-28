@@ -3,11 +3,6 @@ import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { RecentEdit } from 'components/main/Layout';
 
-type RecentEditType = {
-  timestamp: number;
-  title: string;
-};
-
 export default memo(function RecentEdits() {
   const [recentEdits, setRecentEdits] = useState<RecentEditType[]>([]);
 

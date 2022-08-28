@@ -1,4 +1,9 @@
-import { MouseEventHandler, useCallback, useState } from 'react';
+import {
+  FormEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import { SearchUtils, Categories } from 'containers/main/forum/main';
 import { PageMoveBtns } from 'components/global';
@@ -18,7 +23,21 @@ const CategoriesEx = [
 const total = 13;
 
 export default function ForumMain() {
+  const [filter, setFilter] = useState<ForumSearchFilter>('Category');
   const [curPage, setCurPage] = useState(1);
+
+  const onSearch: FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+      // eslint-disable-next-line no-alert
+      alert(
+        `Search ${filter} who has ${
+          (e.currentTarget.elements.namedItem('bar') as HTMLInputElement).value
+        }`
+      );
+    },
+    [filter]
+  );
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -66,7 +85,7 @@ export default function ForumMain() {
   );
   return (
     <Wrapper>
-      <SearchUtils />
+      <SearchUtils setFilter={setFilter} onSearch={onSearch} />
       <Categories categories={CategoriesEx} />
       <PageMoveBtns
         totalPage={total}

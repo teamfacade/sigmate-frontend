@@ -4,20 +4,8 @@ import { Content } from 'components/main/forum/article';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
-type ArticleType = {
-  id: number;
-  category: string;
-  recommend: number;
-  author: string;
-  tags: string[];
-  timestamp: string;
-  title: string;
-  content: string;
-  imageURL: string;
-};
-
 type PropsType = {
-  article: ArticleType;
+  article: ForumArticleType;
 };
 
 export default memo(function ArticleContent({ article }: PropsType) {

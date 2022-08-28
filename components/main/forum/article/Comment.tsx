@@ -1,4 +1,11 @@
-import { memo, MouseEventHandler, useCallback, useState } from 'react';
+import {
+  memo,
+  useCallback,
+  useState,
+  MouseEventHandler,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import styled from 'styled-components';
 import {
   CommentReplies,
@@ -6,19 +13,18 @@ import {
   CommentContent,
   CommentPFP,
 } from 'components/main/forum/article';
-import { CommentType } from 'containers/main/forum/article/Comments';
 
 type PropsType = {
   id: number;
   PFPUrl: string;
   author: string;
   text: string;
-  replies: CommentType[];
+  replies: ForumCommentType[];
   recommend: number;
   isReply?: boolean;
+  setShowModal: Dispatch<SetStateAction<ForumCommentReportType>>;
 };
 
-// eslint-disable-next-line react/no-unused-prop-types
 export default memo(function Comment({
   id,
   PFPUrl,
@@ -27,18 +33,34 @@ export default memo(function Comment({
   replies,
   recommend,
   isReply,
+  setShowModal,
 }: PropsType) {
   const [showReplies, setShowReplies] = useState(false);
+  const [showReportBtn, setShowReportBtn] = useState(false);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShowReplies((curShow) => !curShow),
     []
   );
 
+  const onClickReport: MouseEventHandler<HTMLButtonElement> = useCallback(
+    () => setShowModal({ type: isReply ? 'reply' : 'comment', id }),
+    []
+  );
+
+  const onMouseOver: MouseEventHandler<HTMLDivElement> = useCallback(
+    () => setShowReportBtn(true),
+    []
+  );
+  const onMouseLeave: MouseEventHandler<HTMLDivElement> = useCallback(
+    () => setShowReportBtn(false),
+    []
+  );
+
   return (
-    <Wrapper>
+    <Wrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
       <FlexWrapper>
-        <CommentPFP PFPUrl={PFPUrl} />
+        <CommentPFP PFPUrl={PFPUrl} author={author} />
         <SubWrapper>
           <CommentContent author={author} text={text} />
           <CommentBtns
@@ -46,10 +68,16 @@ export default memo(function Comment({
             recommend={recommend}
             onClick={onClick}
             isReply={isReply}
+            showReportBtn={showReportBtn}
+            onClickReport={onClickReport}
           />
         </SubWrapper>
       </FlexWrapper>
-      <CommentReplies replies={replies} show={showReplies} />
+      <CommentReplies
+        replies={replies}
+        show={showReplies}
+        setShowModal={setShowModal}
+      />
     </Wrapper>
   );
 });
@@ -69,6 +97,7 @@ const SubWrapper = styled.div`
 `;
 
 const FlexWrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
 `;

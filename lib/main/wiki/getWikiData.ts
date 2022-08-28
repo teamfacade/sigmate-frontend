@@ -1,25 +1,3 @@
-type CommentType = {
-  id: number;
-  username: string;
-  comment: string;
-};
-
-export type VerdictType =
-  | {
-      verify: number;
-      warning: number;
-      voted: string;
-      comments: CommentType[];
-    }
-  | undefined;
-
-export type BlockType = {
-  id: number;
-  tag: string;
-  content: string;
-  verdict?: VerdictType;
-};
-
 const ExVerdict: VerdictType = {
   verify: 2400,
   warning: 351,

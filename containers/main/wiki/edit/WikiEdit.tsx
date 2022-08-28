@@ -1,8 +1,9 @@
 import { useCallback, SetStateAction, Dispatch, memo } from 'react';
 import styled from 'styled-components';
-import type { BlockType } from 'lib/main/wiki/getWikiData';
 import { EditBlock } from 'containers/main/wiki/edit';
-import { Title, EditableTitle } from 'components/main/wiki/edit';
+import { Title, EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
+import { Types } from 'components/main/wiki/read';
+import { SelectTypes } from 'components/main/wiki/new';
 import styles from 'styles/styleLib';
 
 export type ArticleType = {
@@ -14,6 +15,8 @@ type PropsType = {
   newArticle: boolean;
   title: string;
   setTitle?: Dispatch<SetStateAction<string>>;
+  types?: string[];
+  onChangeTypes?: MultiSelectChangeEventHandler;
   blocks: BlockType[];
   setBlocks: Dispatch<SetStateAction<BlockType[]>>;
 };
@@ -27,6 +30,8 @@ const createNewBlock = (tag: string) => ({
 export default memo(function WikiEdit({
   newArticle,
   title,
+  types = [],
+  onChangeTypes,
   setTitle,
   blocks,
   setBlocks,
@@ -61,7 +66,14 @@ export default memo(function WikiEdit({
 
   return (
     <div>
-      {!newArticle && <Title title={title} onClickSelect={onClickSelect} />}
+      {!newArticle && (
+        <>
+          <Title title={title} onClickSelect={onClickSelect} />
+          <SelectTypes
+            onChange={onChangeTypes as MultiSelectChangeEventHandler}
+          />
+        </>
+      )}
       <ContentWrapper>
         {newArticle && (
           <EditableTitle
@@ -70,6 +82,23 @@ export default memo(function WikiEdit({
             onClickSelect={onClickSelect}
           />
         )}
+        <Types types={types} />
+        <EditKeyInfo
+          name="Sigmate"
+          thumbnailUrl=""
+          team="sigmate"
+          rugpool=""
+          type=""
+          utility="Game"
+          WLPrice="0.25 ETH"
+          publicPrice="0.3 ETH"
+          currentPrice="1.5 ETH"
+          discordUrl="https://www.naver.com"
+          twitterUrl="https://www.twitter.com/bellygom"
+          officialSiteUrl="localhost:3000/main"
+          chain="ETH"
+          marketplace="Opensea"
+        />
         {blocks.map((block) => {
           return (
             <EditBlock

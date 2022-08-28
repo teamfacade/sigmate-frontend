@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useCallback, FormEventHandler } from 'react';
-import { MainLayout, UserLayout , Heads } from 'layouts';
+import { MainLayout, UserLayout, Heads } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
-import 'styles/MyCalendar.css';
+import 'styles/Calendars.css';
 import 'styles/ShowModal.css';
 import 'styles/Fade.css';
 
@@ -30,7 +30,8 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <Component {...pageProps} />
       </>
     );
-  } if (router.pathname.startsWith('/main')) {
+  }
+  if (router.pathname.startsWith('/main')) {
     return (
       <>
         <Heads />
@@ -49,7 +50,8 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <Footer />
       </>
     );
-  } if (router.pathname.startsWith('/user')) {
+  }
+  if (router.pathname.startsWith('/user')) {
     return (
       <>
         <Heads />
@@ -58,12 +60,13 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <Footer />
       </>
     );
-  } return (
-      <>
-        <Heads />
-        <Navbar />
-        {getLayout(<Component {...pageProps} />)}
-        <Footer />
-      </>
-    );
+  }
+  return (
+    <>
+      <Heads />
+      <Navbar />
+      {getLayout(<Component {...pageProps} />)}
+      <Footer />
+    </>
+  );
 }

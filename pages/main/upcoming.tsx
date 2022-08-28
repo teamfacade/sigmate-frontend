@@ -2,6 +2,7 @@ import { MouseEventHandler, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Utils, Schedules } from 'containers/main/upcoming';
 import { PageMoveBtns } from 'components/global';
+import { OnChangeDateCallback } from 'react-calendar';
 
 const ScheduleEx = {
   id: 1,
@@ -31,7 +32,19 @@ const SchedulesEx = [
 const total = 13;
 
 export default function Upcoming() {
+  const [today, setToday] = useState<Date>(new Date(Date.now()));
+  const [showCalendar, setShowCalendar] = useState(false);
   const [curPage, setCurPage] = useState(1);
+
+  const onClickDateBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
+    () => setShowCalendar((current) => !current),
+    []
+  );
+
+  const onChangeDate: OnChangeDateCallback = useCallback((value: Date) => {
+    setShowCalendar(false);
+    setToday(value);
+  }, []);
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -79,7 +92,12 @@ export default function Upcoming() {
   );
   return (
     <Wrapper>
-      <Utils />
+      <Utils
+        today={today}
+        showCalendar={showCalendar}
+        onClick={onClickDateBtn}
+        onChange={onChangeDate}
+      />
       <Schedules schedules={SchedulesEx} />
       <PageMoveBtns
         totalPage={total}

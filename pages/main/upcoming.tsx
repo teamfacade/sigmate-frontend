@@ -1,8 +1,9 @@
 import { MouseEventHandler, useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { OnChangeDateCallback } from 'react-calendar';
 import { Utils, Schedules } from 'containers/main/upcoming';
 import { PageMoveBtns } from 'components/global';
-import { OnChangeDateCallback } from 'react-calendar';
+import { RegisterBtn } from 'components/main/forum/main';
 
 const ScheduleEx = {
   id: 1,
@@ -105,6 +106,7 @@ export default function Upcoming() {
         onClickPageMoveBtn={onClickPageMoveBtn}
         onClickPageNumBtn={onClickPageNumBtn}
       />
+      <RegisterBtn />
     </Wrapper>
   );
 }

@@ -1,4 +1,5 @@
 import {
+  FocusEventHandler,
   KeyboardEventHandler,
   MouseEventHandler,
   useCallback,
@@ -7,13 +8,20 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { CheckUsername, CheckRefcode } from 'lib/auth/checkInput';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
-import styles from '../../styles/styleLib';
+import styles from 'styles/styleLib';
 
 export default function AccSetup() {
   const router = useRouter();
   const [username, setUsername] = useState('');
+  const [isValidUsername, setIsValidUsername] = useState<boolean | undefined>(
+    undefined
+  );
   const [refCode, setRefCode] = useState('');
+  const [isValidRefCode, setIsValidRefCode] = useState<boolean | undefined>(
+    undefined
+  );
 
   const onChange: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
@@ -22,6 +30,17 @@ export default function AccSetup() {
       else setRefCode(e.currentTarget.value);
     },
     []
+  );
+
+  const onBlur: FocusEventHandler<HTMLTextAreaElement> = useCallback(
+    (e) => {
+      if (e.currentTarget.name === 'Username') {
+        setIsValidUsername(CheckUsername(username));
+      } else {
+        setIsValidRefCode(CheckRefcode(refCode));
+      }
+    },
+    [username, refCode]
   );
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -44,8 +63,16 @@ export default function AccSetup() {
         name="Username"
         placeholder="Ex. John"
         onChange={onChange}
+        onBlur={onBlur}
+        isValid={isValidUsername}
+        description="@todo Rules for username will be here"
       />
-      <InputTemplate name="Referral Code" onChange={onChange} />
+      <InputTemplate
+        name="Referral Code"
+        onChange={onChange}
+        onBlur={onBlur}
+        isValid={isValidRefCode}
+      />
       <Divider direction="row" separate={false} />
       <Name>Connect Wallet</Name>
       <OAuthBtn

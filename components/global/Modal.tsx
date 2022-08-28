@@ -5,16 +5,20 @@ import styles from 'styles/styleLib';
 type PropsType = {
   children: ReactNode;
   onMouseDown?: MouseEventHandler<HTMLDivElement>;
+  overflow?: string;
 };
 
 export default memo(
   forwardRef<HTMLDivElement, PropsType>(function Modal(
-    { children, onMouseDown },
+    { children, onMouseDown, overflow },
     ref
   ) {
     return (
       <Background onMouseDown={onMouseDown} ref={ref}>
-        <ModalComponent onMouseDown={(e) => e.stopPropagation()}>
+        <ModalComponent
+          overflow={overflow}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
           {children}
         </ModalComponent>
       </Background>
@@ -28,9 +32,10 @@ const Background = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 2;
 `;
 
-const ModalComponent = styled.div`
+const ModalComponent = styled.div<{ overflow?: string }>`
   position: relative;
   top: 50%;
   left: 50%;
@@ -39,6 +44,6 @@ const ModalComponent = styled.div`
   padding: 33px;
   background-color: ${styles.colors.globalBackgroundColor};
   border-radius: 10px;
-  overflow-y: hidden;
+  overflow-y: ${({ overflow }) => (overflow || 'hidden')};
   box-shadow: ${styles.shadows.modalShadow};
 `;

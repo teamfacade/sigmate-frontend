@@ -36,7 +36,7 @@ export default forwardRef<HTMLDivElement, PropsType>(function VerdictModal(
   );
 
   return (
-    <Modal ref={ref}>
+    <Modal overflow="initial" onMouseDown={onMouseDown} ref={ref}>
       <Msg>What is your verdict on this content?</Msg>
       <VerdictBtnWrapper>
         <VerdictModalBtn name="Verify" voted={vote.voted} onClick={onClick} />

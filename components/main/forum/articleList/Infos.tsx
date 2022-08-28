@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import Link from 'next/link';
 import styled from 'styled-components';
 import convertDate from 'lib/global/convertDate';
 import styles from 'styles/styleLib';
@@ -12,7 +13,9 @@ type PropsType = {
 export default memo(function Infos({ author, tags, timestamp }: PropsType) {
   return (
     <Wrapper>
-      <Author>{author}</Author>
+      <Link href={`/main/profile/${author}`} passHref>
+        <Author>{author}</Author>
+      </Link>
       {tags.slice(0, 5).map((tag) => (
         <Text key={tag}>{`#${tag}`}</Text>
       ))}
@@ -32,7 +35,7 @@ const Wrapper = styled.div`
   border-bottom: 1px solid ${styles.colors.dividerColor};
 `;
 
-const Author = styled.p`
+const Author = styled.a`
   padding: 4px 16px;
   margin: 0 15px 0 0;
   border-radius: 8px;

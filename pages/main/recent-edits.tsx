@@ -6,18 +6,12 @@ import {
   useState,
 } from 'react';
 import styled from 'styled-components';
-import { EditLogs } from 'containers/main/recentEdits';
+import { EditLogs } from 'containers/main/recent-edits';
 import { SectionWrapper, PageMoveBtns } from 'components/global';
-import { LogSelect } from 'components/main/RecentEdits';
-
-export type EditType = {
-  name: string;
-  editor: string;
-  timestamp: number;
-};
+import { LogSelect } from 'components/main/recent-edits';
 
 const total = 482;
-const ExEditLogs = [
+const ExEditLogs: EditType[] = [
   {
     name: 'Superwalk Genesis',
     editor: 'Limeahn',

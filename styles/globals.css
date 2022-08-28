@@ -13,6 +13,11 @@ a {
   color: #276BFF;
   text-decoration: none;
   font-family: 'Inter', sans-serif;
+  cursor: pointer;
+
+  :hover, :active {
+    filter: brightness(0.7);
+  }
 }
 
 * {

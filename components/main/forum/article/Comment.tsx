@@ -60,7 +60,7 @@ export default memo(function Comment({
   return (
     <Wrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
       <FlexWrapper>
-        <CommentPFP PFPUrl={PFPUrl} />
+        <CommentPFP PFPUrl={PFPUrl} author={author} />
         <SubWrapper>
           <CommentContent author={author} text={text} />
           <CommentBtns

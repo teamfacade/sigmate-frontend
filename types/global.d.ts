@@ -12,6 +12,12 @@ declare global {
     Component: NextPageWithLayout;
   };
 
+  type EditType = {
+    name: string;
+    editor: string;
+    timestamp: number;
+  };
+
   interface StringKeyObj<T> {
     [index: string]: T;
   }

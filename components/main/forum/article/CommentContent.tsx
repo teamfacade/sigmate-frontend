@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import Link from 'next/link';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
@@ -10,7 +11,9 @@ type PropsType = {
 export default memo(function CommentContent({ author, text }: PropsType) {
   return (
     <ContentWrapper>
-      <Author>{author}</Author>
+      <Link href={`/main/profile/${author}`}>
+        <Author>{author}</Author>
+      </Link>
       <Text>{text}</Text>
     </ContentWrapper>
   );
@@ -18,7 +21,7 @@ export default memo(function CommentContent({ author, text }: PropsType) {
 
 const ContentWrapper = styled.div``;
 
-const Author = styled.p`
+const Author = styled.a`
   margin: 0;
   color: ${styles.colors.logColor};
   font-size: 18px;

@@ -18,12 +18,12 @@ export default memo(function LogItem({ name, editor, timestamp }: PropsType) {
     <tbody>
       <tr>
         <td>
-          <Link href={`https://namu.wiki/history/${name}`}>
+          <Link href={`/main/wiki/${name}`}>
             <a>{name}</a>
           </Link>
         </td>
         <td>
-          <Link href={`https://www.instagram.com/${editor}/`}>
+          <Link href={`/main/profile/${editor}`}>
             <a>{editor}</a>
           </Link>
         </td>

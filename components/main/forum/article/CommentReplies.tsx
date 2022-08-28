@@ -1,6 +1,6 @@
 import { memo, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { Comment } from 'components/main/forum/article';
+import { Comment, CommentInput } from 'components/main/forum/article';
 
 type PropsType = {
   replies: ForumCommentType[];
@@ -29,6 +29,7 @@ export default memo(function CommentReplies({
             setShowModal={setShowModal}
           />
         ))}
+        <CommentInput />
       </ReplyWrapper>
     </RepliesWrapper>
   );

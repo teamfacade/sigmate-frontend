@@ -1,7 +1,6 @@
 import { memo } from 'react';
-import type { EditType } from 'pages/main/recent-edits';
 import { LogTable } from 'components/global';
-import { LogHead, LogItem } from 'components/main/RecentEdits';
+import { LogHead, LogItem } from 'components/main/recent-edits';
 
 type PropsType = {
   editLogs: EditType[];

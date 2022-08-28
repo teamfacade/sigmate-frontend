@@ -4,6 +4,7 @@ import {
   MouseEventHandler,
   useCallback,
   useState,
+  useRef,
 } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -22,6 +23,8 @@ export default function AccSetup() {
   const [isValidRefCode, setIsValidRefCode] = useState<boolean | undefined>(
     undefined
   );
+  const usernameTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const refCodeTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const onChange: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
@@ -48,13 +51,14 @@ export default function AccSetup() {
       if (e.currentTarget.name === 'Metamask') {
         // eslint-disable-next-line no-alert
         alert('Connect Metamask wallet');
-      } else {
-        // eslint-disable-next-line no-alert
-        alert('Signed up...');
-        await router.push('/main');
-      }
+      } else if (isValidRefCode && isValidUsername) {
+          // eslint-disable-next-line no-alert
+          alert('Signed up...');
+          await router.push('/main');
+        } else if (!isValidUsername) usernameTextareaRef.current?.focus();
+        else refCodeTextareaRef.current?.focus();
     },
-    []
+    [isValidUsername, isValidRefCode]
   );
 
   return (
@@ -66,12 +70,14 @@ export default function AccSetup() {
         onBlur={onBlur}
         isValid={isValidUsername}
         description="@todo Rules for username will be here"
+        ref={usernameTextareaRef}
       />
       <InputTemplate
         name="Referral Code"
         onChange={onChange}
         onBlur={onBlur}
         isValid={isValidRefCode}
+        ref={refCodeTextareaRef}
       />
       <Divider direction="row" separate={false} />
       <Name>Connect Wallet</Name>

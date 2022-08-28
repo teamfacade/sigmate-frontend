@@ -1,6 +1,6 @@
 import { useMemo, memo } from 'react';
 import styled from 'styled-components';
-import convertDate from 'hooks/convertDate';
+import convertDate from 'lib/global/convertDate';
 import { ApproveResult } from 'components/user/edits';
 import styles from 'styles/styleLib';
 

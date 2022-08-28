@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import styled from 'styled-components';
-import { getPrettyTimeDiff } from 'hooks/calcTimeDiff';
+import { getPrettyTimeDiff } from 'lib/global/calcTimeDiff';
 import styles from 'styles/styleLib';
 
 type PropsType = {

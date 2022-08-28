@@ -1,7 +1,7 @@
 import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import Calendar, { OnChangeDateCallback } from 'react-calendar';
-import convertDate from 'hooks/convertDate';
+import convertDate from 'lib/global/convertDate';
 import { Search } from 'components/global';
 import styles from 'styles/styleLib';
 

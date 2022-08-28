@@ -1,6 +1,6 @@
 import { useMemo, memo } from 'react';
 import Link from 'next/link';
-import convertDate from 'hooks/convertDate';
+import convertDate from 'lib/global/convertDate';
 
 type PropsType = {
   name: string;

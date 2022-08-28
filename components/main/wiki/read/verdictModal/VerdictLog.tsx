@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import styled from 'styled-components';
-import convertDate from 'hooks/convertDate';
+import convertDate from 'lib/global/convertDate';
 import { VoteType } from 'containers/main/wiki/read/ReadBlock';
 import styles from 'styles/styleLib';
 

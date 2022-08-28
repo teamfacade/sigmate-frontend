@@ -8,7 +8,7 @@ import {
 // eslint-disable-next-line import/no-named-default
 import { default as MyCalendar, OnChangeDateCallback } from 'react-calendar';
 import { CSSTransition } from 'react-transition-group';
-import convertDate from 'hooks/convertDate';
+import convertDate from 'lib/global/convertDate';
 import CalendarModal from 'containers/user/calendar/CalendarModal';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { ScheduleThumbnail } from 'components/user/calendar';

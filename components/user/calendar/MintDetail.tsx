@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { ImageWrapper } from 'components/global';
-import convertDate from 'hooks/convertDate';
+import convertDate from 'lib/global/convertDate';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 import styles from 'styles/styleLib';
 import SocialLink from './SocialLink';

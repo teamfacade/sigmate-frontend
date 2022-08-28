@@ -1,8 +1,11 @@
 import { memo, useState, useRef, useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { BasicWrapper, SectionWrapper } from 'components/global';
-import { InfoItem, PFP, MakePublic } from 'components/user/account';
-import styles from 'styles/styleLib';
+import {
+  InfoItem,
+  PFP,
+  SocialsPublicityToggles,
+} from 'components/user/account';
 
 /* @todo :
      프로필 사진 변경 버튼 추가
@@ -66,12 +69,7 @@ export default function Infos() {
               description="Your bio will be publicly available in your profile page."
               ref={bioRef}
             />
-            <Header>Make my account public</Header>
-            <MakePublic edit={edit} name="Twitter" />
-            <MakePublic edit={edit} name="Discord" />
-            <Description>
-              When enabled, your social account will be publically available in your profile page.
-            </Description>
+            <SocialsPublicityToggles edit={edit} />
             <EditBtn onClick={onClick}>{edit ? 'Save' : 'Edit'}</EditBtn>
           </InfoWrapper>
         </Wrapper>
@@ -90,21 +88,6 @@ const Wrapper = styled.div`
 
 const InfoWrapper = memo(styled.div`
   margin-left: 60px;
-`);
-
-const Header = memo(styled.h2`
-  margin: 50px 0 15px 0;
-  font-size: 18px;
-  font-weight: bold;
-  white-space: pre;
-`);
-
-const Description = memo(styled.p`
-  margin: 12px 0 0 0;
-  padding-left: 10px;
-  color: ${styles.colors.logoColor};
-  font-size: 14px;
-  white-space: pre-wrap;
 `);
 
 const EditBtn = memo(styled.button`

@@ -17,14 +17,18 @@
     ]
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.5",
     "clipboard": "^2.0.11",
     "next": "12.2.1",
+    "next-redux-wrapper": "^7.0.5",
     "polished": "^4.2.2",
     "react": "18.2.0",
     "react-calendar": "^3.7.0",
     "react-dom": "18.2.0",
+    "react-redux": "^8.0.2",
     "react-select": "^5.4.0",
     "react-transition-group": "^4.4.2",
+    "redux-logger": "^3.0.6",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {

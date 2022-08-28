@@ -1,18 +1,22 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
+import { setAuthState } from 'store/modules/authSlice';
 import { AuthComponents, AccSetup, LogoWithLinks } from 'containers/auth';
 
 export default function AuthPage() {
-  const [MoreInfo, setMoreInfo] = useState(false);
+  const dispatch = useAppDispatch();
+  const signedUp = useAppSelector(({ auth }) => auth.authState);
 
-  const onClickShow = () => setMoreInfo(true);
-  const onClickNotShow = () => setMoreInfo(false);
+  const onClickShow = () => {
+    dispatch(setAuthState(true));
+  };
+  const onClickNotShow = () => dispatch(setAuthState(false));
 
   return (
     <div style={{ height: '100vh' }}>
       <Wrapper>
         <LeftWrapper>
-          {MoreInfo ? <AccSetup /> : <AuthComponents />}
+          {signedUp ? <AccSetup /> : <AuthComponents />}
         </LeftWrapper>
         <RightWrapper>
           <LogoWithLinks />

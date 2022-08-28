@@ -4,6 +4,12 @@ import { ReactElement, ReactNode } from 'react';
 import { AppProps } from 'next/app';
 
 declare global {
+  namespace ReduxState {
+    interface AuthStateType {
+      authState: boolean;
+    }
+  }
+
   type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode;
   };

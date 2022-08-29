@@ -4,7 +4,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 // Initial state
 export const initialState: ReduxState.AccountStateType = {
   PFPUrl: '',
-  username: '',
+  username: 'Sign In',
   displayName: '',
 };
 

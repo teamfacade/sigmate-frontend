@@ -9,6 +9,7 @@ export default function Navbar() {
   const { PFPUrl, username, displayName } = useAppSelector(
     ({ account }) => account
   );
+  const { signedIn } = useAppSelector(({ auth }) => auth);
 
   return (
     <nav>
@@ -17,7 +18,7 @@ export default function Navbar() {
           <Logo>sigmate</Logo>
         </Link>
         <Links />
-        <Link href="/user">
+        <Link href={`${signedIn ? '/user' : '/auth'}`}>
           <a>
             <Profile
               PFPUrl={PFPUrl}

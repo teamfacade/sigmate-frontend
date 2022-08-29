@@ -1,10 +1,15 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { Links, Profile } from 'components/Navbar';
 import styles from 'styles/styleLib';
 
 // @todo 프로필 정보 사용자 정보로 변경
 export default function Navbar() {
+  const { PFPUrl, username, displayName } = useAppSelector(
+    ({ account }) => account
+  );
+
   return (
     <nav>
       <Wrapper>
@@ -14,7 +19,11 @@ export default function Navbar() {
         <Links />
         <Link href="/user">
           <a>
-            <Profile name="WK seo" description="Design Manager" />
+            <Profile
+              PFPUrl={PFPUrl}
+              name={username}
+              description={displayName}
+            />
           </a>
         </Link>
       </Wrapper>

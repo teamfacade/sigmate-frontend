@@ -1,22 +1,35 @@
 import { memo } from 'react';
+import Image from 'next/image';
 import styled from 'styled-components';
-import { profile as ProfileIcon, settings as Settings } from 'public/Icons';
+import { ImageWrapper } from 'components/global';
+import { DefaultProfile, SettingsIcon } from 'public/Icons/navbar';
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  PFPUrl?: string;
   name: string;
   description?: string;
 };
 
-export default memo(function Profile({ name, description }: PropsType) {
+export default memo(function Profile({
+  PFPUrl = '',
+  name,
+  description,
+}: PropsType) {
   return (
     <Wrapper>
-      <ProfileIcon />
+      <ImageWrapper width="50px" height="50px">
+        <Image
+          src={PFPUrl || DefaultProfile}
+          alt="Profile image"
+          layout="fill"
+        />
+      </ImageWrapper>
       <TextWrapper>
         <Name>{name}</Name>
         <Description>{description}</Description>
       </TextWrapper>
-      <Settings />
+      <SettingsIcon />
     </Wrapper>
   );
 });

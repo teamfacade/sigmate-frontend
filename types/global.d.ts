@@ -6,7 +6,18 @@ import { AppProps } from 'next/app';
 declare global {
   namespace ReduxState {
     interface AuthStateType {
-      authState: boolean;
+      signedIn: boolean;
+    }
+
+    interface AccountStateType {
+      PFPUrl: string;
+      username: string;
+      displayName: string;
+    }
+
+    interface RootStateType {
+      auth: AuthStateType;
+      account: AccountStateType;
     }
   }
 

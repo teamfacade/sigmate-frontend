@@ -1,8 +1,8 @@
-import { useEffect , useCallback, FormEventHandler } from 'react';
+import { useEffect, useCallback, FormEventHandler } from 'react';
 import { useRouter } from 'next/router';
 import { wrapper } from 'store/store';
 import { loadState } from 'store/modules/localStorage';
-import { setAuthState } from 'store/modules/authSlice';
+import { setRootState } from 'store/modules/';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { MainLayout, UserLayout, Heads } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
@@ -14,7 +14,8 @@ import 'styles/Fade.css';
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(setAuthState(loadState('auth').authState));
+    const saved = loadState();
+    if (saved) dispatch(setRootState(saved));
   }, [Component]);
 
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -35,8 +36,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     return (
       <>
         <Heads />
-        getLayout(
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </>
     );
   }

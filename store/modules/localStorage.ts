@@ -5,10 +5,11 @@ export const loadState = (stateName?: string) => {
   // localStorage access can fail
   try {
     const serializedState = localStorage.getItem('state');
-    console.log(`fetched initial state from local: ${serializedState}`);
-    if (serializedState === null) {
+    console.log(`current localStorage: ${serializedState}`);
+    if (serializedState === null || serializedState === 'undefined') {
       return undefined;
-    } if (stateName) {
+    }
+    if (stateName) {
       return JSON.parse(serializedState)[stateName];
     }
     return JSON.parse(serializedState);
@@ -21,8 +22,8 @@ export const loadState = (stateName?: string) => {
 export const saveState = (state: AppState) => {
   // localStorage access can fail
   try {
-    console.log('middleware running');
     localStorage.setItem('state', JSON.stringify(state));
+    console.log(`saved ${JSON.stringify(state)}`);
   } catch (err) {
     console.error(err);
   }

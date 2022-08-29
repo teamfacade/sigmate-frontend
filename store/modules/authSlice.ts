@@ -21,8 +21,10 @@ export const signOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
 );
 
 // Initial state
-export const initialState: ReduxState.AuthStateType = {
+const initialState: ReduxState.AuthStateType = {
   signedIn: false,
+  accessToken: '',
+  refreshToken: '',
 };
 
 // Actual Slice
@@ -33,6 +35,15 @@ export const authSlice = createSlice({
     // Action to set the entire auth state, for initializing
     setAuthState: (state, action: PayloadAction<ReduxState.AuthStateType>) => ({
       ...action.payload,
+    }),
+    // Action to set tokens after signing in
+    setAuthTokens: (
+      state,
+      action: PayloadAction<{ accessToken: string; refreshToken: string }>
+    ) => ({
+      ...state,
+      accessToken: action.payload.accessToken,
+      refreshToken: action.payload.refreshToken,
     }),
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
@@ -53,6 +64,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setAuthState } = authSlice.actions;
+export const { setAuthState, setAuthTokens } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -64,7 +64,7 @@ export const accountSlice = createSlice({
       ...action.payload,
     }),
     // Action to set username
-    setUsername: (state, action: PayloadAction<string>) => ({
+    setUserName: (state, action: PayloadAction<string>) => ({
       ...state,
       account: {
         userName: action.payload,
@@ -94,7 +94,7 @@ export const accountSlice = createSlice({
 export const {
   clearAccountState,
   setAccountState,
-  setUsername,
+  setUserName,
   setDisplayName,
 } = accountSlice.actions;
 

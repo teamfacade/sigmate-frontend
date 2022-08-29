@@ -1,28 +1,32 @@
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
-import { signIn, signOut } from 'store/modules/authSlice';
+import { signOut } from 'store/modules/authSlice';
 import { AuthComponents, AccSetup, LogoWithLinks } from 'containers/auth';
 
 export default function AuthPage() {
   const dispatch = useAppDispatch();
-  const signedUp = useAppSelector(({ auth }) => auth.signedIn);
+  const signedIn = useAppSelector(({ auth }) => auth.signedIn);
+  const signedUp = useAppSelector(({ account }) => account.userName === null);
+  const router = useRouter();
 
-  const onClickShow = () => {
-    dispatch(signIn());
-  };
   const onClickNotShow = () => dispatch(signOut());
+
+  if (signedIn && !signedUp) {
+    router.push('/main');
+  }
 
   return (
     <div style={{ height: '100vh' }}>
       <Wrapper>
         <LeftWrapper>
-          {signedUp ? <AccSetup /> : <AuthComponents />}
+          {signedIn && signedUp ? <AccSetup /> : <AuthComponents />}
         </LeftWrapper>
         <RightWrapper>
           <LogoWithLinks />
         </RightWrapper>
       </Wrapper>
-      <Btn onClick={onClickShow}>Signed in with google</Btn>
       <Btn onClick={onClickNotShow}>Go Back</Btn>
     </div>
   );

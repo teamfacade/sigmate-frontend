@@ -7,6 +7,8 @@ declare global {
   namespace ReduxState {
     interface AuthStateType {
       signedIn: boolean;
+      accessToken: string;
+      refreshToken: string;
     }
 
     interface AccountStateType {

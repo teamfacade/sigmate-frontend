@@ -9,11 +9,15 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { CheckUsername, CheckRefcode } from 'lib/auth/checkInput';
+import Axios from 'lib/global/axiosInstance';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
+import { setUserName } from 'store/modules/accountSlice';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
 import styles from 'styles/styleLib';
 
 export default function AccSetup() {
+  const dispatch = useAppDispatch();
+  const { accessToken } = useAppSelector(({ auth }) => auth);
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [isValidUsername, setIsValidUsername] = useState<boolean | undefined>(
@@ -38,12 +42,32 @@ export default function AccSetup() {
   const onBlur: FocusEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
       if (e.currentTarget.name === 'Username') {
-        setIsValidUsername(CheckUsername(username));
+        Axios.get('/user/check', {
+          params: { userName: username },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+          .then((res) => {
+            setIsValidUsername(res.data.userName.isAvailable);
+          })
+          .catch((err) => {
+            if (err.response.status === 400) setIsValidUsername(false);
+            else console.error(err.message);
+          });
       } else {
-        setIsValidRefCode(CheckRefcode(refCode));
+        Axios.get('/user/check', {
+          params: { referralCode: refCode },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+          .then((res) => {
+            setIsValidRefCode(res.data.referralCode.isValid);
+          })
+          .catch((err) => {
+            if (err.response.status === 400) setIsValidRefCode(false);
+            else console.error(err.message);
+          });
       }
     },
-    [username, refCode]
+    [username, refCode, accessToken]
   );
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -52,11 +76,12 @@ export default function AccSetup() {
         // eslint-disable-next-line no-alert
         alert('Connect Metamask wallet');
       } else if (isValidRefCode && isValidUsername) {
-          // eslint-disable-next-line no-alert
-          alert('Signed up...');
-          await router.push('/main');
-        } else if (!isValidUsername) usernameTextareaRef.current?.focus();
-        else refCodeTextareaRef.current?.focus();
+        dispatch(setUserName(username));
+        Axios.patch('/user', { userName: username }).then(() =>
+          router.push('/main')
+        );
+      } else if (!isValidUsername) usernameTextareaRef.current?.focus();
+      else refCodeTextareaRef.current?.focus();
     },
     [isValidUsername, isValidRefCode]
   );

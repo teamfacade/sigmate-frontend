@@ -6,9 +6,7 @@ import styles from 'styles/styleLib';
 
 // @todo 프로필 정보 사용자 정보로 변경
 export default function Navbar() {
-  const { PFPUrl, username, displayName } = useAppSelector(
-    ({ account }) => account
-  );
+  const { userName, primaryProfile } = useAppSelector(({ account }) => account);
   const { signedIn } = useAppSelector(({ auth }) => auth);
 
   return (
@@ -21,9 +19,9 @@ export default function Navbar() {
         <Link href={`${signedIn ? '/user' : '/auth'}`}>
           <a>
             <Profile
-              PFPUrl={PFPUrl}
-              name={username}
-              description={displayName}
+              PFPUrl={primaryProfile.profileImageUrl}
+              name={primaryProfile.displayName || userName}
+              description="Example"
             />
           </a>
         </Link>

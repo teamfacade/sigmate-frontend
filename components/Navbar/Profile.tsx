@@ -18,7 +18,7 @@ export default memo(function Profile({
 }: PropsType) {
   return (
     <Wrapper>
-      <ImageWrapper width="50px" height="50px">
+      <ImageWrapper width="50px" height="50px" borderRadius="50px">
         <Image
           src={PFPUrl || DefaultProfile}
           alt="Profile image"
@@ -43,6 +43,7 @@ const Wrapper = styled.div`
 `;
 
 const TextWrapper = styled.div`
+  flex: 0 0 auto;
   margin: 0 40px 0 20px;
 `;
 

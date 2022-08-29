@@ -4,8 +4,8 @@ import { PFP, NameAndLevel, BioAndSocials } from 'components/main/profile';
 type PropsType = {
   PFPUrl: string;
   username: string;
-  displayName: string;
-  bio: string;
+  displayName: string | null;
+  bio: string | null;
   level: number;
   twitterID?: string;
   discordID?: string;
@@ -24,8 +24,8 @@ export default function ProfileComponents({
     <Wrapper>
       <PFP PFPUrl={PFPUrl} />
       <NameAndLevel
-        username={username}
-        displayName={displayName}
+        username={displayName || username}
+        displayName=""
         level={level}
       />
       <BioAndSocials bio={bio} twitterID={twitterID} discordID={discordID} />

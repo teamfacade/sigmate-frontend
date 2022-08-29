@@ -144,13 +144,20 @@ declare global {
   };
 
   type ProfileType = {
-    PFPUrl: string;
-    username: string;
-    displayName: string;
-    bio: string;
-    level: number;
-    twitterID?: string;
-    discordID?: string;
+    user?: {
+      id: number;
+      userName: string;
+      metamaskWallet?: string;
+      twitterHandle?: string;
+      discordAccount?: string;
+    };
+    profile: {
+      id: number;
+      displayName: string | null;
+      bio: string | null;
+      profileImage: Image | null;
+      profileImageUrl: string | null;
+    };
   };
 
   type ForumCommentType = {

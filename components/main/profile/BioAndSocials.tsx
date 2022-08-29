@@ -3,7 +3,7 @@ import { SocialIcon } from 'components/main/profile';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  bio: string;
+  bio: string | null;
   twitterID: string;
   discordID: string;
 };

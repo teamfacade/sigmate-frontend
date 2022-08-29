@@ -66,17 +66,13 @@ export const accountSlice = createSlice({
     // Action to set username
     setUserName: (state, action: PayloadAction<string>) => ({
       ...state,
-      account: {
-        userName: action.payload,
-      },
+      userName: action.payload,
     }),
     // Action to set username
     setDisplayName: (state, action: PayloadAction<string>) => ({
       ...state,
-      account: {
-        primaryProfile: {
-          displayName: action.payload,
-        },
+      primaryProfile: {
+        displayName: action.payload,
       },
     }),
   },

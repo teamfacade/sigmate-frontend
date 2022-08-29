@@ -1,15 +1,30 @@
-import { useCallback, MouseEventHandler } from 'react';
+import { useEffect, useCallback, MouseEventHandler } from 'react';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { OAuthBtn } from 'components/auth';
 
 export default function AuthComponents() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (Object.keys(router.query).length) {
+      axios
+        .post('http://localhost:5100/api/v1/auth/google', {
+          code: router.query.code,
+        })
+        .finally(() =>
+          window.history.replaceState({}, document.title, '/auth')
+        );
+    }
+  }, [router]);
+
   // @todo OAuth 기능 구현
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     switch (e.currentTarget.name) {
       case 'Google':
-        // eslint-disable-next-line no-alert
-        alert('Google Login');
+        router.push('http://localhost:5100/oauth/google');
         break;
       case 'Metamask':
         // eslint-disable-next-line no-alert

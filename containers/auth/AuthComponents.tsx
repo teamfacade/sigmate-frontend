@@ -3,16 +3,22 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
+import { signIn } from 'store/modules/authSlice';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { OAuthBtn } from 'components/auth';
 
 export default function AuthComponents() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (Object.keys(router.query).length) {
       axios
         .post('http://localhost:5100/api/v1/auth/google', {
           code: router.query.code,
+        })
+        .then(async (res) => {
+          await dispatch(signIn(res.data.user));
         })
         .finally(() =>
           window.history.replaceState({}, document.title, '/auth')

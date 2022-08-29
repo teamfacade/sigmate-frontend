@@ -10,9 +10,51 @@ declare global {
     }
 
     interface AccountStateType {
-      PFPUrl: string;
-      username: string;
-      displayName: string;
+      id: number;
+      userName: string | null;
+      userNameUpdatedAt: Date | null;
+      email: string;
+      metamaskWallet: string | nul;
+      isMetamaskWalletPublic: boolean;
+      googleAccount: string | null;
+      twitterHandle: string | null;
+      isTwitterHandlePublic: boolean;
+      discordAccount: null;
+      isDiscordAccountPublic: boolean;
+      isTester: boolean;
+      isAdmin: boolean;
+      locale: string | null;
+      theme: string | null;
+      emailEssential: boolean; // 이메일 수신동의
+      emailMarketing: boolean;
+      cookiesEssential: boolean; // 쿠키 방침 동의
+      cookiesAnalytics: boolean;
+      cookiesFunctional: boolean;
+      cookiesTargeting: boolean;
+      agreeTos: Date | null; // 동의한 날짜
+      agreePrivacy: Date | null;
+      agreeLegal: Date | null;
+      referralCode: string;
+      group: {
+        // 유저 권한
+        id: number;
+        groupName: string;
+        canCreateDocument: boolean;
+        canRequestDocumentEdit: boolean;
+        canEditDocument: boolean;
+        canVerify: boolean;
+        canReceivePoints: boolean;
+        canParticipateEvent: boolean;
+      };
+      primaryProfile: {
+        id: number;
+        displayName: string | null;
+        bio: string | null;
+        profileImageUrl:
+          | string
+          | 'https://lh3.googleusercontent.com/c5dqxl-2uHZ82ah9p7yxrVF1ZssrJNSV_15Nu0TUZwzCWqmtoLxCUJgEzLGtxsrJ6-v6R6rKU_-FYm881TTiMCJ_=s1600';
+        userId: number;
+      };
     }
 
     interface RootStateType {

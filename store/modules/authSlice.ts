@@ -5,19 +5,13 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { setAccountState, clearAccountState } from './accountSlice';
 import { AppDispatch } from '../store';
 
-export const signIn = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
-  'auth/signIn',
-  async (state, ThunkAPI) => {
-    ThunkAPI.dispatch(
-      setAccountState({
-        PFPUrl: '',
-        username: 'WKSEO',
-        displayName: 'Berry',
-      })
-    );
-    
-  }
-);
+export const signIn = createAsyncThunk<
+  void,
+  ReduxState.AccountStateType,
+  { dispatch: AppDispatch }
+>('auth/signIn', async (accountInfo, ThunkAPI) => {
+  ThunkAPI.dispatch(setAccountState({ ...accountInfo }));
+});
 
 export const signOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
   'auth/signOut',

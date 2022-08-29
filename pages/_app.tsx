@@ -1,6 +1,9 @@
+import { useEffect , useCallback, FormEventHandler } from 'react';
 import { useRouter } from 'next/router';
-import { useCallback, FormEventHandler } from 'react';
 import { wrapper } from 'store/store';
+import { loadState } from 'store/modules/localStorage';
+import { setAuthState } from 'store/modules/authSlice';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { MainLayout, UserLayout, Heads } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
@@ -9,6 +12,11 @@ import 'styles/ShowModal.css';
 import 'styles/Fade.css';
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setAuthState(loadState('auth').authState));
+  }, [Component]);
+
   const getLayout = Component.getLayout ?? ((page) => page);
   const router = useRouter();
 

@@ -53,7 +53,7 @@ export default function AccSetup() {
             if (err.response.status === 400) setIsValidUsername(false);
             else console.error(err.message);
           });
-      } else {
+      } else if (refCode !== '') {
         Axios.get('/user/check', {
           params: { referralCode: refCode },
           headers: { Authorization: `Bearer ${accessToken}` },
@@ -75,15 +75,17 @@ export default function AccSetup() {
       if (e.currentTarget.name === 'Metamask') {
         // eslint-disable-next-line no-alert
         alert('Connect Metamask wallet');
-      } else if (isValidRefCode && isValidUsername) {
+      } else if ((isValidRefCode || refCode === '') && isValidUsername) {
         dispatch(setUserName(username));
-        Axios.patch('/user', { userName: username }).then(() =>
-          router.push('/main')
-        );
+        Axios.patch(
+          '/user',
+          { userName: username },
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        ).then(() => router.push('/main'));
       } else if (!isValidUsername) usernameTextareaRef.current?.focus();
       else refCodeTextareaRef.current?.focus();
     },
-    [isValidUsername, isValidRefCode]
+    [isValidUsername, isValidRefCode, refCode]
   );
 
   return (

@@ -1,17 +1,22 @@
-import { memo } from 'react';
+import { memo, MouseEventHandler } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { ImageWrapper } from 'components/global';
-import { DefaultProfile, SettingsIcon } from 'public/Icons/navbar';
+import { DefaultProfile, SettingsIcon, SignOut } from 'public/Icons/navbar';
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  signedIn: boolean;
+  onClickSignOut?: MouseEventHandler<HTMLButtonElement>;
   PFPUrl?: string;
   name: string;
   description?: string;
 };
 
 export default memo(function Profile({
+  signedIn,
+  onClickSignOut,
   PFPUrl = '',
   name,
   description,
@@ -29,7 +34,18 @@ export default memo(function Profile({
         <Name>{name}</Name>
         <Description>{description}</Description>
       </TextWrapper>
-      <SettingsIcon />
+      {signedIn && (
+        <TransparentBtn onClick={onClickSignOut}>
+          <SignOut />
+        </TransparentBtn>
+      )}
+      <Link href={`${signedIn ? '/user' : '/auth'}`} passHref>
+        <a>
+          <TransparentBtn>
+            <SettingsIcon />
+          </TransparentBtn>
+        </a>
+      </Link>
     </Wrapper>
   );
 });
@@ -48,17 +64,26 @@ const TextWrapper = styled.div`
 `;
 
 const Name = styled.p`
+  max-width: 110px;
   margin: 0;
   color: ${styles.colors.profileNameColor};
-  font-size: 12px;
-  font-weight: bolder;
-  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const Description = styled.p`
   margin: 0;
   color: ${styles.colors.profileDescriptionColor};
-  font-size: 10px;
-  font-weight: bold;
-  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+`;
+
+const TransparentBtn = styled.button`
+  width: fit-content;
+  height: fit-content;
+  background-color: transparent;
+  border: none;
 `;

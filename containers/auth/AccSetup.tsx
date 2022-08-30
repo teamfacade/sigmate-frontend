@@ -15,6 +15,8 @@ import { setUserName } from 'store/modules/accountSlice';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
 import styles from 'styles/styleLib';
 
+const usernameRules = '@todo Rules for username will be here';
+
 export default function AccSetup() {
   const dispatch = useAppDispatch();
   const { accessToken } = useAppSelector(({ auth }) => auth);
@@ -23,6 +25,7 @@ export default function AccSetup() {
   const [isValidUsername, setIsValidUsername] = useState<boolean | undefined>(
     undefined
   );
+  const [usernameCheckResult, setUsernameCheckResult] = useState(usernameRules);
   const [refCode, setRefCode] = useState('');
   const [isValidRefCode, setIsValidRefCode] = useState<boolean | undefined>(
     undefined
@@ -50,8 +53,9 @@ export default function AccSetup() {
             setIsValidUsername(res.data.userName.isAvailable);
           })
           .catch((err) => {
-            if (err.response.status === 400) setIsValidUsername(false);
-            else console.error(err.message);
+            setIsValidUsername(false);
+            if (err.response.status !== 400)
+              alert('Something went wrong. Please try again later.');
           });
       } else if (refCode !== '') {
         Axios.get('/user/check', {
@@ -96,7 +100,7 @@ export default function AccSetup() {
         onChange={onChange}
         onBlur={onBlur}
         isValid={isValidUsername}
-        description="@todo Rules for username will be here"
+        description={usernameCheckResult}
         ref={usernameTextareaRef}
       />
       <InputTemplate

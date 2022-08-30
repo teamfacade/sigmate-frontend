@@ -1,13 +1,21 @@
+import { MouseEventHandler, useCallback } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { useAppSelector } from 'hooks/reduxStoreHooks';
+import { useAppSelector, useAppDispatch } from 'hooks/reduxStoreHooks';
+import { signOut } from 'store/modules/authSlice';
 import { Links, Profile } from 'components/Navbar';
 import styles from 'styles/styleLib';
 
 // @todo 프로필 정보 사용자 정보로 변경
 export default function Navbar() {
+  const dispatch = useAppDispatch();
   const { userName, primaryProfile } = useAppSelector(({ account }) => account);
   const { signedIn } = useAppSelector(({ auth }) => auth);
+
+  const onClickSignOut: MouseEventHandler<HTMLButtonElement> = useCallback(
+    () => dispatch(signOut()),
+    []
+  );
 
   return (
     <nav>
@@ -16,15 +24,22 @@ export default function Navbar() {
           <Logo>sigmate</Logo>
         </Link>
         <Links />
-        <Link href={`${signedIn ? '/user' : '/auth'}`}>
-          <a>
-            <Profile
-              PFPUrl={primaryProfile.profileImageUrl}
-              name={primaryProfile.displayName || userName}
-              description="Example"
-            />
-          </a>
-        </Link>
+        {!signedIn ? (
+          <Profile
+            signedIn={signedIn}
+            PFPUrl=""
+            name="Sign In"
+            description=""
+          />
+        ) : (
+          <Profile
+            signedIn={signedIn}
+            onClickSignOut={onClickSignOut}
+            PFPUrl={primaryProfile?.profileImageUrl || ''}
+            name={primaryProfile?.displayName || userName}
+            description="Level 5"
+          />
+        )}
       </Wrapper>
     </nav>
   );

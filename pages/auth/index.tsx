@@ -8,7 +8,7 @@ import { AuthComponents, AccSetup, LogoWithLinks } from 'containers/auth';
 export default function AuthPage() {
   const dispatch = useAppDispatch();
   const signedIn = useAppSelector(({ auth }) => auth.signedIn);
-  const signedUp = useAppSelector(({ account }) => account.userName === null);
+  const signedUp = useAppSelector(({ account }) => !account.userName);
   const router = useRouter();
 
   const onClickNotShow = () => dispatch(signOut());

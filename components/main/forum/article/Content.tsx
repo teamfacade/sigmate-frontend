@@ -27,10 +27,10 @@ export default memo(function Content({
       <MainContentWrapper>
         <MainText>
           <Outer width="350px" height="365px">
-              <Inner>
-                <Image src={screenshotDesktop} alt="Thumbnail" layout="fill" />
-              </Inner>
-            </Outer>
+            <Inner>
+              <Image src={screenshotDesktop} alt="Thumbnail" layout="fill" />
+            </Inner>
+          </Outer>
           {content}
         </MainText>
       </MainContentWrapper>
@@ -41,7 +41,6 @@ export default memo(function Content({
 });
 
 const Wrapper = styled.div`
-  width: 1000px;
   height: fit-content;
   padding: 20px;
 `;

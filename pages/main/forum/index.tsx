@@ -99,4 +99,5 @@ export default function ForumMain() {
 
 const Wrapper = styled.div`
   max-width: 1060px;
+  margin: auto;
 `;

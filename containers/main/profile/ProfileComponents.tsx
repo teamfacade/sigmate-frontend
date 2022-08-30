@@ -35,5 +35,6 @@ export default function ProfileComponents({
 
 const Wrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   padding: 0 40px 40px 40px;
 `;

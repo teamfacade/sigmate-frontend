@@ -44,6 +44,6 @@ const RepliesWrapper = styled.div`
 
 const ReplyWrapper = styled.div<{ show: boolean }>`
   padding: 20px 0 0 58px;
-  margin-top: ${({ show }) => (show ? '0' : '-100%')};
+  margin-top: ${({ show }) => (show ? '0' : '-1000%')};
   transition: all 300ms ease-in-out;
 `;

@@ -12,7 +12,7 @@ export default memo(function ArticleContent({ article }: PropsType) {
   return (
     <Wrapper>
       <Recommend recommend={article.recommend} />
-      <div>
+      <ContentWrapper>
         <Infos
           author={article.author}
           tags={article.tags}
@@ -25,7 +25,7 @@ export default memo(function ArticleContent({ article }: PropsType) {
           content={article.content}
           imageURL={article.imageURL}
         />
-      </div>
+      </ContentWrapper>
     </Wrapper>
   );
 });
@@ -33,8 +33,11 @@ export default memo(function ArticleContent({ article }: PropsType) {
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 720px;
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: ${styles.shadows.containerShadow};
+`;
+
+const ContentWrapper = styled.div`
+  border-left: 1px solid ${styles.colors.dividerColor};
 `;

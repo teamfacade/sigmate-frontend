@@ -5,16 +5,11 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
-import {
-  SelectTypes,
-  MarketPlaceUrlInput,
-  TokenInfoInput,
-} from 'components/main/wiki/new';
-import { ReactSelectTypes } from 'index';
+import { MarketPlaceUrlInput, TokenInfoInput } from 'components/main/wiki/new';
 
 type PropsType = {
   topic: string;
-  onChangeTypes: ReactSelectTypes.MultiSelectChangeEventHandler;
+  onChangeTypes: MultiSelectChangeEventHandler;
 };
 
 export default memo(function BasicInfos({ topic, onChangeTypes }: PropsType) {
@@ -48,9 +43,8 @@ export default memo(function BasicInfos({ topic, onChangeTypes }: PropsType) {
 
   return (
     <div>
-        <SelectTypes onChange={onChangeTypes} />
-        {topic === 'Collection' && <MarketPlaceUrlInput onSubmit={onSubmit} />}
-        {topic === 'Token' && <TokenInfoInput onSubmit={onSubmit} />}
-      </div>
+      {topic === 'Collection' && <MarketPlaceUrlInput onSubmit={onSubmit} />}
+      {topic === 'Token' && <TokenInfoInput onSubmit={onSubmit} />}
+    </div>
   );
 });

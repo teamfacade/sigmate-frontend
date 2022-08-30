@@ -138,6 +138,13 @@ declare global {
       }
     | undefined;
 
+  type CollectionKeyInfoType = {
+    team: string;
+    rugpool?: string;
+    utility?: string;
+    marketplace: string;
+  };
+
   type VoteType = {
     voted: string;
     timestamp: string;

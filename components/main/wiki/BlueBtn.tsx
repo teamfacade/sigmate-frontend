@@ -21,6 +21,7 @@ const BlueBtn = styled.button<{
   font-family: 'Inter', sans-serif;
   float: right;
   cursor: pointer;
+  flex: 0 0 auto;
 
   :disabled {
     background-color: ${styles.colors.verdictModalTextColor};

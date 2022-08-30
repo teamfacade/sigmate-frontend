@@ -6,13 +6,13 @@ import { SelectTypes } from 'components/main/wiki/new';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  newArticle: boolean;
   title: string;
   setTitle?: Dispatch<SetStateAction<string>>;
-  types?: string[];
   onChangeTypes?: MultiSelectChangeEventHandler;
   blocks: BlockType[];
   setBlocks: Dispatch<SetStateAction<BlockType[]>>;
+  keyInfo: CollectionKeyInfoType;
+  setKeyInfo: Dispatch<SetStateAction<CollectionKeyInfoType>>;
 };
 
 const createNewBlock = (tag: string) => ({
@@ -22,13 +22,13 @@ const createNewBlock = (tag: string) => ({
 });
 
 export default memo(function WriteNew({
-  newArticle,
   title,
-  types = [],
   onChangeTypes,
   setTitle,
   blocks,
   setBlocks,
+  keyInfo,
+  setKeyInfo,
 }: PropsType) {
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
@@ -70,6 +70,8 @@ export default memo(function WriteNew({
           onChange={onChangeTypes as MultiSelectChangeEventHandler}
         />
         <EditKeyInfo
+          keyInfo={keyInfo}
+          setKeyInfo={setKeyInfo}
           name="Sigmate"
           thumbnailUrl=""
           team="sigmate"

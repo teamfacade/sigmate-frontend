@@ -1,6 +1,10 @@
-import { useState, useCallback, MouseEventHandler } from 'react';
+import {
+  useState,
+  useCallback,
+  MouseEventHandler,
+  FormEventHandler,
+} from 'react';
 import { Guidelines, Categorize, NewArticle } from 'containers/main/wiki/new';
-import { BlockType } from 'lib/main/wiki/getWikiData';
 
 export default function MakeNewArticle() {
   const [phase, setPhase] = useState(1);
@@ -19,14 +23,11 @@ export default function MakeNewArticle() {
     },
     []
   );
-  const onClickSubmit: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      e.preventDefault();
-      // eslint-disable-next-line no-alert
-      alert('submit!');
-    },
-    []
-  );
+  const onSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
+    e.preventDefault();
+    // eslint-disable-next-line no-alert
+    alert('submit!');
+  }, []);
 
   switch (phase) {
     case 1:
@@ -36,7 +37,7 @@ export default function MakeNewArticle() {
     case 3:
       return (
         <NewArticle
-          onClick={onClickSubmit}
+          onSubmit={onSubmit}
           topic={topic}
           title={title}
           setTitle={setTitle}

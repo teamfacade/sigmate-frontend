@@ -29,7 +29,8 @@ export default memo(function EditBlock({
   const [showInput, setShowInput] = useState(false);
   const [value, setValue] = useState(content);
 
-  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    e.preventDefault();
     setShowInput(true);
   }, []);
 

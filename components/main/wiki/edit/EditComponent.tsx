@@ -5,6 +5,7 @@ import {
   memo,
 } from 'react';
 import { Heading, Paragraph } from './index';
+import Textarea from './TextEdit';
 
 type PropsType = {
   tag: string;
@@ -36,7 +37,7 @@ export default memo(function EditComponent({
     case 'p':
     case 'h':
       return content === '' || showInput ? (
-        <textarea
+        <Textarea
           autoFocus
           placeholder={
             content || `Input ${tag === 'p' ? 'contents' : 'a subheader'}...`
@@ -50,6 +51,6 @@ export default memo(function EditComponent({
         <Component content={content} />
       );
     default:
-      return null;
+      return <div>DEFAULT</div>;
   }
 });

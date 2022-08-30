@@ -1,18 +1,17 @@
 import {
-  MouseEventHandler,
+  FormEventHandler,
   Dispatch,
   SetStateAction,
   useState,
   useCallback,
 } from 'react';
-import { BasicInfos } from 'containers/main/wiki/new';
-import { WikiEdit } from 'containers/main/wiki/edit';
+import { BasicInfos, WriteNew } from 'containers/main/wiki/new';
 import { SectionWrapper } from 'components/global';
 import { DisclaimWrapper, Disclaimer } from 'components/main/wiki/edit';
 import BlueBtn from 'components/main/wiki/BlueBtn';
 
 type PropsType = {
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
   topic: string;
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
@@ -21,7 +20,7 @@ type PropsType = {
 };
 
 export default function NewArticle({
-  onClick,
+  onSubmit,
   topic,
   title,
   setTitle,
@@ -41,12 +40,13 @@ export default function NewArticle({
 
   return (
     <SectionWrapper header="Start New Article" marginBottom="20px">
-      <form>
-        <BasicInfos topic={topic} onChangeTypes={onChangeTypes} />
-        <WikiEdit
+      <BasicInfos topic={topic} onChangeTypes={onChangeTypes} />
+      <form onSubmit={onSubmit}>
+        <WriteNew
           newArticle
           title={title}
           types={selectedOption.map((selected) => selected.value)}
+          onChangeTypes={onChangeTypes}
           setTitle={setTitle}
           blocks={blocks}
           setBlocks={setBlocks}
@@ -63,7 +63,7 @@ export default function NewArticle({
             }
           </Disclaimer>
         </DisclaimWrapper>
-        <BlueBtn width="162px" margin="29px 0 0 0" onClick={onClick}>
+        <BlueBtn width="162px" margin="29px 0 0 0">
           Submit
         </BlueBtn>
       </form>

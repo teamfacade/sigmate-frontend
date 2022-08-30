@@ -14,13 +14,13 @@ const localSyncMiddleware: Middleware = (store) => (next) => (action) => {
   return result;
 };
 
-const makeStore: MakeStore<any> = () =>
-  configureStore({
-    reducer,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(logger, localSyncMiddleware),
-    devTools: process.env.NODE_ENV !== 'production',
-  });
+const store: ReturnType<typeof configureStore> = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(logger, localSyncMiddleware),
+  devTools: process.env.NODE_ENV !== 'production',
+});
+const makeStore: MakeStore<any> = () => store;
 
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppState = ReturnType<AppStore['getState']>;
@@ -29,3 +29,5 @@ export type AppDispatch = ReturnType<AppStore['dispatch']>;
 export const wrapper = createWrapper<AppStore>(makeStore, {
   debug: process.env.NODE_ENV !== 'production',
 });
+
+export { store };

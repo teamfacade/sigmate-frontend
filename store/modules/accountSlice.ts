@@ -1,5 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
+import Axios from 'lib/global/axiosInstance';
+import { useTokenAuth } from 'hooks/reduxStoreHooks';
+import { AppDispatch } from '../store';
 
 // Initial state
 export const initialState: ReduxState.AccountStateType = {
@@ -49,13 +52,47 @@ export const initialState: ReduxState.AccountStateType = {
   },
 };
 
+const setDisplayName = createAsyncThunk<
+  string,
+  string,
+  { dispatch: AppDispatch }
+>('account/setDisplayName', async (newDisplayName) => {
+  await Axios.patch(
+    '/profile',
+    { displayName: newDisplayName },
+    useTokenAuth()
+  );
+  return newDisplayName;
+});
+
+const setBio = createAsyncThunk<string, string, { dispatch: AppDispatch }>(
+  'account/setBio',
+  async (newBio) => {
+    await Axios.patch('/profile', { bio: newBio }, useTokenAuth());
+    return newBio;
+  }
+);
+
+const setSocialPublic = createAsyncThunk<
+  { twitter: boolean; discord: boolean },
+  { twitter: boolean; discord: boolean },
+  { dispatch: AppDispatch }
+>('account/setSocialPublic', async ({ twitter, discord }) => {
+  await Axios.patch(
+    '/user',
+    { isTwitterHandlePublic: twitter, isDiscordAccountPublic: discord },
+    useTokenAuth()
+  );
+  return { twitter, discord };
+});
+
 // Actual Slice
 export const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
     // Action to clear account state
-    clearAccountState: (state, action: PayloadAction<void>) => initialState,
+    clearAccountState: () => initialState,
     // Action to set the entire account state, for initializing
     setAccountState: (
       state,
@@ -68,13 +105,6 @@ export const accountSlice = createSlice({
       ...state,
       userName: action.payload,
     }),
-    // Action to set username
-    setDisplayName: (state, action: PayloadAction<string>) => ({
-      ...state,
-      primaryProfile: {
-        displayName: action.payload,
-      },
-    }),
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
   extraReducers: {
@@ -84,14 +114,37 @@ export const accountSlice = createSlice({
         ...action.payload.account,
       };
     },
+    [setDisplayName.fulfilled.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => ({
+      ...state,
+      primaryProfile: {
+        ...state.primaryProfile,
+        displayName: action.payload,
+      },
+    }),
+    [setBio.fulfilled.type]: (state, action: PayloadAction<string>) => ({
+      ...state,
+      primaryProfile: {
+        ...state.primaryProfile,
+        bio: action.payload,
+      },
+    }),
+    [setSocialPublic.fulfilled.type]: (
+      state,
+      action: PayloadAction<{ twitter: boolean; discord: boolean }>
+    ) => ({
+      ...state,
+      isTwitterHandlePublic: action.payload.twitter,
+      isDiscordAccountPublic: action.payload.discord,
+    }),
   },
 });
 
-export const {
-  clearAccountState,
-  setAccountState,
-  setUserName,
-  setDisplayName,
-} = accountSlice.actions;
+export const { clearAccountState, setAccountState, setUserName } =
+  accountSlice.actions;
+
+export { setDisplayName, setBio, setSocialPublic };
 
 export default accountSlice.reducer;

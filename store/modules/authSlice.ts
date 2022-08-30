@@ -50,17 +50,19 @@ export const authSlice = createSlice({
   extraReducers: {
     [HYDRATE]: (state, action) => {
       return {
+        ...state,
         ...action.payload,
       };
     },
     [signIn.fulfilled.type]: (state, action: PayloadAction<void>) => ({
+      ...state,
       signedIn: true,
     }),
     [signIn.rejected.type]: (state, action: PayloadAction<void>) => ({
+      ...state,
       signedIn: false,
     }),
-    [signOut.fulfilled.type]: (state, action: PayloadAction<void>) =>
-      initialState,
+    [signOut.fulfilled.type]: () => initialState,
   },
 });
 

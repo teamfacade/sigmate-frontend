@@ -13,6 +13,7 @@ import {
   CommentContent,
   CommentPFP,
 } from 'components/main/forum/article';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   id: number;
@@ -22,7 +23,7 @@ type PropsType = {
   replies: ForumCommentType[];
   recommend: number;
   isReply?: boolean;
-  setShowModal: Dispatch<SetStateAction<ForumCommentReportType>>;
+  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
 };
 
 export default memo(function Comment({
@@ -87,7 +88,7 @@ const Wrapper = styled.div`
   padding-bottom: 22px;
 
   :not(:last-child) {
-    border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid ${styles.colors.lightGrayBorderColor};
     margin-bottom: 15px;
   }
 `;

@@ -62,7 +62,7 @@ const Excomments: ForumCommentType[] = [
 ];
 
 type PropsType = {
-  setShowModal: Dispatch<SetStateAction<ForumCommentReportType>>;
+  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
 };
 
 export default memo(function Comments({ setShowModal }: PropsType) {

@@ -1,4 +1,4 @@
-import { memo, MouseEventHandler } from 'react';
+import { memo, MouseEventHandler, Dispatch, SetStateAction } from 'react';
 import { Recommend, Infos } from 'components/main/forum/articleList';
 import { Content, ArticleManageBtns } from 'components/main/forum/article';
 import styled from 'styled-components';
@@ -7,11 +7,13 @@ import styles from 'styles/styleLib';
 type PropsType = {
   article: ForumArticleType;
   onClickDelete: MouseEventHandler<HTMLButtonElement>;
+  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
 };
 
 export default memo(function ArticleContent({
   article,
   onClickDelete,
+  setShowModal,
 }: PropsType) {
   return (
     <Wrapper>
@@ -34,6 +36,7 @@ export default memo(function ArticleContent({
           title={article.title}
           content={article.content}
           imageURL={article.imageURL}
+          setShowModal={setShowModal}
         />
       </ContentWrapper>
     </Wrapper>

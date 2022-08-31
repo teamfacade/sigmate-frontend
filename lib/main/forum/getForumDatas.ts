@@ -11,7 +11,7 @@ const ExArticle = {
 export function getPrevArticleContent(
   category: string,
   articleID: string | undefined
-): Forum.ForumArticleContentType {
+): Forum.ArticleContentType {
   if (articleID === undefined) {
     return {
       title: '',
@@ -19,13 +19,12 @@ export function getPrevArticleContent(
       tags: [],
       imageURL: '',
     };
-  } 
-    // @todo fetch forum article content
-    return {
-      title: ExArticle.title,
-      content: ExArticle.content,
-      tags: ExArticle.tags,
-      imageURL: ExArticle.imageURL,
-    };
-  
+  }
+  // @todo fetch forum article content
+  return {
+    title: ExArticle.title,
+    content: ExArticle.content,
+    tags: ExArticle.tags,
+    imageURL: ExArticle.imageURL,
+  };
 }

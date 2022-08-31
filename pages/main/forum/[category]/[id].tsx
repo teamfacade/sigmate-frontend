@@ -21,7 +21,7 @@ const ExArticle: ForumArticleType = {
 };
 
 export default function Article() {
-  const [showModal, setShowModal] = useState<ForumCommentReportType>({
+  const [showModal, setShowModal] = useState<Forum.ReportType>({
     type: 'comment',
     id: -1,
   });
@@ -34,13 +34,17 @@ export default function Article() {
 
   const onClickDelete: MouseEventHandler<HTMLButtonElement> =
     useCallback(() => {
-      alert('Delete th earticle');
+      alert('Delete the article');
     }, []);
 
   return (
     <>
       <Wrapper>
-        <ArticleContent article={ExArticle} onClickDelete={onClickDelete} />
+        <ArticleContent
+          article={ExArticle}
+          onClickDelete={onClickDelete}
+          setShowModal={setShowModal}
+        />
       </Wrapper>
       <Wrapper>
         <Comments setShowModal={setShowModal} />

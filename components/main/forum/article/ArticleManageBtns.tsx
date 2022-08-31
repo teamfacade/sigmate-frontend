@@ -37,7 +37,7 @@ const ArticleManageBtnWrapper = styled.div`
     line-height: 160%;
   }
 
-  button + button {
+  a + button {
     margin-left: 8px;
   }
 `;

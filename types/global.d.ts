@@ -190,17 +190,17 @@ declare global {
 
   type ForumSearchFilter = 'Category' | 'Title' | 'Content';
 
-  type ForumCommentReportType = {
-    type: 'comment' | 'reply';
-    id: number;
-  };
-
   namespace Forum {
-    type ForumArticleContentType = {
+    type ArticleContentType = {
       title: string;
       content: string;
       imageURL: string;
       tags: string[];
+    };
+
+    type ReportType = {
+      type: 'comment' | 'reply' | 'article';
+      id: number;
     };
   }
 }

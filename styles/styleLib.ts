@@ -14,6 +14,7 @@ const colors = {
   linkColor: '#98A2B2' as const,
   tableRowColor: '#FAFBFC' as const,
   hrColor: '#DEDEDE' as const,
+  lightGrayBorderColor: '#ECECEC' as const,
   lightBorderColor: '#EBEEF2' as const,
   darkBorderColor: '#E4E4E4' as const,
   profileDescriptionColor: '#A3B6CC' as const,

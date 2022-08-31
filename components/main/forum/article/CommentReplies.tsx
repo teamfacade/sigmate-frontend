@@ -5,7 +5,7 @@ import { Comment, CommentInput } from 'components/main/forum/article';
 type PropsType = {
   replies: ForumCommentType[];
   show: boolean;
-  setShowModal: Dispatch<SetStateAction<ForumCommentReportType>>;
+  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
 };
 
 export default memo(function CommentReplies({

@@ -1,4 +1,5 @@
 import { memo, MouseEventHandler, Dispatch, SetStateAction } from 'react';
+import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { Recommend, Infos } from 'components/main/forum/articleList';
 import { Content, ArticleManageBtns } from 'components/main/forum/article';
 import styled from 'styled-components';
@@ -15,6 +16,8 @@ export default memo(function ArticleContent({
   onClickDelete,
   setShowModal,
 }: PropsType) {
+  const { userName } = useAppSelector(({ account }) => account);
+
   return (
     <Wrapper>
       <Recommend recommend={article.recommend} />
@@ -24,11 +27,13 @@ export default memo(function ArticleContent({
           tags={article.tags}
           timestamp={article.timestamp}
         >
-          <ArticleManageBtns
-            category={article.category}
-            articleID={article.id.toString()}
-            onClickDelete={onClickDelete}
-          />
+          {userName === article.author && (
+            <ArticleManageBtns
+              category={article.category}
+              articleID={article.id.toString()}
+              onClickDelete={onClickDelete}
+            />
+          )}
         </Infos>
         <Content
           id={article.id}

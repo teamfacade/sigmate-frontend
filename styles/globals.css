@@ -1,0 +1,74 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  min-width: 360px;
+  background-color: #F7F8FA;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: #276BFF;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+
+  :hover, :active {
+    filter: brightness(0.7);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+p, span {
+  font-family: 'Inter', sans-serif;
+}
+
+aside {
+  max-width: 252px;
+}
+
+button:hover, button:active {
+  filter: brightness(0.7);
+  cursor: pointer;
+}
+
+hr {
+  border-right-width: 0;
+  border-left-width: 0;
+  border-top-width: 0;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../public/Fonts/Inter-Light-BETA.woff') format('woff');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../public/Fonts/Inter-Regular.woff') format('woff');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../public/Fonts/Inter-Medium.woff') format('woff');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../public/Fonts/Inter-SemiBold.woff') format('woff');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../public/Fonts/Inter-Bold.woff') format('woff');
+  font-weight: 900;
+}

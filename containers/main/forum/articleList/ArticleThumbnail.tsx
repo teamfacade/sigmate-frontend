@@ -29,7 +29,7 @@ export default memo(function ArticleThumbnail({
   return (
     <Wrapper>
       <Recommend recommend={recommend} />
-      <div>
+      <ContentWrapper>
         <Infos author={author} tags={tags} timestamp={timestamp} />
         <Content
           id={id}
@@ -38,7 +38,7 @@ export default memo(function ArticleThumbnail({
           content={content}
           imageURL={imageURL}
         />
-      </div>
+      </ContentWrapper>
     </Wrapper>
   );
 });
@@ -51,4 +51,9 @@ const Wrapper = styled.div`
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: ${styles.shadows.containerShadow};
+`;
+
+const ContentWrapper = styled.div`
+  width: 100%;
+  border-left: 1px solid ${styles.colors.dividerColor};
 `;

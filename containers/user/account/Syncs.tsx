@@ -11,10 +11,20 @@ export default function UserPage() {
 }
 
 const SyncWrapper = styled.div`
-  display: flex;
-  align-items: center;
+  @media (min-width: 1525px) {
+    display: flex;
+    align-items: center;
 
-  div + div {
-    margin-left: 20px;
+    div + div {
+      margin-left: 20px;
+    }
+  }
+
+  @media (max-width: 1525px) {
+    display: block;
+
+    div + div {
+      margin-top: 20px;
+    }
   }
 `;

@@ -1,22 +1,51 @@
-import { memo } from 'react';
+import { memo, MouseEventHandler } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import styled from 'styled-components';
-import { profile as ProfileIcon, settings as Settings } from 'public/Icons';
+import { ImageWrapper } from 'components/global';
+import { DefaultProfile, SettingsIcon, SignOut } from 'public/Icons/navbar';
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  signedIn: boolean;
+  onClickSignOut?: MouseEventHandler<HTMLButtonElement>;
+  PFPUrl?: string;
   name: string;
   description?: string;
 };
 
-export default memo(function Profile({ name, description }: PropsType) {
+export default memo(function Profile({
+  signedIn,
+  onClickSignOut,
+  PFPUrl = '',
+  name,
+  description,
+}: PropsType) {
   return (
     <Wrapper>
-      <ProfileIcon />
+      <ImageWrapper width="50px" height="50px" borderRadius="50px">
+        <Image
+          src={PFPUrl || DefaultProfile}
+          alt="Profile image"
+          layout="fill"
+        />
+      </ImageWrapper>
       <TextWrapper>
         <Name>{name}</Name>
         <Description>{description}</Description>
       </TextWrapper>
-      <Settings />
+      {signedIn && (
+        <TransparentBtn onClick={onClickSignOut}>
+          <SignOut />
+        </TransparentBtn>
+      )}
+      <Link href={`${signedIn ? '/user' : '/auth'}`} passHref>
+        <a>
+          <TransparentBtn>
+            <SettingsIcon />
+          </TransparentBtn>
+        </a>
+      </Link>
     </Wrapper>
   );
 });
@@ -30,21 +59,31 @@ const Wrapper = styled.div`
 `;
 
 const TextWrapper = styled.div`
+  flex: 0 0 auto;
   margin: 0 40px 0 20px;
 `;
 
 const Name = styled.p`
+  max-width: 110px;
   margin: 0;
   color: ${styles.colors.profileNameColor};
-  font-size: 12px;
-  font-weight: bolder;
-  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const Description = styled.p`
   margin: 0;
   color: ${styles.colors.profileDescriptionColor};
-  font-size: 10px;
-  font-weight: bold;
-  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+`;
+
+const TransparentBtn = styled.button`
+  width: fit-content;
+  height: fit-content;
+  background-color: transparent;
+  border: none;
 `;

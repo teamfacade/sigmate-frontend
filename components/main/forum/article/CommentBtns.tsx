@@ -69,7 +69,7 @@ const ReplyBtn = styled.button`
 const WhiteBtnStyle = `
   padding: 2px 15px;
   color: ${styles.colors.logColor};
-  border: 1px solid #ececec;
+  border: 1px solid ${styles.colors.lightGrayBorderColor};
   border-radius: 8px;
   background-color: #ffffff;
   font-size: 14px;

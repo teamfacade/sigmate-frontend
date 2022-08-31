@@ -7,6 +7,11 @@ const Button = styled.button`
   border: none;
   background-color: transparent;
   text-align: left;
+
+  :hover,
+  :active {
+    filter: none;
+  }
 `;
 
 export default memo(Button);

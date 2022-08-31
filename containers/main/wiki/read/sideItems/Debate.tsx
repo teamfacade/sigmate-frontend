@@ -18,7 +18,7 @@ type DebateType = {
 const ExDebate: DebateType = {
   id: 1,
   PFPUrl: '',
-  author: 'Limeahn',
+  author: 'woosung',
   timestamp: new Date(Date.now()).toISOString(),
   content:
     'ece of classical Latin literature from 45 BC, making  over 2000 years old. \n' +

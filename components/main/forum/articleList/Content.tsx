@@ -44,15 +44,16 @@ export default memo(function Content({
 const Wrapper = styled.div`
   display: flex;
   justify-content: start;
-  width: 1000px;
   height: fit-content;
+  max-height: 260px;
   padding: 20px;
+  overflow: hidden;
 `;
 
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 580px;
+  width: calc(100% - 300px);
   margin-right: 20px;
 `;
 

@@ -4,6 +4,67 @@ import { ReactElement, ReactNode } from 'react';
 import { AppProps } from 'next/app';
 
 declare global {
+  namespace ReduxState {
+    interface AuthStateType {
+      signedIn: boolean;
+      accessToken: string;
+      refreshToken: string;
+    }
+
+    interface AccountStateType {
+      id: number;
+      userName: string | null;
+      userNameUpdatedAt: Date | null;
+      email: string;
+      metamaskWallet: string | nul;
+      isMetamaskWalletPublic: boolean;
+      googleAccount: string | null;
+      twitterHandle: string | null;
+      isTwitterHandlePublic: boolean;
+      discordAccount: null;
+      isDiscordAccountPublic: boolean;
+      isTester: boolean;
+      isAdmin: boolean;
+      locale: string | null;
+      theme: string | null;
+      emailEssential: boolean; // 이메일 수신동의
+      emailMarketing: boolean;
+      cookiesEssential: boolean; // 쿠키 방침 동의
+      cookiesAnalytics: boolean;
+      cookiesFunctional: boolean;
+      cookiesTargeting: boolean;
+      agreeTos: Date | null; // 동의한 날짜
+      agreePrivacy: Date | null;
+      agreeLegal: Date | null;
+      referralCode: string;
+      group: {
+        // 유저 권한
+        id: number;
+        groupName: string;
+        canCreateDocument: boolean;
+        canRequestDocumentEdit: boolean;
+        canEditDocument: boolean;
+        canVerify: boolean;
+        canReceivePoints: boolean;
+        canParticipateEvent: boolean;
+      };
+      primaryProfile: {
+        id: number;
+        displayName: string | null;
+        bio: string | null;
+        profileImageUrl:
+          | string
+          | 'https://lh3.googleusercontent.com/c5dqxl-2uHZ82ah9p7yxrVF1ZssrJNSV_15Nu0TUZwzCWqmtoLxCUJgEzLGtxsrJ6-v6R6rKU_-FYm881TTiMCJ_=s1600';
+        userId: number;
+      };
+    }
+
+    interface RootStateType {
+      auth: AuthStateType;
+      account: AccountStateType;
+    }
+  }
+
   type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode;
   };
@@ -77,19 +138,33 @@ declare global {
       }
     | undefined;
 
+  type CollectionKeyInfoType = {
+    team: string;
+    rugpool?: string;
+    utility?: string;
+    marketplace: string;
+  };
+
   type VoteType = {
     voted: string;
     timestamp: string;
   };
 
   type ProfileType = {
-    PFPUrl: string;
-    username: string;
-    displayName: string;
-    bio: string;
-    level: number;
-    twitterID?: string;
-    discordID?: string;
+    user?: {
+      id: number;
+      userName: string;
+      metamaskWallet?: string;
+      twitterHandle?: string;
+      discordAccount?: string;
+    };
+    profile: {
+      id: number;
+      displayName: string | null;
+      bio: string | null;
+      profileImage: Image | null;
+      profileImageUrl: string | null;
+    };
   };
 
   type ForumCommentType = {
@@ -115,10 +190,19 @@ declare global {
 
   type ForumSearchFilter = 'Category' | 'Title' | 'Content';
 
-  type ForumCommentReportType = {
-    type: 'comment' | 'reply';
-    id: number;
-  };
+  namespace Forum {
+    type ArticleContentType = {
+      title: string;
+      content: string;
+      imageURL: string;
+      tags: string[];
+    };
+
+    type ReportType = {
+      type: 'comment' | 'reply' | 'article';
+      id: number;
+    };
+  }
 }
 
 export {};

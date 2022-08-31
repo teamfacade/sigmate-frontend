@@ -113,4 +113,5 @@ export default function Upcoming() {
 
 const Wrapper = styled.div`
   max-width: 1060px;
+  margin: auto;
 `;

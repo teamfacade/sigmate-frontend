@@ -6,6 +6,7 @@ import {
   EllipsisText,
 } from 'components/main/wiki/read/sideItems';
 import styles from 'styles/styleLib';
+import Link from 'next/link';
 
 type PropsType = {
   index: number;
@@ -27,7 +28,9 @@ export default memo(function DebateItem({
       <InfoWrapper>
         <PFP PFPUrl={PFPUrl} />
         <InfoInnerWrapper>
-          <Author>{author}</Author>
+          <Link href={`/main/profile/${author}`} passHref>
+            <Author>{author}</Author>
+          </Link>
           <TimeDiff index={index} timestamp={timestamp} />
         </InfoInnerWrapper>
       </InfoWrapper>
@@ -58,7 +61,7 @@ const InfoInnerWrapper = styled.div`
   margin-left: 9px;
 `;
 
-const Author = styled.p`
+const Author = styled.a`
   margin: 0;
   color: ${styles.colors.logColor};
   font-size: 14px;

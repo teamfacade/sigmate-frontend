@@ -10,7 +10,9 @@ import {
   KeyboardEventHandler,
 } from 'react';
 import styled from 'styled-components';
-import { Block, Button } from './index';
+import { Block, Button } from 'components/main/wiki/edit';
+import styles from 'styles/styleLib';
+import Textarea from './TextEdit';
 
 type PropsType = {
   title: string;
@@ -26,10 +28,10 @@ export default memo(function Heading({
   const [value, setValue] = useState(title);
   const [showTextarea, setShowTextarea] = useState(false);
 
-  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
-    () => setShowTextarea(true),
-    []
-  );
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    e.preventDefault();
+    setShowTextarea(true);
+  }, []);
   const onFocus: FocusEventHandler<HTMLButtonElement> = useCallback(
     () => setShowTextarea(true),
     []
@@ -57,7 +59,7 @@ export default memo(function Heading({
     <Block id={0} onClickSelect={onClickSelect} isTitle>
       <Button onClick={onClick} onFocus={onFocus}>
         {showTextarea ? (
-          <textarea
+          <TitleTextarea
             autoFocus
             placeholder={title || `Input the title...`}
             value={value}
@@ -75,4 +77,15 @@ export default memo(function Heading({
 
 const H1 = memo(styled.h1`
   margin: 0 0 40px 0;
+  color: ${styles.colors.headerColor};
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 110%;
+  font-family: 'Inter', sans-serif;
 `);
+
+const TitleTextarea = styled(Textarea)`
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 110%;
+`;

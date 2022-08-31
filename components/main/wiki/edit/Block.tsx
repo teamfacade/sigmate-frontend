@@ -8,6 +8,7 @@ import {
 } from 'react';
 import Select, { SingleValue, ActionMeta } from 'react-select';
 import styled from 'styled-components';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   id: number;
@@ -76,39 +77,42 @@ export default memo(function Block({
   }, []);
 
   return (
-    <Wrapper onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <Wrapper onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} isTitle>
       {children}
-      <BtnWrapper>
-        {showBtn && (
-          <>
-            <Btn onClick={onClickAdd}>+</Btn>
-            {!isTitle && <Btn onClick={onClickRemove}>-</Btn>}
-          </>
-        )}
-        {showSelect && (
+      {showBtn && (
+        <BlockControlBtnWrapper>
+          <BlockControlBtn onClick={onClickAdd}>+</BlockControlBtn>
+          {!isTitle && (
+            <BlockControlBtn onClick={onClickRemove}>-</BlockControlBtn>
+          )}
+        </BlockControlBtnWrapper>
+      )}
+      {showSelect && (
+        <BlockTypeSelectWrapper>
           <Select
             options={options}
             onChange={onChange}
             autoFocus
             onBlur={onBlur}
           />
-        )}
-      </BtnWrapper>
+        </BlockTypeSelectWrapper>
+      )}
     </Wrapper>
   );
 });
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isTitle: boolean }>`
   position: relative;
-  padding: 20px;
+  height: ${({ isTitle }) => (isTitle ? '100px' : '40px')};
+  padding: 10px;
   border: 1px solid transparent;
 
   :hover {
-    border-color: #276bff;
+    background-color: ${styles.colors.lightThumbsUpColor};
   }
 `;
 
-const BtnWrapper = styled.div`
+const BlockControlBtnWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -117,6 +121,19 @@ const BtnWrapper = styled.div`
   align-items: center;
 `;
 
-const Btn = styled.button`
+const BlockTypeSelectWrapper = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 5;
+`;
+
+const BlockControlBtn = styled.button`
   flex: 0 0 auto;
+  background-color: transparent;
+  border: none;
+  color: ${styles.colors.emphColor};
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 160%;
 `;

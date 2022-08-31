@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { ClientRoute } from 'hooks/useSPARouting';
 import Staking from 'containers/user/staking';
 
@@ -9,6 +12,13 @@ const Referrals = dynamic(() => import('containers/user/referrals'));
 const Calendar = dynamic(() => import('containers/user/calendar'));
 
 export default function UserPage() {
+  const router = useRouter();
+  const { signedIn } = useAppSelector(({ auth }) => auth);
+
+  useEffect(() => {
+    if (!signedIn) router.push('/main');
+  }, []);
+
   return (
     <>
       <ClientRoute path="/user" component={<Account />} />

@@ -80,4 +80,5 @@ const CategorizeQuestion = styled.div`
   font-size: 18px;
   line-height: 160%;
   white-space: nowrap;
+  overflow: scroll;
 `;

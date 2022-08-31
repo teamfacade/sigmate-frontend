@@ -1,6 +1,5 @@
 import { useState, useCallback, MouseEventHandler } from 'react';
 import { Guidelines, Categorize, NewArticle } from 'containers/main/wiki/new';
-import { BlockType } from 'lib/main/wiki/getWikiData';
 
 export default function MakeNewArticle() {
   const [phase, setPhase] = useState(1);

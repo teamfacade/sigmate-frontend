@@ -20,6 +20,8 @@ export default function UserLayout({ children }: PropsType) {
 
   return (
     <ClientRouterProvider initial="/user">
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       <ClientRouter>
         <Wrapper>
           <SideItemsWrapper>

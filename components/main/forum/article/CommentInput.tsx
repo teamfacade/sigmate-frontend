@@ -19,13 +19,11 @@ export default memo(function CommentInput() {
     (e) => setValue(e.currentTarget.value),
     []
   );
-  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      if (TextareaRef.current)
-        alert(`Add following comment: ${TextareaRef.current.value}`);
-    },
-    [TextareaRef]
-  );
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+    if (TextareaRef.current)
+      // eslint-disable-next-line no-alert
+      alert(`Add following comment: ${TextareaRef.current.value}`);
+  }, [TextareaRef]);
 
   return (
     <Wrapper>

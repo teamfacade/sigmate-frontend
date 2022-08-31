@@ -14,23 +14,17 @@ type PropsType = {
   imageURL: string;
 };
 
-export default memo(function Content({
-  id,
-  category,
-  title,
-  content,
-  imageURL,
-}: PropsType) {
+export default memo(function Content({ title, content }: PropsType) {
   return (
     <Wrapper>
       <Title>{title}</Title>
       <MainContentWrapper>
         <MainText>
           <Outer width="350px" height="365px">
-              <Inner>
-                <Image src={screenshotDesktop} alt="Thumbnail" layout="fill" />
-              </Inner>
-            </Outer>
+            <Inner>
+              <Image src={screenshotDesktop} alt="Thumbnail" layout="fill" />
+            </Inner>
+          </Outer>
           {content}
         </MainText>
       </MainContentWrapper>

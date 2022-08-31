@@ -19,7 +19,6 @@ type PropsType = {
   thumbnailUrl: string;
   team: string;
   rugpool: string;
-  type: string;
   utility: string;
   WLPrice: string;
   publicPrice: string;
@@ -37,7 +36,6 @@ export default memo(function ReadKeyInfo({
   thumbnailUrl,
   team,
   rugpool,
-  type,
   utility,
   WLPrice,
   publicPrice,

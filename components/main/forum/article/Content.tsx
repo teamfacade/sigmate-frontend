@@ -31,7 +31,6 @@ export default memo(function Content({
     useCallback(() => {
       setShowModal({ type: 'article', id });
     }, [id]);
-
   return (
     <Wrapper>
       <Title>{title}</Title>

@@ -45,7 +45,6 @@ export default function WikiArticle({ article }: PropsType) {
         thumbnailUrl=""
         team="sigmate"
         rugpool=""
-        type=""
         utility="Game"
         WLPrice="0.25 ETH"
         publicPrice="0.3 ETH"

@@ -5,7 +5,7 @@ export default function Document() {
     <Html>
       <Head>
         <link
-          href="http://fonts.cdnfonts.com/css/claris-sans"
+          href="https://fonts.cdnfonts.com/css/claris-sans"
           rel="stylesheet"
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -5,7 +5,7 @@ export const loadState = (stateName?: string) => {
   // localStorage access can fail
   try {
     const serializedState = localStorage.getItem('state');
-    console.log(`current localStorage: ${serializedState}`);
+
     if (serializedState === null || serializedState === 'undefined') {
       return undefined;
     }
@@ -23,7 +23,6 @@ export const saveState = (state: AppState) => {
   // localStorage access can fail
   try {
     localStorage.setItem('state', JSON.stringify(state));
-    console.log(`saved ${JSON.stringify(state)}`);
   } catch (err) {
     console.error(err);
   }

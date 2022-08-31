@@ -14,15 +14,6 @@ export default function Account() {
       <Syncs />
       <Infos />
       <WikiSettings />
-      <button
-        type="button"
-        onClick={() => {
-          dispatch(signOut());
-          router.push('/main');
-        }}
-      >
-        Sign out
-      </button>
     </div>
   );
 }

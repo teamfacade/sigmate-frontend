@@ -2,7 +2,7 @@ import { FormEventHandler, ReactNode } from 'react';
 import styled from 'styled-components';
 import { SideContent } from 'containers/main/layout';
 import { Search } from 'components/global';
-import styles from 'styles/styleLib';
+import styles, { BlueBtnStyle } from 'styles/styleLib';
 
 type PropsType = {
   needsWrapper: boolean;
@@ -25,6 +25,7 @@ export default function MainLayout({
             </MainContentWrapper>
           </Section>
           <aside>
+            <CheckInBtn>Daily Check-In</CheckInBtn>
             <Search placeholder="Search content..." onSubmit={onSearch} />
             <SideContentWrapper>
               <SideContent />
@@ -72,4 +73,11 @@ const SideContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+`;
+
+const CheckInBtn = styled.button`
+  ${BlueBtnStyle};
+  width: 100%;
+  margin: 0 0 20px 0;
+  font-weight: 700;
 `;

@@ -1,4 +1,4 @@
-import { MouseEventHandler, useCallback, useState } from 'react';
+import { MouseEventHandler, useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 import {
   BasicWrapper,
@@ -6,9 +6,16 @@ import {
   Search,
   LogTable,
   PageMoveBtns,
+  Modal,
 } from 'components/global';
-import { LogHead, LogItem } from 'components/admin/mintSchedule';
+import { LogHead, LogItem, EditSchedule } from 'components/admin/mintSchedule';
 import { BlueBtnStyle } from 'styles/styleLib';
+import { CSSTransition } from 'react-transition-group';
+
+type ModalDataType = {
+  type: 'New' | 'Edit';
+  data?: Admin.MintScheduleType;
+};
 
 const tiers = Array.from({ length: 5 }, (_, i) => i + 1);
 
@@ -20,20 +27,58 @@ const EXSchedule: Admin.MintScheduleType = {
 };
 const ExSchedules = [
   EXSchedule,
-  { ...EXSchedule, id: '2' },
-  { ...EXSchedule, id: '3' },
-  { ...EXSchedule, id: '4' },
-  { ...EXSchedule, id: '5' },
-  { ...EXSchedule, id: '6' },
-  { ...EXSchedule, id: '7' },
-  { ...EXSchedule, id: '8' },
-  { ...EXSchedule, id: '9' },
-  { ...EXSchedule, id: '0' },
+  { ...EXSchedule, id: 2 },
+  { ...EXSchedule, id: 3 },
+  { ...EXSchedule, id: 4 },
+  { ...EXSchedule, id: 5 },
+  { ...EXSchedule, id: 6 },
+  { ...EXSchedule, id: 7 },
+  { ...EXSchedule, id: 8 },
+  { ...EXSchedule, id: 9 },
+  { ...EXSchedule, id: 0 },
 ];
 const total = 4242;
 
 export default function MintingSchedule() {
+  const [showModal, setShowModal] = useState<ModalDataType>({ type: 'New' });
   const [curPage, setCurPage] = useState(1);
+  const ModalRef = useRef<HTMLDivElement>(null);
+
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    const { name, dataset } = e.currentTarget;
+
+    switch (name) {
+      case 'new':
+        setShowModal({
+          type: 'New',
+          data: {
+            id: 0,
+            name: '',
+            tier: 0,
+            date: new Date(Date.now()).toISOString(),
+          },
+        });
+        break;
+      case 'edit':
+        setShowModal({
+          type: 'Edit',
+          data: {
+            id: Number.parseInt(dataset?.id || '0', 10),
+            name: dataset?.name || '',
+            tier: Number.parseInt(dataset?.tier || '0', 10),
+            date: dataset?.date || new Date(Date.now()).toISOString(),
+          },
+        });
+        break;
+      default:
+        break;
+    }
+  }, []);
+
+  const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
+    () => setShowModal({ type: 'New' }),
+    []
+  );
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -79,46 +124,69 @@ export default function MintingSchedule() {
   );
 
   return (
-    <Wrapper>
-      <BasicWrapper>
-        <SectionWrapper header="Minting schedule">
-          <div>
-            <input type="date" />
-            <span>Tier</span>
-            <select name="tier">
-              {tiers.map((tier) => (
-                <option key={tier} value={tier}>
-                  {tier}
-                </option>
+    <>
+      <Wrapper>
+        <BasicWrapper>
+          <SectionWrapper header="Minting schedule">
+            <div>
+              <input type="date" />
+              <span>Tier</span>
+              <select name="tier">
+                {tiers.map((tier) => (
+                  <option key={tier} value={tier}>
+                    {tier}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <Search />
+            <CreateNewBtn name="new" onClick={onClick}>
+              Add new
+            </CreateNewBtn>
+          </SectionWrapper>
+        </BasicWrapper>
+        <BasicWrapper>
+          <SectionWrapper header="Search result">
+            <LogTable gap="8vw">
+              <LogHead />
+              {ExSchedules.map((schedule) => (
+                <LogItem
+                  key={schedule.id}
+                  id={schedule.id}
+                  name={schedule.name}
+                  date={schedule.date}
+                  tier={schedule.tier}
+                  onClick={onClick}
+                />
               ))}
-            </select>
-          </div>
-          <Search />
-          <CreateNewBtn>Add new</CreateNewBtn>
-        </SectionWrapper>
-      </BasicWrapper>
-      <BasicWrapper>
-        <SectionWrapper header="Search result">
-          <LogTable gap="8vw">
-            <LogHead />
-            {ExSchedules.map((schedule) => (
-              <LogItem
-                key={schedule.id}
-                name={schedule.name}
-                date={schedule.date}
-                tier={schedule.tier}
-              />
-            ))}
-          </LogTable>
-          <PageMoveBtns
-            onClickPageNumBtn={onClickPageNumBtn}
-            onClickPageMoveBtn={onClickPageMoveBtn}
-            totalPage={total}
-            curPage={curPage}
+            </LogTable>
+            <PageMoveBtns
+              onClickPageNumBtn={onClickPageNumBtn}
+              onClickPageMoveBtn={onClickPageMoveBtn}
+              totalPage={total}
+              curPage={curPage}
+            />
+          </SectionWrapper>
+        </BasicWrapper>
+      </Wrapper>
+      <CSSTransition
+        in={!!showModal.data}
+        timeout={300}
+        classNames="show-modal"
+        unmountOnExit
+        nodeRef={ModalRef}
+      >
+        <Modal onMouseDown={onMouseDown} ref={ModalRef}>
+          <EditSchedule
+            type={showModal.type}
+            id={showModal.data?.id}
+            name={showModal.data?.name}
+            date={showModal.data?.date}
+            tier={showModal.data?.tier}
           />
-        </SectionWrapper>
-      </BasicWrapper>
-    </Wrapper>
+        </Modal>
+      </CSSTransition>
+    </>
   );
 }
 

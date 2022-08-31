@@ -1,5 +1,6 @@
 import { MouseEventHandler, useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { CSSTransition } from 'react-transition-group';
 import {
   BasicWrapper,
   SectionWrapper,
@@ -9,8 +10,8 @@ import {
   Modal,
 } from 'components/global';
 import { LogHead, LogItem, EditSchedule } from 'components/admin/mintSchedule';
+import convertDate from 'lib/global/convertDate';
 import { BlueBtnStyle } from 'styles/styleLib';
-import { CSSTransition } from 'react-transition-group';
 
 type ModalDataType = {
   type: 'New' | 'Edit';
@@ -23,7 +24,7 @@ const EXSchedule: Admin.MintScheduleType = {
   id: 1,
   name: 'Bellygom Whitelist',
   tier: 2,
-  date: new Date(Date.now()).toISOString(),
+  date: convertDate(new Date(Date.now()), 'dateInput', '-'),
 };
 const ExSchedules = [
   EXSchedule,
@@ -55,7 +56,7 @@ export default function MintingSchedule() {
             id: 0,
             name: '',
             tier: 0,
-            date: new Date(Date.now()).toISOString(),
+            date: convertDate(new Date(Date.now()), 'dateInput', '-'),
           },
         });
         break;
@@ -66,7 +67,9 @@ export default function MintingSchedule() {
             id: Number.parseInt(dataset?.id || '0', 10),
             name: dataset?.name || '',
             tier: Number.parseInt(dataset?.tier || '0', 10),
-            date: dataset?.date || new Date(Date.now()).toISOString(),
+            date:
+              dataset?.date ||
+              convertDate(new Date(Date.now()), 'dateInput', '-'),
           },
         });
         break;

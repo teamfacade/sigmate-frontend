@@ -73,6 +73,12 @@ export default function EditSchedule({
               value={date || ''}
               onChange={onChange}
             />
+            <NamedInput
+              name="Time"
+              inputElemName="time"
+              type="time"
+              value=""
+            />
             <div style={{ display: 'flex' }}>
               <NamedInput
                 name="Price"

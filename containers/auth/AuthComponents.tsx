@@ -2,8 +2,10 @@ import { useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { OAuthBtn } from 'components/auth';
-import { ethers } from 'ethers';
-import Web3Modal from 'web3modal';
+import axios from 'axios';
+import Web3 from 'web3';
+
+const baseURL = 'http://172.30.1.27:5100/api/v1';
 
 export default function AuthComponents() {
   // @todo OAuth 기능 구현
@@ -16,7 +18,8 @@ export default function AuthComponents() {
           break;
         case 'Metamask':
           // eslint-disable-next-line no-alert
-          alert('Metamask Login');
+          // alert('Metamask Login');
+          performAction();
           break;
         default:
           // eslint-disable-next-line no-alert
@@ -35,8 +38,20 @@ export default function AuthComponents() {
     }
   };
 
-  const checkIfUserRegistered = async (address: string) => {
-    return true;
+  const handleSignMessage = (publicAddress: string, nonce: number) => {
+    // Define instance of web3
+    const web3 = new Web3(window.ethereum);
+    return new Promise((resolve, reject) => {
+      web3.eth.personal.sign(
+        web3.utils.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
+        publicAddress,
+        'skanskan',
+        (err, signature) => {
+          if (err) reject(err);
+          resolve({ publicAddress, signature });
+        }
+      );
+    });
   };
 
   const connectToMetamask = async () => {
@@ -47,28 +62,27 @@ export default function AuthComponents() {
         method: 'eth_requestAccounts',
       });
 
-      // // Update vuex store
-      // this.$store.commit('metamask/setMetamaskConnected', true)
-      // this.$store.commit('metamask/setAccounts', accounts)
+      const res = await axios.get(`${baseURL  }/auth/metamask`, {
+        params: {
+          metamaskWallet: accounts[0],
+        },
+      });
 
-      // // Check if user is registered, if not, register them
-      // const isRegistered = await checkIfUserRegistered(accounts[0])
+      if (res.data) {
+        const {nonce} = res.data;
+        // Sign message
+        const signedMessage = await handleSignMessage(accounts[0], nonce);
 
-      // // Request nonce from backend
-      // const responseNonce = await this.$axios.get('/users/' + accounts[0] + '/nonce')
-      // const nonce = responseNonce.data
-      // // Sign message
-      // const signedMessage = await this.handleSignMessage(accounts[0], nonce)
-      // // Send signature to backend
-      // const responseSign = await this.$axios.post('/users/' + accounts[0] + '/signature', signedMessage)
-      // // Set token in store
-      // this.$store.commit('metamask/setToken', responseSign.data.token)
-      // // If successful, redirect to home
-      // if (responseSign.status === 200) {
-      //   this.$router.push('/')
-      // }
+        // Send signature to backend
+        await axios.post(`${baseURL  }/auth/metamask/verify`, {
+          metamaskWallet: accounts[0],
+          signature: signedMessage,
+        });
+      }
+      return true;
     } catch (error) {
-      console.log(error);
+      // TODO 해줘
+      return false;
     }
   };
 

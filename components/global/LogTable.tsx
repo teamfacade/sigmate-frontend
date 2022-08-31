@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
 const LogTable = memo(styled.table<{ gap: string | undefined }>`
+  width: 100%;
   border-spacing: 0 10px;
 
   thead {
@@ -14,7 +15,7 @@ const LogTable = memo(styled.table<{ gap: string | undefined }>`
     }
 
     th {
-      padding: 0 ${({ gap }) => (gap || '200px')} 0 0;
+      padding: 0 ${({ gap }) => gap || '12vw'} 0 0;
       color: ${styles.colors.dimTextColor};
       font-size: 15px;
       text-align: start;
@@ -29,7 +30,7 @@ const LogTable = memo(styled.table<{ gap: string | undefined }>`
     background-color: ${styles.colors.tableRowColor};
 
     td {
-      padding: 10px ${({ gap }) => (gap || '200px')} 10px 0;
+      padding: 10px ${({ gap }) => gap || '12vw'} 10px 0;
       color: ${styles.colors.logColor};
       font-size: 15px;
       text-align: start;

@@ -1,4 +1,10 @@
-import { memo } from 'react';
+import {
+  Dispatch,
+  memo,
+  MouseEventHandler,
+  SetStateAction,
+  useCallback,
+} from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { UtilBtns, CommentInput } from 'components/main/forum/article';
@@ -12,36 +18,40 @@ type PropsType = {
   title: string;
   content: string;
   imageURL: string;
+  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
 };
 
 export default memo(function Content({
   id,
-  category,
   title,
   content,
-  imageURL,
+  setShowModal,
 }: PropsType) {
+  const onClickReport: MouseEventHandler<HTMLButtonElement> =
+    useCallback(() => {
+      setShowModal({ type: 'article', id });
+    }, [id]);
+
   return (
     <Wrapper>
       <Title>{title}</Title>
       <MainContentWrapper>
         <MainText>
           <Outer width="350px" height="365px">
-              <Inner>
-                <Image src={screenshotDesktop} alt="Thumbnail" layout="fill" />
-              </Inner>
-            </Outer>
+            <Inner>
+              <Image src={screenshotDesktop} alt="Thumbnail" layout="fill" />
+            </Inner>
+          </Outer>
           {content}
         </MainText>
       </MainContentWrapper>
-      <UtilBtns />
+      <UtilBtns onClickReport={onClickReport} />
       <CommentInput />
     </Wrapper>
   );
 });
 
 const Wrapper = styled.div`
-  width: 1000px;
   height: fit-content;
   padding: 20px;
 `;

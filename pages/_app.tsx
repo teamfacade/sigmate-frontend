@@ -1,5 +1,9 @@
+import { useEffect, useCallback, FormEventHandler } from 'react';
 import { useRouter } from 'next/router';
-import { useCallback, FormEventHandler } from 'react';
+import { wrapper } from 'store/store';
+import { loadState } from 'store/modules/localStorage';
+import { setRootState } from 'store/modules/';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { MainLayout, UserLayout, Heads } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
@@ -7,7 +11,13 @@ import 'styles/Calendars.css';
 import 'styles/ShowModal.css';
 import 'styles/Fade.css';
 
-export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const saved = loadState();
+    if (saved) dispatch(setRootState(saved));
+  }, [Component]);
+
   const getLayout = Component.getLayout ?? ((page) => page);
   const router = useRouter();
 
@@ -26,8 +36,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     return (
       <>
         <Heads />
-        getLayout(
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </>
     );
   }
@@ -70,3 +79,5 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     </>
   );
 }
+
+export default wrapper.withRedux(MyApp);

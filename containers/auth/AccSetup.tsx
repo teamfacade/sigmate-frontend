@@ -9,16 +9,23 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { CheckUsername, CheckRefcode } from 'lib/auth/checkInput';
+import Axios from 'lib/global/axiosInstance';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
+import { setUserName } from 'store/modules/accountSlice';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
 import styles from 'styles/styleLib';
 
+const usernameRules = '@todo Rules for username will be here';
+
 export default function AccSetup() {
+  const dispatch = useAppDispatch();
+  const { accessToken } = useAppSelector(({ auth }) => auth);
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [isValidUsername, setIsValidUsername] = useState<boolean | undefined>(
     undefined
   );
+  const [usernameCheckResult, setUsernameCheckResult] = useState(usernameRules);
   const [refCode, setRefCode] = useState('');
   const [isValidRefCode, setIsValidRefCode] = useState<boolean | undefined>(
     undefined
@@ -38,12 +45,33 @@ export default function AccSetup() {
   const onBlur: FocusEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
       if (e.currentTarget.name === 'Username') {
-        setIsValidUsername(CheckUsername(username));
-      } else {
-        setIsValidRefCode(CheckRefcode(refCode));
+        Axios.get('/user/check', {
+          params: { userName: username },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+          .then((res) => {
+            setIsValidUsername(res.data.userName.isAvailable);
+          })
+          .catch((err) => {
+            setIsValidUsername(false);
+            if (err.response.status !== 400)
+              alert('Something went wrong. Please try again later.');
+          });
+      } else if (refCode !== '') {
+        Axios.get('/user/check', {
+          params: { referralCode: refCode },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+          .then((res) => {
+            setIsValidRefCode(res.data.referralCode.isValid);
+          })
+          .catch((err) => {
+            if (err.response.status === 400) setIsValidRefCode(false);
+            else console.error(err.message);
+          });
       }
     },
-    [username, refCode]
+    [username, refCode, accessToken]
   );
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -51,14 +79,17 @@ export default function AccSetup() {
       if (e.currentTarget.name === 'Metamask') {
         // eslint-disable-next-line no-alert
         alert('Connect Metamask wallet');
-      } else if (isValidRefCode && isValidUsername) {
-          // eslint-disable-next-line no-alert
-          alert('Signed up...');
-          await router.push('/main');
-        } else if (!isValidUsername) usernameTextareaRef.current?.focus();
-        else refCodeTextareaRef.current?.focus();
+      } else if ((isValidRefCode || refCode === '') && isValidUsername) {
+        dispatch(setUserName(username));
+        Axios.patch(
+          '/user',
+          { userName: username },
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        ).then(() => router.push('/main'));
+      } else if (!isValidUsername) usernameTextareaRef.current?.focus();
+      else refCodeTextareaRef.current?.focus();
     },
-    [isValidUsername, isValidRefCode]
+    [isValidUsername, isValidRefCode, refCode]
   );
 
   return (
@@ -69,7 +100,7 @@ export default function AccSetup() {
         onChange={onChange}
         onBlur={onBlur}
         isValid={isValidUsername}
-        description="@todo Rules for username will be here"
+        description={usernameCheckResult}
         ref={usernameTextareaRef}
       />
       <InputTemplate

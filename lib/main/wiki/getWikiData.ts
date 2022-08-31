@@ -61,27 +61,6 @@ const ExBlocks: BlockType[] = [
 ];
 
 export function getAllArticleTitles() {
-  /*
-        Returns an array that looks like this:
-        [
-           {
-             params: {
-               title: 'Puuvilla Society'
-             }
-           },
-           {
-             params: {
-               title: 'Bellygom'
-             }
-           },
-           {
-             params: {
-               title: 'Hush'
-             }
-           }
-         ]
-    */
-
   // @todo const titles = fetch....
   const titles = ['hush', 'empty'];
 

@@ -31,7 +31,7 @@ export default memo(function WalletBtn({ name, onClick }: PropsType) {
 });
 
 const Btn = styled(LongBtn)<{ name: string }>`
-  height: ${({ name }) => (name === 'ComingSoon' ? '90px' : '40px')};
+  height: ${({ name }) => (name === 'ComingSoon' ? '90px !important' : '40px')};
 `;
 
 const MWCS = styled.p`

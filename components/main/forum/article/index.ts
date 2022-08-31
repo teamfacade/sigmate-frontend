@@ -1,5 +1,6 @@
 export { default as Content } from './Content';
 export { default as UtilBtns } from './UtilBtns';
+export { default as ArticleManageBtns } from './ArticleManageBtns';
 export { default as Comment } from './Comment';
 export { default as CommentInput } from './CommentInput';
 export { default as CommentBtns } from './CommentBtns';

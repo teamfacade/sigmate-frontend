@@ -32,10 +32,15 @@ export default function Article() {
     []
   );
 
+  const onClickDelete: MouseEventHandler<HTMLButtonElement> =
+    useCallback(() => {
+      alert('Delete th earticle');
+    }, []);
+
   return (
     <>
       <Wrapper>
-        <ArticleContent article={ExArticle} />
+        <ArticleContent article={ExArticle} onClickDelete={onClickDelete} />
       </Wrapper>
       <Wrapper>
         <Comments setShowModal={setShowModal} />

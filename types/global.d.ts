@@ -194,6 +194,15 @@ declare global {
     type: 'comment' | 'reply';
     id: number;
   };
+
+  namespace Forum {
+    type ForumArticleContentType = {
+      title: string;
+      content: string;
+      imageURL: string;
+      tags: string[];
+    };
+  }
 }
 
 export {};

@@ -1,14 +1,18 @@
-import { memo } from 'react';
+import { memo, MouseEventHandler } from 'react';
 import { Recommend, Infos } from 'components/main/forum/articleList';
-import { Content } from 'components/main/forum/article';
+import { Content, ArticleManageBtns } from 'components/main/forum/article';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
 type PropsType = {
   article: ForumArticleType;
+  onClickDelete: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default memo(function ArticleContent({ article }: PropsType) {
+export default memo(function ArticleContent({
+  article,
+  onClickDelete,
+}: PropsType) {
   return (
     <Wrapper>
       <Recommend recommend={article.recommend} />
@@ -17,7 +21,13 @@ export default memo(function ArticleContent({ article }: PropsType) {
           author={article.author}
           tags={article.tags}
           timestamp={article.timestamp}
-        />
+        >
+          <ArticleManageBtns
+            category={article.category}
+            articleID={article.id.toString()}
+            onClickDelete={onClickDelete}
+          />
+        </Infos>
         <Content
           id={article.id}
           category={article.category}

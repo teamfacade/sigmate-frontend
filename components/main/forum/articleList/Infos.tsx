@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, ReactNode } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import convertDate from 'lib/global/convertDate';
@@ -8,9 +8,15 @@ type PropsType = {
   author: string;
   tags: string[];
   timestamp: string;
+  children?: ReactNode;
 };
 
-export default memo(function Infos({ author, tags, timestamp }: PropsType) {
+export default memo(function Infos({
+  author,
+  tags,
+  timestamp,
+  children,
+}: PropsType) {
   return (
     <Wrapper>
       <Link href={`/main/profile/${author}`} passHref>
@@ -21,6 +27,7 @@ export default memo(function Infos({ author, tags, timestamp }: PropsType) {
       ))}
       {tags.length > 5 && <Text>...</Text>}
       <Text>{convertDate(new Date(timestamp), 'MonthDDYYYY', '. ')}</Text>
+      {children}
     </Wrapper>
   );
 });

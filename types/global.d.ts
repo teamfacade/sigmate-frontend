@@ -203,6 +203,43 @@ declare global {
       id: number;
     };
   }
+
+  namespace Admin {
+    type UserType = {
+      id: string;
+      name: string;
+      level: string;
+      status: string;
+      walletID: string;
+      signupDate: string;
+    };
+
+    type ArticleDataType = {
+      id: number;
+      name: string;
+      views: string;
+      editedUsers: string;
+      lastEdit: string;
+    };
+
+    type MintScheduleType = {
+      id: number;
+      name: string;
+      tier: number;
+      category: string;
+      date: string;
+    };
+
+    type ForumArticleDataType = {
+      id: number;
+      title: string;
+      category: string;
+      author: string;
+      tags: string[];
+      date: string;
+      comments: number;
+    };
+  }
 }
 
 export {};

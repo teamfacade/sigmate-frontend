@@ -20,6 +20,7 @@
     "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
     "clipboard": "^2.0.11",
+    "import-fresh": "^3.3.0",
     "next": "12.2.1",
     "next-redux-wrapper": "^7.0.5",
     "polished": "^4.2.2",

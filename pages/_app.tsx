@@ -4,7 +4,7 @@ import { wrapper } from 'store/store';
 import { loadState } from 'store/modules/localStorage';
 import { setRootState } from 'store/modules/';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
-import { MainLayout, UserLayout, Heads } from 'layouts';
+import { MainLayout, UserLayout, AdminLayout, Heads } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
 import 'styles/Calendars.css';
@@ -66,6 +66,16 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <Heads />
         <Navbar />
         <UserLayout>{getLayout(<Component {...pageProps} />)}</UserLayout>
+        <Footer />
+      </>
+    );
+  }
+  if (router.pathname.startsWith('/admin')) {
+    return (
+      <>
+        <Heads />
+        <Navbar />
+        <AdminLayout>{getLayout(<Component {...pageProps} />)}</AdminLayout>
         <Footer />
       </>
     );

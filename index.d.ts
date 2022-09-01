@@ -1,3 +1,4 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import React from 'react';
 import { ActionMeta, SingleValue, MultiValue } from 'react-select';
 
@@ -25,6 +26,6 @@ declare namespace ReactSelectTypes {
 
 declare global {
   interface Window {
-    ethereum: any;
+    ethereum?: MetaMaskInpageProvider;
   }
 }

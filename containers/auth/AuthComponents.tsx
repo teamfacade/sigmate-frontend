@@ -5,7 +5,8 @@ import { OAuthBtn } from 'components/auth';
 import axios from 'axios';
 import Web3 from 'web3';
 
-const baseURL = 'http://172.30.1.27:5100/api/v1';
+const API_DOMAIN = 'http://localhost:5100';
+const BASE_URL = `${API_DOMAIN}/api/v1`;
 
 export default function AuthComponents() {
   // @todo OAuth 기능 구현
@@ -48,7 +49,7 @@ export default function AuthComponents() {
         'skanskan',
         (err, signature) => {
           if (err) reject(err);
-          resolve({ publicAddress, signature });
+          resolve(signature);
         }
       );
     });
@@ -62,7 +63,7 @@ export default function AuthComponents() {
         method: 'eth_requestAccounts',
       });
 
-      const res = await axios.get(`${baseURL  }/auth/metamask`, {
+      const res = await axios.get(`${BASE_URL  }/auth/metamask`, {
         params: {
           metamaskWallet: accounts[0],
         },
@@ -74,7 +75,7 @@ export default function AuthComponents() {
         const signedMessage = await handleSignMessage(accounts[0], nonce);
 
         // Send signature to backend
-        await axios.post(`${baseURL  }/auth/metamask/verify`, {
+        await axios.post(`${BASE_URL  }/auth/metamask/verify`, {
           metamaskWallet: accounts[0],
           signature: signedMessage,
         });

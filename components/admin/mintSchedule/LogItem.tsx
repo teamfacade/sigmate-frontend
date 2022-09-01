@@ -6,6 +6,7 @@ type PropsType = {
   name: string;
   date: string;
   tier: number;
+  category: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
@@ -14,6 +15,7 @@ export default memo(function LogItem({
   name,
   date,
   tier,
+  category,
   onClick,
 }: PropsType) {
   const time = useMemo(
@@ -26,7 +28,7 @@ export default memo(function LogItem({
       <tr>
         <td>{name}</td>
         <td>{time}</td>
-        <td>{tier}</td>
+        <td>{category}</td>
         <td>
           <div style={{ display: 'flex' }}>
             <button type="button">Delete</button>
@@ -36,6 +38,7 @@ export default memo(function LogItem({
               data-name={name}
               data-time={date}
               data-tier={tier}
+              data-category={category}
               name="edit"
               onClick={onClick}
             >

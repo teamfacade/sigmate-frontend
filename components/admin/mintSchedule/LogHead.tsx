@@ -6,7 +6,7 @@ export default memo(function LogHead() {
       <tr>
         <th>name</th>
         <th>date</th>
-        <th>tier</th>
+        <th>category</th>
         <th>manage</th>
       </tr>
     </thead>

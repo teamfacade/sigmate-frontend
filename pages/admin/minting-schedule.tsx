@@ -10,6 +10,7 @@ import {
   Modal,
 } from 'components/global';
 import { LogHead, LogItem, EditSchedule } from 'components/admin/mintSchedule';
+import { categories } from 'pages/admin/forum';
 import convertDate from 'lib/global/convertDate';
 import { BlueBtnStyle } from 'styles/styleLib';
 
@@ -18,12 +19,11 @@ type ModalDataType = {
   data?: Admin.MintScheduleType;
 };
 
-const tiers = Array.from({ length: 5 }, (_, i) => i + 1);
-
 const EXSchedule: Admin.MintScheduleType = {
   id: 1,
   name: 'Bellygom Whitelist',
   tier: 2,
+  category: 'Utility',
   date: convertDate(new Date(Date.now()), 'dateInput', '-'),
 };
 const ExSchedules = [
@@ -56,6 +56,7 @@ export default function MintingSchedule() {
             id: 0,
             name: '',
             tier: 0,
+            category: 'Utility',
             date: convertDate(new Date(Date.now()), 'dateInput', '-'),
           },
         });
@@ -67,6 +68,7 @@ export default function MintingSchedule() {
             id: Number.parseInt(dataset?.id || '0', 10),
             name: dataset?.name || '',
             tier: Number.parseInt(dataset?.tier || '0', 10),
+            category: dataset?.category || '',
             date:
               dataset?.date ||
               convertDate(new Date(Date.now()), 'dateInput', '-'),
@@ -133,11 +135,11 @@ export default function MintingSchedule() {
           <SectionWrapper header="Minting schedule">
             <div>
               <input type="date" />
-              <span>Tier</span>
-              <select name="tier">
-                {tiers.map((tier) => (
-                  <option key={tier} value={tier}>
-                    {tier}
+              <span>Category</span>
+              <select name="category">
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
                   </option>
                 ))}
               </select>
@@ -158,7 +160,7 @@ export default function MintingSchedule() {
                   id={schedule.id}
                   name={schedule.name}
                   date={schedule.date}
-                  tier={schedule.tier}
+                  category={schedule.category}
                   onClick={onClick}
                 />
               ))}
@@ -186,6 +188,7 @@ export default function MintingSchedule() {
             name={showModal.data?.name}
             date={showModal.data?.date}
             tier={showModal.data?.tier}
+            category={showModal.data?.category}
           />
         </Modal>
       </CSSTransition>

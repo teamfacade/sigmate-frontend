@@ -226,13 +226,8 @@ declare global {
       id: number;
       name: string;
       tier: number;
+      category: string;
       date: string;
-    };
-
-    type ForumCategoryType = {
-      id: number;
-      name: string;
-      description: string;
     };
 
     type ForumArticleDataType = {

@@ -1,5 +1,6 @@
 import { ChangeEventHandler, useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { categories } from 'pages/admin/forum';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { NamedInput } from 'components/admin/mintSchedule';
 import { BlueBtnStyle } from 'styles/styleLib';
@@ -9,6 +10,7 @@ type PropsType = {
   id?: number;
   name?: string;
   tier?: number;
+  category?: string;
   date?: string;
 };
 
@@ -73,12 +75,17 @@ export default function EditSchedule({
               value={date || ''}
               onChange={onChange}
             />
-            <NamedInput
-              name="Time"
-              inputElemName="time"
-              type="time"
-              value=""
-            />
+            <NamedInput name="Time" inputElemName="time" type="time" value="" />
+            <div>
+              <span>Category</span>
+              <select name="category">
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div style={{ display: 'flex' }}>
               <NamedInput
                 name="Price"

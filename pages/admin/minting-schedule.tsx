@@ -160,6 +160,7 @@ export default function MintingSchedule() {
                   id={schedule.id}
                   name={schedule.name}
                   date={schedule.date}
+                  tier={schedule.tier}
                   category={schedule.category}
                   onClick={onClick}
                 />

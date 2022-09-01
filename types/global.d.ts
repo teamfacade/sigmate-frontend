@@ -228,6 +228,22 @@ declare global {
       tier: number;
       date: string;
     };
+
+    type ForumCategoryType = {
+      id: number;
+      name: string;
+      description: string;
+    };
+
+    type ForumArticleDataType = {
+      id: number;
+      title: string;
+      category: string;
+      author: string;
+      tags: string[];
+      date: string;
+      comments: number;
+    };
   }
 }
 

@@ -15,9 +15,11 @@ const BASE_URL = `${API_DOMAIN}/api/v1`;
 export default function AuthComponents() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [isSignInProgress, setSignInProgress] = useState<boolean>(false);
 
   useEffect(() => {
     if (Object.keys(router.query).length) {
+      setSignInProgress(true);
       Axios.post('/auth/google', {
         code: router.query.code,
       })
@@ -32,15 +34,12 @@ export default function AuthComponents() {
           );
         })
         .catch((err) => console.error(err))
-        .finally(() =>
-          window.history.replaceState({}, document.title, '/auth')
-        );
+        .finally(() => {
+          setSignInProgress(false);
+          window.history.replaceState({}, document.title, '/auth');
+        });
     }
   }, [router]);
-
-  // 메타마스크로 로그인 이미 진행중인지 여부 (true 일 경우 버튼 disable 시켜야함)
-  const [isMetaMaskLoginInProgress, setMetaMaskLoginInProgress] =
-    useState<boolean>(false);
 
   // @todo OAuth 기능 구현
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -50,9 +49,9 @@ export default function AuthComponents() {
           router.push('http://localhost:5100/oauth/google');
           break;
         case 'Metamask':
-          if (!isMetaMaskLoginInProgress && window?.ethereum?.isMetaMask) {
+          if (!isSignInProgress && window?.ethereum?.isMetaMask) {
             // Start login
-            setMetaMaskLoginInProgress(true);
+            setSignInProgress(true);
             connectToMetaMask();
           } else {
             // MetaMask is not installed on user's browser.
@@ -66,7 +65,7 @@ export default function AuthComponents() {
           alert('Comming soon');
       }
     },
-    [isMetaMaskLoginInProgress]
+    [isSignInProgress]
   );
 
   // 메타마스크 로그인 최종 성공시 실행되는 callback
@@ -74,7 +73,15 @@ export default function AuthComponents() {
     (metamaskResponse: MetamaskAuth.MetaMaskVerifyResponse) => {
       // eslint-disable-next-line no-console
       console.log(metamaskResponse); // @todo 유저정보랑 토큰 여깄음!
-      setMetaMaskLoginInProgress(false);
+      dispatch(signIn(metamaskResponse.user)).then(() =>
+        dispatch(
+          setAuthTokens({
+            accessToken: metamaskResponse.accessToken || '',
+            refreshToken: metamaskResponse.refreshToken || '',
+          })
+        )
+      );
+      setSignInProgress(false);
       return true;
     },
     []
@@ -82,7 +89,7 @@ export default function AuthComponents() {
 
   // 메타마스크 로그인 중 오류 발생시 실행되는 callback
   const handleMetaMaskLoginFail = useCallback(() => {
-    setMetaMaskLoginInProgress(false);
+    setSignInProgress(false);
     return false;
   }, []);
 
@@ -226,8 +233,16 @@ export default function AuthComponents() {
       <Header>Log in / sign up</Header>
       <BtnWrapper>
         <span>
-          <OAuthBtn service="Google" onClick={onClick} />
-          <OAuthBtn service="Metamask" onClick={onClick} />
+          <OAuthBtn
+            service="Google"
+            onClick={onClick}
+            disabled={isSignInProgress}
+          />
+          <OAuthBtn
+            service="Metamask"
+            onClick={onClick}
+            disabled={isSignInProgress}
+          />
         </span>
       </BtnWrapper>
     </div>

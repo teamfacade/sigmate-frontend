@@ -39,7 +39,7 @@ const Grid = styled.div`
   grid-template-columns: 1fr 1fr;
   row-gap: 12px;
   height: 580px;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const Empty = styled.div`

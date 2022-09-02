@@ -49,7 +49,7 @@ const Bio = styled.p`
   font-size: 14px;
   font-weight: 300;
   line-height: 160%;
-  overflow: hidden scroll;
+  overflow: hidden auto;
 `;
 
 const Socials = styled.div`

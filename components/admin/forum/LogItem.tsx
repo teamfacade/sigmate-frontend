@@ -37,7 +37,7 @@ export default memo(function LogItem({
           </Link>
         </td>
         <td>
-          <div style={{ overflow: 'scroll', maxWidth: '8vw' }}>
+          <div style={{ overflow: 'auto', maxWidth: '8vw' }}>
             <p>{tags.toString()}</p>
           </div>
         </td>

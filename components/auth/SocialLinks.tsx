@@ -40,7 +40,7 @@ const Wrapper = styled.div`
 
 const LinkWrapper = styled.div`
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
 
   button {
     position: relative;

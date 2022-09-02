@@ -292,7 +292,7 @@ const TableItem = styled.div<{ gridArea: string }>`
     return '';
   }};
 
-  overflow: scroll auto;
+  overflow: auto;
 
   p {
     margin: 0;

@@ -61,7 +61,7 @@ export default function EditSchedule() {
 
 const Wrapper = styled.div`
   height: 60vh;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 const EditBtn = styled.button`

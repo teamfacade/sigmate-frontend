@@ -111,5 +111,5 @@ const ContentWrapper = styled.div`
   border: 1px solid ${styles.colors.darkBorderColor};
   border-radius: 8px;
   background-color: ${styles.colors.tableRowColor};
-  overflow-y: scroll;
+  overflow-y: auto;
 `;

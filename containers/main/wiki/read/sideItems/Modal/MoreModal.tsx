@@ -25,14 +25,14 @@ export default memo(
 
     return (
       <Modal ref={ref}>
-          <SectionWrapper header={header} marginBottom="16px">
-            <Close onClick={onClick}>
-              <CloseIcon />
-            </Close>
-            <Contents header={header} />
-            {!signedIn && <BlurDiv />}
-          </SectionWrapper>
-        </Modal>
+        <SectionWrapper header={header} marginBottom="16px">
+          <Close onClick={onClick}>
+            <CloseIcon />
+          </Close>
+          <Contents header={header} />
+          {!signedIn && <BlurDiv />}
+        </SectionWrapper>
+      </Modal>
     );
   })
 );

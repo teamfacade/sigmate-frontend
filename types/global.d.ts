@@ -2,8 +2,13 @@ import { ActionMeta, MultiValue, SingleValue } from 'react-select';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 import { AppProps } from 'next/app';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 
 declare global {
+  interface Window {
+    ethereum?: MetaMaskInpageProvider;
+  }
+
   namespace ReduxState {
     interface AuthStateType {
       signedIn: boolean;
@@ -72,6 +77,20 @@ declare global {
   type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout;
   };
+
+  namespace MetamaskAuth {
+    interface MetaMaskAuthResponse {
+      metamaskWallet: string;
+      nonce: number;
+    }
+
+    interface MetaMaskVerifyResponse {
+      success: boolean;
+      user?: any; // User information
+      accessToken?: string;
+      refreshToken?: string;
+    }
+  }
 
   type EditType = {
     name: string;

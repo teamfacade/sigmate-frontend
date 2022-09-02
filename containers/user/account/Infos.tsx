@@ -1,6 +1,10 @@
 import { memo, useState, useRef, useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import { useTokenAuth , useAppSelector, useAppDispatch } from 'hooks/reduxStoreHooks';
+import {
+  useTokenAuth,
+  useAppSelector,
+  useAppDispatch,
+} from 'hooks/reduxStoreHooks';
 import {
   setUserName,
   setDisplayName,

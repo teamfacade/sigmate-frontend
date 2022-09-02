@@ -55,7 +55,7 @@ export default function convertDate(
   converted = converted.replaceAll(regex, delimiter || ' ');
   if (format === 'dateInput') {
     const splitted = converted.split('-');
-    converted = `${splitted[2]  }-${  splitted[0]  }-${  splitted[1]}`;
+    converted = `${splitted[2]}-${splitted[0]}-${splitted[1]}`;
   }
   return converted;
 }

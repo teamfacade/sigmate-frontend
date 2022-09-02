@@ -42,33 +42,3 @@ hr {
   border-left-width: 0;
   border-top-width: 0;
 }
-
-@font-face {
-  font-family: 'Inter';
-  src: url('../public/Fonts/Inter-Light-BETA.woff') format('woff');
-  font-weight: 100;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('../public/Fonts/Inter-Regular.woff') format('woff');
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('../public/Fonts/Inter-Medium.woff') format('woff');
-  font-weight: 500;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('../public/Fonts/Inter-SemiBold.woff') format('woff');
-  font-weight: 700;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('../public/Fonts/Inter-Bold.woff') format('woff');
-  font-weight: 900;
-}

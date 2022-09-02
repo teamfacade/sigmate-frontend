@@ -8,21 +8,10 @@ import Web3 from 'web3';
 const API_DOMAIN = 'http://localhost:5100';
 const BASE_URL = `${API_DOMAIN}/api/v1`;
 
-interface MetaMaskAuthResponse {
-  metamaskWallet: string;
-  nonce: number;
-}
-
-interface MetaMaskVerifyResponse {
-  success: boolean;
-  user?: any; // User information
-  accessToken?: string;
-  refreshToken?: string;
-}
-
 export default function AuthComponents() {
   // 메타마스크로 로그인 이미 진행중인지 여부 (true 일 경우 버튼 disable 시켜야함)
-  const [isMetaMaskLoginInProgress, setMetaMaskLoginInProgress] = useState<boolean>(false);
+  const [isMetaMaskLoginInProgress, setMetaMaskLoginInProgress] =
+    useState<boolean>(false);
 
   // @todo OAuth 기능 구현
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -47,28 +36,33 @@ export default function AuthComponents() {
   // 메타마스크 설치여부 확인
   const isMetaMaskInstalled = () => {
     return Boolean(window?.ethereum?.isMetaMask);
-  }
+  };
 
   // 메타마스크 로그인 최종 성공시 실행되는 callback
-  const handleMetaMaskLoginSuccess = (metamaskResponse: MetaMaskVerifyResponse) => {
+  const handleMetaMaskLoginSuccess = (
+    metamaskResponse: MetamaskAuth.MetaMaskVerifyResponse
+  ) => {
     // eslint-disable-next-line no-console
     console.log(metamaskResponse); // @todo 유저정보랑 토큰 여깄음!
     setMetaMaskLoginInProgress(false);
     return true;
-  }
+  };
 
   // 메타마스크 로그인 중 오류 발생시 실행되는 callback
   const handleMetaMaskLoginFail = () => {
     setMetaMaskLoginInProgress(false);
     return false;
-  }
+  };
 
   // 메타마스크로 로그인 과정을 이미 시작하지 않은 경우에만 새로 시작
   const startMetaMaskLogin = () => {
     setMetaMaskLoginInProgress(true);
-  }
+  };
 
-  const signMetaMaskMessage = async (publicAddress: string, nonce: number): Promise<string> => {
+  const signMetaMaskMessage = async (
+    publicAddress: string,
+    nonce: number
+  ): Promise<string> => {
     if (!window.ethereum) {
       handleMetaMaskLoginFail();
       throw new Error();
@@ -97,7 +91,9 @@ export default function AuthComponents() {
     // Get user's public address
     let publicAddress = ''; // MetaMask wallet address
     try {
-      const accounts = await window.ethereum.request<[string]>({ method: 'eth_requestAccounts' });
+      const accounts = await window.ethereum.request<[string]>({
+        method: 'eth_requestAccounts',
+      });
       if (accounts && accounts[0]) {
         [publicAddress] = accounts;
       } else {
@@ -119,19 +115,20 @@ export default function AuthComponents() {
     // Fetch MetaMask one-time nonce from backend
     let nonce = 0;
     try {
-      const res: AxiosResponse<MetaMaskAuthResponse> = await axios.get('/auth/metamask', {
-        baseURL: BASE_URL,
-        params: {
-          metamaskWallet: publicAddress
-        }
-      });
+      const res: AxiosResponse<MetamaskAuth.MetaMaskAuthResponse> =
+        await axios.get('/auth/metamask', {
+          baseURL: BASE_URL,
+          params: {
+            metamaskWallet: publicAddress,
+          },
+        });
 
       if (res?.data) {
         if (res.data.metamaskWallet !== publicAddress) {
           // Login failed due to publicAddress mismatch
           return handleMetaMaskLoginFail();
         }
-        nonce = res.data.nonce;  // Got the nonce
+        nonce = res.data.nonce; // Got the nonce
       } else {
         // Login failed due to axios issues
         return handleMetaMaskLoginFail();
@@ -156,12 +153,17 @@ export default function AuthComponents() {
     // METAMASK LOGIN FLOW (4/4)
     // Send signature to backend for verification
     try {
-      const res: AxiosResponse<MetaMaskVerifyResponse> = await axios.post('/auth/metamask/verify', {
-        metamaskWallet: publicAddress,
-        signature: signedMessage
-      }, {
-        baseURL: BASE_URL
-      })
+      const res: AxiosResponse<MetamaskAuth.MetaMaskVerifyResponse> =
+        await axios.post(
+          '/auth/metamask/verify',
+          {
+            metamaskWallet: publicAddress,
+            signature: signedMessage,
+          },
+          {
+            baseURL: BASE_URL,
+          }
+        );
 
       if (res?.data) {
         const { success, accessToken, refreshToken } = res.data;
@@ -204,7 +206,7 @@ export default function AuthComponents() {
       handleMetaMaskLoginFail();
     }
   }, [isMetaMaskLoginInProgress]);
-  
+
   return (
     <div>
       <Header>Log in / sign up</Header>

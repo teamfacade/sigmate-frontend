@@ -12,6 +12,20 @@ declare global {
     Component: NextPageWithLayout;
   };
 
+  namespace MetamaskAuth {
+    interface MetaMaskAuthResponse {
+      metamaskWallet: string;
+      nonce: number;
+    }
+
+    interface MetaMaskVerifyResponse {
+      success: boolean;
+      user?: any; // User information
+      accessToken?: string;
+      refreshToken?: string;
+    }
+  }
+
   type EditType = {
     name: string;
     editor: string;

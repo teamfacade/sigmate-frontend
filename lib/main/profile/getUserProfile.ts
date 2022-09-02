@@ -1,31 +1,55 @@
+import Axios from 'lib/global/axiosInstance';
+
 const ExProfile: ProfileType = {
-  PFPUrl: '',
-  username: 'Wookyung Seo',
-  displayName: 'Berry',
-  bio: 'Hello  https:// the cites of the word in classical literatur. com\ndsfasdfadsthe cites dl literatuYour display name will \nbe used in places where your profile needs to be displayed. to be \nIf left blank, your username will',
-  level: 12.3,
-  twitterID: 'elonmusk',
-  discordID: '4357',
+  user: {
+    id: 1,
+    userName: '',
+    twitterHandle: 'elonmusk',
+    discordAccount: '4357',
+  },
+  profile: {
+    id: 1,
+    bio: 'Hello  https:// the cites of the word in classical literatur. com\ndsfasdfadsthe cites dl literatuYour display name will \nbe used in places where your profile needs to be displayed. to be \nIf left blank, your username will',
+    displayName: 'Berry',
+    profileImage: null,
+    profileImageUrl: '',
+  },
 };
 
-export function getProfileData(username: string) {
+export async function getProfileData(username: string) {
   /*
           Returns an object that has all needed data to render someone's profile page,
           which looks like this:
 
           {
-                PFPUrl: string;
-                username: string;
-                displayName: string;
-                bio: string;
-                level: number;
-                twitterUrl?: string;
-                discordID?: string;
+                user?: {
+                    id: number;
+                    userName: string;
+                    metamaskWallet?: string;
+                    twitterHandle?: string;
+                    discordAccount?: string;
+                },
+                profile: {
+                    id: number;
+                    displayName: string | null;
+                    bio: string | null;
+                    profileImage: Image | null;
+                    profileImageUrl: string | null;
+                }
             }
       */
 
   // @todo 프로필 데이터 받아오기
-  const profile = { ...ExProfile, username };
+  let profile: ProfileType = ExProfile;
+
+  await Axios.get(`/profile/u/${username}`, { params: { userName: username } })
+    .then((res) => {
+      profile = { user: res.data.user, profile: res.data.profile };
+    })
+    .catch((err) => {
+      console.error(err.message);
+      profile = ExProfile;
+    });
 
   return {
     profile,

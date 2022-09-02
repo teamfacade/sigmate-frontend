@@ -1,43 +1,86 @@
 import { memo, useState, useRef, useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
+import {
+  useTokenAuth,
+  useAppSelector,
+  useAppDispatch,
+} from 'hooks/reduxStoreHooks';
+import {
+  setUserName,
+  setDisplayName,
+  setBio,
+  setSocialPublic,
+} from 'store/modules/accountSlice';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import {
   InfoItem,
   PFP,
   SocialsPublicityToggles,
 } from 'components/user/account';
+import Axios from '../../../lib/global/axiosInstance';
 
 /* @todo :
      프로필 사진 변경 버튼 추가
      state 초깃값을 서버에서 받아온 사용자 정보로 지정, onClick에 업데이트된 값을 서버로 보내는 작업 추가
 */
 export default function Infos() {
+  const dispatch = useAppDispatch();
+  const { userName, isTwitterHandlePublic, isDiscordAccountPublic } =
+    useAppSelector(({ account }) => account);
+  const { displayName, bio } = useAppSelector(
+    ({ account }) => account.primaryProfile
+  );
+
   const [edit, setEdit] = useState(false);
-  const [name, setName] = useState('Initial name');
-  const [displayName, setDisplayName] = useState('');
-  const [bio, setBio] = useState('');
+  const [twitterPublic, setTwitterPublic] = useState<boolean>(
+    isTwitterHandlePublic
+  );
+  const [discordPublic, setDiscordPublic] = useState<boolean>(
+    isDiscordAccountPublic
+  );
 
   const nameRef = useRef<HTMLTextAreaElement>(null);
   const displayNameRef = useRef<HTMLTextAreaElement>(null);
   const bioRef = useRef<HTMLTextAreaElement>(null);
+
+  const onToggle: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    switch (e.currentTarget.name) {
+      case 'Twitter':
+        setTwitterPublic((current) => !current);
+        break;
+      case 'Discord':
+        setDiscordPublic((current) => !current);
+        break;
+      default:
+        break;
+    }
+  }, []);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
     if (!edit) {
       setEdit(true);
     } else {
       setEdit(false);
-      if (nameRef && nameRef.current && nameRef.current.value)
-        setName(nameRef.current.value);
+      if (nameRef && nameRef.current && nameRef.current.value) {
+        const newUserName = nameRef.current.value;
+        Axios.patch('/user', { userName: newUserName }, useTokenAuth())
+          .then(() => dispatch(setUserName(newUserName)))
+          .catch((res) => alert(res.data.validationErrors[0].msg));
+      }
       if (
         displayNameRef &&
         displayNameRef.current &&
         displayNameRef.current.value
-      )
-        setDisplayName(displayNameRef.current.value);
+      ) {
+        dispatch(setDisplayName(displayNameRef.current.value));
+      }
       if (bioRef && bioRef.current && bioRef.current.value)
-        setBio(bioRef.current.value);
+        dispatch(setBio(bioRef.current.value));
+      dispatch(
+        setSocialPublic({ twitter: twitterPublic, discord: discordPublic })
+      );
     }
-  }, [edit]);
+  }, [edit, twitterPublic, discordPublic]);
 
   return (
     <BasicWrapper style={{ marginTop: '20px' }}>
@@ -48,7 +91,7 @@ export default function Infos() {
             <InfoItem
               edit={edit}
               header="User Name"
-              content={name}
+              content={userName}
               description=""
               ref={nameRef}
             />
@@ -69,7 +112,12 @@ export default function Infos() {
               description="Your bio will be publicly available in your profile page."
               ref={bioRef}
             />
-            <SocialsPublicityToggles edit={edit} />
+            <SocialsPublicityToggles
+              edit={edit}
+              twitterPublic={twitterPublic}
+              discordPublic={discordPublic}
+              onToggle={onToggle}
+            />
             <EditBtn onClick={onClick}>{edit ? 'Save' : 'Edit'}</EditBtn>
           </InfoWrapper>
         </Wrapper>

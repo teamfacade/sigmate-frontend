@@ -1,4 +1,5 @@
 import { memo, MouseEventHandler, useCallback, useState } from 'react';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { darken } from 'polished';
 import styles from 'styles/styleLib';
@@ -12,6 +13,7 @@ import { FullText } from 'components/main/wiki/read/sideItems/modal';
 
 type PropsType = {
   index?: number;
+  header: string;
   platform: string;
   PFPUrl: string;
   author: string;
@@ -23,6 +25,7 @@ const maxWord = 190;
 
 export default memo(function Content({
   index = -1,
+  header,
   platform,
   PFPUrl,
   author,
@@ -45,7 +48,13 @@ export default memo(function Content({
           <Platform platform={platform} />
         )}
         <InfoInnerWrapper>
-          <Author>{author}</Author>
+          {header === 'debate' ? (
+            <Link href={`/main/profile/${author}`} passHref>
+              <Author>{author}</Author>
+            </Link>
+          ) : (
+            <NoLinkAuthor>{author}</NoLinkAuthor>
+          )}
           <TimeDiff index={index} timestamp={timestamp} />
         </InfoInnerWrapper>
       </InfoWrapper>
@@ -90,12 +99,16 @@ const InfoInnerWrapper = styled.div`
   margin-left: 9px;
 `;
 
-const Author = styled.p`
+const Author = styled.a`
   margin: 0;
   color: ${styles.colors.logColor};
   font-size: 14px;
   font-weight: 700;
   line-height: 160%;
+`;
+
+const NoLinkAuthor = styled(Author)`
+  cursor: initial;
 `;
 
 const UnfoldBtn = styled.button`

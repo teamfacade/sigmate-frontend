@@ -2,6 +2,7 @@ import { ReactNode, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ClientRouterProvider, ClientRouter } from 'hooks/useSPARouting';
 import { SideItem } from 'components/user/Layout';
+import { BlueBtnStyle } from 'styles/styleLib';
 
 type PropsType = {
   children: ReactNode;
@@ -20,6 +21,8 @@ export default function UserLayout({ children }: PropsType) {
 
   return (
     <ClientRouterProvider initial="/user">
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       <ClientRouter>
         <Wrapper>
           <SideItemsWrapper>
@@ -49,6 +52,7 @@ export default function UserLayout({ children }: PropsType) {
               Content="Calendar"
               Active={current === 'calendar'}
             />
+            <CheckInBtn>Daily Check-In</CheckInBtn>
           </SideItemsWrapper>
           <ContentWrapper>{children}</ContentWrapper>
         </Wrapper>
@@ -59,10 +63,11 @@ export default function UserLayout({ children }: PropsType) {
 
 const Wrapper = styled.div`
   display: flex;
-  padding: 0 70px 90px 70px;
+  padding: 0 40px 90px 40px;
 `;
 
 const SideItemsWrapper = styled.div`
+  position: relative;
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
@@ -73,4 +78,13 @@ const SideItemsWrapper = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
+`;
+
+const CheckInBtn = styled.button`
+  ${BlueBtnStyle};
+  position: absolute;
+  bottom: 0;
+  width: 200px;
+  font-weight: 700;
 `;

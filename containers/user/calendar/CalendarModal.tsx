@@ -79,11 +79,3 @@ const Close = styled.button`
     }
   }
 `;
-
-const Back = styled(Close)<{ show: boolean }>`
-  display: ${({ show }) => (show ? 'initial' : 'none')};
-  top: -18px;
-  right: 50px;
-  font-size: 50px;
-  margin: 0 30px 0 0;
-`;

@@ -1,4 +1,10 @@
-import { Dispatch, memo, SetStateAction } from 'react';
+import {
+  ChangeEventHandler,
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+} from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { ImageWrapper } from 'components/global';
@@ -8,6 +14,8 @@ import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 type PropsType = {
   edit?: boolean;
   setShowModal?: Dispatch<SetStateAction<number>>;
+  keyInfo?: CollectionKeyInfoType;
+  setKeyInfo?: Dispatch<SetStateAction<CollectionKeyInfoType>>;
   name: string;
   thumbnailUrl: string;
   team: string;
@@ -25,6 +33,8 @@ type PropsType = {
 };
 
 export default memo(function EditKeyInfo({
+  keyInfo,
+  setKeyInfo,
   name,
   thumbnailUrl,
   WLPrice,
@@ -35,6 +45,40 @@ export default memo(function EditKeyInfo({
   officialSiteUrl,
   chain,
 }: PropsType) {
+  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {
+    const { name: elemName, value } = e.currentTarget;
+    if (setKeyInfo) {
+      switch (elemName) {
+        case 'team':
+          setKeyInfo((current) => ({
+            ...current,
+            team: value,
+          }));
+          break;
+        case 'rugpool':
+          setKeyInfo((current) => ({
+            ...current,
+            rugpool: value,
+          }));
+          break;
+        case 'utility':
+          setKeyInfo((current) => ({
+            ...current,
+            utility: value,
+          }));
+          break;
+        case 'marketplace':
+          setKeyInfo((current) => ({
+            ...current,
+            marketplace: value,
+          }));
+          break;
+        default:
+          break;
+      }
+    }
+  }, []);
+
   return (
     <>
       <H3>Key Info</H3>
@@ -59,13 +103,25 @@ export default memo(function EditKeyInfo({
           <p>Team</p>
         </TableItem>
         <TableItem gridArea="Td_Team">
-          <textarea name="team" rows={1} placeholder="Type team name" />
+          <textarea
+            name="team"
+            rows={1}
+            placeholder="Type team name"
+            value={keyInfo?.team}
+            onChange={onChange}
+          />
         </TableItem>
         <TableItem gridArea="Tr_Rugpool">
           <p>Rugpool</p>
         </TableItem>
         <TableItem gridArea="Td_Rugpool">
-          <textarea name="rugpool" rows={1} placeholder="Any rugpools?" />
+          <textarea
+            name="rugpool"
+            rows={1}
+            placeholder="Any rugpools?"
+            value={keyInfo?.rugpool}
+            onChange={onChange}
+          />
         </TableItem>
         <TableItem gridArea="Th_Category">
           <p>Category</p>
@@ -78,6 +134,8 @@ export default memo(function EditKeyInfo({
             name="utility"
             rows={1}
             placeholder="What utilities does it have?"
+            value={keyInfo?.utility}
+            onChange={onChange}
           />
         </TableItem>
         <TableItem gridArea="Th_Price">
@@ -134,7 +192,13 @@ export default memo(function EditKeyInfo({
         </TableItem>
         <TableItem gridArea="Tr_Marketplace" />
         <TableItem gridArea="Td_MarketPlace">
-          <textarea name="marketplace" rows={1} placeholder="Ex) opensea ..." />
+          <textarea
+            name="marketplace"
+            rows={1}
+            placeholder="Ex) opensea ..."
+            value={keyInfo?.marketplace}
+            onChange={onChange}
+          />
         </TableItem>
       </Table>
     </>

@@ -47,6 +47,7 @@ export default memo(function Schedules({ schedules }: PropsType) {
 const Wrapper = styled.div`
   display: grid;
   gap: 18px;
-  grid-template-columns: 1fr 1fr 1fr;
+  // grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, 340px);
   grid-auto-rows: 370px;
 `;

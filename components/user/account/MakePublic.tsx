@@ -1,4 +1,4 @@
-import { memo, MouseEventHandler, useCallback, useState } from 'react';
+import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { Twitter, Discord } from 'public/Icons/user/account';
@@ -12,15 +12,16 @@ const Icons: StringKeyObj<typeof Twitter> = {
 type PropsType = {
   edit: boolean;
   name: string;
+  isPublic: boolean;
+  onToggle: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default memo(function MakePublic({ edit, name }: PropsType) {
-  const [turnOn, setTurnOn] = useState(false);
-
-  const onToggle: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    setTurnOn((current) => !current);
-  }, []);
-
+export default memo(function MakePublic({
+  edit,
+  name,
+  isPublic,
+  onToggle,
+}: PropsType) {
   const Icon = Icons[name];
   return (
     <Wrapper>
@@ -32,7 +33,7 @@ export default memo(function MakePublic({ edit, name }: PropsType) {
           </p>
         </div>
       </LongBtn>
-      <Toggle turnOn={turnOn} disabled={!edit} onClick={onToggle}>
+      <Toggle name={name} turnOn={isPublic} disabled={!edit} onClick={onToggle}>
         <ToggleInsider />
       </Toggle>
     </Wrapper>
@@ -50,7 +51,7 @@ const Wrapper = styled.div`
 
 const Toggle = styled.button<{ turnOn: boolean }>`
   display: flex;
-  justify-content: ${({ turnOn }) => (turnOn ? 'flex-start' : 'flex-end')};
+  justify-content: ${({ turnOn }) => (turnOn ? 'flex-end' : 'flex-start')};
   align-items: center;
   width: 45px;
   height: 20px;
@@ -59,7 +60,7 @@ const Toggle = styled.button<{ turnOn: boolean }>`
   border: none;
   border-radius: 16px;
   background-color: ${({ turnOn }) =>
-    turnOn ? styles.colors.logoColor : styles.colors.emphColor};
+    turnOn ? styles.colors.emphColor : styles.colors.logoColor};
   transition: all 300ms ease-in-out;
 
   :disabled {

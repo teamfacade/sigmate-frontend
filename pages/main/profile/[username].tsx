@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import Axios from 'lib/global/axiosInstance';
 import { getProfileData } from 'lib/main/profile/getUserProfile';
 import { SectionWrapper } from 'components/global';
 import { ProfileComponents } from 'containers/main/profile';
@@ -9,13 +10,13 @@ export default function Profile({
   return (
     <SectionWrapper header="Profile" marginBottom="40px">
       <ProfileComponents
-        PFPUrl={profile.PFPUrl}
-        username={profile.username}
-        displayName={profile.displayName}
-        bio={profile.bio}
-        level={profile.level}
-        twitterID={profile.twitterID}
-        discordID={profile.discordID}
+        PFPUrl={profile.profile.profileImageUrl || ''}
+        username={profile.user?.userName || ''}
+        displayName={profile.profile.displayName}
+        bio={profile.profile.bio}
+        level={12.3}
+        twitterID={profile.user?.twitterHandle}
+        discordID={profile.user?.discordAccount}
       />
     </SectionWrapper>
   );

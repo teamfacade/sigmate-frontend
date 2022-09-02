@@ -11,7 +11,6 @@ import {
 import styled from 'styled-components';
 import BlueBtn from 'components/main/wiki/BlueBtn';
 import styles from 'styles/styleLib';
-import { text } from 'stream/consumers';
 
 type PropsType = {
   opinion: string;

@@ -2,7 +2,7 @@ import { FormEventHandler, ReactNode } from 'react';
 import styled from 'styled-components';
 import { SideContent } from 'containers/main/layout';
 import { Search } from 'components/global';
-import styles from 'styles/styleLib';
+import styles, { BlueBtnStyle } from 'styles/styleLib';
 
 type PropsType = {
   needsWrapper: boolean;
@@ -17,14 +17,15 @@ export default function MainLayout({
 }: PropsType) {
   return (
     <main>
-      <div style={{ display: 'flex' }}>
+      <div>
         <Wrapper>
-          <section>
+          <Section>
             <MainContentWrapper needsWrapper={needsWrapper}>
               {children}
             </MainContentWrapper>
-          </section>
+          </Section>
           <aside>
+            <CheckInBtn>Daily Check-In</CheckInBtn>
             <Search placeholder="Search content..." onSubmit={onSearch} />
             <SideContentWrapper>
               <SideContent />
@@ -38,15 +39,19 @@ export default function MainLayout({
 
 const Wrapper = styled.div`
   display: inline-flex;
-  justify-content: center;
-
+  justify-content: space-evenly;
+  width: 100%;
   margin: 0 auto 30px auto;
+`;
+
+const Section = styled.section`
+  width: calc(100vw - 362px);
 `;
 
 const MainContentWrapper = styled.div<{ needsWrapper: boolean }>`
   position: relative;
   display: inline-block;
-  margin: 0 20px 0 70px;
+  width: 100%;
   overflow: hidden;
 
   ${({ needsWrapper }) =>
@@ -68,4 +73,11 @@ const SideContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+`;
+
+const CheckInBtn = styled.button`
+  ${BlueBtnStyle};
+  width: 100%;
+  margin: 0 0 20px 0;
+  font-weight: 700;
 `;

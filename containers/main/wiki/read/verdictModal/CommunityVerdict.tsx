@@ -2,7 +2,6 @@ import { MouseEventHandler, memo, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { ComVerdictData } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
-import { VerdictType } from 'lib/main/wiki/getWikiData';
 
 type PropsType = {
   verdict: VerdictType;

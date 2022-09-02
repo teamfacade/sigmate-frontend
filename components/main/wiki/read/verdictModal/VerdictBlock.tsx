@@ -75,7 +75,7 @@ export default memo(function VerdictBlock({
       const { verify, warning } = verdict;
       return ((verify / (verify + warning)) * 100).toFixed(1);
     }
-    return 0;
+    return '0';
   }, [verdict]);
 
   return (
@@ -83,7 +83,7 @@ export default memo(function VerdictBlock({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       padding={padding}
-      percentage={percentage}
+      percentage={Number.parseInt(percentage, 10)}
     >
       {children}
       {showBtn && (

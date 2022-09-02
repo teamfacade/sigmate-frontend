@@ -1,11 +1,14 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, MouseEventHandler, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import ClipboardJS from 'clipboard';
 import styles from 'styles/styleLib';
-import { Etherium } from 'public/Icons/user/points';
 
-export default memo(function UtilBtns() {
+type PropsType = {
+  onClickReport: MouseEventHandler<HTMLButtonElement>;
+};
+
+export default memo(function UtilBtns({ onClickReport }: PropsType) {
   const [copied, setCopied] = useState(false);
   const ShareBtnRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
@@ -36,7 +39,6 @@ export default memo(function UtilBtns() {
     <Wrapper>
       <Btn>
         <div>
-          <Etherium />
           <span>42 Comments</span>
         </div>
       </Btn>
@@ -45,26 +47,12 @@ export default memo(function UtilBtns() {
         ref={ShareBtnRef}
       >
         <div>
-          <Etherium />
           <span>{copied ? 'URL Copied!' : 'Share'}</span>
         </div>
       </Btn>
-      <Btn>
+      <Btn onClick={onClickReport}>
         <div>
-          <Etherium />
           <span>Report</span>
-        </div>
-      </Btn>
-      <Btn>
-        <div>
-          <Etherium />
-          <span>Edit</span>
-        </div>
-      </Btn>
-      <Btn>
-        <div>
-          <Etherium />
-          <span>Delete</span>
         </div>
       </Btn>
     </Wrapper>
@@ -74,15 +62,15 @@ export default memo(function UtilBtns() {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 15px;
 `;
 
 const Btn = styled.button`
-  padding: 5px;
+  padding: 5px 20px;
   border-radius: 8px;
-  border: none;
+  border: 1px solid ${styles.colors.lightGrayBorderColor};
   background-color: transparent;
   color: ${styles.colors.forumSubTextColor};
+  box-shadow: ${styles.shadows.containerShadow};
 
   & + & {
     margin-left: 10px;
@@ -95,5 +83,9 @@ const Btn = styled.button`
   div {
     display: flex;
     align-items: center;
+  }
+
+  span {
+    white-space: nowrap;
   }
 `;

@@ -1,6 +1,10 @@
-import { useCallback, MouseEventHandler, useState } from 'react';
+import { useEffect, useCallback, useState, MouseEventHandler } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
+import Axios from 'lib/global/axiosInstance';
+import { signIn, setAuthTokens } from 'store/modules/authSlice';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { OAuthBtn } from 'components/auth';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import Web3 from 'web3';
@@ -9,6 +13,31 @@ const API_DOMAIN = 'http://localhost:5100';
 const BASE_URL = `${API_DOMAIN}/api/v1`;
 
 export default function AuthComponents() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (Object.keys(router.query).length) {
+      Axios.post('/auth/google', {
+        code: router.query.code,
+      })
+        .then(async (res) => {
+          dispatch(signIn(res.data.user)).then(() =>
+            dispatch(
+              setAuthTokens({
+                accessToken: res.data.accessToken,
+                refreshToken: res.data.refreshToken,
+              })
+            )
+          );
+        })
+        .catch((err) => console.error(err))
+        .finally(() =>
+          window.history.replaceState({}, document.title, '/auth')
+        );
+    }
+  }, [router]);
+
   // 메타마스크로 로그인 이미 진행중인지 여부 (true 일 경우 버튼 disable 시켜야함)
   const [isMetaMaskLoginInProgress, setMetaMaskLoginInProgress] =
     useState<boolean>(false);
@@ -18,8 +47,7 @@ export default function AuthComponents() {
     async (e) => {
       switch (e.currentTarget.name) {
         case 'Google':
-          // eslint-disable-next-line no-alert
-          alert('Google Login');
+          router.push('http://localhost:5100/oauth/google');
           break;
         case 'Metamask':
           if (!isMetaMaskLoginInProgress && window?.ethereum?.isMetaMask) {

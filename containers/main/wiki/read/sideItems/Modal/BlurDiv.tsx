@@ -6,11 +6,11 @@ export default function BlurDiv() {
   return (
     <Background>
       <Text>Create a Sigmate Account to continue</Text>
-      <SignUpBtn>
-        <Link href="/auth">
-          <a>Sign up</a>
-        </Link>
-      </SignUpBtn>
+      <Link href="/auth" passHref>
+        <a>
+          <SignUpBtn>Sign up</SignUpBtn>
+        </a>
+      </Link>
     </Background>
   );
 }

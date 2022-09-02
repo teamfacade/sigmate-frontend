@@ -18,16 +18,6 @@ export default memo(function Links() {
         </Link>
       </li>
       <li>
-        <Link href="/main/trending">
-          <a>Stats / Trending</a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/main/draw">
-          <a>Event / Draw</a>
-        </Link>
-      </li>
-      <li>
         <Link href="/main/forum">
           <a>Forum</a>
         </Link>

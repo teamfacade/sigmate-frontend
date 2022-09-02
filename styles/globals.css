@@ -14,10 +14,10 @@ a {
   text-decoration: none;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
+}
 
-  :hover, :active {
-    filter: brightness(0.7);
-  }
+a:hover, a:active {
+  filter: brightness(0.7);
 }
 
 * {

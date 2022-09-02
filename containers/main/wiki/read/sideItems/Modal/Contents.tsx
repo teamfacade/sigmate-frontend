@@ -131,6 +131,7 @@ export default memo(function Contents({ header }: PropsType) {
         {contents.map((content) => (
           <Content
             key={content.id}
+            header={header}
             platform={isDebate(content) ? '' : content.platform}
             PFPUrl={isDebate(content) ? content.PFPUrl : ''}
             author={content.author}

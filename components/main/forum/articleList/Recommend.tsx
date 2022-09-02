@@ -29,7 +29,6 @@ const Wrapper = styled.div`
   width: 55px;
   height: 100%;
   padding-top: 15px;
-  border-right: 1px solid ${styles.colors.dividerColor};
 `;
 
 const Btn = styled.button`

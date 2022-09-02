@@ -17,6 +17,6 @@
     "incremental": true,
     "typeRoots": ["./node_modules/@types", "./types/"]
   },
-  "include": ["next-env.d.ts", "index.d.ts", "**/*.ts", "**/*.tsx", "containers/auth/modal.js"],
+  "include": ["next-env.d.ts", "index.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

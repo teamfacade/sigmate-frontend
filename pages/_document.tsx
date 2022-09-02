@@ -4,10 +4,6 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <link
-          href="http://fonts.cdnfonts.com/css/claris-sans"
-          rel="stylesheet"
-        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -15,7 +11,20 @@ export default function Document() {
           crossOrigin="true"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap"
+          href="http://fonts.cdnfonts.com/css/claris-sans"
+          rel="stylesheet"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap"
           rel="stylesheet"
         />
       </Head>

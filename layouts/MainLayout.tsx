@@ -42,6 +42,7 @@ const Wrapper = styled.div`
   justify-content: space-evenly;
   width: 100%;
   margin: 0 auto 30px auto;
+  flex-wrap: wrap;
 `;
 
 const Section = styled.section`

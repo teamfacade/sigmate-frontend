@@ -48,6 +48,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <MainLayout
           needsWrapper={
             !(
+              router.pathname === '/main' ||
               router.pathname.startsWith('/main/forum') ||
               router.pathname.startsWith('/main/upcoming')
             )

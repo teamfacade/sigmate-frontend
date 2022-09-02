@@ -23,9 +23,3 @@ declare namespace ReactSelectTypes {
     actionMeta: ActionMeta<OptionType>
   ) => void;
 }
-
-declare global {
-  interface Window {
-    ethereum?: MetaMaskInpageProvider;
-  }
-}

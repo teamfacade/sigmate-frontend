@@ -2,8 +2,13 @@ import { ActionMeta, MultiValue, SingleValue } from 'react-select';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 import { AppProps } from 'next/app';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 
 declare global {
+  interface Window {
+    ethereum?: MetaMaskInpageProvider;
+  }
+
   type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode;
   };

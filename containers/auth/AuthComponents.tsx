@@ -1,4 +1,4 @@
-import { useCallback, MouseEventHandler, useState, useEffect } from 'react';
+import { useCallback, MouseEventHandler, useState } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { OAuthBtn } from 'components/auth';
@@ -22,69 +22,69 @@ export default function AuthComponents() {
           alert('Google Login');
           break;
         case 'Metamask':
-          // eslint-disable-next-line no-alert
-          startMetaMaskLogin();
+          if (!isMetaMaskLoginInProgress && window?.ethereum?.isMetaMask) {
+            // Start login
+            setMetaMaskLoginInProgress(true);
+            connectToMetaMask();
+          } else {
+            // MetaMask is not installed on user's browser.
+            // Redirect to metamask install page
+            window.open('https://metamask.io/download/');
+            handleMetaMaskLoginFail();
+          }
           break;
         default:
           // eslint-disable-next-line no-alert
           alert('Comming soon');
       }
     },
+    [isMetaMaskLoginInProgress]
+  );
+
+  // 메타마스크 로그인 최종 성공시 실행되는 callback
+  const handleMetaMaskLoginSuccess = useCallback(
+    (metamaskResponse: MetamaskAuth.MetaMaskVerifyResponse) => {
+      // eslint-disable-next-line no-console
+      console.log(metamaskResponse); // @todo 유저정보랑 토큰 여깄음!
+      setMetaMaskLoginInProgress(false);
+      return true;
+    },
     []
   );
 
-  // 메타마스크 설치여부 확인
-  const isMetaMaskInstalled = () => {
-    return Boolean(window?.ethereum?.isMetaMask);
-  };
-
-  // 메타마스크 로그인 최종 성공시 실행되는 callback
-  const handleMetaMaskLoginSuccess = (
-    metamaskResponse: MetamaskAuth.MetaMaskVerifyResponse
-  ) => {
-    // eslint-disable-next-line no-console
-    console.log(metamaskResponse); // @todo 유저정보랑 토큰 여깄음!
-    setMetaMaskLoginInProgress(false);
-    return true;
-  };
-
   // 메타마스크 로그인 중 오류 발생시 실행되는 callback
-  const handleMetaMaskLoginFail = () => {
+  const handleMetaMaskLoginFail = useCallback(() => {
     setMetaMaskLoginInProgress(false);
     return false;
-  };
+  }, []);
 
-  // 메타마스크로 로그인 과정을 이미 시작하지 않은 경우에만 새로 시작
-  const startMetaMaskLogin = () => {
-    setMetaMaskLoginInProgress(true);
-  };
+  const signMetaMaskMessage = useCallback(
+    async (publicAddress: string, nonce: number): Promise<string> => {
+      if (!window.ethereum) {
+        handleMetaMaskLoginFail();
+        throw new Error();
+      }
+      // Define instance of web3
+      const web3 = new Web3(window.ethereum as any);
 
-  const signMetaMaskMessage = async (
-    publicAddress: string,
-    nonce: number
-  ): Promise<string> => {
-    if (!window.ethereum) {
-      handleMetaMaskLoginFail();
-      throw new Error();
-    }
-    // Define instance of web3
-    const web3 = new Web3(window.ethereum as any);
+      // Sign personal message
+      return new Promise((resolve, reject) => {
+        web3.eth.personal.sign(
+          web3.utils.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
+          publicAddress,
+          'skanskan',
+          (err, signature) => {
+            if (err) reject(err);
+            resolve(signature);
+          }
+        );
+      });
+    },
+    []
+  );
 
-    // Sign personal message
-    return new Promise((resolve, reject) => {
-      web3.eth.personal.sign(
-        web3.utils.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
-        publicAddress,
-        'skanskan',
-        (err, signature) => {
-          if (err) reject(err);
-          resolve(signature);
-        }
-      );
-    });
-  };
-
-  const connectToMetaMask = async () => {
+  const connectToMetaMask = useCallback(async () => {
+    // This function can't be called. It is for type assertion.
     if (!window.ethereum) return handleMetaMaskLoginFail();
 
     // METAMASK LOGIN FLOW (1/4)
@@ -191,21 +191,7 @@ export default function AuthComponents() {
 
     // If we reached here, login success!
     return true;
-  };
-
-  useEffect(() => {
-    if (!isMetaMaskLoginInProgress) return;
-
-    if (isMetaMaskInstalled()) {
-      // Start login
-      connectToMetaMask();
-    } else {
-      // MetaMask is not installed on user's browser.
-      // Redirect to metamask install page
-      window.open('https://metamask.io/download/');
-      handleMetaMaskLoginFail();
-    }
-  }, [isMetaMaskLoginInProgress]);
+  }, []);
 
   return (
     <div>

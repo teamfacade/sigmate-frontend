@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  memo,
-  MouseEventHandler,
-  FormEventHandler,
-  SetStateAction,
-  useCallback,
-} from 'react';
+import { memo, MouseEventHandler, FormEventHandler } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { UtilBtns, CommentInput } from 'components/main/forum/article';
@@ -19,8 +12,8 @@ type PropsType = {
   title: string;
   content: string;
   imageUrls: string[];
-  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
   onSubmitComment: FormEventHandler<HTMLFormElement>;
+  onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function Content({
@@ -28,13 +21,9 @@ export default memo(function Content({
   title,
   content,
   imageUrls,
-  setShowModal,
   onSubmitComment,
+  onClickReport,
 }: PropsType) {
-  const onClickReport: MouseEventHandler<HTMLButtonElement> =
-    useCallback(() => {
-      setShowModal({ type: 'article', id });
-    }, [id]);
   return (
     <Wrapper>
       <Title>{title}</Title>

@@ -4,8 +4,6 @@ import {
   useState,
   MouseEventHandler,
   FormEventHandler,
-  Dispatch,
-  SetStateAction,
 } from 'react';
 import styled from 'styled-components';
 import {
@@ -17,40 +15,41 @@ import {
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  category: string;
   articleID: number;
-  id: number;
+  commentID: number;
+  replyID?: number;
+  voteCount: number;
+  like?: boolean;
   PFPUrl: string;
   author: string;
   text: string;
   replies: Forum.CommentType[];
-  recommend: number;
   isReply?: boolean;
-  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
   onSubmitComment?: FormEventHandler<HTMLFormElement>;
+  onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function Comment({
+  category,
   articleID,
-  id,
+  commentID,
+  replyID,
+  voteCount,
+  like,
   PFPUrl,
   author,
   text,
   replies,
-  recommend,
   isReply,
-  setShowModal,
   onSubmitComment,
+  onClickReport,
 }: PropsType) {
   const [showReplies, setShowReplies] = useState(false);
   const [showReportBtn, setShowReportBtn] = useState(false);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShowReplies((curShow) => !curShow),
-    []
-  );
-
-  const onClickReport: MouseEventHandler<HTMLButtonElement> = useCallback(
-    () => setShowModal({ type: isReply ? 'reply' : 'comment', id }),
     []
   );
 
@@ -70,8 +69,13 @@ export default memo(function Comment({
         <SubWrapper>
           <CommentContent author={author} text={text} />
           <CommentBtns
+            articleID={articleID}
+            commentID={commentID}
+            replyID={replyID}
+            category={category}
+            voteCount={voteCount}
+            like={like}
             length={replies.length}
-            recommend={recommend}
             onClick={onClick}
             isReply={isReply}
             showReportBtn={showReportBtn}
@@ -80,11 +84,12 @@ export default memo(function Comment({
         </SubWrapper>
       </FlexWrapper>
       <CommentReplies
+        category={category}
         articleID={articleID}
-        commentID={id}
+        commentID={commentID}
         replies={replies}
         show={showReplies}
-        setShowModal={setShowModal}
+        onClickReport={onClickReport}
         onSubmitComment={onSubmitComment}
       />
     </Wrapper>

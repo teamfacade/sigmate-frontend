@@ -197,9 +197,16 @@ declare global {
       imageURL: string;
     };
 
+    type InfoType = {
+      category: string;
+      articleID: number;
+      commentID?: number;
+      replyID?: number;
+    };
+
     type ReportType = {
       type: 'comment' | 'reply' | 'article';
-      id: number;
+      info: InfoType;
     };
 
     type NewArticleType = {

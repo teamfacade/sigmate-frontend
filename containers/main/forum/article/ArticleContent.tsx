@@ -1,10 +1,4 @@
-import {
-  memo,
-  MouseEventHandler,
-  FormEventHandler,
-  Dispatch,
-  SetStateAction,
-} from 'react';
+import { memo, MouseEventHandler, FormEventHandler } from 'react';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { Recommend, Infos } from 'components/main/forum/articleList';
 import { Content, ArticleManageBtns } from 'components/main/forum/article';
@@ -15,22 +9,27 @@ type PropsType = {
   category: string;
   post: Forum.PostType;
   onClickDelete: MouseEventHandler<HTMLButtonElement>;
-  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
   onSubmitComment: FormEventHandler<HTMLFormElement>;
+  onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function ArticleContent({
   category,
   post,
   onClickDelete,
-  setShowModal,
   onSubmitComment,
+  onClickReport,
 }: PropsType) {
   const { userName } = useAppSelector(({ account }) => account);
 
   return (
     <Wrapper>
-      <Recommend recommend={post.votes?.voteCount || 0} />
+      <Recommend
+        id={post.id}
+        category={category}
+        voteCount={post.votes?.voteCount || 0}
+        like={post.votes?.like}
+      />
       <ContentWrapper>
         <Infos
           author={
@@ -57,8 +56,8 @@ export default memo(function ArticleContent({
           title={post.title}
           content={post.content}
           imageUrls={post.imageUrls || []}
-          setShowModal={setShowModal}
           onSubmitComment={onSubmitComment}
+          onClickReport={onClickReport}
         />
       </ContentWrapper>
     </Wrapper>

@@ -75,7 +75,7 @@ export default function ArticleLists({
           key={article.id}
           id={article.id}
           category={router.query.category as string}
-          recommend={article.votes?.voteCount || 0}
+          votes={article.votes || { voteCount: 0 }}
           author={getAuthorName(article.createdBy)}
           tags={article.tags || []}
           timestamp={article.contentUpdatedAt as string}

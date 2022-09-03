@@ -6,7 +6,7 @@ import styles from 'styles/styleLib';
 type PropsType = {
   id: number;
   category: string;
-  recommend: number;
+  votes: Forum.VoteType;
   author: string;
   tags: string[];
   timestamp: string;
@@ -18,7 +18,7 @@ type PropsType = {
 export default memo(function ArticleThumbnail({
   id,
   category,
-  recommend,
+  votes,
   author,
   tags,
   timestamp,
@@ -28,7 +28,12 @@ export default memo(function ArticleThumbnail({
 }: PropsType) {
   return (
     <Wrapper>
-      <Recommend recommend={recommend} />
+      <Recommend
+        voteCount={votes.voteCount}
+        like={votes.like}
+        id={id}
+        category={category}
+      />
       <ContentWrapper>
         <Infos author={author} tags={tags} timestamp={timestamp} />
         <Content

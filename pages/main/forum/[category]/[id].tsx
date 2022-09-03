@@ -18,8 +18,11 @@ export default function Article({
   category,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [showModal, setShowModal] = useState<Forum.ReportType>({
-    type: 'comment',
-    id: -1,
+    type: 'article',
+    info: {
+      category: 'Best',
+      articleID: -1,
+    },
   });
   const ModalRef = useRef<HTMLDivElement>(null);
 
@@ -41,8 +44,29 @@ export default function Article({
     []
   );
 
+  const onClickReport: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      const { name, dataset } = e.currentTarget;
+      setShowModal({
+        type: name as 'comment' | 'reply' | 'article',
+        info: {
+          category: dataset.category as string,
+          articleID: Number.parseInt(dataset.articleId as string, 10),
+          commentID: dataset.commentId
+            ? Number.parseInt(dataset.commentId, 10)
+            : undefined,
+          replyID: dataset.replyId
+            ? Number.parseInt(dataset.replyId, 10)
+            : undefined,
+        },
+      });
+    },
+    []
+  );
+
   const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowModal({ type: 'comment', id: -1 }),
+    () =>
+      setShowModal((cur) => ({ ...cur, info: { ...cur.info, articleID: -1 } })),
     []
   );
 
@@ -59,26 +83,33 @@ export default function Article({
           post={forumPost}
           onClickDelete={onClickDelete}
           onSubmitComment={onSubmitComment}
-          setShowModal={setShowModal}
+          onClickReport={onClickReport}
         />
       </Wrapper>
       <Wrapper id="comments">
         <Comments
+          category={category}
           articleID={forumPost.id}
           comments={forumPost.comments || []}
-          setShowModal={setShowModal}
+          onClickReport={onClickReport}
           onSubmitComment={onSubmitComment}
         />
       </Wrapper>
       <CSSTransition
-        in={showModal.id >= 0}
+        in={showModal.info.articleID >= 0}
         timeout={300}
         classNames="show-modal"
         unmountOnExit
         nodeRef={ModalRef}
       >
         <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          <p>{`Report about ${showModal.type}'s comment ${showModal.id}`}</p>
+          <p>{`Report about article ${showModal.info.articleID}${
+            showModal.info.commentID
+              ? `'s comment ${showModal.info.commentID}`
+              : ''
+          }${
+            showModal.info.replyID ? `'s reply ${showModal.info.replyID}` : ''
+          }`}</p>
         </Modal>
       </CSSTransition>
     </>

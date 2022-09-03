@@ -1,11 +1,16 @@
-import { memo, MouseEventHandler } from 'react';
+import { memo, MouseEventHandler, useCallback, useState, useMemo } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { CommentDownVote, CommentUpVote } from 'public/Icons/main/forum';
 
 type PropsType = {
+  voteCount: number;
+  like?: boolean;
+  category: string;
+  articleID: number;
+  commentID: number;
+  replyID?: number;
   length: number;
-  recommend: number;
   onClick: MouseEventHandler<HTMLButtonElement>;
   isReply?: boolean;
   showReportBtn: boolean;
@@ -13,26 +18,97 @@ type PropsType = {
 };
 
 export default memo(function CommentBtns({
+  voteCount,
+  like,
+  category,
+  articleID,
+  commentID,
   length,
-  recommend,
   onClick,
   isReply,
+  replyID,
   showReportBtn,
   onClickReport,
 }: PropsType) {
+  const [curVoteCount, setCurVoteCount] = useState<number>(voteCount);
+  const [userLikes, setUserLikes] = useState<boolean | undefined>(like);
+
+  const btnName = useMemo(() => {
+    if (replyID) return 'reply';
+    if (commentID) return 'comment';
+    return 'article';
+  }, [commentID, replyID]);
+
+  const onVote: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      const { name } = e.currentTarget;
+
+      if (name === 'Up') {
+        if (!userLikes) {
+          setCurVoteCount((cur) => {
+            return cur + (userLikes === undefined ? 1 : 2);
+          });
+          setUserLikes(true);
+          alert(
+            `Vote as like for ${category}'s article ${articleID}'s comment ${commentID}${
+              isReply ? `'s reply ${replyID}` : ''
+            }`
+          );
+        } else {
+          setCurVoteCount((cur) => cur - 1);
+          setUserLikes(undefined);
+          alert(
+            `Cancel like for ${category}'s article ${articleID}'s comment ${commentID}${
+              isReply ? `'s reply ${replyID}` : ''
+            }`
+          );
+        }
+      } else if (name === 'Down') {
+        if (userLikes || userLikes === undefined) {
+          setCurVoteCount((cur) => {
+            return cur - (userLikes === undefined ? 1 : 2);
+          });
+          setUserLikes(false);
+          alert(
+            `Vote as dislike for ${category}'s article ${articleID}'s comment ${commentID}${
+              isReply ? `'s reply ${replyID}` : ''
+            }`
+          );
+        } else {
+          setCurVoteCount((cur) => cur + 1);
+          setUserLikes(undefined);
+          alert(
+            `Cancel dislike for ${category}'s article ${articleID}'s comment ${commentID}${
+              isReply ? `'s reply ${replyID}` : ''
+            }`
+          );
+        }
+      }
+    },
+    [userLikes, category, articleID, commentID, replyID]
+  );
+
   return (
     <BtnWrapper>
       {!isReply && <ReplyBtn onClick={onClick}>{`reply ${length}`}</ReplyBtn>}
       <VoteBtn>
-        <button type="button">
+        <Btn type="button" name="Up" userLikes={userLikes} onClick={onVote}>
           <CommentUpVote />
-        </button>
-        <p>{recommend}</p>
-        <button type="button">
+        </Btn>
+        <p>{curVoteCount}</p>
+        <Btn type="button" name="Down" userLikes={userLikes} onClick={onVote}>
           <CommentDownVote />
-        </button>
+        </Btn>
       </VoteBtn>
-      <ReportBtn show={showReportBtn} onClick={onClickReport}>
+      <ReportBtn
+        show={showReportBtn}
+        name={btnName}
+        data-category={category}
+        data-article-id={articleID}
+        data-comment-id={commentID}
+        data-reply-id={replyID}
+        onClick={onClickReport}
+      >
         Report
       </ReportBtn>
     </BtnWrapper>
@@ -81,18 +157,30 @@ const VoteBtn = styled.div`
   display: inline-flex;
   align-items: center;
 
-    button {
-      position: relative;
-      top: 1px;
-      padding: 0;
-      margin: 0;
-      border: none;
-      background-color: transparent;
-      cursor: pointer;
-    }
+  p {
+    margin: 0 3px;
+  }
+`;
 
-    p {
-      margin: 0 3px;
+const Btn = styled.button<{ name: string; userLikes: boolean | undefined }>`
+  position: relative;
+  top: 1px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  svg {
+    path {
+      fill: ${({ name, userLikes }) => {
+        if (
+          (userLikes && name === 'Up') ||
+          (userLikes === false && name === 'Down')
+        )
+          return styles.colors.emphColor;
+        return styles.colors.forumSubTextColor;
+      }};
     }
   }
 `;

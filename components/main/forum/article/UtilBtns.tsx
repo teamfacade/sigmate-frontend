@@ -54,7 +54,12 @@ export default memo(function UtilBtns({ onClickReport }: PropsType) {
           <span>{copied ? 'URL Copied!' : 'Share'}</span>
         </div>
       </Btn>
-      <Btn onClick={onClickReport}>
+      <Btn
+        name="article"
+        data-category={router.query.category}
+        data-article-id={router.query.id}
+        onClick={onClickReport}
+      >
         <div>
           <span>Report</span>
         </div>

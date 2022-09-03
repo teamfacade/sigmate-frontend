@@ -2,23 +2,8 @@ import { memo } from 'react';
 import styled from 'styled-components';
 import { Schedule } from 'components/main/upcoming';
 
-type ScheduleType = {
-  id: number;
-  event: string;
-  collection: string;
-  price: string;
-  symbol: string;
-  tier: number;
-  wikiPageUrl?: string;
-  twitterUrl?: string;
-  telegramUrl?: string;
-  discordUrl?: string;
-  mintPageUrl: string;
-  imageUrl: string;
-};
-
 type PropsType = {
-  schedules: ScheduleType[];
+  schedules: Minting.ScheduleType[];
 };
 
 export default memo(function Schedules({ schedules }: PropsType) {
@@ -27,17 +12,18 @@ export default memo(function Schedules({ schedules }: PropsType) {
       {schedules.map((schedule) => (
         <Schedule
           key={schedule.id}
-          event={schedule.event}
-          collection={schedule.collection}
-          price={schedule.price}
-          symbol={schedule.symbol}
+          id={schedule.id}
+          name={schedule.name}
+          category={schedule.category}
           tier={schedule.tier}
-          wikiPageUrl={schedule.wikiPageUrl}
-          twitterUrl={schedule.twitterUrl}
-          telegramUrl={schedule.telegramUrl}
-          discordUrl={schedule.discordUrl}
-          mintPageUrl={schedule.mintPageUrl}
-          imageUrl={schedule.imageUrl}
+          mintingUrl={schedule.mintingUrl}
+          mintingPrice={schedule.mintingPrice}
+          mintingPriceSymbol={schedule.mintingPriceSymbol}
+          wikiPageUrl={`/main/wiki/${schedule.name}`}
+          twitterUrl={schedule.collectionInfo.twitterUrl}
+          telegramUrl={schedule.collectionInfo.telegramUrl}
+          discordUrl={schedule.collectionInfo.discordUrl}
+          imageUrl={schedule.collectionInfo.imageUrl}
         />
       ))}
     </Wrapper>

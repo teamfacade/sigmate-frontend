@@ -4,15 +4,13 @@ import styled from 'styled-components';
 import { Discord, Telegram, Twitter, Wiki } from 'public/Icons/main/upcoming';
 
 type PropsType = {
-  collection: string;
-  wikiPageUrl?: string;
+  wikiPageUrl: string;
   twitterUrl?: string;
   telegramUrl?: string;
   discordUrl?: string;
 };
 
 export default memo(function Links({
-  collection,
   wikiPageUrl,
   twitterUrl,
   telegramUrl,
@@ -20,7 +18,7 @@ export default memo(function Links({
 }: PropsType) {
   return (
     <OutlinkWrapper>
-      <Link href={wikiPageUrl || `/main/wiki/${collection}`}>
+      <Link href={wikiPageUrl}>
         <a>
           <Wiki />
         </a>

@@ -9,51 +9,52 @@ import {
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  event: string;
-  collection: string;
-  price: string;
-  symbol: string;
+  id: number;
+  name: string;
+  category: string;
   tier: number;
-  wikiPageUrl?: string;
+  mintingUrl?: string;
+  mintingPrice?: string;
+  mintingPriceSymbol?: string; // ETH/KLAYTN/SOL/Matic
+  wikiPageUrl: string;
   twitterUrl?: string;
-  telegramUrl?: string;
   discordUrl?: string;
-  mintPageUrl: string;
-  imageUrl: string;
+  websiteUrl?: string;
+  telegramUrl?: string;
+  imageUrl?: string;
 };
 
 export default memo(function Schedule({
-  event,
-  collection,
-  price,
-  symbol,
+  name,
+  category,
   tier,
+  mintingUrl,
+  mintingPrice,
+  mintingPriceSymbol,
   wikiPageUrl,
   twitterUrl,
   telegramUrl,
   discordUrl,
-  mintPageUrl,
   imageUrl,
 }: PropsType) {
   return (
     <Wrapper>
-      <ScheduleThumbnail event={event} imageUrl={imageUrl} />
+      <ScheduleThumbnail name={name} imageUrl={imageUrl || ''} />
       <InnerWrapper>
         <Links
-          collection={collection}
           wikiPageUrl={wikiPageUrl}
           twitterUrl={twitterUrl}
           telegramUrl={telegramUrl}
           discordUrl={discordUrl}
         />
         <ScheduleInfos
-          event={event}
-          collection={collection}
-          price={price}
-          symbol={symbol}
+          name={name}
+          category={category}
+          price={mintingPrice}
+          symbol={mintingPriceSymbol}
           tier={tier}
         />
-        <ScheduleUtilBtns mintPageUrl={mintPageUrl} />
+        <ScheduleUtilBtns mintPageUrl={mintingUrl} />
       </InnerWrapper>
     </Wrapper>
   );

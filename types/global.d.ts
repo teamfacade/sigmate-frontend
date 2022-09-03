@@ -128,6 +128,29 @@ declare global {
     discordUrl?: string;
   };
 
+  namespace Minting {
+    type CollectionType = {
+      twitterUrl?: string;
+      discordUrl?: string;
+      websiteUrl?: string;
+      telegramUrl?: string;
+      imageUrl?: string;
+    };
+
+    type ScheduleType = {
+      id: number;
+      name: string;
+      category: string;
+      tier: number;
+      mintingTime: string;
+      mintingUrl?: string;
+      description?: string;
+      collectionInfo: CollectionType;
+      mintingPrice?: string;
+      mintingPriceSymbol?: string; // ETH/KLAYTN/SOL/Matic
+    };
+  }
+
   type OptionType = {
     value: string;
     label: string;

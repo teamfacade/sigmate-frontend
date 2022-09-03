@@ -8,26 +8,26 @@ const SymbolIcons: StringKeyObj<typeof Etherium> = {
 };
 
 type PropsType = {
-  event: string;
-  collection: string;
-  price: string;
-  symbol: string;
+  name: string;
+  category: string;
+  price?: string;
+  symbol?: string;
   tier: number;
 };
 
 export default memo(function ScheduleInfos({
-  event,
-  collection,
+  name,
+  category,
   price,
-  symbol,
+  symbol = 'ETH',
   tier,
 }: PropsType) {
   const Symbol = SymbolIcons[symbol];
 
   return (
     <div>
-      <Name>{event}</Name>
-      <Collection>{collection}</Collection>
+      <Name>{name}</Name>
+      <Collection>{category}</Collection>
       <PriceWrapper>
         <InfoText>Price: </InfoText>
         <Symbol />

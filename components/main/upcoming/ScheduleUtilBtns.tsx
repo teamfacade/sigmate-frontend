@@ -4,15 +4,15 @@ import styled from 'styled-components';
 import styles from '../../../styles/styleLib';
 
 type PropsType = {
-  mintPageUrl: string;
+  mintPageUrl?: string;
 };
 
 export default memo(function ScheduleUtilBtns({ mintPageUrl }: PropsType) {
   return (
     <BtnWrapper>
       <AddCalenderBtn>Add to calender</AddCalenderBtn>
-      <MintBtn>
-        <Link href={mintPageUrl}>
+      <MintBtn disabled={mintPageUrl === undefined}>
+        <Link href={mintPageUrl || '/main'}>
           <a>Mint</a>
         </Link>
       </MintBtn>

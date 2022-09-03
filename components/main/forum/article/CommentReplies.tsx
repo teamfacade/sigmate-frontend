@@ -1,17 +1,23 @@
-import { memo, Dispatch, SetStateAction } from 'react';
+import { memo, Dispatch, SetStateAction, FormEventHandler } from 'react';
 import styled from 'styled-components';
 import { Comment, CommentInput } from 'components/main/forum/article';
 
 type PropsType = {
-  replies: ForumCommentType[];
+  articleID: number;
+  commentID: number;
+  replies: Forum.CommentType[];
   show: boolean;
   setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
+  onSubmitComment?: FormEventHandler<HTMLFormElement>;
 };
 
 export default memo(function CommentReplies({
+  articleID,
+  commentID,
   replies,
   show,
   setShowModal,
+  onSubmitComment,
 }: PropsType) {
   return (
     <RepliesWrapper>
@@ -19,17 +25,26 @@ export default memo(function CommentReplies({
         {replies.map((reply) => (
           <Comment
             key={reply.id}
+            articleID={articleID}
             id={reply.id}
-            PFPUrl={reply.PFPUrl}
-            author={reply.author}
-            text={reply.text}
+            PFPUrl={reply.createdBy.primaryProfile.profileImageUrl || ''}
+            author={
+              reply.createdBy.primaryProfile.displayName ||
+              reply.createdBy.userName ||
+              ''
+            }
+            text={reply.content}
             replies={[]}
-            recommend={reply.recommend}
+            recommend={reply.votes.voteCount}
             isReply
             setShowModal={setShowModal}
           />
         ))}
-        <CommentInput />
+        <CommentInput
+          articleID={articleID}
+          commentID={commentID}
+          onSubmitComment={onSubmitComment}
+        />
       </ReplyWrapper>
     </RepliesWrapper>
   );

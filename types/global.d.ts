@@ -9,6 +9,14 @@ declare global {
     ethereum?: MetaMaskInpageProvider;
   }
 
+  interface UserProfileAttributes {
+    id: number;
+    displayName: string | null;
+    bio: string | null;
+    profileImage: Image | null;
+    profileImageUrl: string | null;
+  }
+
   namespace ReduxState {
     interface AuthStateType {
       signedIn: boolean;
@@ -142,7 +150,7 @@ declare global {
     verdict?: VerdictType;
   };
 
-  type CommentType = {
+  type DocumentCommentType = {
     id: number;
     username: string;
     comment: string;
@@ -164,7 +172,7 @@ declare global {
     marketplace: string;
   };
 
-  type VoteType = {
+  type DocumentVoteType = {
     voted: string;
     timestamp: string;
   };
@@ -177,49 +185,59 @@ declare global {
       twitterHandle?: string;
       discordAccount?: string;
     };
-    profile: {
-      id: number;
-      displayName: string | null;
-      bio: string | null;
-      profileImage: Image | null;
-      profileImageUrl: string | null;
-    };
-  };
-
-  type ForumCommentType = {
-    id: number;
-    PFPUrl: string;
-    author: string;
-    text: string;
-    replies: ForumCommentType[];
-    recommend: number;
-  };
-
-  type ForumArticleType = {
-    id: number;
-    category: string;
-    recommend: number;
-    author: string;
-    tags: string[];
-    timestamp: string;
-    title: string;
-    content: string;
-    imageURL: string;
+    profile: UserProfileAttributes;
   };
 
   type ForumSearchFilter = 'Category' | 'Title' | 'Content';
 
   namespace Forum {
-    type ArticleContentType = {
-      title: string;
-      content: string;
+    type CategoryType = {
+      name: string;
+      description: string;
       imageURL: string;
-      tags: string[];
     };
 
     type ReportType = {
       type: 'comment' | 'reply' | 'article';
       id: number;
+    };
+
+    type NewArticleType = {
+      title: string;
+      content: string;
+      tags: string[];
+      imageUrls: string[];
+    };
+
+    type AuthorType = {
+      id: number;
+      userName?: string;
+      primaryProfile: UserProfileAttributes;
+    };
+
+    type VoteType = {
+      like?: boolean;
+      voteCount: number;
+    };
+
+    type CommentType = {
+      id: number;
+      content: string;
+      createdBy: Forum.AuthorType;
+      votes: Forum.VoteType;
+      replies: Forum.CommentType[];
+    };
+
+    type PostType = {
+      id: number;
+      title: string;
+      content: string;
+      createdBy: Forum.AuthorType;
+      votes?: Forum.VoteType;
+      comments?: Forum.CommentType[];
+      tags?: string[];
+      imageUrls?: string[];
+      contentUpdatedAt?: string;
     };
   }
 

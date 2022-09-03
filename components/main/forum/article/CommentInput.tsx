@@ -4,14 +4,24 @@ import {
   useCallback,
   useRef,
   ChangeEventHandler,
-  MouseEventHandler,
+  FormEventHandler,
 } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
 import { WriteComment } from 'public/Icons/main/forum';
 import styles from 'styles/styleLib';
 
-export default memo(function CommentInput() {
+type PropsType = {
+  articleID: number;
+  commentID?: number;
+  onSubmitComment?: FormEventHandler<HTMLFormElement>;
+};
+
+export default memo(function CommentInput({
+  articleID,
+  commentID,
+  onSubmitComment,
+}: PropsType) {
   const [value, setValue] = useState('');
   const TextareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -19,24 +29,24 @@ export default memo(function CommentInput() {
     (e) => setValue(e.currentTarget.value),
     []
   );
-  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    if (TextareaRef.current)
-      // eslint-disable-next-line no-alert
-      alert(`Add following comment: ${TextareaRef.current.value}`);
-  }, [TextareaRef]);
 
   return (
-    <Wrapper>
-      <Textarea
-        value={value}
-        placeholder="What are your thoughts?"
-        onChange={onChange}
-        ref={TextareaRef}
-      />
-      <Btn disabled={value === ''} onClick={onClick}>
-        <WriteComment />
-      </Btn>
-    </Wrapper>
+    <form onSubmit={onSubmitComment}>
+      <Wrapper>
+        <Textarea
+          name="textarea"
+          value={value}
+          placeholder="What are your thoughts?"
+          data-article-id={articleID}
+          data-comment-id={commentID}
+          onChange={onChange}
+          ref={TextareaRef}
+        />
+        <Btn disabled={value === ''}>
+          <WriteComment />
+        </Btn>
+      </Wrapper>
+    </form>
   );
 });
 

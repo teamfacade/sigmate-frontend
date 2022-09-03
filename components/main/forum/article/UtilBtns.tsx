@@ -37,11 +37,15 @@ export default memo(function UtilBtns({ onClickReport }: PropsType) {
 
   return (
     <Wrapper>
-      <Btn>
-        <div>
-          <span>42 Comments</span>
-        </div>
-      </Btn>
+      <a
+        href={`/main/forum/${router.query.category}/${router.query.id}#comments`}
+      >
+        <Btn>
+          <div>
+            <span>42 Comments</span>
+          </div>
+        </Btn>
+      </a>
       <Btn
         data-clipboard-text={`https://sigmate.io/main/forum/${router.query.category}/${router.query.id}`}
         ref={ShareBtnRef}
@@ -62,6 +66,10 @@ export default memo(function UtilBtns({ onClickReport }: PropsType) {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+
+  a {
+    margin-right: 10px;
+  }
 `;
 
 const Btn = styled.button`

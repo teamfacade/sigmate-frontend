@@ -2,6 +2,7 @@ import {
   Dispatch,
   memo,
   MouseEventHandler,
+  FormEventHandler,
   SetStateAction,
   useCallback,
 } from 'react';
@@ -17,15 +18,18 @@ type PropsType = {
   category: string;
   title: string;
   content: string;
-  imageURL: string;
+  imageUrls: string[];
   setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
+  onSubmitComment: FormEventHandler<HTMLFormElement>;
 };
 
 export default memo(function Content({
   id,
   title,
   content,
+  imageUrls,
   setShowModal,
+  onSubmitComment,
 }: PropsType) {
   const onClickReport: MouseEventHandler<HTMLButtonElement> =
     useCallback(() => {
@@ -38,14 +42,18 @@ export default memo(function Content({
         <MainText>
           <Outer width="350px" height="365px">
             <Inner>
-              <Image src={screenshotDesktop} alt="Thumbnail" layout="fill" />
+              <Image
+                src={imageUrls[0] || screenshotDesktop}
+                alt="Thumbnail"
+                layout="fill"
+              />
             </Inner>
           </Outer>
           {content}
         </MainText>
       </MainContentWrapper>
       <UtilBtns onClickReport={onClickReport} />
-      <CommentInput />
+      <CommentInput articleID={id} onSubmitComment={onSubmitComment} />
     </Wrapper>
   );
 });

@@ -1,84 +1,40 @@
-import { memo, Dispatch, SetStateAction } from 'react';
+import { memo, Dispatch, SetStateAction, FormEventHandler } from 'react';
 import styled from 'styled-components';
 import { Comment } from 'components/main/forum/article';
 import styles from 'styles/styleLib';
 
-const ExComment: ForumCommentType = {
-  id: 1,
-  PFPUrl: '',
-  author: 'Puvilla',
-  text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-  replies: [
-    {
-      id: 1,
-      PFPUrl: '',
-      author: 'Puvilla',
-      text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-      replies: [],
-      recommend: 232,
-    },
-    {
-      id: 2,
-      PFPUrl: '',
-      author: 'Puvilla',
-      text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-      replies: [],
-      recommend: 232,
-    },
-    {
-      id: 3,
-      PFPUrl: '',
-      author: 'Puvilla',
-      text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-      replies: [],
-      recommend: 232,
-    },
-    {
-      id: 4,
-      PFPUrl: '',
-      author: 'Puvilla',
-      text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-      replies: [],
-      recommend: 232,
-    },
-    {
-      id: 5,
-      PFPUrl: '',
-      author: 'Puvilla',
-      text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-      replies: [],
-      recommend: 232,
-    },
-  ],
-  recommend: 232,
-};
-
-const Excomments: ForumCommentType[] = [
-  ExComment,
-  { ...ExComment, id: 2 },
-  { ...ExComment, id: 3 },
-  { ...ExComment, id: 4 },
-  { ...ExComment, id: 5 },
-];
-
 type PropsType = {
+  articleID: number;
+  comments: Forum.CommentType[];
   setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
+  onSubmitComment: FormEventHandler<HTMLFormElement>;
 };
 
-export default memo(function Comments({ setShowModal }: PropsType) {
+export default memo(function Comments({
+  articleID,
+  comments,
+  setShowModal,
+  onSubmitComment,
+}: PropsType) {
   return (
     <Wrapper>
-      {Excomments.map((comment) => (
+      {comments.map((comment) => (
         <Comment
           key={comment.id}
+          articleID={articleID}
           id={comment.id}
-          PFPUrl={comment.PFPUrl}
-          author={comment.author}
-          text={comment.text}
+          PFPUrl={comment.createdBy.primaryProfile.profileImageUrl || ''}
+          author={
+            comment.createdBy.primaryProfile.displayName ||
+            comment.createdBy.userName ||
+            ''
+          }
+          text={comment.content}
           replies={comment.replies}
-          recommend={comment.recommend}
+          recommend={comment.votes.voteCount}
           isReply={false}
           setShowModal={setShowModal}
+          onSubmitComment={onSubmitComment}
         />
       ))}
     </Wrapper>

@@ -1,31 +1,45 @@
-import { useState, useRef, useCallback, MouseEventHandler } from 'react';
+import {
+  useState,
+  useRef,
+  useCallback,
+  MouseEventHandler,
+  FormEventHandler,
+} from 'react';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
+import { getForumArticleData } from 'lib/main/forum/getForumDatas';
 import { ArticleContent, Comments } from 'containers/main/forum/article';
 import { Modal } from 'components/global';
 import styles from 'styles/styleLib';
 
-const ExArticle: ForumArticleType = {
-  id: 1,
-  category: 'Game',
-  recommend: 322,
-  author: 'WK SEO',
-  tags: ['NFT', 'Bellybear'],
-  timestamp: new Date(Date.now()).toISOString(),
-  title:
-    'An ‘NFT’ digital image just sold for US$69 million \n' +
-    '— but what is it?',
-  content:
-    'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making  over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making  over 2000\n\n Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making  over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making  over 2000 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literatur',
-  imageURL: '',
-};
-
-export default function Article() {
+export default function Article({
+  forumPost,
+  category,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [showModal, setShowModal] = useState<Forum.ReportType>({
     type: 'comment',
     id: -1,
   });
   const ModalRef = useRef<HTMLDivElement>(null);
+
+  const onSubmitComment: FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+      const { dataset, value } = e.currentTarget.elements.namedItem(
+        'textarea'
+      ) as HTMLTextAreaElement;
+      const { articleId, commentId } = dataset;
+      if (commentId) {
+        alert(
+          `Add comment to article ${articleId}'s comment ${commentId}: ${value}`
+        );
+      } else {
+        alert(`Add comment to article ${articleId}: ${value}`);
+      }
+    },
+    []
+  );
 
   const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
     () => setShowModal({ type: 'comment', id: -1 }),
@@ -41,13 +55,20 @@ export default function Article() {
     <>
       <Wrapper>
         <ArticleContent
-          article={ExArticle}
+          category={category}
+          post={forumPost}
           onClickDelete={onClickDelete}
+          onSubmitComment={onSubmitComment}
           setShowModal={setShowModal}
         />
       </Wrapper>
-      <Wrapper>
-        <Comments setShowModal={setShowModal} />
+      <Wrapper id="comments">
+        <Comments
+          articleID={forumPost.id}
+          comments={forumPost.comments || []}
+          setShowModal={setShowModal}
+          onSubmitComment={onSubmitComment}
+        />
       </Wrapper>
       <CSSTransition
         in={showModal.id >= 0}
@@ -62,6 +83,21 @@ export default function Article() {
       </CSSTransition>
     </>
   );
+}
+
+export async function getServerSideProps({
+  params,
+}: GetServerSidePropsContext) {
+  const forumPost = getForumArticleData(
+    params?.category as string,
+    params?.id as string
+  );
+  return {
+    props: {
+      forumPost,
+      category: params?.category as string,
+    },
+  };
 }
 
 const Wrapper = styled.div`

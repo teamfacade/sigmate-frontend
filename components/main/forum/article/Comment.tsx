@@ -3,6 +3,7 @@ import {
   useCallback,
   useState,
   MouseEventHandler,
+  FormEventHandler,
   Dispatch,
   SetStateAction,
 } from 'react';
@@ -16,17 +17,20 @@ import {
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  articleID: number;
   id: number;
   PFPUrl: string;
   author: string;
   text: string;
-  replies: ForumCommentType[];
+  replies: Forum.CommentType[];
   recommend: number;
   isReply?: boolean;
   setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
+  onSubmitComment?: FormEventHandler<HTMLFormElement>;
 };
 
 export default memo(function Comment({
+  articleID,
   id,
   PFPUrl,
   author,
@@ -35,6 +39,7 @@ export default memo(function Comment({
   recommend,
   isReply,
   setShowModal,
+  onSubmitComment,
 }: PropsType) {
   const [showReplies, setShowReplies] = useState(false);
   const [showReportBtn, setShowReportBtn] = useState(false);
@@ -75,9 +80,12 @@ export default memo(function Comment({
         </SubWrapper>
       </FlexWrapper>
       <CommentReplies
+        articleID={articleID}
+        commentID={id}
         replies={replies}
         show={showReplies}
         setShowModal={setShowModal}
+        onSubmitComment={onSubmitComment}
       />
     </Wrapper>
   );

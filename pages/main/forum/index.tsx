@@ -4,32 +4,24 @@ import {
   useCallback,
   useState,
 } from 'react';
+import { InferGetStaticPropsType } from 'next';
 import styled from 'styled-components';
+import { getCategoriesData } from 'lib/main/forum/getForumDatas';
 import { SearchUtils, Categories } from 'containers/main/forum/main';
 import { PageMoveBtns } from 'components/global';
 
-const CategoriesEx = [
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Game', description: 'For PFP Users', imageURL: '' },
-  { name: 'PFP', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-];
 const total = 13;
 
-export default function ForumMain() {
+export default function ForumMain({
+  categories,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const [filter, setFilter] = useState<ForumSearchFilter>('Category');
   const [curPage, setCurPage] = useState(1);
 
   const onSearch: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       e.preventDefault();
-      // eslint-disable-next-line no-alert
+      // @todo Axios -> setCategories(res.data)
       alert(
         `Search ${filter} who has ${
           (e.currentTarget.elements.namedItem('bar') as HTMLInputElement).value
@@ -86,7 +78,7 @@ export default function ForumMain() {
   return (
     <Wrapper>
       <SearchUtils setFilter={setFilter} onSearch={onSearch} />
-      <Categories categories={CategoriesEx} />
+      <Categories categories={categories} />
       <PageMoveBtns
         totalPage={total}
         curPage={curPage}
@@ -95,6 +87,23 @@ export default function ForumMain() {
       />
     </Wrapper>
   );
+}
+
+// This function gets called at build time on server-side.
+// It won't be called on client-side, so you can even do
+// direct database queries.
+export async function getStaticProps() {
+  // @todo Fetch necessary data for the wiki article using params.title
+  const categories: Forum.CategoryType[] = getCategoriesData();
+  return {
+    props: {
+      categories,
+    },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 5 minutes
+    revalidate: 300, // In seconds
+  };
 }
 
 const Wrapper = styled.div`

@@ -62,10 +62,10 @@ export default memo(function EditBlock({
     [id, updateBlockContent]
   );
 
-  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
-    (e) => setValue(e.currentTarget.value),
-    []
-  );
+  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {
+    e.target.style.height = `${e.target.scrollHeight  }px`;
+    setValue(e.currentTarget.value);
+  }, []);
 
   return (
     <Block id={id} onClickSelect={onClickSelect} removeBlock={removeBlock}>

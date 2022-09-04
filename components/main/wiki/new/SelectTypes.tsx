@@ -18,5 +18,5 @@ export default function SelectTypes({ value, onChange }: PropsType) {
 }
 
 const Wrapper = styled.div`
-  margin-bottom: 30px;
+  margin: 30px 0;
 `;

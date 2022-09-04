@@ -1,4 +1,7 @@
-import { StringKeyObj } from '../../../types/global';
+import {
+  BlockVerificationType,
+  DocumentBlockType,
+} from '../../../types/global';
 
 const ExProfile: UserProfileAttributes = {
   id: 1,
@@ -179,6 +182,25 @@ export const gridAreas = [
   'Td_Chain',
   'Td_MarketPlace',
 ];
+
+const InitialVerification: Wiki.VerificationType = {
+  id: Date.now(),
+  isUpvote: null,
+  verify: 0,
+  warning: 0,
+  timestamp: new Date(Date.now()).toISOString(),
+};
+const InitialBlockVerification: Wiki.BlockVerificationType = {
+  id: Date.now(),
+  verification: InitialVerification,
+  comments: [],
+};
+export const InitialDocumentBlock: Wiki.DocumentBlockType = {
+  id: Date.now(),
+  element: '',
+  textContent: '',
+  verifications: InitialBlockVerification,
+};
 
 export function getAllArticleTitles() {
   // @todo const titles = fetch....

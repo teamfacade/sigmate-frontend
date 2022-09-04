@@ -76,7 +76,7 @@ export default memo(function Heading({
 });
 
 const H1 = memo(styled.h1`
-  margin: 0 0 40px 0;
+  margin: 0;
   color: ${styles.colors.headerColor};
   font-size: 40px;
   font-weight: 700;

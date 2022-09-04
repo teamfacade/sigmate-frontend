@@ -6,6 +6,7 @@ import {
   ChangeEventHandler,
 } from 'react';
 import styled from 'styled-components';
+import { InitialDocumentBlock } from 'lib/main/wiki/getWikiData';
 import { EditBlock } from 'containers/main/wiki/edit';
 import { SectionWrapper } from 'components/global';
 import { EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
@@ -26,7 +27,8 @@ type PropsType = {
 const createNewBlock: (element: string) => Wiki.DocumentBlockType = (
   element: string
 ) => ({
-  ...Wiki.InitialDocumentBlock,
+  ...InitialDocumentBlock,
+  id: Date.now(),
   element,
 });
 
@@ -42,6 +44,7 @@ export default memo(function WikiEdit({
 }: PropsType) {
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
+      console.log(`create new${  tag}`);
       setBlocks((curState) => {
         const clickedIdx = curState.findIndex((block) => block.id === id);
         return curState
@@ -60,7 +63,7 @@ export default memo(function WikiEdit({
     (id, content) => {
       setBlocks((curState) =>
         curState.map((block) => {
-          if (block.id === id) return { ...block, content };
+          if (block.id === id) return { ...block, textContent: content };
           return block;
         })
       );

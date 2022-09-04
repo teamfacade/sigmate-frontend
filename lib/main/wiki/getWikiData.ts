@@ -1,8 +1,3 @@
-import {
-  BlockVerificationType,
-  DocumentBlockType,
-} from '../../../types/global';
-
 const ExProfile: UserProfileAttributes = {
   id: 1,
   displayName: 'Berry',
@@ -183,6 +178,74 @@ export const gridAreas = [
   'Td_MarketPlace',
 ];
 
+export const InitialKeyInfos: Wiki.DocumentBlockType[] = [
+  {
+    ...ExBlock,
+    textContent: 'sigmate',
+    id: 0,
+  },
+  {
+    ...ExBlock,
+    id: 1,
+    textContent: '',
+  },
+  {
+    ...ExBlock,
+    id: 2,
+    textContent: '',
+  },
+  {
+    ...ExBlock,
+    id: 3,
+    textContent: '',
+  },
+  {
+    ...ExBlock,
+    id: 4,
+    textContent: '',
+  },
+  {
+    ...ExBlock,
+    id: 5,
+    textContent: '0.25 ETH',
+  },
+  {
+    ...ExBlock,
+    id: 6,
+    textContent: '0.5 ETH',
+  },
+  {
+    ...ExBlock,
+    id: 7,
+    textContent: '1.4 ETH',
+  },
+  {
+    ...ExBlock,
+    id: 8,
+    textContent: 'https://www.naver.com',
+  },
+  {
+    ...ExBlock,
+    id: 9,
+    textContent: 'https://www.twitter.com/sigmateOfficial',
+  },
+  {
+    ...ExBlock,
+    id: 10,
+    textContent: 'https://www.sigmate.io',
+  },
+  {
+    ...ExBlock,
+    id: 11,
+    textContent: 'ETH',
+  },
+  {
+    ...ExBlock,
+    id: 12,
+    textContent: '',
+  },
+];
+
 const InitialVerification: Wiki.VerificationType = {
   id: Date.now(),
   isUpvote: null,
@@ -217,8 +280,8 @@ export function getAllArticleTitles() {
 
 export function getArticleReadData(title: string) {
   // @todo blocks, 검증 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
-  const document: Wiki.DocumentType | undefined =
-    title === 'empty' ? undefined : { ...ExDocument, title };
+  const document: Wiki.DocumentType | null =
+    title === 'empty' ? null : { ...ExDocument, title };
 
   return {
     document,

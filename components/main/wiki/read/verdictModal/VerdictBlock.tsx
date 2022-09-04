@@ -36,11 +36,55 @@ export default memo(function VerdictBlock({
   const onClickVerdict: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       const { name } = e.currentTarget;
-      setVote((current) => ({
-        ...current,
-        isUpvote: name === 'Verify',
-        timestamp: new Date(Date.now()).toISOString(),
-      }));
+      setVote((current) => {
+        const timestamp = new Date(Date.now()).toISOString();
+
+        // user voted first time
+        if (current.isUpvote === null) {
+          return {
+            ...current,
+            verify: current.verify + (name === 'Verify' ? 1 : 0),
+            warning: current.warning + (name === 'Warning' ? 1 : 0),
+            isUpvote: name === 'Verify',
+            timestamp,
+          };
+        } if (name === 'Verify') {
+          // canceled verify
+          if (current.isUpvote) {
+            return {
+              ...current,
+              verify: current.verify - 1,
+              isUpvote: null,
+              timestamp,
+            };
+          } return {
+              ...current,
+              verify: current.verify + 1,
+              warning: current.warning - 1,
+              isUpvote: true,
+              timestamp,
+            };
+        } 
+          if (current.isUpvote) {
+            return {
+              ...current,
+              verify: current.verify - 1,
+              warning: current.warning + 1,
+              isUpvote: false,
+              timestamp,
+            };
+          }
+          // canceled warning
+          
+            return {
+              ...current,
+              warning: current.warning - 1,
+              isUpvote: null,
+              timestamp,
+            };
+          
+        
+      });
     },
     []
   );
@@ -96,7 +140,7 @@ export default memo(function VerdictBlock({
           <VerdictBtn
             onClick={onClickVerdict}
             name="Verify"
-            content={verifications?.verification?.verify.toString(10)}
+            content={vote.verify.toString(10)}
             isUpvote={vote.isUpvote}
           />
           <VerdictBtn

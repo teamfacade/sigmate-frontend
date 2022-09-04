@@ -100,20 +100,22 @@ declare global {
     }
   }
 
-  type OptionType = {
-    value: string;
-    label: string;
-  };
+  namespace ReactSelect {
+    type OptionType = {
+      value: string;
+      label: string;
+    };
 
-  type SingleSelectChangeEventHandler = (
-    option: SingleValue<OptionType>,
-    actionMeta: ActionMeta<OptionType>
-  ) => void;
+    type SingleSelectChangeEventHandler = (
+      option: SingleValue<OptionType>,
+      actionMeta: ActionMeta<OptionType>
+    ) => void;
 
-  type MultiSelectChangeEventHandler = (
-    option: MultiValue<OptionType>,
-    actionMeta: ActionMeta<OptionType>
-  ) => void;
+    type MultiSelectChangeEventHandler = (
+      option: MultiValue<OptionType>,
+      actionMeta: ActionMeta<OptionType>
+    ) => void;
+  }
 
   type EditType = {
     name: string;
@@ -182,6 +184,14 @@ declare global {
       timestamp: string;
     };
 
+    const InitialVerification: Wiki.VerificationType = {
+      id: Date.now(),
+      isUpvote: null,
+      verify: 0,
+      warning: 0,
+      timestamp: new Date(Date.now()).toISOString(),
+    };
+
     type OpinionType = {
       id: number;
       content: string;
@@ -200,12 +210,25 @@ declare global {
       comments: DocumentCommentType[];
     };
 
+    const InitialBlockVerification: BlockVerificationType = {
+      id: Date.now(),
+      verification: Wiki.InitialVerification,
+      comments: [],
+    };
+
     type DocumentBlockType = {
       id: number;
       opinions?: OpinionType[];
       element: string;
       textContent: string;
       verifications?: Wiki.BlockVerificationType;
+    };
+
+    const InitialDocumentBlock: DocumentBlockType = {
+      id: Date.now(),
+      element: '',
+      textContent: '',
+      verifications: InitialBlockVerification,
     };
 
     type DocumentType = {

@@ -4,14 +4,15 @@ import { Heading } from 'components/main/wiki/read';
 import options from 'components/main/wiki/TypeOptions';
 
 type PropsType = {
-  onChange: MultiSelectChangeEventHandler;
+  value?: ReactSelect.OptionType[];
+  onChange: ReactSelect.MultiSelectChangeEventHandler;
 };
 
-export default function SelectTypes({ onChange }: PropsType) {
+export default function SelectTypes({ value, onChange }: PropsType) {
   return (
     <Wrapper>
       <Heading content="Type" />
-      <Select onChange={onChange} options={options} isMulti />
+      <Select onChange={onChange} options={options} value={value} isMulti />
     </Wrapper>
   );
 }

@@ -1,6 +1,7 @@
 import { Dispatch, memo, SetStateAction } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { gridAreas } from 'lib/main/wiki/getWikiData';
 import { ImageWrapper } from 'components/global';
 import { VerdictBlock } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
@@ -15,21 +16,6 @@ export default memo(function ReadKeyInfo({
   keyInfos,
   setShowModal,
 }: PropsType) {
-  const gridAreas = [
-    'Name',
-    'Thumbnail',
-    'Td_Team',
-    'Td_Rugpool',
-    'Td_Utility',
-    'Td_WLPrice',
-    'Td_PublicPrice',
-    'Td_CurrentPrice',
-    'Td_Discord',
-    'Td_Twitter',
-    'Td_OfficialSite',
-    'Td_Chain',
-    'Td_MarketPlace',
-  ];
   const TdBlocks = keyInfos.map((keyInfo, i) => {
     if (i === 0)
       return (

@@ -1,205 +1,123 @@
-import {
-  ChangeEventHandler,
-  Dispatch,
-  memo,
-  SetStateAction,
-  useCallback,
-} from 'react';
+import { ChangeEventHandler, memo } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { gridAreas, KeyInfoIndex } from 'lib/main/wiki/getWikiData';
 import { ImageWrapper } from 'components/global';
 import styles from 'styles/styleLib';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
 type PropsType = {
-  edit?: boolean;
-  setShowModal?: Dispatch<SetStateAction<number>>;
-  keyInfo?: CollectionKeyInfoType;
-  setKeyInfo?: Dispatch<SetStateAction<CollectionKeyInfoType>>;
-  name: string;
-  thumbnailUrl: string;
-  team: string;
-  rugpool: string;
-  type: string;
-  utility: string;
-  WLPrice: string;
-  publicPrice: string;
-  currentPrice: string;
-  discordUrl: string;
-  twitterUrl: string;
-  officialSiteUrl: string;
-  chain: string;
-  marketplace: string;
+  keyInfos: Wiki.DocumentBlockType[];
+  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
 export default memo(function EditKeyInfo({
-  keyInfo,
-  setKeyInfo,
-  name,
-  thumbnailUrl,
-  WLPrice,
-  publicPrice,
-  currentPrice,
-  discordUrl,
-  twitterUrl,
-  officialSiteUrl,
-  chain,
+  keyInfos,
+  onChangeKeyInfos,
 }: PropsType) {
-  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {
-    const { name: elemName, value } = e.currentTarget;
-    if (setKeyInfo) {
-      switch (elemName) {
-        case 'team':
-          setKeyInfo((current) => ({
-            ...current,
-            team: value,
-          }));
-          break;
-        case 'rugpool':
-          setKeyInfo((current) => ({
-            ...current,
-            rugpool: value,
-          }));
-          break;
-        case 'utility':
-          setKeyInfo((current) => ({
-            ...current,
-            utility: value,
-          }));
-          break;
-        case 'marketplace':
-          setKeyInfo((current) => ({
-            ...current,
-            marketplace: value,
-          }));
-          break;
-        default:
-          break;
-      }
-    }
-  }, []);
+  const TdBlocks = keyInfos.map((keyInfo, i) => {
+    if (i === 1) {
+      return (
+        <TableItem gridArea={gridAreas[i]}>
+          <ImageWrapper width="100%" height="100%">
+            <Image
+              src={keyInfo.textContent || UserImageEx}
+              alt="thumbnail image"
+              layout="fill"
+            />
+          </ImageWrapper>
+        </TableItem>
+      );
+    } if (
+      i === KeyInfoIndex.team ||
+      i === KeyInfoIndex.rugpool ||
+      i === KeyInfoIndex.utility ||
+      i === KeyInfoIndex.marketplace
+    ) {
+      const name: string = gridAreas[i].split('_')[1].toLowerCase();
+      return (
+        <TableItem gridArea={gridAreas[i]}>
+          <textarea
+            name={name}
+            rows={1}
+            placeholder={`Type about ${name}`}
+            value={keyInfos[KeyInfoIndex[name]].textContent}
+            onChange={onChangeKeyInfos}
+          />
+        </TableItem>
+      );
+    } return (
+        <TableItem gridArea={gridAreas[i]}>
+          <p>{keyInfo.textContent}</p>
+        </TableItem>
+      );
+  });
 
   return (
     <>
       <H3>Key Info</H3>
       <Hr />
       <Table>
-        <TableItem gridArea="Name">
-          <p>{name}</p>
-        </TableItem>
-        <TableItem gridArea="Thumbnail">
-          <ImageWrapper width="100%" height="100%">
-            <Image
-              src={thumbnailUrl || UserImageEx}
-              alt="thumbnail image"
-              layout="fill"
-            />
-          </ImageWrapper>
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.name]}
+        {TdBlocks[KeyInfoIndex.thumbnailUrl]}
         <TableItem gridArea="Th_Team">
           <p>Team</p>
         </TableItem>
         <TableItem gridArea="Tr_Team">
           <p>Team</p>
         </TableItem>
-        <TableItem gridArea="Td_Team">
-          <textarea
-            name="team"
-            rows={1}
-            placeholder="Type team name"
-            value={keyInfo?.team}
-            onChange={onChange}
-          />
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.team]}
         <TableItem gridArea="Tr_Rugpool">
           <p>Rugpool</p>
         </TableItem>
-        <TableItem gridArea="Td_Rugpool">
-          <textarea
-            name="rugpool"
-            rows={1}
-            placeholder="Any rugpools?"
-            value={keyInfo?.rugpool}
-            onChange={onChange}
-          />
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.rugpool]}
         <TableItem gridArea="Th_Category">
           <p>Category</p>
         </TableItem>
         <TableItem gridArea="Tr_Utility">
           <p>Utility</p>
         </TableItem>
-        <TableItem gridArea="Td_Utility">
-          <textarea
-            name="utility"
-            rows={1}
-            placeholder="What utilities does it have?"
-            value={keyInfo?.utility}
-            onChange={onChange}
-          />
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.utility]}
         <TableItem gridArea="Th_Price">
           <p>Minting Price</p>
         </TableItem>
         <TableItem gridArea="Tr_WLPrice">
           <p>Whitelist</p>
         </TableItem>
-        <TableItem gridArea="Td_WLPrice">
-          <p>{WLPrice}</p>
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.whitelistPrice]}
         <TableItem gridArea="Tr_PublicPrice">
           <p>Public</p>
         </TableItem>
-        <TableItem gridArea="Td_PublicPrice">
-          <p>{publicPrice}</p>
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.publicPrice]}
         <TableItem gridArea="Tr_CurrentPrice">
           <p>Current</p>
         </TableItem>
-        <TableItem gridArea="Td_CurrentPrice">
-          <p>{currentPrice}</p>
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.currentPrice]}
         <TableItem gridArea="Th_Community">
           <p>Community</p>
         </TableItem>
         <TableItem gridArea="Tr_Discord">
           <p>Discord</p>
         </TableItem>
-        <TableItem gridArea="Td_Discord">
-          <p>{discordUrl}</p>
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.discordUrl]}
         <TableItem gridArea="Tr_Twitter">
           <p>Twitter</p>
         </TableItem>
-        <TableItem gridArea="Td_Twitter">
-          <p>{twitterUrl}</p>
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.twitterUrl]}
         <TableItem gridArea="Tr_OfficialSite">
           <p>Official website</p>
         </TableItem>
-        <TableItem gridArea="Td_OfficialSite">
-          <p>{officialSiteUrl}</p>
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.officialSiteUrl]}
         <TableItem gridArea="Th_Chain">
           <p>Chain</p>
         </TableItem>
         <TableItem gridArea="Tr_Chain" />
-        <TableItem gridArea="Td_Chain">
-          <p>{chain}</p>
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.chain]}
         <TableItem gridArea="Th_Marketplace">
           <p>Marketplace</p>
         </TableItem>
         <TableItem gridArea="Tr_Marketplace" />
-        <TableItem gridArea="Td_MarketPlace">
-          <textarea
-            name="marketplace"
-            rows={1}
-            placeholder="Ex) opensea ..."
-            value={keyInfo?.marketplace}
-            onChange={onChange}
-          />
-        </TableItem>
+        {TdBlocks[KeyInfoIndex.marketplace]}
       </Table>
     </>
   );

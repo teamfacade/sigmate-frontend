@@ -8,7 +8,7 @@ import { Heading, Paragraph } from './index';
 import Textarea from './TextEdit';
 
 type PropsType = {
-  tag: string;
+  element: string;
   content: string;
   showInput: boolean;
   value: string;
@@ -23,7 +23,7 @@ const Components: StringKeyObj<typeof Paragraph> = {
 };
 
 export default memo(function EditComponent({
-  tag,
+  element,
   content,
   showInput,
   value,
@@ -31,16 +31,17 @@ export default memo(function EditComponent({
   onKeyDown,
   onChange,
 }: PropsType) {
-  const Component = Components[tag];
+  const Component = Components[element];
 
-  switch (tag) {
+  switch (element) {
     case 'p':
     case 'h':
       return content === '' || showInput ? (
         <Textarea
           autoFocus
           placeholder={
-            content || `Input ${tag === 'p' ? 'contents' : 'a subheader'}...`
+            content ||
+            `Input ${element === 'p' ? 'contents' : 'a subheader'}...`
           }
           value={value}
           onBlur={onBlur}

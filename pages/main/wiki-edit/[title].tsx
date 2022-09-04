@@ -5,21 +5,47 @@ import {
   MouseEventHandler,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import { getArticleEditData } from 'lib/main/wiki/getWikiData';
+import { getArticleEditData, KeyInfoIndex } from 'lib/main/wiki/getWikiData';
 import { WikiEdit, Summary } from 'containers/main/wiki/edit';
 
 export default function WikiEditPage({
-  article,
+  document,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [selectedOption, setSelectedOption] = useState<OptionType[]>([]);
-  const [blocks, setBlocks] = useState<BlockType[]>(article.blocks);
+  const [selectedOption, setSelectedOption] = useState<
+    ReactSelect.OptionType[]
+  >(document.types?.map((type) => ({ value: type, label: type })) || []);
+  const [blocks, setBlocks] = useState<Wiki.DocumentBlockType[]>(
+    document.blocks || []
+  );
+  const [keyInfos, setKeyInfos] = useState<
+    Wiki.DocumentBlockType[] | undefined
+  >(document.keyInfos || undefined);
   const [summary, setSummary] = useState('');
 
-  const onChangeTypes: MultiSelectChangeEventHandler = useCallback(
+  const onChangeTypes: ReactSelect.MultiSelectChangeEventHandler = useCallback(
     (selected) => {
       if (selected) {
         setSelectedOption(selected.concat());
       }
+    },
+    []
+  );
+
+  const onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
+    (e) => {
+      const { name, value } = e.currentTarget;
+      setKeyInfos((current) => {
+        if (current) {
+          return current.map((block, idx) => {
+            if (idx === KeyInfoIndex[name]) {
+              return {
+                ...block,
+                textContent: value,
+              };
+            } return block;
+          });
+        } return current;
+      });
     },
     []
   );
@@ -30,19 +56,27 @@ export default function WikiEditPage({
   );
 
   const onSave: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    // eslint-disable-next-line no-alert
+    const newDocument = {
+      ...document,
+      types: selectedOption.map((selected) => selected.value),
+      blocks,
+    };
+
     alert('Save edits');
-  }, []);
+    // eslint-disable-next-line no-console
+    console.log(newDocument);
+  }, [selectedOption, blocks]);
 
   return (
     <>
       <WikiEdit
-        newArticle={false}
-        types={selectedOption.map((selected) => selected.value)}
+        types={selectedOption}
         onChangeTypes={onChangeTypes}
-        title={article.title}
+        title={document.title}
         blocks={blocks}
         setBlocks={setBlocks}
+        keyInfos={keyInfos}
+        onChangeKeyInfos={onChangeKeyInfos}
       />
       <Summary summary={summary} onChange={onSummaryChange} onClick={onSave} />
     </>
@@ -54,8 +88,8 @@ export async function getServerSideProps({
   params,
 }: GetServerSidePropsContext) {
   // Fetch data from external API
-  const article = getArticleEditData(params?.title as string);
+  const { document } = getArticleEditData(params?.title as string);
 
   // Pass data to the page via props
-  return { props: { article } };
+  return { props: { document } };
 }

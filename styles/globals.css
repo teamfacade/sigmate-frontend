@@ -20,6 +20,10 @@ a:hover, a:active {
   filter: brightness(0.7);
 }
 
+a:hover, a:active > button:hover, button:active {
+  filter: none;
+}
+
 * {
   box-sizing: border-box;
 }

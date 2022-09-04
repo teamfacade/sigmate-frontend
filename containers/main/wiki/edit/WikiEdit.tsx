@@ -1,40 +1,44 @@
-import { useCallback, SetStateAction, Dispatch, memo } from 'react';
+import {
+  useCallback,
+  SetStateAction,
+  Dispatch,
+  memo,
+  ChangeEventHandler,
+} from 'react';
 import styled from 'styled-components';
 import { EditBlock } from 'containers/main/wiki/edit';
-import { Title, EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
-import { Types } from 'components/main/wiki/read';
+import { SectionWrapper } from 'components/global';
+import { EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
 import { SelectTypes } from 'components/main/wiki/new';
 import styles from 'styles/styleLib';
 
-export type ArticleType = {
-  title: string;
-  blocks: BlockType[];
-};
-
 type PropsType = {
-  newArticle: boolean;
   title: string;
   setTitle?: Dispatch<SetStateAction<string>>;
-  types?: string[];
-  onChangeTypes?: MultiSelectChangeEventHandler;
-  blocks: BlockType[];
-  setBlocks: Dispatch<SetStateAction<BlockType[]>>;
+  types?: ReactSelect.OptionType[];
+  onChangeTypes?: ReactSelect.MultiSelectChangeEventHandler;
+  blocks: Wiki.DocumentBlockType[];
+  setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
+  keyInfos?: Wiki.DocumentBlockType[];
+  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
-const createNewBlock = (tag: string) => ({
-  id: Date.now(),
-  tag,
-  content: '',
+const createNewBlock: (element: string) => Wiki.DocumentBlockType = (
+  element: string
+) => ({
+  ...Wiki.InitialDocumentBlock,
+  element,
 });
 
 export default memo(function WikiEdit({
-  newArticle,
   title,
   types = [],
   onChangeTypes,
   setTitle,
   blocks,
   setBlocks,
+  keyInfos,
+  onChangeKeyInfos,
 }: PropsType) {
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
@@ -65,47 +69,30 @@ export default memo(function WikiEdit({
   );
 
   return (
-    <div>
-      {!newArticle && (
-        <>
-          <Title title={title} onClickSelect={onClickSelect} />
-          <SelectTypes
-            onChange={onChangeTypes as MultiSelectChangeEventHandler}
-          />
-        </>
-      )}
+    <SectionWrapper header="Edit document">
       <ContentWrapper>
-        {newArticle && (
-          <EditableTitle
-            title={title}
-            setTitle={setTitle}
-            onClickSelect={onClickSelect}
+        <EditableTitle
+          title={title}
+          setTitle={setTitle}
+          onClickSelect={onClickSelect}
+        />
+        <SelectTypes
+          value={types}
+          onChange={onChangeTypes as ReactSelect.MultiSelectChangeEventHandler}
+        />
+        {keyInfos && (
+          <EditKeyInfo
+            keyInfos={keyInfos}
+            onChangeKeyInfos={onChangeKeyInfos}
           />
         )}
-        <Types types={types} />
-        <EditKeyInfo
-          name="Sigmate"
-          thumbnailUrl=""
-          team="sigmate"
-          rugpool=""
-          type=""
-          utility="Game"
-          WLPrice="0.25 ETH"
-          publicPrice="0.3 ETH"
-          currentPrice="1.5 ETH"
-          discordUrl="https://www.naver.com"
-          twitterUrl="https://www.twitter.com/bellygom"
-          officialSiteUrl="localhost:3000/main"
-          chain="ETH"
-          marketplace="Opensea"
-        />
         {blocks.map((block) => {
           return (
             <EditBlock
               key={block.id}
               id={block.id}
-              tag={block.tag}
-              content={block.content}
+              element={block.element}
+              content={block.textContent}
               onClickSelect={onClickSelect}
               removeBlock={removeBlock}
               onFinishFix={onFinishFix}
@@ -113,7 +100,7 @@ export default memo(function WikiEdit({
           );
         })}
       </ContentWrapper>
-    </div>
+    </SectionWrapper>
   );
 });
 

@@ -1,3 +1,5 @@
+import { StringKeyObj } from '../../../types/global';
+
 const ExProfile: UserProfileAttributes = {
   id: 1,
   displayName: 'Berry',
@@ -146,6 +148,38 @@ const ExDocument: Wiki.DocumentType = {
   createdBy: ExAuthor,
 };
 
+export const KeyInfoIndex: StringKeyObj<number> = {
+  name: 0,
+  thumbnailUrl: 1,
+  team: 2,
+  rugpool: 3,
+  utility: 4,
+  whitelistPrice: 5,
+  publicPrice: 6,
+  currentPrice: 7,
+  discordUrl: 8,
+  twitterUrl: 9,
+  officialSiteUrl: 10,
+  chain: 11,
+  marketplace: 12,
+};
+
+export const gridAreas = [
+  'Name',
+  'Thumbnail',
+  'Td_Team',
+  'Td_Rugpool',
+  'Td_Utility',
+  'Td_WLPrice',
+  'Td_PublicPrice',
+  'Td_CurrentPrice',
+  'Td_Discord',
+  'Td_Twitter',
+  'Td_OfficialSite',
+  'Td_Chain',
+  'Td_MarketPlace',
+];
+
 export function getAllArticleTitles() {
   // @todo const titles = fetch....
   const titles = ['hush', 'empty'];
@@ -171,11 +205,10 @@ export function getArticleReadData(title: string) {
 
 export function getArticleEditData(title: string) {
   // @todo blocks 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
-  const blocks: BlockType[] = title === 'empty' ? [] : ExBlocks;
+  const document: Wiki.DocumentType = { ...ExDocument, title };
 
   return {
-    title,
-    blocks,
+    document,
   };
 }
 

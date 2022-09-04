@@ -19,27 +19,27 @@ export default memo(function Links({
   return (
     <OutlinkWrapper>
       <Link href={wikiPageUrl}>
-        <a>
+        <a onClick={(e) => e.stopPropagation()}>
           <Wiki />
         </a>
       </Link>
       {discordUrl && (
         <Link href={discordUrl}>
-          <a>
+          <a onClick={(e) => e.stopPropagation()}>
             <Discord />
           </a>
         </Link>
       )}
       {twitterUrl && (
         <Link href={twitterUrl}>
-          <a>
+          <a onClick={(e) => e.stopPropagation()}>
             <Twitter />
           </a>
         </Link>
       )}
       {telegramUrl && (
         <Link href={telegramUrl}>
-          <a>
+          <a onClick={(e) => e.stopPropagation()}>
             <Telegram />
           </a>
         </Link>

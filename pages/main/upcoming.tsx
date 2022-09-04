@@ -1,11 +1,13 @@
-import { MouseEventHandler, useCallback, useState } from 'react';
+import { MouseEventHandler, useCallback, useRef, useState } from 'react';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import styled from 'styled-components';
+import { CSSTransition } from 'react-transition-group';
 import { OnChangeDateCallback } from 'react-calendar';
 import { getUpcomingSchedules } from 'lib/main/upcoming/getScheduleData';
 import { Utils, Schedules } from 'containers/main/upcoming';
-import { PageMoveBtns } from 'components/global';
+import { PageMoveBtns, Modal } from 'components/global';
 import { RegisterBtn } from 'components/main/forum/main';
+import { ScheduleDetail } from 'components/main/upcoming';
 
 const total = 13;
 
@@ -15,6 +17,9 @@ export default function Upcoming({
   const [today, setToday] = useState<Date>(new Date(Date.now()));
   const [showCalendar, setShowCalendar] = useState(false);
   const [curPage, setCurPage] = useState(1);
+  const [showModal, setShowModal] = useState(-1);
+
+  const ModalRef = useRef<HTMLDivElement>(null);
 
   const onClickDateBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShowCalendar((current) => !current),
@@ -25,6 +30,18 @@ export default function Upcoming({
     setShowCalendar(false);
     setToday(value);
   }, []);
+
+  const onClickSchedule: MouseEventHandler<HTMLDivElement> = useCallback(
+    (e) => {
+      setShowModal(Number.parseInt(e.currentTarget.dataset.id || '-1', 10));
+    },
+    []
+  );
+
+  const onClickBackground: MouseEventHandler<HTMLDivElement> =
+    useCallback(() => {
+      setShowModal(-1);
+    }, []);
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -71,22 +88,43 @@ export default function Upcoming({
     [curPage]
   );
   return (
-    <Wrapper>
-      <Utils
-        today={today}
-        showCalendar={showCalendar}
-        onClick={onClickDateBtn}
-        onChange={onChangeDate}
-      />
-      <Schedules schedules={schedules} />
-      <PageMoveBtns
-        totalPage={total}
-        curPage={curPage}
-        onClickPageMoveBtn={onClickPageMoveBtn}
-        onClickPageNumBtn={onClickPageNumBtn}
-      />
-      <RegisterBtn />
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Utils
+          today={today}
+          showCalendar={showCalendar}
+          onClick={onClickDateBtn}
+          onChange={onChangeDate}
+        />
+        <Schedules schedules={schedules} onClickSchedule={onClickSchedule} />
+        <PageMoveBtns
+          totalPage={total}
+          curPage={curPage}
+          onClickPageMoveBtn={onClickPageMoveBtn}
+          onClickPageNumBtn={onClickPageNumBtn}
+        />
+        <RegisterBtn />
+      </Wrapper>
+      <CSSTransition
+        in={showModal !== -1}
+        timeout={300}
+        classNames="show-modal"
+        unmountOnExit
+        nodeRef={ModalRef}
+      >
+        <Modal ref={ModalRef} onMouseDown={onClickBackground}>
+          {showModal !== -1 && (
+            <ScheduleDetail
+              schedule={
+                schedules[
+                  schedules.findIndex((schedule) => schedule.id === showModal)
+                ]
+              }
+            />
+          )}
+        </Modal>
+      </CSSTransition>
+    </>
   );
 }
 

@@ -25,7 +25,7 @@ export default memo(function ScheduleInfos({
   const Symbol = SymbolIcons[symbol];
 
   return (
-    <div>
+    <Wrapper>
       <Name>{name}</Name>
       <Collection>{category}</Collection>
       <PriceWrapper>
@@ -34,9 +34,15 @@ export default memo(function ScheduleInfos({
         <InfoText>{price}</InfoText>
       </PriceWrapper>
       <InfoText>{`Tier: ${tier}`}</InfoText>
-    </div>
+    </Wrapper>
   );
 });
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 
 const Name = styled.p`
   margin: 13px 0 0 0;

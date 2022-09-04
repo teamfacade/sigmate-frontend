@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import {
   ScheduleThumbnail,
@@ -22,9 +22,11 @@ type PropsType = {
   websiteUrl?: string;
   telegramUrl?: string;
   imageUrl?: string;
+  onClickSchedule: MouseEventHandler<HTMLDivElement>;
 };
 
 export default memo(function Schedule({
+  id,
   name,
   category,
   tier,
@@ -36,9 +38,10 @@ export default memo(function Schedule({
   telegramUrl,
   discordUrl,
   imageUrl,
+  onClickSchedule,
 }: PropsType) {
   return (
-    <Wrapper>
+    <Wrapper data-id={id} onClick={onClickSchedule}>
       <ScheduleThumbnail name={name} imageUrl={imageUrl || ''} />
       <InnerWrapper>
         <Links
@@ -64,7 +67,14 @@ const Wrapper = styled.div`
   width: 340px;
   border-radius: 8px;
   background-color: #ffffff;
+  overflow: hidden;
   box-shadow: ${styles.shadows.containerShadow};
+  cursor: pointer;
+
+  :hover,
+  :active {
+    filter: brightness(0.7);
+  }
 `;
 
 const InnerWrapper = styled.div`

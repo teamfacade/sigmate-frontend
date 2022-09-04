@@ -1,12 +1,16 @@
-import { memo } from 'react';
+import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { Schedule } from 'components/main/upcoming';
 
 type PropsType = {
   schedules: Minting.ScheduleType[];
+  onClickSchedule: MouseEventHandler<HTMLDivElement>;
 };
 
-export default memo(function Schedules({ schedules }: PropsType) {
+export default memo(function Schedules({
+  schedules,
+  onClickSchedule,
+}: PropsType) {
   return (
     <Wrapper>
       {schedules.map((schedule) => (
@@ -24,6 +28,7 @@ export default memo(function Schedules({ schedules }: PropsType) {
           telegramUrl={schedule.collectionInfo.telegramUrl}
           discordUrl={schedule.collectionInfo.discordUrl}
           imageUrl={schedule.collectionInfo.imageUrl}
+          onClickSchedule={onClickSchedule}
         />
       ))}
     </Wrapper>

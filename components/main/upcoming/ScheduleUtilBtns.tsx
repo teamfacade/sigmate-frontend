@@ -10,8 +10,13 @@ type PropsType = {
 export default memo(function ScheduleUtilBtns({ mintPageUrl }: PropsType) {
   return (
     <BtnWrapper>
-      <AddCalenderBtn>Add to calender</AddCalenderBtn>
-      <MintBtn disabled={mintPageUrl === undefined}>
+      <AddCalenderBtn onClick={(e) => e.stopPropagation()}>
+        Add to calender
+      </AddCalenderBtn>
+      <MintBtn
+        disabled={mintPageUrl === undefined}
+        onClick={(e) => e.stopPropagation()}
+      >
         <Link href={mintPageUrl || '/main'}>
           <a>Mint</a>
         </Link>

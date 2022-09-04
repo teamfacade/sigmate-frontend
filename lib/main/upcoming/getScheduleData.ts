@@ -3,7 +3,7 @@ const ScheduleEx: Minting.ScheduleType = {
   name: 'Bellygom',
   category: 'Category',
   tier: 1,
-  mintingTime: new Date(Date.now()).toISOString(),
+  mintingTime: '0',
   mintingUrl: 'https://bellygom.launchpad.xclusive.market/',
   description: 'EXAMPLEEXAMPLEEXAMPLE',
   mintingPrice: '10.01',

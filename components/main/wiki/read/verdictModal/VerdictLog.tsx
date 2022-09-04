@@ -4,21 +4,21 @@ import convertDate from 'lib/global/convertDate';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  vote: VoteType;
+  votes: Wiki.VerificationType;
 };
 
-export default memo(function VerdictLog({ vote }: PropsType) {
-  if (vote.voted)
+export default memo(function VerdictLog({ votes }: PropsType) {
+  if (votes.isUpvote !== null)
     return (
-      <Log voted={vote.voted}>{`You ${
-        vote.voted === 'Verify' ? 'verified' : 'flagged'
+      <Log voted={votes.isUpvote ? 'Verify' : 'Warning'}>{`You ${
+        votes.isUpvote ? 'verified' : 'flagged'
       } this block at ${convertDate(
-        new Date(vote.timestamp),
+        new Date(votes.timestamp),
         'time',
         ' '
       )}`}</Log>
     );
-  return <Log voted={vote.voted} />;
+  return <Log voted="None" />;
 });
 
 const Log = styled.p<{ voted: string }>`

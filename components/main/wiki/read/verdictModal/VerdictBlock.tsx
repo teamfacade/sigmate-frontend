@@ -14,8 +14,8 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   id: number;
-  setShowModal: Dispatch<SetStateAction<number>>;
-  verdict: VerdictType;
+  setShowModal: Dispatch<SetStateAction<Wiki.ModalDataType>>;
+  verifications?: Wiki.BlockVerificationType;
   padding?: boolean;
   children: ReactNode;
 };
@@ -23,23 +23,24 @@ type PropsType = {
 export default memo(function VerdictBlock({
   id,
   setShowModal,
-  verdict,
+  verifications,
   padding = true,
   children,
 }: PropsType) {
   const [showBtn, setShowBtn] = useState(false);
   const [commented, setCommented] = useState(false);
-  const [vote, setVote] = useState<VoteType>({
-    voted: verdict?.voted || '',
-    timestamp: new Date(Date.now()).toISOString(),
-  });
+  const [vote, setVote] = useState<Wiki.VerificationType>(
+    verifications?.verification as Wiki.VerificationType
+  );
 
   const onClickVerdict: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
-      setVote({
-        voted: e.currentTarget.name,
+      const { name } = e.currentTarget;
+      setVote((current) => ({
+        ...current,
+        isUpvote: name === 'Verify',
         timestamp: new Date(Date.now()).toISOString(),
-      });
+      }));
     },
     []
   );
@@ -61,7 +62,11 @@ export default memo(function VerdictBlock({
           break;
         case 'More':
           setShowBtn(false);
-          setShowModal(id);
+          setShowModal((current) => ({
+            ...current,
+            isKeyInfo: !padding,
+            blockID: id,
+          }));
           break;
         default:
           break;
@@ -71,12 +76,12 @@ export default memo(function VerdictBlock({
   );
 
   const percentage = useMemo(() => {
-    if (verdict) {
-      const { verify, warning } = verdict;
+    if (vote) {
+      const { verify, warning } = vote;
       return ((verify / (verify + warning)) * 100).toFixed(1);
     }
     return '0';
-  }, [verdict]);
+  }, [vote]);
 
   return (
     <Wrapper
@@ -91,23 +96,23 @@ export default memo(function VerdictBlock({
           <VerdictBtn
             onClick={onClickVerdict}
             name="Verify"
-            content={verdict?.verify.toString(10)}
-            voted={vote.voted}
+            content={verifications?.verification?.verify.toString(10)}
+            isUpvote={vote.isUpvote}
           />
           <VerdictBtn
             onClick={onClickVerdict}
             name="Warning"
-            content={verdict?.warning.toString(10)}
-            voted={vote.voted}
+            content={vote.warning.toString(10)}
+            isUpvote={vote.isUpvote}
           />
           <VerdictBtn
             onClick={onClick}
             name="Comment"
-            content={verdict?.comments.length.toString(10)}
-            voted={vote.voted}
+            content={verifications?.comments.length.toString(10)}
+            isUpvote={vote.isUpvote}
             commented={commented}
           />
-          <VerdictBtn onClick={onClick} name="More" voted="" />
+          <VerdictBtn onClick={onClick} name="More" isUpvote={null} />
         </BtnWrapper>
       )}
     </Wrapper>

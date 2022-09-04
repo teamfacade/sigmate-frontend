@@ -17,7 +17,7 @@ type ColorsType = {
 type PropsType = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   name: 'Verify' | 'Warning';
-  voted: string;
+  isUpvote: boolean | null;
 };
 
 const Icons: StringKeyObj<typeof ThumbsUp> = {
@@ -48,11 +48,22 @@ const colors: ColorsType = {
   },
 };
 
-export default memo(function VerdictBtn({ onClick, name, voted }: PropsType) {
+export default memo(function VerdictBtn({
+  onClick,
+  name,
+  isUpvote,
+}: PropsType) {
   const Icon = Icons[name];
 
   return (
-    <Btn name={name} activate={voted === name} onClick={onClick}>
+    <Btn
+      name={name}
+      activate={
+        (isUpvote && name === 'Verify') ||
+        (isUpvote === false && name === 'Warning')
+      }
+      onClick={onClick}
+    >
       <BtnCompWrapper>
         <Icon />
         <p>{name === 'Verify' ? 'VERIFY' : 'BE AWARE'}</p>

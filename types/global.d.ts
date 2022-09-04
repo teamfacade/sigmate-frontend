@@ -100,6 +100,21 @@ declare global {
     }
   }
 
+  type OptionType = {
+    value: string;
+    label: string;
+  };
+
+  type SingleSelectChangeEventHandler = (
+    option: SingleValue<OptionType>,
+    actionMeta: ActionMeta<OptionType>
+  ) => void;
+
+  type MultiSelectChangeEventHandler = (
+    option: MultiValue<OptionType>,
+    actionMeta: ActionMeta<OptionType>
+  ) => void;
+
   type EditType = {
     name: string;
     editor: string;
@@ -130,6 +145,7 @@ declare global {
 
   namespace Minting {
     type CollectionType = {
+      name?: string;
       twitterUrl?: string;
       discordUrl?: string;
       websiteUrl?: string;
@@ -151,54 +167,56 @@ declare global {
     };
   }
 
-  type OptionType = {
-    value: string;
-    label: string;
-  };
+  namespace Wiki {
+    type ModalDataType = {
+      documentID: number;
+      isKeyInfo: boolean;
+      blockID: number;
+    };
 
-  type SingleSelectChangeEventHandler = (
-    option: SingleValue<OptionType>,
-    actionMeta: ActionMeta<OptionType>
-  ) => void;
+    type VerificationType = {
+      id: number;
+      isUpvote: boolean | null;
+      verify: number;
+      warning: number;
+      timestamp: string;
+    };
 
-  type MultiSelectChangeEventHandler = (
-    option: MultiValue<OptionType>,
-    actionMeta: ActionMeta<OptionType>
-  ) => void;
+    type OpinionType = {
+      id: number;
+      content: string;
+      createdBy: Forum.AuthorType;
+    };
 
-  type BlockType = {
-    id: number;
-    tag: string;
-    content: string;
-    verdict?: VerdictType;
-  };
+    type DocumentCommentType = {
+      id: number;
+      username: string;
+      comment: string;
+    };
 
-  type DocumentCommentType = {
-    id: number;
-    username: string;
-    comment: string;
-  };
+    type BlockVerificationType = {
+      id: number;
+      verification: VerificationType;
+      comments: DocumentCommentType[];
+    };
 
-  type VerdictType =
-    | {
-        verify: number;
-        warning: number;
-        voted: string;
-        comments: CommentType[];
-      }
-    | undefined;
+    type DocumentBlockType = {
+      id: number;
+      opinions?: OpinionType[];
+      element: string;
+      textContent: string;
+      verifications?: Wiki.BlockVerificationType;
+    };
 
-  type CollectionKeyInfoType = {
-    team: string;
-    rugpool?: string;
-    utility?: string;
-    marketplace: string;
-  };
-
-  type DocumentVoteType = {
-    voted: string;
-    timestamp: string;
-  };
+    type DocumentType = {
+      id: number;
+      title: string;
+      blocks?: Wiki.DocumentBlockType[];
+      keyInfos?: Wiki.DocumentBlockType[];
+      types?: string[];
+      createdBy: Forum.AuthorType;
+    };
+  }
 
   type ProfileType = {
     user?: {

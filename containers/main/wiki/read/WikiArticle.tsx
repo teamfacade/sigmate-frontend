@@ -9,79 +9,67 @@ import {
 import Link from 'next/link';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
-import { ArticleType } from 'containers/main/wiki/edit/WikiEdit';
 import { ReadBlock } from 'containers/main/wiki/read';
 import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
 import { ReadKeyInfo, Title, Types } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  article: ArticleType;
+  document: Wiki.DocumentType;
 };
 
-const types = ['Game', 'Utility'];
-
-export default function WikiArticle({ article }: PropsType) {
-  const [showModal, setShowModal] = useState(-1);
+export default function WikiArticle({ document }: PropsType) {
+  const [showModal, setShowModal] = useState<Wiki.ModalDataType>({
+    documentID: document.id,
+    isKeyInfo: false,
+    blockID: -1,
+  });
   const ModalRef = useRef<HTMLDivElement>(null);
 
-  const modalVerdict = useMemo(
-    () => article.blocks.find((block) => block.id === showModal)?.verdict,
-    [showModal]
-  );
-
   const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowModal(-1),
+    () =>
+      setShowModal((current) => ({
+        ...current,
+        blockID: -1,
+      })),
     []
   );
 
   return (
     <Wrapper>
-      <Title title={article.title} />
-      <Types types={types} />
-      <ReadKeyInfo
-        setShowModal={setShowModal}
-        name="Sigmate"
-        thumbnailUrl=""
-        team="sigmate"
-        rugpool=""
-        utility="Game"
-        WLPrice="0.25 ETH"
-        publicPrice="0.3 ETH"
-        currentPrice="1.5 ETH"
-        discordUrl="https://www.naver.com"
-        twitterUrl="https://www.twitter.com/bellygom"
-        officialSiteUrl="localhost:3000/main"
-        chain="ETH"
-        marketplace="Opensea"
-      />
-      {article.blocks.map((block) => {
+      <Title title={document.title} />
+      <Types types={document.types || []} />
+      {document.keyInfos && (
+        <ReadKeyInfo setShowModal={setShowModal} keyInfos={document.keyInfos} />
+      )}
+      {document.blocks?.map((block) => {
         return (
           <ReadBlock
             key={block.id}
             id={block.id}
-            tag={block.tag}
-            content={block.content}
+            element={block.element}
+            content={block.textContent}
             setShowModal={setShowModal}
-            verdict={block.verdict}
+            verifications={block.verifications}
           />
         );
       })}
-
-      <Link href={`/main/wiki-edit/${article.title}`} passHref>
+      <Link href={`/main/wiki-edit/${document.title}`} passHref>
         <a>
           <EditBtn>Edit</EditBtn>
         </a>
       </Link>
       <CSSTransition
-        in={showModal !== -1}
+        in={showModal.blockID !== -1}
         timeout={300}
         classNames="show-modal"
         unmountOnExit
         nodeRef={ModalRef}
       >
         <VerdictModal
-          verdict={modalVerdict}
+          documentID={showModal.documentID}
+          isKeyInfo={showModal.isKeyInfo}
+          blockID={showModal.blockID}
           onMouseDown={onMouseDown}
           ref={ModalRef}
         />

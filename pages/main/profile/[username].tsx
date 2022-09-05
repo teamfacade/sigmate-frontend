@@ -1,5 +1,4 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import Axios from 'lib/global/axiosInstance';
 import { getProfileData } from 'lib/main/profile/getUserProfile';
 import { SectionWrapper } from 'components/global';
 import { ProfileComponents } from 'containers/main/profile';

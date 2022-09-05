@@ -7,6 +7,13 @@ import { ProfileComponents } from 'containers/main/profile';
 export default function Profile({
   profile,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (profile === null) {
+    return (
+      <SectionWrapper header="No user found" marginBottom="40px">
+        <div />
+      </SectionWrapper>
+    );
+  }
   return (
     <SectionWrapper header="Profile" marginBottom="40px">
       <ProfileComponents

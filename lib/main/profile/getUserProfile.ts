@@ -40,18 +40,21 @@ export async function getProfileData(username: string) {
       */
 
   // @todo 프로필 데이터 받아오기
-  let profile: ProfileType = ExProfile;
+  let profile: ProfileType;
 
-  await Axios.get(`/profile/u/${username}`, { params: { userName: username } })
-    .then((res) => {
-      profile = { user: res.data.user, profile: res.data.profile };
-    })
-    .catch((err) => {
-      console.error(err.message);
-      profile = ExProfile;
+  try {
+    const res = await Axios.get(`/profile/u/${username}`, {
+      params: { userName: username },
     });
 
-  return {
-    profile,
-  };
+    profile = { user: res.data.user, profile: res.data.profile };
+
+    return {
+      profile,
+    };
+  } catch (e) {
+    return {
+      profile: null,
+    };
+  }
 }

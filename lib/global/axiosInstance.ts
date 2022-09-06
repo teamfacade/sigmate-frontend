@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-type RenewResultResultsType = 'Renewing' | 'Success' | 'Fail';
+type RenewResultResultsType = 'Renewing' | 'Success' | 'Fail' | 'SignOutNeeded';
 
 type RenewResultType = {
   result: RenewResultResultsType;
@@ -13,7 +13,7 @@ const Axios = axios.create({
 });
 
 let renewingAccess = false;
-const renewingRefresh = false;
+let renewingRefresh = false;
 
 export const RenewAccessToken: (
   refreshToken: string,
@@ -21,42 +21,44 @@ export const RenewAccessToken: (
 ) => Promise<RenewResultType> = async (refreshToken: string, config: any) => {
   if (renewingAccess) {
     return { result: 'Renewing' as RenewResultResultsType };
-  } 
-    renewingAccess = true;
-    return Axios.post('/auth/token/renew/access', {
-      refreshToken,
+  }
+  renewingAccess = true;
+  return Axios.post('/auth/token/renew/access', {
+    refreshToken,
+  })
+    .then((res) => ({
+      result: 'Success' as RenewResultResultsType,
+      accessToken: res.data.accessToken,
+    }))
+    .catch((err) => {
+      if (err.response.status === 401) return RenewRefreshToken(config);
+      return { result: 'Fail' as RenewResultResultsType };
     })
-      .then((res) => ({
-        result: 'Success' as RenewResultResultsType,
-        accessToken: res.data.accessToken,
-      }))
-      .catch((err) => {
-        if (err.response.status === 401) return RenewRefreshToken(config);
-        return { result: 'Fail' as RenewResultResultsType };
-      })
-      .finally(() => {
-        renewingAccess = false;
-      });
-  
+    .finally(() => {
+      renewingAccess = false;
+    });
 };
 
 const RenewRefreshToken: (config: any) => Promise<RenewResultType> = async (
   config
 ) => {
   if (renewingRefresh) return { result: 'Renewing' as RenewResultResultsType };
-  
-    return Axios.post('/auth/token/renew/refresh', config)
-      .then((res) => ({
-        result: 'Success' as RenewResultResultsType,
-        accessToken: res.data.accessToken,
-        refreshToken: res.data.refreshToken,
-      }))
-      .catch(() => {
-        return {
-          result: 'Failed' as RenewResultResultsType,
-        };
-      });
-  
+
+  renewingRefresh = true;
+  return Axios.post('/auth/token/renew/refresh', config)
+    .then((res) => ({
+      result: 'Success' as RenewResultResultsType,
+      accessToken: res.data.accessToken,
+      refreshToken: res.data.refreshToken,
+    }))
+    .catch(() => {
+      return {
+        result: 'SignOutNeeded' as RenewResultResultsType,
+      };
+    })
+    .finally(() => {
+      renewingRefresh = false;
+    });
 };
 
 export default Axios;

@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { UtilBtns, CommentInput } from 'components/main/forum/article';
 import styles from 'styles/styleLib';
 
-import { screenshotDesktop } from 'public/Icons';
-
 type PropsType = {
   id: number;
   category: string;
@@ -29,15 +27,13 @@ export default memo(function Content({
       <Title>{title}</Title>
       <MainContentWrapper>
         <MainText>
-          <Outer width="350px" height="365px">
-            <Inner>
-              <Image
-                src={imageUrls[0] || screenshotDesktop}
-                alt="Thumbnail"
-                layout="fill"
-              />
-            </Inner>
-          </Outer>
+          {imageUrls[0] && (
+            <Outer width="350px" height="365px">
+              <Inner>
+                <Image src={imageUrls[0]} alt="Thumbnail" layout="fill" />
+              </Inner>
+            </Outer>
+          )}
           {content}
         </MainText>
       </MainContentWrapper>

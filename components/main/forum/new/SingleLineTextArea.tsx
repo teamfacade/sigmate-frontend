@@ -1,4 +1,4 @@
-import { memo, ChangeEventHandler, FocusEventHandler } from 'react';
+import { forwardRef, memo, ChangeEventHandler, FocusEventHandler } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
@@ -9,25 +9,26 @@ type PropsType = {
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
 };
 
-export default memo(function SingleLineTextArea({
-  name,
-  value,
-  onChange,
-  onBlur,
-}: PropsType) {
-  return (
-    <div>
-      <Name>{name}</Name>
-      <TextArea
-        name={name}
-        rows={1}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-      />
-    </div>
-  );
-});
+export default memo(
+  forwardRef<HTMLTextAreaElement, PropsType>(function SingleLineTextArea(
+    { name, value, onChange, onBlur },
+    ref
+  ) {
+    return (
+      <div>
+        <Name>{name}</Name>
+        <TextArea
+          name={name}
+          rows={1}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          ref={ref}
+        />
+      </div>
+    );
+  })
+);
 
 const Name = styled.p`
   margin: 0;

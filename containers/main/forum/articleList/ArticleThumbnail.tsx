@@ -8,7 +8,7 @@ type PropsType = {
   category: string;
   votes: Forum.VoteType;
   author: string;
-  tags: string[];
+  tags: any[];
   timestamp: string;
   title: string;
   content: string;

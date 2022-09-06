@@ -24,6 +24,7 @@ export default function WritePost({
   title: prevTitle,
   content: prevContent,
   tags,
+  articleID,
   error = false,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
@@ -66,8 +67,8 @@ export default function WritePost({
     else {
       dispatch(
         AuthRequiredAxios({
-          method: 'POST',
-          url: '/forum/p',
+          method: articleID ? 'PATCH' : 'POST',
+          url: articleID ? `/forum/p/${articleID}` : '/forum/p',
           data: {
             title,
             content,
@@ -76,15 +77,14 @@ export default function WritePost({
           },
         })
       ).then((action: any) => {
-        console.log(action);
-        if (action.payload.status === 201)
+        if (action.payload.status === (articleID ? 200 : 201))
           router.push(
             `/main/forum/${router.query.category}/${action.payload.data.forumPost.id}`
           );
         else alert('Something went wrong!\r\nPlease try again.');
       });
     }
-  }, [title, content, tag]);
+  }, [title, content, tag, articleID]);
 
   return (
     <Wrapper>
@@ -102,7 +102,9 @@ export default function WritePost({
         onBlur={onBlurTagTextArea}
       />
       <BtnWrapper>
-        <BlueBtn onClick={onClick}>Post</BlueBtn>
+        <BlueBtn onClick={onClick}>
+          {articleID !== undefined ? 'Save' : 'Post'}
+        </BlueBtn>
       </BtnWrapper>
     </Wrapper>
   );

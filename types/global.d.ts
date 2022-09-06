@@ -260,6 +260,7 @@ declare global {
       content: string;
       tags: string[];
       imageUrls: string[];
+      articleID?: number;
       error?: boolean;
     };
 

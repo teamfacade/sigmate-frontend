@@ -69,11 +69,12 @@ export default function Infos() {
             },
           })
         ).then((action: any) => {
-          const { payload } = action;
-
-          if (payload === 200) {
+          if (action.payload.status === 200) {
             dispatch(setUserName(newUserName));
-          } else if (payload === 'ERR_USERNAME_CHANGE_INTERVAL') {
+          } else if (
+            action.payload.data.validationErrors[0].msg ===
+            'ERR_USERNAME_CHANGE_INTERVAL'
+          ) {
             alert('You can change your username per month.');
           }
         });
@@ -96,14 +97,12 @@ export default function Infos() {
             data: profileUpdate,
           })
         ).then((action: any) => {
-          const { payload } = action;
-
-          if (payload === 200) {
+          if (action.payload.status === 200) {
             if (profileUpdate.bio) dispatch(setBio(profileUpdate.bio));
             if (profileUpdate.displayName)
               dispatch(setDisplayName(profileUpdate.displayName));
           } else {
-            alert(payload);
+            alert(action.payload.data.validationErrors[0].msg);
           }
         });
       }
@@ -119,14 +118,12 @@ export default function Infos() {
           },
         })
       ).then((action: any) => {
-        const { payload } = action;
-
-        if (payload === 200) {
+        if (action.payload.status === 200) {
           dispatch(
             setSocialPublic({ twitter: twitterPublic, discord: discordPublic })
           );
         } else {
-          alert(payload);
+          alert(action.payload.data.validationErrors[0].msg);
         }
       });
     }

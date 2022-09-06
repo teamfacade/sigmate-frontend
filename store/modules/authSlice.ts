@@ -23,37 +23,43 @@ export const signOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
 );
 
 export const AuthRequiredAxios = createAsyncThunk<
-  Promise<number>,
+  Promise<any>,
   { method: string; url: string; data?: any },
   { dispatch: AppDispatch; state: ReduxState.RootStateType }
 >('auth/axios', async ({ method, url, data }, ThunkAPI) => {
   const config = useTokenAuth(ThunkAPI.getState().auth.accessToken);
-
+  let response: any = { status: 200 };
   try {
     switch (method) {
       case 'GET':
-        await Axios.get(url, config);
+        response = await Axios.get(url, config);
         break;
       case 'POST':
-        await Axios.post(url, data, config);
+        response = await Axios.post(url, data, config);
         break;
       case 'PATCH':
-        await Axios.patch(url, data, config);
+        response = await Axios.patch(url, data, config);
         break;
       case 'DELETE':
-        await Axios.patch(url, config);
+        response = await Axios.patch(url, config);
         break;
       default:
         break;
     }
-    return 200;
+    return {
+      status: response.status,
+      data: response.data,
+    };
   } catch (e: any) {
     if (e.response.status === 401) {
       RenewAccessToken(ThunkAPI.getState().auth.refreshToken, config)
         .then(async (res) => {
           const { result, accessToken, refreshToken } = res;
 
-          if (result !== 'Success') {
+          if (result === 'SignOutNeeded') {
+            alert('Session was expired. You need to sign in again.');
+            ThunkAPI.dispatch(signOut());
+          } else if (result !== 'Success') {
             alert('Please try again later.');
           } else if (accessToken) {
             if (refreshToken)
@@ -62,7 +68,10 @@ export const AuthRequiredAxios = createAsyncThunk<
               );
             else await ThunkAPI.dispatch(setAccessToken({ accessToken }));
             ThunkAPI.dispatch(AuthRequiredAxios({ method, url, data })).then(
-              (response: any) => response.status
+              (resp: any) => ({
+                status: resp.status,
+                data: resp.data,
+              })
             );
           }
         })
@@ -70,10 +79,16 @@ export const AuthRequiredAxios = createAsyncThunk<
           alert('ERROR while renewing token');
         });
     } else if (e.response.status === 400) {
-      // ERR_USERNAME_CHANGE_INTERVAL
-      return e.response.data.validationErrors[0].msg;
+      // msg like ERR_USERNAME_CHANGE_INTERVAL
+      return {
+        status: e.response.status,
+        data: e.response.data,
+      };
     }
-    return e.response.status;
+    return {
+      status: e.response.status,
+      data: e.response.data,
+    };
   }
 });
 

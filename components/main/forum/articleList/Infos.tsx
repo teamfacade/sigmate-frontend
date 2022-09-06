@@ -6,7 +6,7 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   author: string;
-  tags: string[];
+  tags: any[];
   timestamp: string;
   children?: ReactNode;
 };

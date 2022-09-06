@@ -2,6 +2,7 @@ import {
   useState,
   useRef,
   useCallback,
+  useEffect,
   MouseEventHandler,
   FormEventHandler,
 } from 'react';
@@ -17,6 +18,11 @@ export default function Article({
   forumPost,
   category,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  useEffect(() => {
+    if (forumPost === null)
+      alert('Something went wrong!\r\nPlease reload the page.');
+  }, []);
+
   const [showModal, setShowModal] = useState<Forum.ReportType>({
     type: 'article',
     info: {
@@ -75,12 +81,13 @@ export default function Article({
       alert('Delete the article');
     }, []);
 
+  if (forumPost === null) return <div>: (</div>;
   return (
     <>
       <Wrapper>
         <ArticleContent
           category={category}
-          post={forumPost}
+          post={forumPost as Forum.PostType}
           onClickDelete={onClickDelete}
           onSubmitComment={onSubmitComment}
           onClickReport={onClickReport}
@@ -119,10 +126,7 @@ export default function Article({
 export async function getServerSideProps({
   params,
 }: GetServerSidePropsContext) {
-  const forumPost = getForumArticleData(
-    params?.category as string,
-    params?.id as string
-  );
+  const forumPost = await getForumArticleData(params?.id as string);
   return {
     props: {
       forumPost,

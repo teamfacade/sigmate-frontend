@@ -38,9 +38,7 @@ export default memo(function ArticleContent({
             ''
           }
           tags={post.tags || []}
-          timestamp={
-            post.contentUpdatedAt || new Date(Date.now()).toISOString()
-          }
+          timestamp={post.createdAt || new Date(Date.now()).toISOString()}
         >
           {userName === post.createdBy.userName && (
             <ArticleManageBtns
@@ -73,5 +71,6 @@ const Wrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
+  width: 100%;
   border-left: 1px solid ${styles.colors.dividerColor};
 `;

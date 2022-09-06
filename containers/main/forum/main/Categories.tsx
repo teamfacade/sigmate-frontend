@@ -2,14 +2,8 @@ import { memo } from 'react';
 import styled from 'styled-components';
 import { Category } from 'components/main/forum/main';
 
-type CategoryType = {
-  name: string;
-  description: string;
-  imageURL: string;
-};
-
 type PropsType = {
-  categories: CategoryType[];
+  categories: Forum.CategoryType[];
 };
 
 export default memo(function Categories({ categories }: PropsType) {
@@ -17,7 +11,8 @@ export default memo(function Categories({ categories }: PropsType) {
     <Wrapper>
       {categories.map((category) => (
         <Category
-          key={category.name}
+          key={category.id}
+          id={category.id}
           name={category.name}
           description={category.description}
           imageURL={category.imageURL}

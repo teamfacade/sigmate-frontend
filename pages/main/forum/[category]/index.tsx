@@ -67,7 +67,7 @@ export default function ArticleLists() {
           category={article.categories[0].name}
           votes={article.votes || { voteCount: article.voteCount }}
           author={getAuthorName(article.createdBy)}
-          tags={article.tags || []}
+          tags={article.tags?.map((tag) => tag.name) || []}
           timestamp={article.createdAt as string}
           title={article.title}
           content={article.content}

@@ -39,6 +39,7 @@ export default memo(function ArticleContent({
           }
           tags={post.tags || []}
           timestamp={post.createdAt || new Date(Date.now()).toISOString()}
+          isAuthor={userName === post.createdBy.userName}
         >
           {userName === post.createdBy.userName && (
             <ArticleManageBtns

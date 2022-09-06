@@ -1,5 +1,6 @@
 import {
   ChangeEventHandler,
+  FormEventHandler,
   MouseEventHandler,
   useCallback,
   useRef,
@@ -9,8 +10,11 @@ import styled from 'styled-components';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { NamedInput } from 'components/admin/forum';
 import styles, { BlueBtnStyle } from 'styles/styleLib';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 
 export default function EditSchedule() {
+  const dispatch = useAppDispatch();
   const [imgName, setImgName] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -30,10 +34,34 @@ export default function EditSchedule() {
     []
   );
 
+  const onSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
+    e.preventDefault();
+    const { elements } = e.currentTarget;
+    dispatch(
+      AuthRequiredAxios({
+        method: 'POST',
+        url: '/forum/c',
+        data: {
+          name: (elements.namedItem('name') as HTMLInputElement | null)?.value,
+          description: (
+            elements.namedItem('description') as HTMLInputElement | null
+          )?.value,
+        },
+      })
+    ).then((action: any) => {
+      if (action.payload.status === 201)
+        alert('Created a category successfully.');
+      else
+        alert(
+          `Something went wrong. Show this number to YoungWoo: ${action.payload.status}`
+        );
+    });
+  }, []);
+
   return (
     <BasicWrapper>
       <SectionWrapper header="New category">
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form onSubmit={onSubmit}>
           <Wrapper>
             <NamedInput name="Name" inputElemName="name" type="text" />
             <NamedInput

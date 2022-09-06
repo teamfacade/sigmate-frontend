@@ -237,6 +237,7 @@ declare global {
 
   namespace Forum {
     type CategoryType = {
+      id: number;
       name: string;
       description: string;
       imageURL: string;
@@ -259,6 +260,7 @@ declare global {
       content: string;
       tags: string[];
       imageUrls: string[];
+      error?: boolean;
     };
 
     type AuthorType = {
@@ -280,6 +282,7 @@ declare global {
       replies: Forum.CommentType[];
     };
 
+    // @todo categories, tags type any 해제
     type PostType = {
       id: number;
       title: string;
@@ -287,9 +290,11 @@ declare global {
       createdBy: Forum.AuthorType;
       votes?: Forum.VoteType;
       comments?: Forum.CommentType[];
-      tags?: string[];
+      categories: any[];
+      tags?: any[];
       imageUrls?: string[];
-      contentUpdatedAt?: string;
+      createdAt?: string;
+      voteCount: number;
     };
   }
 

@@ -13,18 +13,30 @@ import { ReadBlock } from 'containers/main/wiki/read';
 import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
 import { ReadKeyInfo, Title, Types } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
+import { useRouter } from 'next/router';
+import { useAppSelector } from '../../../../hooks/reduxStoreHooks';
 
 type PropsType = {
   document: Wiki.DocumentType;
 };
 
 export default function WikiArticle({ document }: PropsType) {
+  const router = useRouter();
+  const { signedIn, userName } = useAppSelector(({ auth }) => auth);
   const [showModal, setShowModal] = useState<Wiki.ModalDataType>({
     documentID: document.id,
     isKeyInfo: false,
     blockID: -1,
   });
   const ModalRef = useRef<HTMLDivElement>(null);
+
+  const onClickEdit: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+    if (signedIn && userName) router.push(`/main/wiki-edit/${document.title}`);
+    else {
+      alert('You have to sign in to edit the document.');
+      router.push('/auth');
+    }
+  }, [signedIn, userName, document]);
 
   const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
     () =>
@@ -54,11 +66,7 @@ export default function WikiArticle({ document }: PropsType) {
           />
         );
       })}
-      <Link href={`/main/wiki-edit/${document.title}`} passHref>
-        <NonDarkenAnchor>
-          <EditBtn>Edit</EditBtn>
-        </NonDarkenAnchor>
-      </Link>
+      <EditBtn onClick={onClickEdit}>Edit</EditBtn>
       <CSSTransition
         in={showModal.blockID !== -1}
         timeout={300}

@@ -46,7 +46,7 @@ export default function AuthComponents() {
     async (e) => {
       switch (e.currentTarget.name) {
         case 'Google':
-          router.push('http://localhost:5100/oauth/google');
+          router.replace('http://localhost:5100/oauth/google');
           break;
         case 'Metamask':
           if (!isSignInProgress && window?.ethereum?.isMetaMask) {

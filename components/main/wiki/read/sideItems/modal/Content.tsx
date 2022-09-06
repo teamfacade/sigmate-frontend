@@ -42,13 +42,13 @@ export default memo(function Content({
   return (
     <Wrapper>
       <InfoWrapper>
-        {PFPUrl !== undefined ? (
+        {header === 'Debate' ? (
           <PFP PFPUrl={PFPUrl} />
         ) : (
           <Platform platform={platform} />
         )}
         <InfoInnerWrapper>
-          {header === 'debate' ? (
+          {header === 'Debate' ? (
             <Link href={`/main/profile/${author}`} passHref>
               <Author>{author}</Author>
             </Link>

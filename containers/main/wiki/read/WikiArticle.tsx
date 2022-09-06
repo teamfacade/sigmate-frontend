@@ -55,9 +55,9 @@ export default function WikiArticle({ document }: PropsType) {
         );
       })}
       <Link href={`/main/wiki-edit/${document.title}`} passHref>
-        <a>
+        <NonDarkenAnchor>
           <EditBtn>Edit</EditBtn>
-        </a>
+        </NonDarkenAnchor>
       </Link>
       <CSSTransition
         in={showModal.blockID !== -1}
@@ -97,3 +97,10 @@ const EditBtn = memo(styled.button`
   font-family: 'Inter', sans-serif;
   cursor: pointer;
 `);
+
+const NonDarkenAnchor = styled.a`
+  :hover,
+  :active {
+    filter: none !important;
+  }
+`;

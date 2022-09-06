@@ -7,6 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
+import { getPointLogs } from 'lib/user/point';
 import PointsLog from 'containers/user/points/PointsLog';
 import TokensLog from 'containers/user/points/TokensLog';
 import {
@@ -50,16 +51,11 @@ const ExLogs = [
 ];
 
 export default function Logs() {
-  const [selected, setSelected] = useState('Point');
-  const [logs, setLogs] = useState<LogType[]>([]);
-  const [curPage, setCurPage] = useState(1);
+  const { data: initLogs } = getPointLogs();
 
-  useEffect(
-    () =>
-      // @todo 초기 데이터 긁어오기
-      setLogs(ExLogs),
-    []
-  );
+  const [selected, setSelected] = useState('Point');
+  const [logs, setLogs] = useState<LogType[]>(initLogs);
+  const [curPage, setCurPage] = useState(1);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     setSelected(e.currentTarget.name);

@@ -167,6 +167,8 @@ declare global {
       mintingPrice?: string;
       mintingPriceSymbol?: string; // ETH/KLAYTN/SOL/Matic
     };
+
+    type SchedulesType = StringKeyObj<Minting.ScheduleType[]>;
   }
 
   namespace Wiki {

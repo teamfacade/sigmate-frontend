@@ -10,7 +10,6 @@ export default function WikiPage({
   title,
   document,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(document);
   if (document === null) return <NoArticleYet title={title} />;
   return <WikiArticle document={document} />;
 }

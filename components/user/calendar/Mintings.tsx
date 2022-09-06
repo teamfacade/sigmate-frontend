@@ -4,7 +4,7 @@ import styles from 'styles/styleLib';
 import { MintingItem } from '.';
 
 type PropsType = {
-  mintings: MintingType[];
+  mintings: Minting.ScheduleType[];
   onClickMintItem: MouseEventHandler<HTMLDivElement>;
 };
 
@@ -18,8 +18,8 @@ export default function Mintings({ mintings, onClickMintItem }: PropsType) {
             <MintingItem
               key={minting.name}
               name={minting.name}
-              publisher={minting.publisher}
-              thumbnailURL={minting.thumbnailURL}
+              category={minting.category}
+              thumbnailURL={minting.collectionInfo.imageUrl || ''}
               onClick={onClickMintItem}
             />
           );
@@ -35,8 +35,11 @@ export default function Mintings({ mintings, onClickMintItem }: PropsType) {
 }
 
 const Grid = styled.div`
+  position: relative;
+  left: 6px;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 183px auto;
   row-gap: 12px;
   height: 580px;
   overflow-y: auto;

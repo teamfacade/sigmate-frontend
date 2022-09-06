@@ -41,7 +41,7 @@ export const AuthRequiredAxios = createAsyncThunk<
         response = await Axios.patch(url, data, config);
         break;
       case 'DELETE':
-        response = await Axios.patch(url, config);
+        response = await Axios.delete(url, config);
         break;
       default:
         break;

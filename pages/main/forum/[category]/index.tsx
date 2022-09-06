@@ -64,7 +64,7 @@ export default function ArticleLists() {
         <ArticleThumbnail
           key={article.id}
           id={article.id}
-          category={article.categories[0].name}
+          category={router.query.category as string}
           votes={article.votes || { voteCount: article.voteCount }}
           author={getAuthorName(article.createdBy)}
           tags={article.tags?.map((tag) => tag.name) || []}

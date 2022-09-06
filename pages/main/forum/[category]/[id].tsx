@@ -7,9 +7,12 @@ import {
   FormEventHandler,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { getForumArticleData } from 'lib/main/forum/getForumDatas';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { ArticleContent, Comments } from 'containers/main/forum/article';
 import { Modal } from 'components/global';
 import styles from 'styles/styleLib';
@@ -18,11 +21,8 @@ export default function Article({
   forumPost,
   category,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  useEffect(() => {
-    if (forumPost === null)
-      alert('Something went wrong!\r\nPlease reload the page.');
-  }, []);
-
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [showModal, setShowModal] = useState<Forum.ReportType>({
     type: 'article',
     info: {
@@ -31,6 +31,11 @@ export default function Article({
     },
   });
   const ModalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (forumPost === null)
+      alert('Something went wrong!\r\nPlease reload the page.');
+  }, []);
 
   const onSubmitComment: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
@@ -78,8 +83,21 @@ export default function Article({
 
   const onClickDelete: MouseEventHandler<HTMLButtonElement> =
     useCallback(() => {
-      alert('Delete the article');
-    }, []);
+      dispatch(
+        AuthRequiredAxios({
+          method: 'DELETE',
+          url: `/forum/p/${forumPost?.id}`,
+        })
+      ).then((action: any) => {
+        if (action.payload.status === 204) {
+          alert('Deleted Successfully');
+          router.push(`/main/forum/${router.query.category}`);
+        } else
+          alert(
+            `Something went wrong!\r\nPlease try again.\r\nErr code: ${action.payload.status}`
+          );
+      });
+    }, [forumPost, category]);
 
   if (forumPost === null) return <div>: (</div>;
   return (

@@ -83,6 +83,6 @@ export default function ForumMain() {
 }
 
 const Wrapper = styled.div`
-  max-width: 1060px;
+  max-width: 1080px;
   margin: auto;
 `;

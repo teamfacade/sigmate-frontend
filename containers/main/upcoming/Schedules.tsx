@@ -12,7 +12,7 @@ export default memo(function Schedules({
   onClickSchedule,
 }: PropsType) {
   return (
-    <Wrapper>
+    <GriddyWrapper>
       {schedules.map((schedule) => (
         <Schedule
           key={schedule.id}
@@ -31,14 +31,16 @@ export default memo(function Schedules({
           onClickSchedule={onClickSchedule}
         />
       ))}
-    </Wrapper>
+    </GriddyWrapper>
   );
 });
 
-const Wrapper = styled.div`
-  display: grid;
-  gap: 18px;
-  // grid-template-columns: 1fr 1fr 1fr;
-  grid-template-columns: repeat(auto-fill, 340px);
-  grid-auto-rows: 370px;
+const GriddyWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  > div {
+    margin: 20px 10px 0 10px;
+  }
 `;

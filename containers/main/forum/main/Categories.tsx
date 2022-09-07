@@ -8,7 +8,7 @@ type PropsType = {
 
 export default memo(function Categories({ categories }: PropsType) {
   return (
-    <Wrapper>
+    <GriddyWrapper>
       {categories.map((category) => (
         <Category
           key={category.id}
@@ -18,14 +18,16 @@ export default memo(function Categories({ categories }: PropsType) {
           imageURL={category.imageURL}
         />
       ))}
-    </Wrapper>
+    </GriddyWrapper>
   );
 });
 
-const Wrapper = styled.div`
-  display: grid;
-  gap: 18px;
-  /* grid-template-columns: repeat(auto-fill, minmax(340px, auto)); */
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-auto-rows: 234px;
+const GriddyWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  > a {
+    margin: 20px 10px 0 10px;
+  }
 `;

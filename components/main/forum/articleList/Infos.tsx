@@ -29,8 +29,8 @@ export default memo(function Infos({
           <Text key={tag}>{`#${tag}`}</Text>
         ))}
         {tags.length > 5 && <Text>...</Text>}
-        <Text>{convertDate(new Date(timestamp), 'MonthDDYYYY', '. ')}</Text>
       </TextWrapper>
+      <Text>{convertDate(new Date(timestamp), 'MonthDDYYYY', '. ')}</Text>
       {children}
     </Wrapper>
   );
@@ -57,7 +57,8 @@ const Author = styled.a`
 `;
 
 const TextWrapper = styled.div<{ isAuthor: boolean }>`
-  width: calc(100% - 320px);
+  width: calc(100% - 440px);
+  margin-right: 16px;
   overflow: auto;
 
   p {

@@ -71,6 +71,7 @@ export default memo(function UtilBtns({ onClickReport }: PropsType) {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 
   a {
     margin-right: 10px;
@@ -79,6 +80,7 @@ const Wrapper = styled.div`
 
 const Btn = styled.button`
   padding: 5px 20px;
+  margin-top: 10px;
   border-radius: 8px;
   border: 1px solid ${styles.colors.lightGrayBorderColor};
   background-color: transparent;

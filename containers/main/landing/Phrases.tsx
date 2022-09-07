@@ -23,6 +23,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding-right: 80px;
+
+  @media (max-width: 728px) {
+    svg {
+      display: none;
+    }
+  }
 `;
 
 const Logo = styled.p`

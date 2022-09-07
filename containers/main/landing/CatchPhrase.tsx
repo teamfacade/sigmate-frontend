@@ -17,6 +17,11 @@ export default function CatchPhrase() {
 
 const LayoutWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 50px 60px;
+  flex-wrap: wrap;
+
+  @media (min-width: 728px) {
+    padding: 50px 60px;
+  }
 `;

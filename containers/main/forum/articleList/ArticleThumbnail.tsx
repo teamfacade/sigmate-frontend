@@ -6,7 +6,7 @@ import styles from 'styles/styleLib';
 type PropsType = {
   id: number;
   category: string;
-  votes: Forum.VoteType;
+  votes?: Forum.VoteType;
   author: string;
   tags: any[];
   timestamp: string;
@@ -29,8 +29,7 @@ export default memo(function ArticleThumbnail({
   return (
     <Wrapper>
       <Recommend
-        voteCount={votes.voteCount}
-        like={votes.like}
+        voteCount={votes?.voteCount || 0}
         id={id}
         category={category}
       />

@@ -289,6 +289,7 @@ declare global {
       content: string;
       createdBy: Forum.AuthorType;
       votes?: Forum.VoteType;
+      voteCount?: number;
       comments?: Forum.CommentType[];
       tags?: any[];
       imageUrls?: string[];

@@ -7,6 +7,7 @@ import { ArticleThumbnail } from 'containers/main/forum/articleList';
 import { PostBtn } from 'components/main/forum/articleList';
 import useSWR, { Fetcher } from 'swr';
 import Axios from 'lib/global/axiosInstance';
+import { useAppSelector } from 'hooks/reduxStoreHooks';
 
 const total = 42;
 const limit = 10;
@@ -15,13 +16,24 @@ const fetcher: Fetcher<Forum.PostType[], string> = (url: string) =>
   Axios.get(url).then((res) => res.data.forumPosts);
 
 export default function ArticleLists() {
-  const [curPage, setCurPage] = useState(1);
   const router = useRouter();
+  const [curPage, setCurPage] = useState(1);
+  const { userName } = useAppSelector(({ account }) => account);
 
   const { data: articles } = useSWR(
-    `/forum/c/${router.query.category}/p?limit=${limit}&page=${curPage}`,
-    fetcher
+    router.query.category
+      ? `/forum/c/${router.query.category}/p?limit=${limit}&page=${curPage}`
+      : null,
+    router.query.category ? fetcher : null
   );
+  const onClickNew: MouseEventHandler<HTMLButtonElement> =
+    useCallback(async () => {
+      if (!userName) {
+        await router.push('/auth');
+        return;
+      }
+      await router.push(`/main/forum/${router.query.category}/new-post`);
+    }, [userName]);
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -57,7 +69,7 @@ export default function ArticleLists() {
       <UtilWrapper>
         <Search white placeholder="Search..." />
         {router.query.category !== 'Best' && (
-          <PostBtn category={router.query.category as string} />
+          <PostBtn onClickNew={onClickNew} />
         )}
       </UtilWrapper>
       {articles?.map((article) => (
@@ -65,7 +77,7 @@ export default function ArticleLists() {
           key={article.id}
           id={article.id}
           category={router.query.category as string}
-          votes={article.votes || { voteCount: article.voteCount }}
+          votes={{ voteCount: article.voteCount || 0 }}
           author={getAuthorName(article.createdBy)}
           tags={article.tags?.map((tag) => tag.name) || []}
           timestamp={article.createdAt as string}

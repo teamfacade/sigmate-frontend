@@ -1,20 +1,13 @@
-import { memo } from 'react';
-import Link from 'next/link';
+import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { BlueBtnStyle } from 'styles/styleLib';
 
 type PropsType = {
-  category: string;
+  onClickNew: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default memo(function PostBtn({ category }: PropsType) {
-  return (
-    <Link href={`/main/forum/${category}/new-post`} passHref>
-      <a>
-        <BlueBtn>Post new</BlueBtn>
-      </a>
-    </Link>
-  );
+export default memo(function PostBtn({ onClickNew }: PropsType) {
+  return <BlueBtn onClick={onClickNew}>Post new</BlueBtn>;
 });
 
 const BlueBtn = styled.button`

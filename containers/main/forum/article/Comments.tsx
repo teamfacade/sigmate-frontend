@@ -1,4 +1,4 @@
-import { memo, FormEventHandler, MouseEventHandler } from 'react';
+import { memo, FormEventHandler, MouseEventHandler, ReactNode } from 'react';
 import styled from 'styled-components';
 import { Comment } from 'components/main/forum/article';
 import styles from 'styles/styleLib';
@@ -9,6 +9,7 @@ type PropsType = {
   comments: Forum.CommentType[];
   onSubmitComment: FormEventHandler<HTMLFormElement>;
   onClickReport: MouseEventHandler<HTMLButtonElement>;
+  children?: ReactNode;
 };
 
 export default memo(function Comments({
@@ -17,6 +18,7 @@ export default memo(function Comments({
   comments,
   onSubmitComment,
   onClickReport,
+  children,
 }: PropsType) {
   return (
     <Wrapper>
@@ -26,8 +28,7 @@ export default memo(function Comments({
           category={category}
           articleID={articleID}
           commentID={comment.id}
-          voteCount={comment.votes.voteCount}
-          like={comment.votes.like}
+          voteCount={comment.voteCount}
           PFPUrl={comment.createdBy.primaryProfile.profileImageUrl || ''}
           author={
             comment.createdBy.primaryProfile.displayName ||
@@ -35,12 +36,13 @@ export default memo(function Comments({
             ''
           }
           text={comment.content}
-          replies={comment.replies}
+          replies={comment.replies || []}
           isReply={false}
           onSubmitComment={onSubmitComment}
           onClickReport={onClickReport}
         />
       ))}
+      {children}
     </Wrapper>
   );
 });

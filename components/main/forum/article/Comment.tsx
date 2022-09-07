@@ -20,7 +20,6 @@ type PropsType = {
   commentID: number;
   replyID?: number;
   voteCount: number;
-  like?: boolean;
   PFPUrl: string;
   author: string;
   text: string;
@@ -36,7 +35,6 @@ export default memo(function Comment({
   commentID,
   replyID,
   voteCount,
-  like,
   PFPUrl,
   author,
   text,
@@ -74,7 +72,7 @@ export default memo(function Comment({
             replyID={replyID}
             category={category}
             voteCount={voteCount}
-            like={like}
+            like={null}
             length={replies.length}
             onClick={onClick}
             isReply={isReply}

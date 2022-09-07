@@ -5,7 +5,7 @@ import { CommentDownVote, CommentUpVote } from 'public/Icons/main/forum';
 
 type PropsType = {
   voteCount: number;
-  like?: boolean;
+  like: boolean | null;
   category: string;
   articleID: number;
   commentID: number;
@@ -31,7 +31,7 @@ export default memo(function CommentBtns({
   onClickReport,
 }: PropsType) {
   const [curVoteCount, setCurVoteCount] = useState<number>(voteCount);
-  const [userLikes, setUserLikes] = useState<boolean | undefined>(like);
+  const [userLikes, setUserLikes] = useState<boolean | null>(like);
 
   const btnName = useMemo(() => {
     if (replyID) return 'reply';
@@ -46,7 +46,7 @@ export default memo(function CommentBtns({
       if (name === 'Up') {
         if (!userLikes) {
           setCurVoteCount((cur) => {
-            return cur + (userLikes === undefined ? 1 : 2);
+            return cur + (userLikes === null ? 1 : 2);
           });
           setUserLikes(true);
           alert(
@@ -56,7 +56,7 @@ export default memo(function CommentBtns({
           );
         } else {
           setCurVoteCount((cur) => cur - 1);
-          setUserLikes(undefined);
+          setUserLikes(null);
           alert(
             `Cancel like for ${category}'s article ${articleID}'s comment ${commentID}${
               isReply ? `'s reply ${replyID}` : ''
@@ -64,9 +64,9 @@ export default memo(function CommentBtns({
           );
         }
       } else if (name === 'Down') {
-        if (userLikes || userLikes === undefined) {
+        if (userLikes || userLikes === null) {
           setCurVoteCount((cur) => {
-            return cur - (userLikes === undefined ? 1 : 2);
+            return cur - (userLikes === null ? 1 : 2);
           });
           setUserLikes(false);
           alert(
@@ -76,7 +76,7 @@ export default memo(function CommentBtns({
           );
         } else {
           setCurVoteCount((cur) => cur + 1);
-          setUserLikes(undefined);
+          setUserLikes(null);
           alert(
             `Cancel dislike for ${category}'s article ${articleID}'s comment ${commentID}${
               isReply ? `'s reply ${replyID}` : ''
@@ -162,7 +162,7 @@ const VoteBtn = styled.div`
   }
 `;
 
-const Btn = styled.button<{ name: string; userLikes: boolean | undefined }>`
+const Btn = styled.button<{ name: string; userLikes: boolean | null }>`
   position: relative;
   top: 1px;
   padding: 0;

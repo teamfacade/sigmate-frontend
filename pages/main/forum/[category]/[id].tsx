@@ -2,20 +2,33 @@ import {
   useState,
   useRef,
   useCallback,
-  useEffect,
   MouseEventHandler,
   FormEventHandler,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
+import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
+import Axios from 'lib/global/axiosInstance';
 import { getForumArticleData } from 'lib/main/forum/getForumDatas';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
-import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { ArticleContent, Comments } from 'containers/main/forum/article';
-import { Modal } from 'components/global';
+import { Modal, PageMoveBtns } from 'components/global';
 import styles from 'styles/styleLib';
+
+const limit = 10;
+
+const fetcher: Fetcher<Forum.CommentType[], string> = (url: string) =>
+  Axios.get(url).then((res) => {
+    console.log(res);
+    if (res.status === 200) return res.data.forumPost.comments.reverse();
+    
+      alert(`Error while fetching comments: ERR ${res.status}`);
+      return [];
+    
+  });
 
 export default function Article({
   forumPost,
@@ -23,6 +36,7 @@ export default function Article({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [curPage, setCurPage] = useState(1);
   const [showModal, setShowModal] = useState<Forum.ReportType>({
     type: 'article',
     info: {
@@ -31,6 +45,13 @@ export default function Article({
     },
   });
   const ModalRef = useRef<HTMLDivElement>(null);
+
+  const { data: comments } = useSWR(
+    forumPost
+      ? `/forum/p/${forumPost?.id}/cm?limit=${limit}&page=${curPage}`
+      : null,
+    forumPost ? fetcher : null
+  );
 
   const onSubmitComment: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
@@ -44,7 +65,24 @@ export default function Article({
           `Add comment to article ${articleId}'s comment ${commentId}: ${value}`
         );
       } else {
-        alert(`Add comment to article ${articleId}: ${value}`);
+        console.log(value);
+        dispatch(
+          AuthRequiredAxios({
+            method: 'POST',
+            url: `/forum/p/${articleId}/cm`,
+            data: { content: value },
+          })
+        ).then(async (action: any) => {
+          console.log(action);
+          if (action.payload.status !== 201) {
+            alert(
+              `Error while posting new comment. ERR: ${action.payload.status}`
+            );
+          } else {
+            await router.reload();
+            
+          }
+        });
       }
     },
     []
@@ -89,12 +127,43 @@ export default function Article({
           router.push(`/main/forum/${router.query.category}`);
         } else
           alert(
-            `Something went wrong!\r\nPlease try again.\r\nErr code: ${action.payload.status}`
+            `Error while deleting the post.\r\nErr code: ${action.payload.status}`
           );
       });
     }, [forumPost, category]);
 
-  if (forumPost === null) return <div>: (</div>;
+  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      setCurPage(parseInt(e.currentTarget.value, 10));
+    },
+    []
+  );
+
+  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      switch (e.currentTarget.name) {
+        case 'ToFirst':
+          setCurPage(1);
+          break;
+        case 'Prev':
+          setCurPage((cur) => cur - 1);
+          break;
+        case 'Next':
+          setCurPage((cur) => cur + 1);
+          break;
+        case 'ToLast':
+          setCurPage(
+            Math.floor(Number.parseInt((total / 15).toFixed(), 10)) + 1
+          );
+          break;
+        default:
+          break;
+      }
+    },
+    []
+  );
+
+  if (forumPost === null) return <div>There's no article : (</div>;
   return (
     <>
       <Wrapper>
@@ -110,10 +179,19 @@ export default function Article({
         <Comments
           category={category}
           articleID={forumPost.id}
-          comments={forumPost.comments || []}
+          comments={comments || []}
           onClickReport={onClickReport}
           onSubmitComment={onSubmitComment}
-        />
+        >
+          {comments && (
+            <PageMoveBtns
+              totalPage={comments.length / 10}
+              curPage={curPage}
+              onClickPageMoveBtn={onClickPageMoveBtn}
+              onClickPageNumBtn={onClickPageNumBtn}
+            />
+          )}
+        </Comments>
       </Wrapper>
       <CSSTransition
         in={showModal.info.articleID >= 0}

@@ -278,8 +278,8 @@ declare global {
       id: number;
       content: string;
       createdBy: Forum.AuthorType;
-      votes: Forum.VoteType;
-      replies: Forum.CommentType[];
+      voteCount: number;
+      replies: Forum.CommentType[] | null;
     };
 
     // @todo categories, tags type any 해제

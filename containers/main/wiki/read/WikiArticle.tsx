@@ -1,20 +1,12 @@
-import {
-  useState,
-  useCallback,
-  useMemo,
-  useRef,
-  MouseEventHandler,
-  memo,
-} from 'react';
-import Link from 'next/link';
+import { useState, useCallback, useRef, MouseEventHandler, memo } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
+import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { ReadBlock } from 'containers/main/wiki/read';
 import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
 import { ReadKeyInfo, Title, Types } from 'components/main/wiki/read';
 import styles from 'styles/styleLib';
-import { useRouter } from 'next/router';
-import { useAppSelector } from '../../../../hooks/reduxStoreHooks';
 
 type PropsType = {
   document: Wiki.DocumentType;
@@ -22,7 +14,8 @@ type PropsType = {
 
 export default function WikiArticle({ document }: PropsType) {
   const router = useRouter();
-  const { signedIn, userName } = useAppSelector(({ auth }) => auth);
+  const { signedIn } = useAppSelector(({ auth }) => auth);
+  const { userName } = useAppSelector(({ account }) => account);
   const [showModal, setShowModal] = useState<Wiki.ModalDataType>({
     documentID: document.id,
     isKeyInfo: false,

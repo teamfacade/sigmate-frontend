@@ -155,6 +155,7 @@ const Table = styled.div`
   grid-template-rows: 40px 215px repeat(11, 30px);
   grid-template-columns: 115px 190px 195px;
   width: fit-content;
+  margin-bottom: 24px;
   border: 1px solid ${styles.colors.hrColor};
   border-bottom: none;
 `;

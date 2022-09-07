@@ -1,5 +1,4 @@
 import { useCallback, MouseEventHandler } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
@@ -11,7 +10,8 @@ type PropsType = {
 
 export default function NoArticleYet({ title }: PropsType) {
   const router = useRouter();
-  const { signedIn, userName } = useAppSelector(({ auth }) => auth);
+  const { signedIn } = useAppSelector(({ auth }) => auth);
+  const { userName } = useAppSelector(({ account }) => account);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
     if (signedIn && userName) router.push('/main/wiki-new-article');
@@ -50,8 +50,17 @@ const FlexWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  @media (max-width: 728px) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    button {
+      margin-top: 20px !important;
+    }
+  }
+
   p {
-    margin: 0 290px 0 0;
+    margin: 0;
     color: ${styles.colors.logColor};
     font-size: 18px;
   }

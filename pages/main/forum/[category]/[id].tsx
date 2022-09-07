@@ -22,7 +22,6 @@ const limit = 10;
 
 const fetcher: Fetcher<Forum.CommentType[], string> = (url: string) =>
   Axios.get(url).then((res) => {
-    console.log(res);
     if (res.status === 200) return res.data.forumPost.comments.reverse();
 
     alert(`Error while fetching comments: ERR ${res.status}`);
@@ -64,7 +63,6 @@ export default function Article({
           `Add comment to article ${articleId}'s comment ${commentId}: ${value}`
         );
       } else {
-        console.log(value);
         dispatch(
           AuthRequiredAxios({
             method: 'POST',
@@ -72,7 +70,6 @@ export default function Article({
             data: { content: value },
           })
         ).then(async (action: any) => {
-          console.log(action);
           if (action.payload.status !== 201) {
             alert(
               `Error while posting new comment. ERR: ${action.payload.status}`

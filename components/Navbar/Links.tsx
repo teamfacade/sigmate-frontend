@@ -32,6 +32,21 @@ const LinksWrapper = styled.ul`
   height: 100%;
   padding: 0;
 
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 250px;
+    height: calc(100vh - 90px);
+
+    li {
+      margin: 0 !important;
+
+      :not(:first-child) {
+        margin-top: 8px !important;
+      }
+    }
+  }
+
   li {
     list-style-type: none;
 

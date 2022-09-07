@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { getForumArticleData } from 'lib/main/forum/getForumDatas';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
-import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
 import { ArticleContent, Comments } from 'containers/main/forum/article';
 import { Modal } from 'components/global';
 import styles from 'styles/styleLib';
@@ -31,11 +31,6 @@ export default function Article({
     },
   });
   const ModalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (forumPost === null)
-      alert('Something went wrong!\r\nPlease reload the page.');
-  }, []);
 
   const onSubmitComment: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {

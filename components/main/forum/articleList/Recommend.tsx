@@ -1,5 +1,14 @@
-import { memo, useState, useCallback, MouseEventHandler } from 'react';
+import {
+  memo,
+  useState,
+  useCallback,
+  MouseEventHandler,
+  useEffect,
+} from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { UpVote, DownVote } from 'public/Icons/main/forum';
 import styles from 'styles/styleLib';
 
@@ -7,49 +16,114 @@ type PropsType = {
   id: number;
   category: string;
   voteCount: number;
-  like?: boolean;
 };
 
-export default memo(function Recommend({
-  id,
-  category,
-  voteCount,
-  like,
-}: PropsType) {
+export default memo(function Recommend({ id, category, voteCount }: PropsType) {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { userName } = useAppSelector(({ account }) => account);
   const [curVoteCount, setCurVoteCount] = useState<number>(voteCount);
-  const [userLikes, setUserLikes] = useState<boolean | undefined>(like);
+  const [userLikes, setUserLikes] = useState<boolean | null>(null);
+
+  const getMyVote = useCallback(async () => {
+    if (userName) {
+      try {
+        const { payload } = await dispatch(
+          AuthRequiredAxios({ method: 'GET', url: `/forum/p/${id}/vote` })
+        );
+        if (payload.status === 200) {
+          setUserLikes(
+            payload.data.myVote === null ? null : payload.data.myVote.like
+          );
+        }
+      } catch (e) {
+        alert('Error while loading your vote.\r\nPlease reload the page.');
+      }
+    }
+  }, [id, userName]);
+
+  useEffect(() => {
+    getMyVote();
+  }, [getMyVote]);
 
   const onVote: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
+    async (e) => {
       const { name } = e.currentTarget;
+
+      if (!userName) {
+        await router.push('/auth');
+        return;
+      }
 
       if (name === 'Up') {
         if (!userLikes) {
-          setCurVoteCount((cur) => {
-            return cur + (userLikes === undefined ? 1 : 2);
+          dispatch(
+            AuthRequiredAxios({
+              method: 'POST',
+              url: `/forum/p/${id}/vote`,
+              data: { like: true },
+            })
+          ).then((action: any) => {
+            console.log(action);
+            if (action.payload.status !== 200) {
+              alert(`Error while voting. ERR: ${action.payload.status}`);
+            } else {
+              setCurVoteCount((cur) => {
+                return cur + (userLikes === null ? 1 : 2);
+              });
+              setUserLikes(true);
+            }
           });
-          setUserLikes(true);
-          alert(`Vote as like for ${category}'s article ${id}`);
         } else {
-          setCurVoteCount((cur) => cur - 1);
-          setUserLikes(undefined);
-          alert(`Cancel like for ${category}'s article ${id}`);
+          dispatch(
+            AuthRequiredAxios({ method: 'DELETE', url: `/forum/p/${id}/vote` })
+          ).then((action: any) => {
+            console.log(action);
+            if (action.payload.status !== 200) {
+              alert(
+                `Error while deleting your up vote. ERR: ${action.payload.status}`
+              );
+            } else {
+              setCurVoteCount((cur) => cur - 1);
+              setUserLikes(null);
+            }
+          });
         }
       } else if (name === 'Down') {
-        if (userLikes || userLikes === undefined) {
-          setCurVoteCount((cur) => {
-            return cur - (userLikes === undefined ? 1 : 2);
+        if (userLikes || userLikes === null) {
+          dispatch(
+            AuthRequiredAxios({
+              method: 'POST',
+              url: `/forum/p/${id}/vote`,
+              data: { like: false },
+            })
+          ).then((action: any) => {
+            if (action.payload.status !== 200) {
+              alert(`Error while voting down. ERR: ${action.payload.status}`);
+            } else {
+              setCurVoteCount((cur) => {
+                return cur - (userLikes === null ? 1 : 2);
+              });
+              setUserLikes(false);
+            }
           });
-          setUserLikes(false);
-          alert(`Vote as dislike for ${category}'s article ${id}`);
         } else {
-          setCurVoteCount((cur) => cur + 1);
-          setUserLikes(undefined);
-          alert(`Cancel dislike for ${category}'s article ${id}`);
+          dispatch(
+            AuthRequiredAxios({ method: 'DELETE', url: `/forum/p/${id}/vote` })
+          ).then((action: any) => {
+            if (action.payload.status !== 200) {
+              alert(
+                `Error while deleting your down vote. ERR: ${action.payload.status}`
+              );
+            } else {
+              setCurVoteCount((cur) => cur + 1);
+              setUserLikes(null);
+            }
+          });
         }
       }
     },
-    [userLikes, category, id]
+    [userLikes, category, id, userName]
   );
   return (
     <Wrapper>
@@ -74,7 +148,7 @@ const Wrapper = styled.div`
   padding-top: 15px;
 `;
 
-const Btn = styled.button<{ name: string; userLikes: boolean | undefined }>`
+const Btn = styled.button<{ name: string; userLikes: boolean | null }>`
   border: none;
   background-color: transparent;
 

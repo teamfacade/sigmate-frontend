@@ -28,7 +28,6 @@ export default memo(function ArticleContent({
         id={post.id}
         category={category}
         voteCount={post.votes?.voteCount || 0}
-        like={post.votes?.like}
       />
       <ContentWrapper>
         <Infos

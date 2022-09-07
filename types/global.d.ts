@@ -271,7 +271,6 @@ declare global {
     };
 
     type VoteType = {
-      like?: boolean;
       voteCount: number;
     };
 
@@ -291,11 +290,9 @@ declare global {
       createdBy: Forum.AuthorType;
       votes?: Forum.VoteType;
       comments?: Forum.CommentType[];
-      categories: any[];
       tags?: any[];
       imageUrls?: string[];
       createdAt?: string;
-      voteCount: number;
     };
   }
 

@@ -1,7 +1,6 @@
 import { memo, MouseEventHandler, useCallback, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { darken } from 'polished';
 import styles from 'styles/styleLib';
 import {
   EllipsisText,
@@ -65,8 +64,11 @@ export default memo(function Content({
           showHide={maxWord < content.length}
         />
       ) : (
-        <EllipsisText height="42px" maxWord={maxWord} content={content}>
-          <UnfoldBtn onClick={onClick}>See more</UnfoldBtn>
+        <EllipsisText height="42px" content={content}>
+          <UnfoldBtn onClick={onClick}>
+            {' ... '}
+            <strong>See more</strong>
+          </UnfoldBtn>
         </EllipsisText>
       )}
     </Wrapper>
@@ -109,6 +111,11 @@ const Author = styled.a`
 
 const NoLinkAuthor = styled(Author)`
   cursor: initial;
+
+  :hover,
+  :active {
+    filter: none;
+  }
 `;
 
 const UnfoldBtn = styled.button`
@@ -118,15 +125,26 @@ const UnfoldBtn = styled.button`
   padding: 0;
   margin: 0;
   border: none;
-  background: none;
-  color: ${styles.colors.emphColor};
+  background: #ffffff;
+  color: ${styles.colors.logColor};
   font-size: 14px;
   font-weight: 300;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
+  white-space: pre;
 
   :hover,
   :active {
-    color: ${darken(0.3, styles.colors.emphColor)};
+    filter: none;
+  }
+
+  strong {
+    font-weight: inherit;
+    color: ${styles.colors.emphColor};
+
+    :hover,
+    :active {
+      filter: brightness(0.7);
+    }
   }
 `;

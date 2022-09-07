@@ -36,10 +36,6 @@ p, span {
   font-family: 'Inter', sans-serif;
 }
 
-aside {
-  max-width: 252px;
-}
-
 button:hover, button:active {
   filter: brightness(0.7);
   cursor: pointer;

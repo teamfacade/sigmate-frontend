@@ -11,7 +11,7 @@ export default memo(function Paragraph({ content }: PropsType) {
 });
 
 const P = styled.p`
-  margin: 0 0 32px 0;
+  margin: 0;
   color: ${styles.colors.logColor};
   font-size: 14px;
   line-height: 160%;

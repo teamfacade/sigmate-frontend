@@ -88,7 +88,6 @@ export default function WikiArticle({ document }: PropsType) {
 
 const Wrapper = memo(styled.div`
   position: relative;
-  padding-left: 80px;
 `);
 
 const EditBtn = memo(styled.button`

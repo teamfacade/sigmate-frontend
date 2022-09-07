@@ -63,7 +63,7 @@ const Wrapper = styled.div`
 
 const TextWrapper = styled.div`
   flex: 0 0 auto;
-  margin: 0 2px 0 15px;
+  margin: 0 30px 0 30px;
 `;
 
 const Name = styled.p`

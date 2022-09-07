@@ -27,8 +27,7 @@ export default function ArticleManageBtns({
 }
 
 const ArticleManageBtnWrapper = styled.div`
-  position: absolute;
-  right: 20px;
+  margin-left: 4px;
   background: #ffffff;
 
   button {

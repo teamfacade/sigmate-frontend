@@ -24,10 +24,9 @@ const fetcher: Fetcher<Forum.CommentType[], string> = (url: string) =>
   Axios.get(url).then((res) => {
     console.log(res);
     if (res.status === 200) return res.data.forumPost.comments.reverse();
-    
-      alert(`Error while fetching comments: ERR ${res.status}`);
-      return [];
-    
+
+    alert(`Error while fetching comments: ERR ${res.status}`);
+    return [];
   });
 
 export default function Article({
@@ -80,7 +79,6 @@ export default function Article({
             );
           } else {
             await router.reload();
-            
           }
         });
       }
@@ -153,14 +151,16 @@ export default function Article({
           break;
         case 'ToLast':
           setCurPage(
-            Math.floor(Number.parseInt((total / 15).toFixed(), 10)) + 1
+            Math.floor(
+              Number.parseInt(((comments?.length || 0) / limit).toFixed(), 10)
+            ) + 1
           );
           break;
         default:
           break;
       }
     },
-    []
+    [comments]
   );
 
   if (forumPost === null) return <div>There's no article : (</div>;

@@ -22,7 +22,7 @@ export default memo(function SocialBtn({
   const Icon = Icons[name];
 
   return (
-    <LongBtn name={name} disabled={name === 'ComingSoon'} onClick={onClick}>
+    <LongBtn name={name} onClick={onClick}>
       <div>
         <Icon />
         <p>

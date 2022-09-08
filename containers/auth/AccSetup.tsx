@@ -17,7 +17,11 @@ import styles from 'styles/styleLib';
 
 const usernameRules = '@todo Rules for username will be here';
 
-export default function AccSetup() {
+type PropsType = {
+  signedWithMetamask: boolean;
+};
+
+export default function AccSetup({ signedWithMetamask }: PropsType) {
   const dispatch = useAppDispatch();
   const { accessToken } = useAppSelector(({ auth }) => auth);
   const router = useRouter();
@@ -113,7 +117,7 @@ export default function AccSetup() {
       <Divider direction="row" separate={false} />
       <Name>Connect Wallet</Name>
       <OAuthBtn
-        service="Metamask"
+        service={signedWithMetamask ? 'Google' : 'Metamask'}
         onClick={onClick}
         width="470px"
         height="61px"

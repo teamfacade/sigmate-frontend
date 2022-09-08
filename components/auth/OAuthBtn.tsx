@@ -9,7 +9,7 @@ type PropsType = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   width?: string;
   height?: string;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 type SVGIcon = ReturnType<typeof Google>;

@@ -1,11 +1,14 @@
 import { MouseEventHandler, useCallback } from 'react';
 import Link from 'next/link';
+import { useAppSelector } from 'hooks/reduxStoreHooks';
 import styled from 'styled-components';
 import { SectionWrapper, BasicWrapper } from 'components/global';
 import { WalletBtn } from 'components/user/account';
 import styles from 'styles/styleLib';
 
 export default function UserPage() {
+  const { metamaskWallet } = useAppSelector(({ account }) => account);
+
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     if (e.currentTarget.name === 'Metamask') {
       // eslint-disable-next-line no-alert
@@ -25,8 +28,12 @@ export default function UserPage() {
           </Link>
         </Description>
         <ButtonWrapper>
-          <WalletBtn name="Metamask" onClick={onClick} />
-          <WalletBtn name="ComingSoon" onClick={onClick} />
+          <WalletBtn
+            name="Metamask"
+            onClick={onClick}
+            disabled={!!metamaskWallet}
+          />
+          <WalletBtn name="ComingSoon" onClick={onClick} disabled />
         </ButtonWrapper>
       </SectionWrapper>
     </BasicWrapper>

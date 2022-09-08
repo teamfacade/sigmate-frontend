@@ -9,7 +9,7 @@ type RenewResultType = {
 };
 
 const Axios = axios.create({
-  baseURL: 'http://api.sigmate.io:5100',
+  baseURL: 'http://api.sigmate.io:5100/api/v1',
 });
 
 let renewingAccess = false;

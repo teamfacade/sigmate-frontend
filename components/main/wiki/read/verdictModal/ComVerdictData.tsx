@@ -5,16 +5,16 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   show: boolean;
-  verdict: VerdictType;
+  votes: Wiki.VerificationType;
 };
 
-export default memo(function ComVerdictData({ show, verdict }: PropsType) {
+export default memo(function ComVerdictData({ show, votes }: PropsType) {
   const result = useMemo(() => {
-    if (verdict) return verdict.verify - verdict.warning;
+    if (votes) return votes.verify - votes.warning;
     return 0;
-  }, [verdict]);
+  }, [votes]);
 
-  if (verdict)
+  if (votes)
     return (
       <Wrapper show={show}>
         <div>
@@ -24,13 +24,13 @@ export default memo(function ComVerdictData({ show, verdict }: PropsType) {
         <FlexWrapper>
           <Details
             name="Verify"
-            verify={verdict.verify}
-            warning={verdict.warning}
+            verify={votes.verify}
+            warning={votes.warning}
           />
           <Details
             name="Warning"
-            verify={verdict.verify}
-            warning={verdict.warning}
+            verify={votes.verify}
+            warning={votes.warning}
           />
         </FlexWrapper>
       </Wrapper>

@@ -76,7 +76,8 @@ export default memo(function Heading({
 });
 
 const H1 = memo(styled.h1`
-  margin: 0 0 40px 0;
+  height: 45px;
+  margin: 0;
   color: ${styles.colors.headerColor};
   font-size: 40px;
   font-weight: 700;
@@ -85,6 +86,8 @@ const H1 = memo(styled.h1`
 `);
 
 const TitleTextarea = styled(Textarea)`
+  height: 45px;
+  vertical-align: top;
   font-size: 40px;
   font-weight: 700;
   line-height: 110%;

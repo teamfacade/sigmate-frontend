@@ -1,21 +1,5 @@
 import Axios from 'lib/global/axiosInstance';
 
-const ExProfile: ProfileType = {
-  user: {
-    id: 1,
-    userName: '',
-    twitterHandle: 'elonmusk',
-    discordAccount: '4357',
-  },
-  profile: {
-    id: 1,
-    bio: 'Hello  https:// the cites of the word in classical literatur. com\ndsfasdfadsthe cites dl literatuYour display name will \nbe used in places where your profile needs to be displayed. to be \nIf left blank, your username will',
-    displayName: 'Berry',
-    profileImage: null,
-    profileImageUrl: '',
-  },
-};
-
 export async function getProfileData(username: string) {
   /*
           Returns an object that has all needed data to render someone's profile page,
@@ -40,18 +24,21 @@ export async function getProfileData(username: string) {
       */
 
   // @todo 프로필 데이터 받아오기
-  let profile: ProfileType = ExProfile;
+  let profile: ProfileType;
 
-  await Axios.get(`/profile/u/${username}`, { params: { userName: username } })
-    .then((res) => {
-      profile = { user: res.data.user, profile: res.data.profile };
-    })
-    .catch((err) => {
-      console.error(err.message);
-      profile = ExProfile;
+  try {
+    const res = await Axios.get(`/profile/u/${username}`, {
+      params: { userName: username },
     });
 
-  return {
-    profile,
-  };
+    profile = { user: res.data.user, profile: res.data.profile };
+
+    return {
+      profile,
+    };
+  } catch (e) {
+    return {
+      profile: null,
+    };
+  }
 }

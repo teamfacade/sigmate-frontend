@@ -1,86 +1,49 @@
-import { memo, Dispatch, SetStateAction } from 'react';
+import { memo, FormEventHandler, MouseEventHandler, ReactNode } from 'react';
 import styled from 'styled-components';
 import { Comment } from 'components/main/forum/article';
 import styles from 'styles/styleLib';
 
-const ExComment: ForumCommentType = {
-  id: 1,
-  PFPUrl: '',
-  author: 'Puvilla',
-  text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-  replies: [
-    {
-      id: 1,
-      PFPUrl: '',
-      author: 'Puvilla',
-      text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-      replies: [],
-      recommend: 232,
-    },
-    {
-      id: 2,
-      PFPUrl: '',
-      author: 'Puvilla',
-      text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-      replies: [],
-      recommend: 232,
-    },
-    {
-      id: 3,
-      PFPUrl: '',
-      author: 'Puvilla',
-      text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-      replies: [],
-      recommend: 232,
-    },
-    {
-      id: 4,
-      PFPUrl: '',
-      author: 'Puvilla',
-      text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-      replies: [],
-      recommend: 232,
-    },
-    {
-      id: 5,
-      PFPUrl: '',
-      author: 'Puvilla',
-      text: 'Contrary to popular belief, Lorem Ipsu Contrary to',
-      replies: [],
-      recommend: 232,
-    },
-  ],
-  recommend: 232,
-};
-
-const Excomments: ForumCommentType[] = [
-  ExComment,
-  { ...ExComment, id: 2 },
-  { ...ExComment, id: 3 },
-  { ...ExComment, id: 4 },
-  { ...ExComment, id: 5 },
-];
-
 type PropsType = {
-  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
+  category: string;
+  articleID: number;
+  comments: Forum.CommentType[];
+  onSubmitComment: FormEventHandler<HTMLFormElement>;
+  onClickReport: MouseEventHandler<HTMLButtonElement>;
+  children?: ReactNode;
 };
 
-export default memo(function Comments({ setShowModal }: PropsType) {
+export default memo(function Comments({
+  category,
+  articleID,
+  comments,
+  onSubmitComment,
+  onClickReport,
+  children,
+}: PropsType) {
   return (
     <Wrapper>
-      {Excomments.map((comment) => (
+      {comments.map((comment) => (
         <Comment
           key={comment.id}
-          id={comment.id}
-          PFPUrl={comment.PFPUrl}
-          author={comment.author}
-          text={comment.text}
-          replies={comment.replies}
-          recommend={comment.recommend}
+          category={category}
+          articleID={articleID}
+          commentID={comment.id}
+          voteCount={comment.voteCount}
+          PFPUrl={comment.createdBy.primaryProfile.profileImageUrl || ''}
+          author={
+            comment.createdBy.primaryProfile.displayName ||
+            comment.createdBy.userName ||
+            ''
+          }
+          authorUserName={comment.createdBy.userName || ''}
+          text={comment.content}
+          replies={comment.replies || []}
           isReply={false}
-          setShowModal={setShowModal}
+          onSubmitComment={onSubmitComment}
+          onClickReport={onClickReport}
         />
       ))}
+      {children}
     </Wrapper>
   );
 });

@@ -1,4 +1,10 @@
-import { useCallback, SetStateAction, Dispatch, memo } from 'react';
+import {
+  useCallback,
+  SetStateAction,
+  Dispatch,
+  memo,
+  ChangeEventHandler,
+} from 'react';
 import styled from 'styled-components';
 import { EditBlock } from 'containers/main/wiki/edit';
 import { EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
@@ -6,29 +12,33 @@ import { SelectTypes } from 'components/main/wiki/new';
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  topic: string;
   title: string;
   setTitle?: Dispatch<SetStateAction<string>>;
-  onChangeTypes?: MultiSelectChangeEventHandler;
-  blocks: BlockType[];
-  setBlocks: Dispatch<SetStateAction<BlockType[]>>;
-  keyInfo: CollectionKeyInfoType;
-  setKeyInfo: Dispatch<SetStateAction<CollectionKeyInfoType>>;
+  onChangeTypes?: ReactSelect.MultiSelectChangeEventHandler;
+  blocks: Wiki.DocumentBlockType[];
+  setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
+  keyInfo: Wiki.DocumentBlockType[];
+  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
-const createNewBlock = (tag: string) => ({
+const createNewBlock: (element: string) => Wiki.DocumentBlockType = (
+  element: string
+) => ({
   id: Date.now(),
-  tag,
-  content: '',
+  element,
+  textContent: '',
 });
 
 export default memo(function WriteNew({
+  topic,
   title,
   onChangeTypes,
   setTitle,
   blocks,
   setBlocks,
   keyInfo,
-  setKeyInfo,
+  onChangeKeyInfos,
 }: PropsType) {
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
@@ -46,11 +56,11 @@ export default memo(function WriteNew({
     setBlocks((curState) => curState.filter((block) => block.id !== id));
   }, []);
 
-  const onFinishFix: (id: number, content: string) => void = useCallback(
-    (id, content) => {
+  const onFinishFix: (id: number, textContent: string) => void = useCallback(
+    (id, textContent) => {
       setBlocks((curState) =>
         curState.map((block) => {
-          if (block.id === id) return { ...block, content };
+          if (block.id === id) return { ...block, textContent };
           return block;
         })
       );
@@ -66,34 +76,26 @@ export default memo(function WriteNew({
           setTitle={setTitle}
           onClickSelect={onClickSelect}
         />
-        <SelectTypes
-          onChange={onChangeTypes as MultiSelectChangeEventHandler}
-        />
-        <EditKeyInfo
-          keyInfo={keyInfo}
-          setKeyInfo={setKeyInfo}
-          name="Sigmate"
-          thumbnailUrl=""
-          team="sigmate"
-          rugpool=""
-          type=""
-          utility="Game"
-          WLPrice="0.25 ETH"
-          publicPrice="0.3 ETH"
-          currentPrice="1.5 ETH"
-          discordUrl="https://www.naver.com"
-          twitterUrl="https://www.twitter.com/bellygom"
-          officialSiteUrl="localhost:3000/main"
-          chain="ETH"
-          marketplace="Opensea"
-        />
+        {topic !== 'Others' && (
+          <>
+            <SelectTypes
+              onChange={
+                onChangeTypes as ReactSelect.MultiSelectChangeEventHandler
+              }
+            />
+            <EditKeyInfo
+              keyInfos={keyInfo}
+              onChangeKeyInfos={onChangeKeyInfos}
+            />
+          </>
+        )}
         {blocks.map((block) => {
           return (
             <EditBlock
               key={block.id}
               id={block.id}
-              tag={block.tag}
-              content={block.content}
+              element={block.element}
+              content={block.textContent}
               onClickSelect={onClickSelect}
               removeBlock={removeBlock}
               onFinishFix={onFinishFix}

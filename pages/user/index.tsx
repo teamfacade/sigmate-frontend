@@ -17,7 +17,7 @@ export default function UserPage() {
 
   useEffect(() => {
     if (!signedIn) router.push('/main');
-  }, []);
+  }, [signedIn]);
 
   return (
     <>

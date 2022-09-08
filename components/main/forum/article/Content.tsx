@@ -1,51 +1,44 @@
-import {
-  Dispatch,
-  memo,
-  MouseEventHandler,
-  SetStateAction,
-  useCallback,
-} from 'react';
+import { memo, MouseEventHandler, FormEventHandler } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { UtilBtns, CommentInput } from 'components/main/forum/article';
 import styles from 'styles/styleLib';
-
-import { screenshotDesktop } from 'public/Icons';
 
 type PropsType = {
   id: number;
   category: string;
   title: string;
   content: string;
-  imageURL: string;
-  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
+  imageUrls: string[];
+  onSubmitComment: FormEventHandler<HTMLFormElement>;
+  onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function Content({
   id,
   title,
   content,
-  setShowModal,
+  imageUrls,
+  onSubmitComment,
+  onClickReport,
 }: PropsType) {
-  const onClickReport: MouseEventHandler<HTMLButtonElement> =
-    useCallback(() => {
-      setShowModal({ type: 'article', id });
-    }, [id]);
   return (
     <Wrapper>
       <Title>{title}</Title>
       <MainContentWrapper>
         <MainText>
-          <Outer width="350px" height="365px">
-            <Inner>
-              <Image src={screenshotDesktop} alt="Thumbnail" layout="fill" />
-            </Inner>
-          </Outer>
+          {imageUrls[0] && (
+            <Outer width="350px" height="365px">
+              <Inner>
+                <Image src={imageUrls[0]} alt="Thumbnail" layout="fill" />
+              </Inner>
+            </Outer>
+          )}
           {content}
         </MainText>
       </MainContentWrapper>
       <UtilBtns onClickReport={onClickReport} />
-      <CommentInput />
+      <CommentInput articleID={id} onSubmitComment={onSubmitComment} />
     </Wrapper>
   );
 });

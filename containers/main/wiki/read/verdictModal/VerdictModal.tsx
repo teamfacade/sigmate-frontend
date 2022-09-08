@@ -1,4 +1,10 @@
-import { MouseEventHandler, useState, useCallback, forwardRef } from 'react';
+import {
+  MouseEventHandler,
+  useState,
+  useCallback,
+  forwardRef,
+  useEffect,
+} from 'react';
 import styled from 'styled-components';
 import {
   CommunityVerdict,
@@ -10,41 +16,61 @@ import {
   VerdictLog,
 } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
+import { getVerifyData } from 'lib/main/wiki/getWikiData';
 
 type PropsType = {
-  verdict: VerdictType;
+  documentID: number;
+  isKeyInfo: boolean;
+  blockID: number;
   onMouseDown: MouseEventHandler<HTMLDivElement>;
 };
 
 export default forwardRef<HTMLDivElement, PropsType>(function VerdictModal(
-  { verdict, onMouseDown },
+  { documentID, isKeyInfo, blockID, onMouseDown },
   ref
 ) {
-  const [vote, setVote] = useState<VoteType>({
-    voted: verdict?.voted || '',
-    timestamp: new Date(Date.now()).toISOString(),
+  useEffect(() => {
+    setVotes(getVerifyData(documentID, isKeyInfo, blockID).verification);
+  }, []);
+
+  const [votes, setVotes] = useState<Wiki.VerificationType>({
+    id: -1,
+    verify: 0,
+    warning: 0,
+    isUpvote: null,
+    timestamp: '0',
   });
 
-  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
+  const onClickVerdict: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
-      setVote({
-        voted: e.currentTarget.name,
+      const { name } = e.currentTarget;
+      setVotes((current) => ({
+        ...current,
+        isUpvote: name === 'Verify',
         timestamp: new Date(Date.now()).toISOString(),
-      });
+      }));
     },
-    [verdict]
+    []
   );
 
   return (
     <Modal overflow="initial" onMouseDown={onMouseDown} ref={ref}>
       <Msg>What is your verdict on this content?</Msg>
       <VerdictBtnWrapper>
-        <VerdictModalBtn name="Verify" voted={vote.voted} onClick={onClick} />
-        <VerdictModalBtn name="Warning" voted={vote.voted} onClick={onClick} />
+        <VerdictModalBtn
+          name="Verify"
+          isUpvote={votes.isUpvote}
+          onClick={onClickVerdict}
+        />
+        <VerdictModalBtn
+          name="Warning"
+          isUpvote={votes.isUpvote}
+          onClick={onClickVerdict}
+        />
       </VerdictBtnWrapper>
-      <VerdictLog vote={vote} />
+      <VerdictLog votes={votes} />
       <Opinion />
-      <CommunityVerdict verdict={verdict} />
+      <CommunityVerdict votes={votes} />
     </Modal>
   );
 });

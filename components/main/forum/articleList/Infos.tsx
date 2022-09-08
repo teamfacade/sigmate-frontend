@@ -6,9 +6,10 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   author: string;
-  tags: string[];
+  tags: any[];
   timestamp: string;
   children?: ReactNode;
+  isAuthor?: boolean;
 };
 
 export default memo(function Infos({
@@ -16,16 +17,19 @@ export default memo(function Infos({
   tags,
   timestamp,
   children,
+  isAuthor = false,
 }: PropsType) {
   return (
     <Wrapper>
       <Link href={`/main/profile/${author}`} passHref>
         <Author>{author}</Author>
       </Link>
-      {tags.slice(0, 5).map((tag) => (
-        <Text key={tag}>{`#${tag}`}</Text>
-      ))}
-      {tags.length > 5 && <Text>...</Text>}
+      <TextWrapper isAuthor={isAuthor}>
+        {tags.slice(0, 5).map((tag) => (
+          <Text key={tag}>{`#${tag}`}</Text>
+        ))}
+        {tags.length > 5 && <Text>...</Text>}
+      </TextWrapper>
       <Text>{convertDate(new Date(timestamp), 'MonthDDYYYY', '. ')}</Text>
       {children}
     </Wrapper>
@@ -50,6 +54,17 @@ const Author = styled.a`
   font-size: 16px;
   font-weight: 700;
   line-height: 160%;
+`;
+
+const TextWrapper = styled.div<{ isAuthor: boolean }>`
+  width: calc(100% - 440px);
+  margin-right: 16px;
+  overflow: auto;
+
+  p {
+    display: inline;
+    white-space: nowrap;
+  }
 `;
 
 const Text = styled.p`

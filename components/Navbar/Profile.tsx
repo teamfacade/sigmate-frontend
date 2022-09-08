@@ -55,12 +55,15 @@ const Wrapper = styled.div`
   flex: 0 0 auto;
   align-items: center;
   margin-left: 40px;
-  cursor: pointer;
+
+  @media (max-width: 1024px) {
+    margin-left: 0;
+  }
 `;
 
 const TextWrapper = styled.div`
   flex: 0 0 auto;
-  margin: 0 40px 0 20px;
+  margin: 0 30px 0 30px;
 `;
 
 const Name = styled.p`
@@ -86,4 +89,8 @@ const TransparentBtn = styled.button`
   height: fit-content;
   background-color: transparent;
   border: none;
+
+  & + & {
+    padding-right: 0;
+  }
 `;

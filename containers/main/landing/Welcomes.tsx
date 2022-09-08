@@ -26,10 +26,14 @@ export default function Welcomes() {
 }
 
 const LayoutWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-left: 60px;
+  @media (max-width: 728px) {
+    display: none;
+  }
+  @media (min-width: 728px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const Upper = styled.div`

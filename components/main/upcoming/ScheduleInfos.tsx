@@ -8,35 +8,41 @@ const SymbolIcons: StringKeyObj<typeof Etherium> = {
 };
 
 type PropsType = {
-  event: string;
-  collection: string;
-  price: string;
-  symbol: string;
+  name: string;
+  category: string;
+  price?: string;
+  symbol?: string;
   tier: number;
 };
 
 export default memo(function ScheduleInfos({
-  event,
-  collection,
+  name,
+  category,
   price,
-  symbol,
+  symbol = 'ETH',
   tier,
 }: PropsType) {
   const Symbol = SymbolIcons[symbol];
 
   return (
-    <div>
-      <Name>{event}</Name>
-      <Collection>{collection}</Collection>
+    <Wrapper>
+      <Name>{name}</Name>
+      <Collection>{category}</Collection>
       <PriceWrapper>
         <InfoText>Price: </InfoText>
         <Symbol />
         <InfoText>{price}</InfoText>
       </PriceWrapper>
       <InfoText>{`Tier: ${tier}`}</InfoText>
-    </div>
+    </Wrapper>
   );
 });
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 
 const Name = styled.p`
   margin: 13px 0 0 0;

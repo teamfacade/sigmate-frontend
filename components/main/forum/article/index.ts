@@ -7,3 +7,4 @@ export { default as CommentBtns } from './CommentBtns';
 export { default as CommentContent } from './CommentContent';
 export { default as CommentPFP } from './CommentPFP';
 export { default as CommentReplies } from './CommentReplies';
+export { default as MoreOptions } from './MoreOptions';

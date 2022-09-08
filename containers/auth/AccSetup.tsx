@@ -9,26 +9,53 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import Axios from 'lib/global/axiosInstance';
 import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { setUserName } from 'store/modules/accountSlice';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
 import styles from 'styles/styleLib';
 
-const usernameRules = '@todo Rules for username will be here';
+const usernameRules: StringKeyObj<string> = {
+  default: 'Username should be more than 2, less than 17 characters',
+  REQUIRED: "Username can't be empty",
+  TOO_SHORT: 'Username should be more than 2 characters',
+  TOO_LONG: 'Username should be less than 17 characters',
+  ERR_USERNAME_ILLEGAL_CHARS:
+    'We only allow alphanumeric characters, underscores, dashes, and periods',
+  ERR_USERNAME_CONSECUTIVE_SPECIAL_CHARS:
+    'Special characters cannot appear more than 2 times in a row',
+  ERR_USERNAME_START_OR_END_WITH_SPECIAL_CHARS:
+    'Username cannot start nor end with a special character',
+  ERR_USERNAME_ILLEGAL_WORDS: "You can't contain some words in username",
+  ERR_USERNAME_IS_URL: 'Username cannot be a URL',
+};
 
-export default function AccSetup() {
+const referralRules: StringKeyObj<string> = {
+  default: '',
+  NOT_REFERRAL_CODE: "This code doesn't follow the referral code format",
+  REFERRED_USER_NOT_FOUND: "User with given referral code doesn't exist",
+};
+
+type PropsType = {
+  signedWithMetamask: boolean;
+};
+
+export default function AccSetup({ signedWithMetamask }: PropsType) {
   const dispatch = useAppDispatch();
-  const { accessToken } = useAppSelector(({ auth }) => auth);
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [isValidUsername, setIsValidUsername] = useState<boolean | undefined>(
     undefined
   );
-  const [usernameCheckResult, setUsernameCheckResult] = useState(usernameRules);
+  const [usernameCheckResult, setUsernameCheckResult] = useState(
+    usernameRules.default
+  );
   const [refCode, setRefCode] = useState('');
   const [isValidRefCode, setIsValidRefCode] = useState<boolean | undefined>(
     undefined
+  );
+  const [refCodeCheckResult, setRefCodeCheckResult] = useState(
+    referralRules.default
   );
   const usernameTextareaRef = useRef<HTMLTextAreaElement>(null);
   const refCodeTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -45,33 +72,44 @@ export default function AccSetup() {
   const onBlur: FocusEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
       if (e.currentTarget.name === 'Username') {
-        Axios.get('/user/check', {
-          params: { userName: username },
-          headers: { Authorization: `Bearer ${accessToken}` },
-        })
-          .then((res) => {
-            setIsValidUsername(res.data.userName.isAvailable);
+        dispatch(
+          AuthRequiredAxios({
+            method: 'GET',
+            url: `/user/check?userName=${username}`,
           })
-          .catch((err) => {
-            setIsValidUsername(false);
-            if (err.response.status !== 400)
-              alert('Something went wrong. Please try again later.');
-          });
+        ).then((action: any) => {
+          console.log(action);
+          const { status, data } = action.payload;
+          setIsValidUsername(status === 200);
+          if (status === 200) {
+            setUsernameCheckResult('');
+          } else if (status === 400) {
+            setUsernameCheckResult(
+              usernameRules[data.validationErrors[0].msg || 'default']
+            );
+          }
+        });
       } else if (refCode !== '') {
-        Axios.get('/user/check', {
-          params: { referralCode: refCode },
-          headers: { Authorization: `Bearer ${accessToken}` },
-        })
-          .then((res) => {
-            setIsValidRefCode(res.data.referralCode.isValid);
+        dispatch(
+          AuthRequiredAxios({
+            method: 'GET',
+            url: `/user/check?referralCode=${refCode}`,
           })
-          .catch((err) => {
-            if (err.response.status === 400) setIsValidRefCode(false);
-            else console.error(err.message);
-          });
+        ).then((action: any) => {
+          console.log(action);
+          const { status, data } = action.payload;
+          setIsValidRefCode(status === 200);
+          if (status === 200) {
+            setRefCodeCheckResult('');
+          } else if (status === 400) {
+            setRefCodeCheckResult(
+              referralRules[data.validationErrors[0].msg || 'default']
+            );
+          }
+        });
       }
     },
-    [username, refCode, accessToken]
+    [username, refCode]
   );
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -80,12 +118,21 @@ export default function AccSetup() {
         // eslint-disable-next-line no-alert
         alert('Connect Metamask wallet');
       } else if ((isValidRefCode || refCode === '') && isValidUsername) {
-        dispatch(setUserName(username));
-        Axios.patch(
-          '/user',
-          { userName: username },
-          { headers: { Authorization: `Bearer ${accessToken}` } }
-        ).then(() => router.push('/main'));
+        dispatch(
+          AuthRequiredAxios({
+            method: 'PATCH',
+            url: '/user',
+            data: { userName: username },
+          })
+        ).then(async (action: any) => {
+          if (action.payload.status === 200) {
+            dispatch(setUserName(username));
+            await router.push('/main');
+          } else
+            alert(
+              `Error while setting username.\r\nERR: ${action.payload.status}`
+            );
+        });
       } else if (!isValidUsername) usernameTextareaRef.current?.focus();
       else refCodeTextareaRef.current?.focus();
     },
@@ -113,7 +160,7 @@ export default function AccSetup() {
       <Divider direction="row" separate={false} />
       <Name>Connect Wallet</Name>
       <OAuthBtn
-        service="Metamask"
+        service={signedWithMetamask ? 'Google' : 'Metamask'}
         onClick={onClick}
         width="470px"
         height="61px"

@@ -1,10 +1,7 @@
 import { memo, useState, useRef, useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import {
-  useTokenAuth,
-  useAppSelector,
-  useAppDispatch,
-} from 'hooks/reduxStoreHooks';
+import { useAppSelector, useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import {
   setUserName,
   setDisplayName,
@@ -17,7 +14,6 @@ import {
   PFP,
   SocialsPublicityToggles,
 } from 'components/user/account';
-import Axios from '../../../lib/global/axiosInstance';
 
 /* @todo :
      프로필 사진 변경 버튼 추가
@@ -61,24 +57,75 @@ export default function Infos() {
       setEdit(true);
     } else {
       setEdit(false);
+      // update user name
       if (nameRef && nameRef.current && nameRef.current.value) {
         const newUserName = nameRef.current.value;
-        Axios.patch('/user', { userName: newUserName }, useTokenAuth())
-          .then(() => dispatch(setUserName(newUserName)))
-          .catch((res) => alert(res.data.validationErrors[0].msg));
+        dispatch(
+          AuthRequiredAxios({
+            method: 'PATCH',
+            url: '/user',
+            data: {
+              userName: newUserName,
+            },
+          })
+        ).then((action: any) => {
+          if (action.payload.status === 200) {
+            dispatch(setUserName(newUserName));
+          } else if (
+            action.payload.data.validationErrors[0].msg ===
+            'ERR_USERNAME_CHANGE_INTERVAL'
+          ) {
+            alert('You can change your username per month.');
+          }
+        });
       }
-      if (
-        displayNameRef &&
-        displayNameRef.current &&
-        displayNameRef.current.value
-      ) {
-        dispatch(setDisplayName(displayNameRef.current.value));
+
+      // update display name and bio
+      if (displayNameRef?.current?.value || bioRef?.current?.value) {
+        const profileUpdate: any = {};
+
+        if (displayNameRef?.current?.value) {
+          profileUpdate.displayName = displayNameRef.current.value;
+        }
+        if (bioRef?.current?.value) {
+          profileUpdate.bio = bioRef.current.value;
+        }
+        dispatch(
+          AuthRequiredAxios({
+            method: 'PATCH',
+            url: '/profile',
+            data: profileUpdate,
+          })
+        ).then((action: any) => {
+          if (action.payload.status === 200) {
+            if (profileUpdate.bio) dispatch(setBio(profileUpdate.bio));
+            if (profileUpdate.displayName)
+              dispatch(setDisplayName(profileUpdate.displayName));
+          } else {
+            alert(action.payload.data.validationErrors[0].msg);
+          }
+        });
       }
-      if (bioRef && bioRef.current && bioRef.current.value)
-        dispatch(setBio(bioRef.current.value));
+
+      // update twitter and discord publicity
       dispatch(
-        setSocialPublic({ twitter: twitterPublic, discord: discordPublic })
-      );
+        AuthRequiredAxios({
+          method: 'PATCH',
+          url: '/user',
+          data: {
+            isTwitterHandlePublic: twitterPublic,
+            isDiscordAccountPublic: discordPublic,
+          },
+        })
+      ).then((action: any) => {
+        if (action.payload.status === 200) {
+          dispatch(
+            setSocialPublic({ twitter: twitterPublic, discord: discordPublic })
+          );
+        } else {
+          alert(action.payload.data.validationErrors[0].msg);
+        }
+      });
     }
   }, [edit, twitterPublic, discordPublic]);
 

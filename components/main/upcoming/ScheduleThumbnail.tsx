@@ -5,15 +5,15 @@ import { ImageWrapper } from 'components/global';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  event: string;
+  name: string;
   imageUrl: string;
 };
 
-export default memo(function ScheduleThumbnail({ event, imageUrl }: PropsType) {
+export default memo(function ScheduleThumbnail({ name, imageUrl }: PropsType) {
   if (imageUrl)
     return (
       <ImageWrapper width="100%" height="150px">
-        <Image src={imageUrl} alt={`${event} thumbnail`} layout="fill" />
+        <Image src={imageUrl} alt={`${name} thumbnail`} layout="fill" />
       </ImageWrapper>
     );
   return <NoImage />;

@@ -24,6 +24,6 @@ const H3 = memo(styled.h3`
 `);
 
 const Hr = memo(styled.hr`
-  margin: 0 0 20px 0;
+  margin: 0 !important;
   color: ${styles.colors.hrColor};
 `);

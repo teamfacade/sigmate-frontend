@@ -5,31 +5,30 @@ import {
   useState,
 } from 'react';
 import styled from 'styled-components';
+import Axios from 'lib/global/axiosInstance';
 import { SearchUtils, Categories } from 'containers/main/forum/main';
 import { PageMoveBtns } from 'components/global';
+import useSWR, { Fetcher } from 'swr';
 
-const CategoriesEx = [
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Game', description: 'For PFP Users', imageURL: '' },
-  { name: 'PFP', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-  { name: 'Best', description: 'For PFP Users', imageURL: '' },
-];
+const fetcher: Fetcher<Forum.CategoryType[], string> = (url: string) =>
+  Axios.get(url).then((res) => res.data.categories);
+
 const total = 13;
+const limit = 15;
 
 export default function ForumMain() {
   const [filter, setFilter] = useState<ForumSearchFilter>('Category');
   const [curPage, setCurPage] = useState(1);
 
+  const { data: categories } = useSWR(
+    `/forum/c?limit=${limit}&page=${curPage}`,
+    fetcher
+  );
+
   const onSearch: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       e.preventDefault();
-      // eslint-disable-next-line no-alert
+      // @todo Axios -> setCategories(res.data)
       alert(
         `Search ${filter} who has ${
           (e.currentTarget.elements.namedItem('bar') as HTMLInputElement).value
@@ -42,12 +41,6 @@ export default function ForumMain() {
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       setCurPage(parseInt(e.currentTarget.value, 10));
-      // eslint-disable-next-line no-alert
-      alert(
-        `Fetch 15 categories from ${
-          (parseInt(e.currentTarget.value, 10) - 1) * 15
-        }`
-      );
     },
     []
   );
@@ -56,23 +49,15 @@ export default function ForumMain() {
     (e) => {
       switch (e.currentTarget.name) {
         case 'ToFirst':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 15 categories from 0th`);
           setCurPage(1);
           break;
         case 'Prev':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 15 categories from ${(curPage - 1 - 1) * 15}th `);
           setCurPage((cur) => cur - 1);
           break;
         case 'Next':
-          // eslint-disable-next-line
-          alert(`Fetch 15 categories from ${curPage * 15}th`);
           setCurPage((cur) => cur + 1);
           break;
         case 'ToLast':
-          // eslint-disable-next-line
-          alert(`Fetch 15 categories from ((total / 15) * 10)th`);
           setCurPage(
             Math.floor(Number.parseInt((total / 15).toFixed(), 10)) + 1
           );
@@ -81,12 +66,12 @@ export default function ForumMain() {
           break;
       }
     },
-    [curPage]
+    []
   );
   return (
     <Wrapper>
       <SearchUtils setFilter={setFilter} onSearch={onSearch} />
-      <Categories categories={CategoriesEx} />
+      <Categories categories={categories || []} />
       <PageMoveBtns
         totalPage={total}
         curPage={curPage}
@@ -98,6 +83,6 @@ export default function ForumMain() {
 }
 
 const Wrapper = styled.div`
-  max-width: 1060px;
+  max-width: 1080px;
   margin: auto;
 `;

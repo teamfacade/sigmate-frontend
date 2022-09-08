@@ -11,7 +11,7 @@ import { Block, Button, EditComponent } from 'components/main/wiki/edit';
 
 type PropsType = {
   id: number;
-  tag: string;
+  element: string;
   content: string;
   onClickSelect: (id: number, tag: string) => void;
   onFinishFix: (id: number, content: string) => void;
@@ -20,7 +20,7 @@ type PropsType = {
 
 export default memo(function EditBlock({
   id,
-  tag,
+  element,
   content,
   onClickSelect,
   onFinishFix,
@@ -62,16 +62,16 @@ export default memo(function EditBlock({
     [id, updateBlockContent]
   );
 
-  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
-    (e) => setValue(e.currentTarget.value),
-    []
-  );
+  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {
+    e.target.style.height = `${e.target.scrollHeight  }px`;
+    setValue(e.currentTarget.value);
+  }, []);
 
   return (
     <Block id={id} onClickSelect={onClickSelect} removeBlock={removeBlock}>
       <Button onClick={onClick} onFocus={onFocus}>
         <EditComponent
-          tag={tag}
+          element={element}
           content={content}
           showInput={showInput}
           value={value}

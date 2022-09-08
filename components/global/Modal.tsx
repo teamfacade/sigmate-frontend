@@ -40,10 +40,10 @@ const ModalComponent = styled.div<{ overflow?: string }>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 750px;
+  max-width: 750px;
   padding: 33px;
   background-color: ${styles.colors.globalBackgroundColor};
   border-radius: 10px;
-  overflow-y: ${({ overflow }) => (overflow || 'hidden')};
+  overflow-y: ${({ overflow }) => overflow || 'hidden'};
   box-shadow: ${styles.shadows.modalShadow};
 `;

@@ -20,16 +20,20 @@ a:hover, a:active {
   filter: brightness(0.7);
 }
 
+a:hover, a:active > button:hover, button:active {
+  filter: none;
+}
+
+a:hover, a:active > svg path {
+  filter: brightness(0.7);
+}
+
 * {
   box-sizing: border-box;
 }
 
 p, span {
   font-family: 'Inter', sans-serif;
-}
-
-aside {
-  max-width: 252px;
 }
 
 button:hover, button:active {

@@ -4,10 +4,10 @@ import { ComVerdictData } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  verdict: VerdictType;
+  votes: Wiki.VerificationType;
 };
 
-export default memo(function CommunityVerdict({ verdict }: PropsType) {
+export default memo(function CommunityVerdict({ votes }: PropsType) {
   const [showCommVerdict, setShowCommVerdict] = useState(false);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
@@ -20,7 +20,7 @@ export default memo(function CommunityVerdict({ verdict }: PropsType) {
         showCommVerdict ? '▼' : '▶'
       }`}</Btn>
       <ComVerdictWrapper>
-        <ComVerdictData verdict={verdict} show={showCommVerdict} />
+        <ComVerdictData votes={votes} show={showCommVerdict} />
       </ComVerdictWrapper>
     </>
   );

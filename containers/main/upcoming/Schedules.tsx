@@ -1,53 +1,46 @@
-import { memo } from 'react';
+import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { Schedule } from 'components/main/upcoming';
 
-type ScheduleType = {
-  id: number;
-  event: string;
-  collection: string;
-  price: string;
-  symbol: string;
-  tier: number;
-  wikiPageUrl?: string;
-  twitterUrl?: string;
-  telegramUrl?: string;
-  discordUrl?: string;
-  mintPageUrl: string;
-  imageUrl: string;
-};
-
 type PropsType = {
-  schedules: ScheduleType[];
+  schedules: Minting.ScheduleType[];
+  onClickSchedule: MouseEventHandler<HTMLDivElement>;
 };
 
-export default memo(function Schedules({ schedules }: PropsType) {
+export default memo(function Schedules({
+  schedules,
+  onClickSchedule,
+}: PropsType) {
   return (
-    <Wrapper>
+    <GriddyWrapper>
       {schedules.map((schedule) => (
         <Schedule
           key={schedule.id}
-          event={schedule.event}
-          collection={schedule.collection}
-          price={schedule.price}
-          symbol={schedule.symbol}
+          id={schedule.id}
+          name={schedule.name}
+          category={schedule.category}
           tier={schedule.tier}
-          wikiPageUrl={schedule.wikiPageUrl}
-          twitterUrl={schedule.twitterUrl}
-          telegramUrl={schedule.telegramUrl}
-          discordUrl={schedule.discordUrl}
-          mintPageUrl={schedule.mintPageUrl}
-          imageUrl={schedule.imageUrl}
+          mintingUrl={schedule.mintingUrl}
+          mintingPrice={schedule.mintingPrice}
+          mintingPriceSymbol={schedule.mintingPriceSymbol}
+          wikiPageUrl={`/main/wiki/${schedule.name}`}
+          twitterUrl={schedule.collectionInfo.twitterUrl}
+          telegramUrl={schedule.collectionInfo.telegramUrl}
+          discordUrl={schedule.collectionInfo.discordUrl}
+          imageUrl={schedule.collectionInfo.imageUrl}
+          onClickSchedule={onClickSchedule}
         />
       ))}
-    </Wrapper>
+    </GriddyWrapper>
   );
 });
 
-const Wrapper = styled.div`
-  display: grid;
-  gap: 18px;
-  // grid-template-columns: 1fr 1fr 1fr;
-  grid-template-columns: repeat(auto-fill, 340px);
-  grid-auto-rows: 370px;
+const GriddyWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  > div {
+    margin: 20px 10px 0 10px;
+  }
 `;

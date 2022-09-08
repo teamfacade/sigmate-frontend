@@ -18,10 +18,12 @@ export default memo(function PageMoveBtns({
 }: PropsType) {
   const start = useMemo(() => (curPage <= 6 ? 1 : curPage - 5), [curPage]);
   const nums = useMemo(() => {
-    return Array.from(
-      { length: totalPage - curPage >= 5 ? 10 : totalPage - curPage + 6 },
-      (_, i) => start + i
-    );
+    let len;
+    if (totalPage <= 5) len = totalPage;
+    else if (totalPage - curPage >= 5) len = 10;
+    else len = totalPage - curPage + 6;
+
+    return Array.from({ length: len }, (_, i) => start + i);
   }, [curPage, start]);
 
   return (

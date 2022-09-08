@@ -24,13 +24,13 @@ export default function MainLayout({
               {children}
             </MainContentWrapper>
           </Section>
-          <aside>
+          <Aside>
             <CheckInBtn>Daily Check-In</CheckInBtn>
             <Search placeholder="Search content..." onSubmit={onSearch} />
             <SideContentWrapper>
               <SideContent />
             </SideContentWrapper>
-          </aside>
+          </Aside>
         </Wrapper>
       </div>
     </main>
@@ -43,10 +43,29 @@ const Wrapper = styled.div`
   width: 100%;
   margin: 0 auto 30px auto;
   flex-wrap: wrap;
+
+  @media (max-width: 728px) {
+    display: block;
+  }
 `;
 
 const Section = styled.section`
   width: calc(100vw - 362px);
+
+  @media (max-width: 728px) {
+    width: unset;
+    padding: 0 20px;
+    margin: auto;
+  }
+`;
+
+const Aside = styled.aside`
+  max-width: 252px;
+
+  @media (max-width: 728px) {
+    max-width: unset;
+    padding: 20px;
+  }
 `;
 
 const MainContentWrapper = styled.div<{ needsWrapper: boolean }>`

@@ -4,22 +4,26 @@ import { VerdictBlock } from 'components/main/wiki/read/verdictModal';
 
 type PropsType = {
   id: number;
-  tag: string;
+  element: string;
   content: string;
-  verdict: VerdictType;
-  setShowModal: Dispatch<SetStateAction<number>>;
+  verifications?: Wiki.BlockVerificationType;
+  setShowModal: Dispatch<SetStateAction<Wiki.ModalDataType>>;
 };
 
 export default memo(function ReadBlock({
   id,
-  tag,
+  element,
   content,
-  verdict,
+  verifications,
   setShowModal,
 }: PropsType) {
   return (
-    <VerdictBlock id={id} setShowModal={setShowModal} verdict={verdict}>
-      <ReadComponent tag={tag} content={content} />
+    <VerdictBlock
+      id={id}
+      setShowModal={setShowModal}
+      verifications={verifications}
+    >
+      <ReadComponent element={element} content={content} />
     </VerdictBlock>
   );
 });

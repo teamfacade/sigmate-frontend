@@ -6,7 +6,7 @@ import {
   useCallback,
   FocusEventHandler,
 } from 'react';
-import Select, { SingleValue, ActionMeta } from 'react-select';
+import Select from 'react-select';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
@@ -18,17 +18,7 @@ type PropsType = {
   children: ReactNode;
 };
 
-type OptionType = {
-  value: string;
-  label: string;
-};
-
-type SelectChangeEventHandler = (
-  option: SingleValue<OptionType>,
-  actionMeta: ActionMeta<OptionType>
-) => void;
-
-const options: OptionType[] = [
+const options: ReactSelect.OptionType[] = [
   { value: 'p', label: 'Paragraph' },
   { value: 'h', label: 'Heading' },
 ];
@@ -61,7 +51,7 @@ export default memo(function Block({
       if (removeBlock) removeBlock(id);
     }, [removeBlock, id]);
 
-  const onChange: SelectChangeEventHandler = useCallback(
+  const onChange: ReactSelect.SingleSelectChangeEventHandler = useCallback(
     (selected) => {
       if (selected) {
         onClickSelect(id, selected.value);
@@ -103,20 +93,21 @@ export default memo(function Block({
 
 const Wrapper = styled.div<{ isTitle: boolean }>`
   position: relative;
-  height: ${({ isTitle }) => (isTitle ? '100px' : '40px')};
-  padding: 10px;
-  border: 1px solid transparent;
+  padding: 10px 14px;
+  border-left: 8px solid transparent;
 
   :hover {
     background-color: ${styles.colors.lightThumbsUpColor};
+    border-left-color: rgba(37, 99, 235, 0.8);
   }
 `;
 
 const BlockControlBtnWrapper = styled.div`
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 0;
-  transform: translateX(-100%);
+  padding-right: 10px;
+  transform: translate(-100%, -50%);
   display: flex;
   align-items: center;
 `;
@@ -132,8 +123,17 @@ const BlockControlBtn = styled.button`
   flex: 0 0 auto;
   background-color: transparent;
   border: none;
+  border-radius: 8px;
   color: ${styles.colors.emphColor};
   font-size: 25px;
   font-weight: 500;
   line-height: 160%;
+
+  :not(:first-child) {
+    transform: translateY(-2px);
+  }
+
+  :hover {
+    scale: 1.2;
+  }
 `;

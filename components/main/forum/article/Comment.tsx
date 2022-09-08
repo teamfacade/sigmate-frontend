@@ -3,81 +3,151 @@ import {
   useCallback,
   useState,
   MouseEventHandler,
-  Dispatch,
-  SetStateAction,
+  FormEventHandler,
 } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import {
   CommentReplies,
   CommentBtns,
   CommentContent,
   CommentPFP,
+  MoreOptions,
 } from 'components/main/forum/article';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  id: number;
+  category: string;
+  articleID: number;
+  commentID: number;
+  replyID?: number;
+  voteCount: number;
   PFPUrl: string;
   author: string;
+  authorUserName: string;
   text: string;
-  replies: ForumCommentType[];
-  recommend: number;
+  replies: Forum.CommentType[];
   isReply?: boolean;
-  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
+  onSubmitComment?: FormEventHandler<HTMLFormElement>;
+  onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function Comment({
-  id,
+  category,
+  articleID,
+  commentID,
+  replyID,
+  voteCount,
   PFPUrl,
   author,
+  authorUserName,
   text,
   replies,
-  recommend,
   isReply,
-  setShowModal,
+  onSubmitComment,
+  onClickReport,
 }: PropsType) {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [showOptions, setShowOptions] = useState(false);
+  const [showCommentEdit, setShowCommentEdit] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
-  const [showReportBtn, setShowReportBtn] = useState(false);
+  const [commentText, setCommentText] = useState(text);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShowReplies((curShow) => !curShow),
     []
   );
 
-  const onClickReport: MouseEventHandler<HTMLButtonElement> = useCallback(
-    () => setShowModal({ type: isReply ? 'reply' : 'comment', id }),
+  const onClickSubmit: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      const { value } = e.currentTarget.dataset;
+      setShowCommentEdit(false);
+      setCommentText((cur) => value || cur);
+    },
     []
   );
 
-  const onMouseOver: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowReportBtn(true),
-    []
-  );
-  const onMouseLeave: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowReportBtn(false),
+  const onClickOption: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      switch (e.currentTarget.name) {
+        case 'More':
+          setShowOptions((cur) => !cur);
+          break;
+        case 'Edit':
+          setShowOptions(false);
+          setShowCommentEdit((cur) => !cur);
+          break;
+        case 'Delete':
+          setShowOptions(false);
+          dispatch(
+            AuthRequiredAxios({
+              method: 'DELETE',
+              url: `/forum/cm/${commentID}`,
+            })
+          ).then(async (action: any) => {
+            if (action.payload.status !== 200) {
+              alert(
+                `Comment Deletion Failed. Please try again.\r\nERR: ${action.payload.status}`
+              );
+            } else {
+              await router.reload();
+            }
+          });
+          break;
+        default:
+          break;
+      }
+    },
     []
   );
 
   return (
-    <Wrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
+    <Wrapper>
       <FlexWrapper>
         <CommentPFP PFPUrl={PFPUrl} author={author} />
         <SubWrapper>
-          <CommentContent author={author} text={text} />
+          <CommentContent
+            author={author}
+            text={commentText}
+            showCommentEdit={showCommentEdit}
+            articleID={articleID}
+            commentID={commentID}
+            onClickSubmit={onClickSubmit}
+            onSubmitComment={onSubmitComment}
+          />
           <CommentBtns
+            articleID={articleID}
+            commentID={commentID}
+            replyID={replyID}
+            category={category}
+            voteCount={voteCount}
+            like={null}
             length={replies.length}
-            recommend={recommend}
             onClick={onClick}
             isReply={isReply}
-            showReportBtn={showReportBtn}
-            onClickReport={onClickReport}
           />
         </SubWrapper>
+        <MoreOptions
+          authorUserName={authorUserName}
+          articleID={articleID}
+          commentID={commentID}
+          onClick={onClickOption}
+          onClickReport={onClickReport}
+          showOptions={showOptions}
+          showCommentEdit={showCommentEdit}
+        />
       </FlexWrapper>
       <CommentReplies
+        category={category}
+        articleID={articleID}
+        commentID={commentID}
         replies={replies}
         show={showReplies}
-        setShowModal={setShowModal}
+        onClickReport={onClickReport}
+        onSubmitComment={onSubmitComment}
       />
     </Wrapper>
   );
@@ -94,6 +164,7 @@ const Wrapper = styled.div`
 `;
 
 const SubWrapper = styled.div`
+  flex: 1 1 auto;
   margin-left: 10px;
 `;
 

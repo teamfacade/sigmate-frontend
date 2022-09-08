@@ -13,7 +13,6 @@ import useSWR, { Fetcher } from 'swr';
 const fetcher: Fetcher<Forum.CategoryType[], string> = (url: string) =>
   Axios.get(url).then((res) => res.data.categories);
 
-const total = 13;
 const limit = 15;
 
 export default function ForumMain() {
@@ -59,21 +58,23 @@ export default function ForumMain() {
           break;
         case 'ToLast':
           setCurPage(
-            Math.floor(Number.parseInt((total / 15).toFixed(), 10)) + 1
+            Math.floor(
+              Number.parseInt(((categories?.length || 0) / limit).toFixed(), 10)
+            ) + 1
           );
           break;
         default:
           break;
       }
     },
-    []
+    [categories]
   );
   return (
     <Wrapper>
       <SearchUtils setFilter={setFilter} onSearch={onSearch} />
       <Categories categories={categories || []} />
       <PageMoveBtns
-        totalPage={total}
+        totalPage={(categories?.length || 0) / limit}
         curPage={curPage}
         onClickPageMoveBtn={onClickPageMoveBtn}
         onClickPageNumBtn={onClickPageNumBtn}

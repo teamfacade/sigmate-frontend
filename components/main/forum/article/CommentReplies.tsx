@@ -31,14 +31,14 @@ export default memo(function CommentReplies({
             articleID={articleID}
             commentID={commentID}
             replyID={reply.id}
-            voteCount={reply.votes.voteCount}
-            like={reply.votes.like}
+            voteCount={reply.voteCount}
             PFPUrl={reply.createdBy.primaryProfile.profileImageUrl || ''}
             author={
               reply.createdBy.primaryProfile.displayName ||
               reply.createdBy.userName ||
               ''
             }
+            authorUserName={reply.createdBy.userName || ''}
             text={reply.content}
             replies={[]}
             isReply

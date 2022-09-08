@@ -3,8 +3,6 @@ import {
   FocusEventHandler,
   KeyboardEventHandler,
   memo,
-  useMemo,
-  useRef,
 } from 'react';
 import { Heading, Paragraph } from './index';
 import Textarea from './TextEdit';

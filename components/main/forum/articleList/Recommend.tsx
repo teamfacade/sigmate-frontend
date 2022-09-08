@@ -64,7 +64,6 @@ export default memo(function Recommend({ id, category, voteCount }: PropsType) {
               data: { like: true },
             })
           ).then((action: any) => {
-            console.log(action);
             if (action.payload.status !== 200) {
               alert(`Error while voting. ERR: ${action.payload.status}`);
             } else {
@@ -78,7 +77,6 @@ export default memo(function Recommend({ id, category, voteCount }: PropsType) {
           dispatch(
             AuthRequiredAxios({ method: 'DELETE', url: `/forum/p/${id}/vote` })
           ).then((action: any) => {
-            console.log(action);
             if (action.payload.status !== 200) {
               alert(
                 `Error while deleting your up vote. ERR: ${action.payload.status}`

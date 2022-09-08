@@ -9,7 +9,7 @@ import { OAuthBtn } from 'components/auth';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import Web3 from 'web3';
 
-const API_DOMAIN = 'http://localhost:5100';
+const API_DOMAIN = 'http://api.sigmate.io';
 const BASE_URL = `${API_DOMAIN}/api/v1`;
 
 export default function AuthComponents() {
@@ -46,7 +46,7 @@ export default function AuthComponents() {
     async (e) => {
       switch (e.currentTarget.name) {
         case 'Google':
-          router.replace('http://localhost:5100/oauth/google');
+          router.replace('http://api.sigmate.io/oauth/google');
           break;
         case 'Metamask':
           if (!isSignInProgress && window?.ethereum?.isMetaMask) {

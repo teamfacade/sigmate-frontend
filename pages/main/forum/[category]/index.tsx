@@ -55,7 +55,7 @@ export default function ArticleLists() {
           setCurPage((cur) => cur + 1);
           break;
         case 'ToLast':
-          setCurPage(Math.floor(total / 4) + 1);
+          setCurPage(Math.floor(total / limit) + 1);
           break;
         default:
           break;
@@ -87,7 +87,7 @@ export default function ArticleLists() {
         />
       ))}
       <PageMoveBtns
-        totalPage={total}
+        totalPage={Math.floor(total / limit) + 1}
         curPage={curPage}
         onClickPageNumBtn={onClickPageNumBtn}
         onClickPageMoveBtn={onClickPageMoveBtn}

@@ -26,11 +26,11 @@ type PropsType = {
 };
 
 export default forwardRef<HTMLDivElement, PropsType>(function VerdictModal(
-  { documentID, isKeyInfo, blockID, onMouseDown },
+  { onMouseDown },
   ref
 ) {
   useEffect(() => {
-    setVotes(getVerifyData(documentID, isKeyInfo, blockID).verification);
+    setVotes(getVerifyData().verification);
   }, []);
 
   const [votes, setVotes] = useState<Wiki.VerificationType>({

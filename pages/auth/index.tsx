@@ -59,13 +59,3 @@ const RightWrapper = styled.div`
   background-color: #ffffff;
   border-left: 2px solid #f0f0f0;
 `;
-
-const Btn = styled.button`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-
-  & + & {
-    margin-left: 20px;
-  }
-`;

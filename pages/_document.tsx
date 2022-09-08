@@ -11,7 +11,7 @@ export default function Document() {
           crossOrigin="true"
         />
         <link
-          href="http://fonts.cdnfonts.com/css/claris-sans"
+          href="https://fonts.cdnfonts.com/css/claris-sans"
           rel="stylesheet"
         />
         <link

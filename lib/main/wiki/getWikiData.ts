@@ -298,10 +298,6 @@ export function getArticleEditData(title: string) {
 }
 
 // called when verdict modal is rendered
-export function getVerifyData(
-  documentID: number,
-  isKeyInfo: boolean,
-  blockID: number
-) {
+export function getVerifyData() {
   return ExVerdict;
 }

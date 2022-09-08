@@ -7,7 +7,6 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
-import { getPointLogs } from 'lib/user/point';
 import PointsLog from 'containers/user/points/PointsLog';
 import TokensLog from 'containers/user/points/TokensLog';
 import {
@@ -51,10 +50,8 @@ const ExLogs = [
 ];
 
 export default function Logs() {
-  const { data: initLogs } = getPointLogs();
-
   const [selected, setSelected] = useState('Point');
-  const [logs, setLogs] = useState<LogType[]>(initLogs);
+  const [logs, setLogs] = useState<LogType[]>(ExLogs);
   const [curPage, setCurPage] = useState(1);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {

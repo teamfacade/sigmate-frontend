@@ -11,6 +11,7 @@ import {
   CommentBtns,
   CommentContent,
   CommentPFP,
+  MoreOptions,
 } from 'components/main/forum/article';
 import styles from 'styles/styleLib';
 
@@ -22,6 +23,7 @@ type PropsType = {
   voteCount: number;
   PFPUrl: string;
   author: string;
+  authorUserName: string;
   text: string;
   replies: Forum.CommentType[];
   isReply?: boolean;
@@ -37,35 +39,62 @@ export default memo(function Comment({
   voteCount,
   PFPUrl,
   author,
+  authorUserName,
   text,
   replies,
   isReply,
   onSubmitComment,
   onClickReport,
 }: PropsType) {
+  const [showOptions, setShowOptions] = useState(false);
+  const [showCommentEdit, setShowCommentEdit] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
-  const [showReportBtn, setShowReportBtn] = useState(false);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShowReplies((curShow) => !curShow),
     []
   );
 
-  const onMouseOver: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowReportBtn(true),
+  const onClickSubmit: MouseEventHandler<HTMLButtonElement> = useCallback(
+    () => setShowCommentEdit(false),
     []
   );
-  const onMouseLeave: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowReportBtn(false),
+
+  const onClickOption: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      switch (e.currentTarget.name) {
+        case 'More':
+          setShowOptions((cur) => !cur);
+          break;
+        case 'Edit':
+          setShowOptions(false);
+          setShowCommentEdit(true);
+          break;
+        case 'Delete':
+          setShowOptions(false);
+          alert('DELETE COMMENT');
+          break;
+        default:
+          break;
+      }
+    },
     []
   );
 
   return (
-    <Wrapper onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
+    <Wrapper>
       <FlexWrapper>
         <CommentPFP PFPUrl={PFPUrl} author={author} />
         <SubWrapper>
-          <CommentContent author={author} text={text} />
+          <CommentContent
+            author={author}
+            text={text}
+            showCommentEdit={showCommentEdit}
+            articleID={articleID}
+            commentID={commentID}
+            onClickSubmit={onClickSubmit}
+            onSubmitComment={onSubmitComment}
+          />
           <CommentBtns
             articleID={articleID}
             commentID={commentID}
@@ -76,10 +105,16 @@ export default memo(function Comment({
             length={replies.length}
             onClick={onClick}
             isReply={isReply}
-            showReportBtn={showReportBtn}
-            onClickReport={onClickReport}
           />
         </SubWrapper>
+        <MoreOptions
+          authorUserName={authorUserName}
+          articleID={articleID}
+          commentID={commentID}
+          onClick={onClickOption}
+          onClickReport={onClickReport}
+          showOptions={showOptions}
+        />
       </FlexWrapper>
       <CommentReplies
         category={category}
@@ -105,6 +140,7 @@ const Wrapper = styled.div`
 `;
 
 const SubWrapper = styled.div`
+  flex: 1 1 auto;
   margin-left: 10px;
 `;
 

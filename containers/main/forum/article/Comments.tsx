@@ -35,6 +35,7 @@ export default memo(function Comments({
             comment.createdBy.userName ||
             ''
           }
+          authorUserName={comment.createdBy.userName || ''}
           text={comment.content}
           replies={comment.replies || []}
           isReply={false}

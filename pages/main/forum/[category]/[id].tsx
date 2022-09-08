@@ -57,8 +57,10 @@ export default function Article({
       const { dataset, value } = e.currentTarget.elements.namedItem(
         'textarea'
       ) as HTMLTextAreaElement;
-      const { articleId, commentId } = dataset;
-      if (commentId) {
+      const { articleId, commentId, isEditMode } = dataset;
+      if (isEditMode) {
+        alert('EDIT SUCCESS');
+      } else if (commentId) {
         alert(
           `Add comment to article ${articleId}'s comment ${commentId}: ${value}`
         );
@@ -89,7 +91,7 @@ export default function Article({
       setShowModal({
         type: name as 'comment' | 'reply' | 'article',
         info: {
-          category: dataset.category as string,
+          category: (dataset.category as string) || '',
           articleID: Number.parseInt(dataset.articleId as string, 10),
           commentID: dataset.commentId
             ? Number.parseInt(dataset.commentId, 10)

@@ -1,4 +1,4 @@
-import { memo, MouseEventHandler, useCallback, useState, useMemo } from 'react';
+import { memo, MouseEventHandler, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { CommentDownVote, CommentUpVote } from 'public/Icons/main/forum';
@@ -13,8 +13,6 @@ type PropsType = {
   length: number;
   onClick: MouseEventHandler<HTMLButtonElement>;
   isReply?: boolean;
-  showReportBtn: boolean;
-  onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function CommentBtns({
@@ -27,17 +25,9 @@ export default memo(function CommentBtns({
   onClick,
   isReply,
   replyID,
-  showReportBtn,
-  onClickReport,
 }: PropsType) {
   const [curVoteCount, setCurVoteCount] = useState<number>(voteCount);
   const [userLikes, setUserLikes] = useState<boolean | null>(like);
-
-  const btnName = useMemo(() => {
-    if (replyID) return 'reply';
-    if (commentID) return 'comment';
-    return 'article';
-  }, [commentID, replyID]);
 
   const onVote: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -100,17 +90,6 @@ export default memo(function CommentBtns({
           <CommentDownVote />
         </Btn>
       </VoteBtn>
-      <ReportBtn
-        show={showReportBtn}
-        name={btnName}
-        data-category={category}
-        data-article-id={articleID}
-        data-comment-id={commentID}
-        data-reply-id={replyID}
-        onClick={onClickReport}
-      >
-        Report
-      </ReportBtn>
     </BtnWrapper>
   );
 });
@@ -183,11 +162,4 @@ const Btn = styled.button<{ name: string; userLikes: boolean | null }>`
       }};
     }
   }
-`;
-
-const ReportBtn = styled.button<{ show: boolean }>`
-  ${WhiteBtnStyle};
-  display: ${({ show }) => (show ? 'inline' : 'none')};
-  position: absolute;
-  right: 0;
 `;

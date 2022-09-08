@@ -5,6 +5,7 @@ import {
   useRef,
   ChangeEventHandler,
   FormEventHandler,
+  MouseEventHandler,
 } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
@@ -12,17 +13,21 @@ import { WriteComment } from 'public/Icons/main/forum';
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  prevComment?: string;
   articleID: number;
   commentID?: number;
+  onClickSubmit?: MouseEventHandler<HTMLButtonElement>;
   onSubmitComment?: FormEventHandler<HTMLFormElement>;
 };
 
 export default memo(function CommentInput({
+  prevComment = '',
   articleID,
   commentID,
+  onClickSubmit,
   onSubmitComment,
 }: PropsType) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(prevComment);
   const TextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
@@ -39,10 +44,11 @@ export default memo(function CommentInput({
           placeholder="What are your thoughts?"
           data-article-id={articleID}
           data-comment-id={commentID}
+          data-is-edit-mode={prevComment !== ''}
           onChange={onChange}
           ref={TextareaRef}
         />
-        <Btn disabled={value === ''}>
+        <Btn disabled={value === ''} type="submit" onClick={onClickSubmit}>
           <WriteComment />
         </Btn>
       </Wrapper>

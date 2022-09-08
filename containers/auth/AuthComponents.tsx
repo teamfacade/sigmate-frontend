@@ -46,7 +46,7 @@ export default function AuthComponents() {
     async (e) => {
       switch (e.currentTarget.name) {
         case 'Google':
-          router.replace('http://api.sigmate.io/oauth/google');
+          router.replace(`${API_DOMAIN}/oauth/google`);
           break;
         case 'Metamask':
           if (!isSignInProgress && window?.ethereum?.isMetaMask) {

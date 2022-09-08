@@ -22,7 +22,7 @@ const DrawsWrapper = styled.div`
   display: flex;
   width: 100%;
   max-width: 1000px;
-  overflow-x: scroll;
+  overflow-x: auto;
 `;
 
 const Draw = styled.div`

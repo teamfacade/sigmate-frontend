@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Heading, Paragraph } from 'components/main/wiki/read';
 
 type PropsType = {
-  tag: string;
+  element: string;
   content: string;
 };
 
@@ -11,10 +11,10 @@ const Components: StringKeyObj<typeof Paragraph> = {
   h: Heading,
 };
 
-export default memo(function ReadComponent({ tag, content }: PropsType) {
-  const Component = Components[tag];
+export default memo(function ReadComponent({ element, content }: PropsType) {
+  const Component = Components[element];
 
-  switch (tag) {
+  switch (element) {
     case 'p':
     case 'h':
       return <Component content={content} />;

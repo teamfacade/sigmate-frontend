@@ -51,15 +51,8 @@ const ExLogs = [
 
 export default function Logs() {
   const [selected, setSelected] = useState('Point');
-  const [logs, setLogs] = useState<LogType[]>([]);
+  const [logs, setLogs] = useState<LogType[]>(ExLogs);
   const [curPage, setCurPage] = useState(1);
-
-  useEffect(
-    () =>
-      // @todo 초기 데이터 긁어오기
-      setLogs(ExLogs),
-    []
-  );
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     setSelected(e.currentTarget.name);

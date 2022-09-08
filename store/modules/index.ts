@@ -13,7 +13,8 @@ const reducer: Reducer = (state, action) => {
       ...state,
       ...action.payload,
     };
-  } if (action.type === 'setRootState') {
+  }
+  if (action.type === 'setRootState') {
     return {
       ...action.payload,
     };

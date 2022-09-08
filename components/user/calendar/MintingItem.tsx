@@ -7,14 +7,14 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   name: string;
-  publisher: string;
+  category: string;
   thumbnailURL: string;
   onClick: MouseEventHandler<HTMLDivElement>;
 };
 
 export default memo(function MintingItem({
   name,
-  publisher,
+  category,
   thumbnailURL,
   onClick,
 }: PropsType) {
@@ -29,7 +29,7 @@ export default memo(function MintingItem({
       </ImageWrapper>
       <DescriptionWrapper>
         <Name>{name}</Name>
-        <Publisher>{publisher}</Publisher>
+        <Publisher>{category}</Publisher>
       </DescriptionWrapper>
     </Wrapper>
   );

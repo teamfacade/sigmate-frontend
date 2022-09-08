@@ -1,10 +1,15 @@
 import { MouseEventHandler, useCallback } from 'react';
 import styled from 'styled-components';
+import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { SocialBtn } from 'components/user/account';
 import styles from 'styles/styleLib';
 
 export default function SyncSocial() {
+  const { googleAccount, twitterHandle, discordAccount } = useAppSelector(
+    ({ account }) => account
+  );
+
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     if (e.currentTarget.name === 'Twitter') {
       // eslint-disable-next-line no-alert
@@ -27,9 +32,21 @@ export default function SyncSocial() {
           }
         </Description>
         <ButtonWrapper>
-          <SocialBtn name="Twitter" connected={false} onClick={onClick} />
-          <SocialBtn name="Discord" connected onClick={onClick} />
-          <SocialBtn name="Google" connected onClick={onClick} />
+          <SocialBtn
+            name="Twitter"
+            connected={!!twitterHandle}
+            onClick={onClick}
+          />
+          <SocialBtn
+            name="Discord"
+            connected={!!discordAccount}
+            onClick={onClick}
+          />
+          <SocialBtn
+            name="Google"
+            connected={!!googleAccount}
+            onClick={onClick}
+          />
         </ButtonWrapper>
       </SectionWrapper>
     </BasicWrapper>

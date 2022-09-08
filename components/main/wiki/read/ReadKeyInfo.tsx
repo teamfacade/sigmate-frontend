@@ -1,225 +1,122 @@
 import { Dispatch, memo, SetStateAction } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { gridAreas } from 'lib/main/wiki/getWikiData';
 import { ImageWrapper } from 'components/global';
 import { VerdictBlock } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
-const ExVerdict: VerdictType = {
-  verify: 2400,
-  warning: 350,
-  voted: '',
-  comments: [],
-};
-
 type PropsType = {
-  setShowModal?: Dispatch<SetStateAction<number>>;
-  name: string;
-  thumbnailUrl: string;
-  team: string;
-  rugpool: string;
-  utility: string;
-  WLPrice: string;
-  publicPrice: string;
-  currentPrice: string;
-  discordUrl: string;
-  twitterUrl: string;
-  officialSiteUrl: string;
-  chain: string;
-  marketplace: string;
+  keyInfos: Wiki.DocumentBlockType[];
+  setShowModal?: Dispatch<SetStateAction<Wiki.ModalDataType>>;
 };
 
 export default memo(function ReadKeyInfo({
+  keyInfos,
   setShowModal,
-  name,
-  thumbnailUrl,
-  team,
-  rugpool,
-  utility,
-  WLPrice,
-  publicPrice,
-  currentPrice,
-  discordUrl,
-  twitterUrl,
-  officialSiteUrl,
-  chain,
-  marketplace,
 }: PropsType) {
-  return (
-    <>
-      <H3>Key Info</H3>
-      <Hr />
-      <Table>
-        <TableItem gridArea="Name">
-          <p>{name}</p>
+  const TdBlocks = keyInfos.map((keyInfo, i) => {
+    if (i === 0)
+      return (
+        <TableItem gridArea={gridAreas[i]}>
+          <p>{keyInfo.textContent}</p>
         </TableItem>
-        <TableItem gridArea="Thumbnail">
+      );
+    if (i === 1)
+      return (
+        <TableItem gridArea={gridAreas[i]}>
           <ImageWrapper width="100%" height="100%">
             <Image
-              src={thumbnailUrl || UserImageEx}
+              src={keyInfo.textContent || UserImageEx}
               alt="thumbnail image"
               layout="fill"
             />
           </ImageWrapper>
         </TableItem>
+      );
+    return (
+      <VerdictBlock
+        id={keyInfo.id}
+        verifications={keyInfo.verifications}
+        setShowModal={
+          setShowModal as Dispatch<SetStateAction<Wiki.ModalDataType>>
+        }
+        padding={false}
+      >
+        <TableItem gridArea={gridAreas[i]}>
+          <p>{keyInfo.textContent}</p>
+        </TableItem>
+      </VerdictBlock>
+    );
+  });
+
+  return (
+    <>
+      <H3>Key Info</H3>
+      <Hr />
+      <Table>
+        {/* Name and Thumbnail */}
+        {TdBlocks[0]}
+        {TdBlocks[1]}
         <TableItem gridArea="Th_Team">
           <p>Team</p>
         </TableItem>
         <TableItem gridArea="Tr_Team">
           <p>Team</p>
         </TableItem>
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_Team">
-            <p>{team}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[2]}
         <TableItem gridArea="Tr_Rugpool">
           <p>Rugpool</p>
         </TableItem>
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_Rugpool">
-            <p>{rugpool}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[3]}
         <TableItem gridArea="Th_Category">
           <p>Category</p>
         </TableItem>
         <TableItem gridArea="Tr_Utility">
           <p>Utility</p>
         </TableItem>
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_Utility">
-            <p>{utility}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[4]}
         <TableItem gridArea="Th_Price">
           <p>Minting Price</p>
         </TableItem>
         <TableItem gridArea="Tr_WLPrice">
           <p>Whitelist</p>
         </TableItem>
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_WLPrice">
-            <p>{WLPrice}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[5]}
         <TableItem gridArea="Tr_PublicPrice">
           <p>Public</p>
         </TableItem>
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_PublicPrice">
-            <p>{publicPrice}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[6]}
         <TableItem gridArea="Tr_CurrentPrice">
           <p>Current</p>
         </TableItem>
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_CurrentPrice">
-            <p>{currentPrice}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[7]}
         <TableItem gridArea="Th_Community">
           <p>Community</p>
         </TableItem>
         <TableItem gridArea="Tr_Discord">
           <p>Discord</p>
         </TableItem>
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_Discord">
-            <p>{discordUrl}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[8]}
         <TableItem gridArea="Tr_Twitter">
           <p>Twitter</p>
         </TableItem>
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_Twitter">
-            <p>{twitterUrl}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[9]}
         <TableItem gridArea="Tr_OfficialSite">
           <p>Official website</p>
         </TableItem>
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_OfficialSite">
-            <p>{officialSiteUrl}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[10]}
         <TableItem gridArea="Th_Chain">
           <p>Chain</p>
         </TableItem>
         <TableItem gridArea="Tr_Chain" />
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_Chain">
-            <p>{chain}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[11]}
         <TableItem gridArea="Th_Marketplace">
           <p>Marketplace</p>
         </TableItem>
         <TableItem gridArea="Tr_Marketplace" />
-        <VerdictBlock
-          id={1}
-          verdict={ExVerdict}
-          setShowModal={setShowModal as Dispatch<SetStateAction<number>>}
-          padding={false}
-        >
-          <TableItem gridArea="Td_MarketPlace">
-            <p>{marketplace}</p>
-          </TableItem>
-        </VerdictBlock>
+        {TdBlocks[12]}
       </Table>
     </>
   );
@@ -258,6 +155,7 @@ const Table = styled.div`
   grid-template-rows: 40px 215px repeat(11, 30px);
   grid-template-columns: 115px 190px 195px;
   width: fit-content;
+  margin-bottom: 24px;
   border: 1px solid ${styles.colors.hrColor};
   border-bottom: none;
 `;
@@ -292,7 +190,7 @@ const TableItem = styled.div<{ gridArea: string }>`
     return '';
   }};
 
-  overflow: scroll auto;
+  overflow: auto;
 
   p {
     margin: 0;

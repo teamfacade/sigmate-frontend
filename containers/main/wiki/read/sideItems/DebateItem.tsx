@@ -17,7 +17,6 @@ type PropsType = {
 };
 
 export default memo(function DebateItem({
-  index,
   PFPUrl,
   author,
   timestamp,
@@ -31,10 +30,10 @@ export default memo(function DebateItem({
           <Link href={`/main/profile/${author}`} passHref>
             <Author>{author}</Author>
           </Link>
-          <TimeDiff index={index} timestamp={timestamp} />
+          <TimeDiff index={-1} timestamp={timestamp} />
         </InfoInnerWrapper>
       </InfoWrapper>
-      <EllipsisText height="63px" maxWord={95} content={content} />
+      <EllipsisText height="63px" content={content} />
     </Wrapper>
   );
 });

@@ -72,6 +72,12 @@ export const BlueBtnStyle = `
   }
 `;
 
+export const TransparentBtnStyle = `  width: fit-content;
+  height: fit-content;
+  padding: 0;
+  background-color: transparent;
+  border: none;`;
+
 export const WrapperStyle = `
   padding: 40px;
   background-color: white;

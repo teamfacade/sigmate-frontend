@@ -37,6 +37,8 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/no-autofocus': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',
     'no-console': 'warn',

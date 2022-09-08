@@ -6,18 +6,20 @@ import { ImageWrapper } from 'components/global';
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  id: number;
   name: string;
   description: string;
   imageURL: string;
 };
 
 export default memo(function Category({
+  id,
   name,
   description,
   imageURL,
 }: PropsType) {
   return (
-    <Link href={`/main/forum/${name}`}>
+    <Link href={`/main/forum/${id}`}>
       <a>
         <Wrapper>
           {imageURL ? (

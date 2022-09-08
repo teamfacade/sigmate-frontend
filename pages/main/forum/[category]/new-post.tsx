@@ -1,11 +1,17 @@
 import {
   useState,
   useCallback,
+  useEffect,
+  useRef,
   ChangeEventHandler,
   FocusEventHandler,
+  MouseEventHandler,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { parseTags } from 'lib/main/forum/parseTags';
 import { getPrevArticleContent } from 'lib/main/forum/getForumDatas';
 import {
@@ -18,10 +24,22 @@ export default function WritePost({
   title: prevTitle,
   content: prevContent,
   tags,
+  articleID,
+  error = false,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const [title, setTitle] = useState(prevTitle);
   const [content, setContent] = useState(prevContent);
   const [tag, setTag] = useState(tags.toString());
+  const titleRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (error)
+      alert(
+        'Something went wrong!\r\nFailed to load article contents.\r\nPlease try again.'
+      );
+  }, []);
 
   const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     switch (e.currentTarget.name) {
@@ -44,9 +62,38 @@ export default function WritePost({
     []
   );
 
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+    if (title === '') titleRef.current?.focus();
+    else {
+      dispatch(
+        AuthRequiredAxios({
+          method: articleID ? 'PATCH' : 'POST',
+          url: articleID ? `/forum/p/${articleID}` : '/forum/p',
+          data: {
+            title,
+            content,
+            categories: [router.query.category],
+            tags: tag.split(','),
+          },
+        })
+      ).then((action: any) => {
+        if (action.payload.status === (articleID ? 200 : 201))
+          router.push(
+            `/main/forum/${router.query.category}/${action.payload.data.forumPost.id}`
+          );
+        else alert('Something went wrong!\r\nPlease try again.');
+      });
+    }
+  }, [title, content, tag, articleID]);
+
   return (
     <Wrapper>
-      <SingleLineTextArea name="Title" value={title} onChange={onChange} />
+      <SingleLineTextArea
+        name="Title"
+        value={title}
+        onChange={onChange}
+        ref={titleRef}
+      />
       <MainContentTextArea name="Content" value={content} onChange={onChange} />
       <SingleLineTextArea
         name="Tag"
@@ -55,7 +102,9 @@ export default function WritePost({
         onBlur={onBlurTagTextArea}
       />
       <BtnWrapper>
-        <BlueBtn>Post</BlueBtn>
+        <BlueBtn onClick={onClick}>
+          {articleID !== undefined ? 'Save' : 'Post'}
+        </BlueBtn>
       </BtnWrapper>
     </Wrapper>
   );
@@ -64,10 +113,7 @@ export default function WritePost({
 // This gets called on every request
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   // Fetch data from external API
-  const articleData = getPrevArticleContent(
-    query?.category as string,
-    query?.id as string | undefined
-  );
+  const articleData = getPrevArticleContent(query?.id as string | undefined);
 
   // Pass data to the page via props
   return { props: articleData };

@@ -9,7 +9,7 @@ import styles from 'styles/styleLib';
 import SocialLink from './SocialLink';
 
 type PropsType = {
-  mint?: MintingType;
+  mint?: Minting.ScheduleType;
 };
 
 export default memo(function MintDetail({ mint }: PropsType) {
@@ -19,37 +19,55 @@ export default memo(function MintDetail({ mint }: PropsType) {
   return (
     <Wrapper>
       <ImageWrapper width="680px" height="415px">
-        <Image src={UserImageEx} alt={`${mint.name} Image`} layout="fill" />
+        <Image
+          src={mint.collectionInfo.imageUrl || UserImageEx}
+          alt={`${mint.name} Image`}
+          layout="fill"
+        />
       </ImageWrapper>
       <Descriptions>
         <FlexWrapper>
           <Name>Minting Time / Date</Name>
-          <Content>{convertDate(new Date(mint.date), 'time', ' ')}</Content>
+          <Content>
+            {convertDate(new Date(mint.mintingTime), 'time', ' ')}
+          </Content>
         </FlexWrapper>
         <FlexWrapper>
           <Name>Minting Price</Name>
-          <Content>{mint.price}</Content>
+          <Content>
+            <span>{mint.mintingPrice}</span>
+            <span>{` ${mint.mintingPriceSymbol}`}</span>
+          </Content>
         </FlexWrapper>
         <BtnWrapper>
           <InnerBtnWrapper>
-            {mint.twitterUrl && (
-              <SocialLink platform="Twitter" url={mint.twitterUrl} />
+            {mint.collectionInfo.twitterUrl && (
+              <SocialLink
+                platform="Twitter"
+                url={mint.collectionInfo.twitterUrl}
+              />
             )}
-            {mint.telegramUrl && (
-              <SocialLink platform="Telegram" url={mint.telegramUrl} />
+            {mint.collectionInfo.telegramUrl && (
+              <SocialLink
+                platform="Telegram"
+                url={mint.collectionInfo.telegramUrl}
+              />
             )}
-            {mint.discordUrl && (
-              <SocialLink platform="Discord" url={mint.discordUrl} />
+            {mint.collectionInfo.discordUrl && (
+              <SocialLink
+                platform="Discord"
+                url={mint.collectionInfo.discordUrl}
+              />
             )}
           </InnerBtnWrapper>
           <InnerBtnWrapper>
             <LinkBtn mintPage={false}>
-              <Link href={mint.wikiPage || 'https://namu.wiki'}>
+              <Link href={`/main/wiki/${mint.name}`}>
                 <a>Wiki Page</a>
               </Link>
             </LinkBtn>
             <LinkBtn mintPage>
-              <Link href={mint.mintPage || 'https://opensea.io'}>
+              <Link href={mint.mintingUrl || 'https://opensea.io'}>
                 <a>Minting Page</a>
               </Link>
             </LinkBtn>
@@ -96,6 +114,7 @@ const BtnWrapper = styled.div`
 
 const InnerBtnWrapper = styled.div`
   display: flex;
+  align-items: flex-end;
 
   a + a {
     margin-left: 7px;

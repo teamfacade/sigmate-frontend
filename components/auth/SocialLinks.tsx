@@ -6,17 +6,17 @@ export default function SocialLinks() {
   return (
     <Wrapper>
       <LinkWrapper>
-        <Link href="https://twitter.com/SigmateOfficial">
+        <Link href="https://twitter.com/OfficialSigmate">
           <a>
             <SNSBtn platform="Twitter" />
           </a>
         </Link>
-        <Link href="https://t.me/sigmateofficial">
+        <Link href="https://t.me/officialsigmate">
           <a>
             <SNSBtn platform="Telegram" />
           </a>
         </Link>
-        <Link href="https://discord.gg/sprK4kWDze">
+        <Link href="https://discord.gg/DaEsBQh3dh">
           <a>
             <SNSBtn platform="Discord" />
           </a>
@@ -40,7 +40,7 @@ const Wrapper = styled.div`
 
 const LinkWrapper = styled.div`
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
 
   button {
     position: relative;

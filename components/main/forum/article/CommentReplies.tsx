@@ -1,17 +1,25 @@
-import { memo, Dispatch, SetStateAction } from 'react';
+import { memo, FormEventHandler, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { Comment, CommentInput } from 'components/main/forum/article';
 
 type PropsType = {
-  replies: ForumCommentType[];
+  category: string;
+  articleID: number;
+  commentID: number;
+  replies: Forum.CommentType[];
   show: boolean;
-  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
+  onSubmitComment?: FormEventHandler<HTMLFormElement>;
+  onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function CommentReplies({
+  category,
+  articleID,
+  commentID,
   replies,
   show,
-  setShowModal,
+  onSubmitComment,
+  onClickReport,
 }: PropsType) {
   return (
     <RepliesWrapper>
@@ -19,17 +27,29 @@ export default memo(function CommentReplies({
         {replies.map((reply) => (
           <Comment
             key={reply.id}
-            id={reply.id}
-            PFPUrl={reply.PFPUrl}
-            author={reply.author}
-            text={reply.text}
+            category={category}
+            articleID={articleID}
+            commentID={commentID}
+            replyID={reply.id}
+            voteCount={reply.voteCount}
+            PFPUrl={reply.createdBy.primaryProfile.profileImageUrl || ''}
+            author={
+              reply.createdBy.primaryProfile.displayName ||
+              reply.createdBy.userName ||
+              ''
+            }
+            authorUserName={reply.createdBy.userName || ''}
+            text={reply.content}
             replies={[]}
-            recommend={reply.recommend}
             isReply
-            setShowModal={setShowModal}
+            onClickReport={onClickReport}
           />
         ))}
-        <CommentInput />
+        <CommentInput
+          articleID={articleID}
+          commentID={commentID}
+          onSubmitComment={onSubmitComment}
+        />
       </ReplyWrapper>
     </RepliesWrapper>
   );

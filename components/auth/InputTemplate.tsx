@@ -47,7 +47,9 @@ export default memo(
           />
           {ValidityIcon && <ValidityIcon />}
         </TextareaWrapper>
-        {description && <Description>{description}</Description>}
+        {description && (
+          <Description isValid={isValid}>{description}</Description>
+        )}
       </Wrapper>
     );
   })
@@ -103,9 +105,9 @@ const Textarea = styled.textarea<{ isValid: boolean | undefined }>`
   }
 `;
 
-const Description = styled.p`
+const Description = styled.p<{ isValid?: boolean }>`
   margin: 0;
-  color: #909090;
+  color: ${({ isValid }) => (isValid ? '#909090' : `#E54646`)};
   font-size: 16px;
   font-weight: 300;
   line-height: 160%;

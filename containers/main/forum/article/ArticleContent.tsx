@@ -1,4 +1,4 @@
-import { memo, MouseEventHandler, Dispatch, SetStateAction } from 'react';
+import { memo, MouseEventHandler, FormEventHandler } from 'react';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { Recommend, Infos } from 'components/main/forum/articleList';
 import { Content, ArticleManageBtns } from 'components/main/forum/article';
@@ -6,42 +6,56 @@ import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  article: ForumArticleType;
+  category: string;
+  post: Forum.PostType;
   onClickDelete: MouseEventHandler<HTMLButtonElement>;
-  setShowModal: Dispatch<SetStateAction<Forum.ReportType>>;
+  onSubmitComment: FormEventHandler<HTMLFormElement>;
+  onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function ArticleContent({
-  article,
+  category,
+  post,
   onClickDelete,
-  setShowModal,
+  onSubmitComment,
+  onClickReport,
 }: PropsType) {
   const { userName } = useAppSelector(({ account }) => account);
 
   return (
     <Wrapper>
-      <Recommend recommend={article.recommend} />
+      <Recommend
+        id={post.id}
+        category={category}
+        voteCount={post.votes?.voteCount || 0}
+      />
       <ContentWrapper>
         <Infos
-          author={article.author}
-          tags={article.tags}
-          timestamp={article.timestamp}
+          author={
+            post.createdBy.primaryProfile.displayName ||
+            post.createdBy.userName ||
+            ''
+          }
+          tags={post.tags || []}
+          timestamp={post.createdAt || new Date(Date.now()).toISOString()}
+          isAuthor={userName === post.createdBy.userName}
         >
-          {userName === article.author && (
+          {userName === post.createdBy.userName && (
             <ArticleManageBtns
-              category={article.category}
-              articleID={article.id.toString()}
+              category={category}
+              articleID={post.id.toString()}
               onClickDelete={onClickDelete}
             />
           )}
         </Infos>
         <Content
-          id={article.id}
-          category={article.category}
-          title={article.title}
-          content={article.content}
-          imageURL={article.imageURL}
-          setShowModal={setShowModal}
+          id={post.id}
+          category={category}
+          title={post.title}
+          content={post.content}
+          imageUrls={post.imageUrls || []}
+          onSubmitComment={onSubmitComment}
+          onClickReport={onClickReport}
         />
       </ContentWrapper>
     </Wrapper>
@@ -57,5 +71,6 @@ const Wrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
+  width: 100%;
   border-left: 1px solid ${styles.colors.dividerColor};
 `;

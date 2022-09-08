@@ -12,7 +12,7 @@ type PropsType = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   name: string;
   content?: string;
-  voted: string;
+  isUpvote: boolean | null;
   commented?: boolean;
 };
 
@@ -42,7 +42,7 @@ export default memo(function VerdictBtn({
   onClick,
   name,
   content,
-  voted,
+  isUpvote,
   commented,
 }: PropsType) {
   const Icon = Icons[name];
@@ -50,7 +50,11 @@ export default memo(function VerdictBtn({
   return (
     <Btn
       name={name}
-      activate={voted === name || (name === 'Comment' && !!commented)}
+      activate={
+        (isUpvote && name === 'Verify') ||
+        (isUpvote === false && name === 'Warning') ||
+        (name === 'Comment' && !!commented)
+      }
       onClick={onClick}
     >
       <BtnCompWrapper>

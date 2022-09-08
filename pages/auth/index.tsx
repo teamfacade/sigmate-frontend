@@ -1,19 +1,14 @@
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
-import { signOut } from 'store/modules/authSlice';
+import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthComponents, AccSetup, LogoWithLinks } from 'containers/auth';
 
 export default function AuthPage() {
-  const dispatch = useAppDispatch();
   const signedIn = useAppSelector(({ auth }) => auth.signedIn);
-  const signedUp = useAppSelector(({ account }) => !account.userName);
+  const { userName, metamaskWallet } = useAppSelector(({ account }) => account);
   const router = useRouter();
 
-  const onClickNotShow = () => dispatch(signOut());
-
-  if (signedIn && !signedUp) {
+  if (signedIn && userName) {
     router.push('/main');
   }
 
@@ -21,13 +16,16 @@ export default function AuthPage() {
     <div style={{ height: '100vh' }}>
       <Wrapper>
         <LeftWrapper>
-          {signedIn && signedUp ? <AccSetup /> : <AuthComponents />}
+          {signedIn && !userName ? (
+            <AccSetup signedWithMetamask={!!metamaskWallet} />
+          ) : (
+            <AuthComponents />
+          )}
         </LeftWrapper>
         <RightWrapper>
           <LogoWithLinks />
         </RightWrapper>
       </Wrapper>
-      <Btn onClick={onClickNotShow}>Go Back</Btn>
     </div>
   );
 }
@@ -60,14 +58,4 @@ const RightWrapper = styled.div`
   height: 100%;
   background-color: #ffffff;
   border-left: 2px solid #f0f0f0;
-`;
-
-const Btn = styled.button`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-
-  & + & {
-    margin-left: 20px;
-  }
 `;

@@ -9,6 +9,7 @@ type PropsType = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   width?: string;
   height?: string;
+  disabled?: boolean;
 };
 
 type SVGIcon = ReturnType<typeof Google>;
@@ -28,11 +29,18 @@ export default function OAuthBtn({
   onClick,
   width,
   height,
+  disabled,
 }: PropsType) {
   const Icon = Icons[service];
 
   return (
-    <Btn name={service} onClick={onClick} width={width} height={height}>
+    <Btn
+      name={service}
+      onClick={onClick}
+      width={width}
+      height={height}
+      disabled={disabled}
+    >
       <FlexWrapper>
         <SVGWrapper>
           <Icon style={{ margin: Margins[service] }} />

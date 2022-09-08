@@ -127,10 +127,11 @@ export default memo(function Contents({ header }: PropsType) {
       {header === 'Debate' && (
         <DebateInput onClick={onClickWrite} ref={debateInputRef} />
       )}
-      <ContentWrapper onScroll={onScroll}>
+      <ContentWrapper hasDebateInput={header === 'Debate'} onScroll={onScroll}>
         {contents.map((content) => (
           <Content
             key={content.id}
+            index={header === 'Debate' ? undefined : content.id}
             header={header}
             platform={isDebate(content) ? '' : content.platform}
             PFPUrl={isDebate(content) ? content.PFPUrl : ''}
@@ -144,10 +145,11 @@ export default memo(function Contents({ header }: PropsType) {
   );
 });
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.div<{ hasDebateInput: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
   height: 510px;
-  overflow: scroll;
+  padding-top: ${({ hasDebateInput }) => (hasDebateInput ? '55px' : 0)};
+  overflow: auto;
 `;

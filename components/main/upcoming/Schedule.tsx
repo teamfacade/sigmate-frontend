@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import {
   ScheduleThumbnail,
@@ -9,51 +9,55 @@ import {
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  event: string;
-  collection: string;
-  price: string;
-  symbol: string;
+  id: number;
+  name: string;
+  category: string;
   tier: number;
-  wikiPageUrl?: string;
+  mintingUrl?: string;
+  mintingPrice?: string;
+  mintingPriceSymbol?: string; // ETH/KLAYTN/SOL/Matic
+  wikiPageUrl: string;
   twitterUrl?: string;
-  telegramUrl?: string;
   discordUrl?: string;
-  mintPageUrl: string;
-  imageUrl: string;
+  websiteUrl?: string;
+  telegramUrl?: string;
+  imageUrl?: string;
+  onClickSchedule: MouseEventHandler<HTMLDivElement>;
 };
 
 export default memo(function Schedule({
-  event,
-  collection,
-  price,
-  symbol,
+  id,
+  name,
+  category,
   tier,
+  mintingUrl,
+  mintingPrice,
+  mintingPriceSymbol,
   wikiPageUrl,
   twitterUrl,
   telegramUrl,
   discordUrl,
-  mintPageUrl,
   imageUrl,
+  onClickSchedule,
 }: PropsType) {
   return (
-    <Wrapper>
-      <ScheduleThumbnail event={event} imageUrl={imageUrl} />
+    <Wrapper data-id={id} onClick={onClickSchedule}>
+      <ScheduleThumbnail name={name} imageUrl={imageUrl || ''} />
       <InnerWrapper>
         <Links
-          collection={collection}
           wikiPageUrl={wikiPageUrl}
           twitterUrl={twitterUrl}
           telegramUrl={telegramUrl}
           discordUrl={discordUrl}
         />
         <ScheduleInfos
-          event={event}
-          collection={collection}
-          price={price}
-          symbol={symbol}
+          name={name}
+          category={category}
+          price={mintingPrice}
+          symbol={mintingPriceSymbol}
           tier={tier}
         />
-        <ScheduleUtilBtns mintPageUrl={mintPageUrl} />
+        <ScheduleUtilBtns mintPageUrl={mintingUrl} />
       </InnerWrapper>
     </Wrapper>
   );
@@ -63,7 +67,14 @@ const Wrapper = styled.div`
   width: 340px;
   border-radius: 8px;
   background-color: #ffffff;
+  overflow: hidden;
   box-shadow: ${styles.shadows.containerShadow};
+  cursor: pointer;
+
+  :hover,
+  :active {
+    filter: brightness(0.7);
+  }
 `;
 
 const InnerWrapper = styled.div`

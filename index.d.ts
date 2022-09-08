@@ -1,3 +1,4 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import React from 'react';
 
 declare module '*.svg' {

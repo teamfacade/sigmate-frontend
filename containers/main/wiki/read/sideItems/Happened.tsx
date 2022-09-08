@@ -32,7 +32,7 @@ export default memo(function Happened({
           <TimeDiff index={index} timestamp={timestamp} />
         </InfoInnerWrapper>
       </InfoWrapper>
-      <EllipsisText height="63px" maxWord={95} content={content} />
+      <EllipsisText height="63px" content={content} />
     </Wrapper>
   );
 });

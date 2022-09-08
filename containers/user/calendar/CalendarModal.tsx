@@ -12,7 +12,7 @@ import { Close as CloseIcon } from 'public/Icons/global';
 
 type PropsType = {
   date?: string;
-  mintings: MintingType[];
+  mintings: Minting.ScheduleType[];
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 

@@ -4,6 +4,7 @@ import {
   useCallback,
   useRef,
   ChangeEventHandler,
+  FormEventHandler,
   MouseEventHandler,
 } from 'react';
 import styled from 'styled-components';
@@ -11,32 +12,52 @@ import { darken } from 'polished';
 import { WriteComment } from 'public/Icons/main/forum';
 import styles from 'styles/styleLib';
 
-export default memo(function CommentInput() {
-  const [value, setValue] = useState('');
+type PropsType = {
+  prevComment?: string;
+  articleID: number;
+  commentID?: number;
+  onClickSubmit?: MouseEventHandler<HTMLButtonElement>;
+  onSubmitComment?: FormEventHandler<HTMLFormElement>;
+};
+
+export default memo(function CommentInput({
+  prevComment = '',
+  articleID,
+  commentID,
+  onClickSubmit,
+  onSubmitComment,
+}: PropsType) {
+  const [value, setValue] = useState(prevComment);
   const TextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => setValue(e.currentTarget.value),
     []
   );
-  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    if (TextareaRef.current)
-      // eslint-disable-next-line no-alert
-      alert(`Add following comment: ${TextareaRef.current.value}`);
-  }, [TextareaRef]);
 
   return (
-    <Wrapper>
-      <Textarea
-        value={value}
-        placeholder="What are your thoughts?"
-        onChange={onChange}
-        ref={TextareaRef}
-      />
-      <Btn disabled={value === ''} onClick={onClick}>
-        <WriteComment />
-      </Btn>
-    </Wrapper>
+    <form onSubmit={onSubmitComment}>
+      <Wrapper>
+        <Textarea
+          name="textarea"
+          value={value}
+          placeholder="What are your thoughts?"
+          data-article-id={articleID}
+          data-comment-id={commentID}
+          data-is-edit-mode={prevComment !== ''}
+          onChange={onChange}
+          ref={TextareaRef}
+        />
+        <Btn
+          disabled={value === ''}
+          type="submit"
+          data-value={value}
+          onClick={onClickSubmit}
+        >
+          <WriteComment />
+        </Btn>
+      </Wrapper>
+    </form>
   );
 });
 

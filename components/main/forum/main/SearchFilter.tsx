@@ -7,13 +7,17 @@ import {
 } from 'components/global/CustomSelectComponents';
 import styles from 'styles/styleLib';
 
-const options: OptionType[] = [
+const options: ReactSelect.OptionType[] = [
   { value: 'Category', label: 'Category' },
   { value: 'Title', label: 'Thread Title' },
   { value: 'Content', label: 'Thread content' },
 ];
 
-const customStyles: StylesConfig<OptionType, false, GroupBase<OptionType>> = {
+const customStyles: StylesConfig<
+  ReactSelect.OptionType,
+  false,
+  GroupBase<ReactSelect.OptionType>
+> = {
   control: (base) => ({
     ...base,
     width: 200,
@@ -37,9 +41,12 @@ type PropsType = {
 };
 
 export default memo(function SearchFilter({ setFilter }: PropsType) {
-  const onChange: SingleSelectChangeEventHandler = useCallback((selected) => {
-    setFilter(selected?.value as ForumSearchFilter);
-  }, []);
+  const onChange: ReactSelect.SingleSelectChangeEventHandler = useCallback(
+    (selected) => {
+      setFilter(selected?.value as ForumSearchFilter);
+    },
+    []
+  );
 
   return (
     <Select

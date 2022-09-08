@@ -5,7 +5,6 @@ export const loadState = (stateName?: string) => {
   // localStorage access can fail
   try {
     const serializedState = localStorage.getItem('state');
-
     if (serializedState === null || serializedState === 'undefined') {
       return undefined;
     }
@@ -14,7 +13,8 @@ export const loadState = (stateName?: string) => {
     }
     return JSON.parse(serializedState);
   } catch (err) {
-    console.error(`error occurred while fetching: ${err}`);
+    // eslint-disable-next-line no-console
+    console.error(err);
     return undefined;
   }
 };
@@ -24,6 +24,7 @@ export const saveState = (state: AppState) => {
   try {
     localStorage.setItem('state', JSON.stringify(state));
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(err);
   }
 };

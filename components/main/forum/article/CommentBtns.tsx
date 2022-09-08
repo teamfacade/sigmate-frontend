@@ -1,40 +1,95 @@
-import { memo, MouseEventHandler } from 'react';
+import { memo, MouseEventHandler, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { CommentDownVote, CommentUpVote } from 'public/Icons/main/forum';
 
 type PropsType = {
+  voteCount: number;
+  like: boolean | null;
+  category: string;
+  articleID: number;
+  commentID: number;
+  replyID?: number;
   length: number;
-  recommend: number;
   onClick: MouseEventHandler<HTMLButtonElement>;
   isReply?: boolean;
-  showReportBtn: boolean;
-  onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function CommentBtns({
+  voteCount,
+  like,
+  category,
+  articleID,
+  commentID,
   length,
-  recommend,
   onClick,
   isReply,
-  showReportBtn,
-  onClickReport,
+  replyID,
 }: PropsType) {
+  const [curVoteCount, setCurVoteCount] = useState<number>(voteCount);
+  const [userLikes, setUserLikes] = useState<boolean | null>(like);
+
+  const onVote: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      const { name } = e.currentTarget;
+
+      if (name === 'Up') {
+        if (!userLikes) {
+          setCurVoteCount((cur) => {
+            return cur + (userLikes === null ? 1 : 2);
+          });
+          setUserLikes(true);
+          alert(
+            `Vote as like for ${category}'s article ${articleID}'s comment ${commentID}${
+              isReply ? `'s reply ${replyID}` : ''
+            }`
+          );
+        } else {
+          setCurVoteCount((cur) => cur - 1);
+          setUserLikes(null);
+          alert(
+            `Cancel like for ${category}'s article ${articleID}'s comment ${commentID}${
+              isReply ? `'s reply ${replyID}` : ''
+            }`
+          );
+        }
+      } else if (name === 'Down') {
+        if (userLikes || userLikes === null) {
+          setCurVoteCount((cur) => {
+            return cur - (userLikes === null ? 1 : 2);
+          });
+          setUserLikes(false);
+          alert(
+            `Vote as dislike for ${category}'s article ${articleID}'s comment ${commentID}${
+              isReply ? `'s reply ${replyID}` : ''
+            }`
+          );
+        } else {
+          setCurVoteCount((cur) => cur + 1);
+          setUserLikes(null);
+          alert(
+            `Cancel dislike for ${category}'s article ${articleID}'s comment ${commentID}${
+              isReply ? `'s reply ${replyID}` : ''
+            }`
+          );
+        }
+      }
+    },
+    [userLikes, category, articleID, commentID, replyID]
+  );
+
   return (
     <BtnWrapper>
       {!isReply && <ReplyBtn onClick={onClick}>{`reply ${length}`}</ReplyBtn>}
       <VoteBtn>
-        <button type="button">
+        <Btn type="button" name="Up" userLikes={userLikes} onClick={onVote}>
           <CommentUpVote />
-        </button>
-        <p>{recommend}</p>
-        <button type="button">
+        </Btn>
+        <p>{curVoteCount}</p>
+        <Btn type="button" name="Down" userLikes={userLikes} onClick={onVote}>
           <CommentDownVote />
-        </button>
+        </Btn>
       </VoteBtn>
-      <ReportBtn show={showReportBtn} onClick={onClickReport}>
-        Report
-      </ReportBtn>
     </BtnWrapper>
   );
 });
@@ -81,25 +136,30 @@ const VoteBtn = styled.div`
   display: inline-flex;
   align-items: center;
 
-    button {
-      position: relative;
-      top: 1px;
-      padding: 0;
-      margin: 0;
-      border: none;
-      background-color: transparent;
-      cursor: pointer;
-    }
-
-    p {
-      margin: 0 3px;
-    }
+  p {
+    margin: 0 3px;
   }
 `;
 
-const ReportBtn = styled.button<{ show: boolean }>`
-  ${WhiteBtnStyle};
-  display: ${({ show }) => (show ? 'inline' : 'none')};
-  position: absolute;
-  right: 0;
+const Btn = styled.button<{ name: string; userLikes: boolean | null }>`
+  position: relative;
+  top: 1px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  svg {
+    path {
+      fill: ${({ name, userLikes }) => {
+        if (
+          (userLikes && name === 'Up') ||
+          (userLikes === false && name === 'Down')
+        )
+          return styles.colors.emphColor;
+        return styles.colors.forumSubTextColor;
+      }};
+    }
+  }
 `;

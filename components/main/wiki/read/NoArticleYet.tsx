@@ -1,5 +1,7 @@
-import Link from 'next/link';
+import { useCallback, MouseEventHandler } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { useAppSelector } from 'hooks/reduxStoreHooks';
 import styles from 'styles/styleLib';
 
 type PropsType = {
@@ -7,15 +9,25 @@ type PropsType = {
 };
 
 export default function NoArticleYet({ title }: PropsType) {
+  const router = useRouter();
+  const { signedIn } = useAppSelector(({ auth }) => auth);
+  const { userName } = useAppSelector(({ account }) => account);
+
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+    if (signedIn && userName) router.push('/main/wiki-new-article');
+    else {
+      alert('You have to sign in to write a document.');
+      router.push('/auth');
+    }
+  }, [signedIn, userName]);
+
   return (
     <Wrapper>
       <h1>{title}</h1>
       <FlexWrapper>
         <p>Can&apos;t find what you are looking for?</p>
-        <button type="button">
-          <Link href="/main/wiki-new-article">
-            <a>Create new article</a>
-          </Link>
+        <button type="button" onClick={onClick}>
+          <p>Create new article</p>
         </button>
       </FlexWrapper>
     </Wrapper>
@@ -38,8 +50,17 @@ const FlexWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  @media (max-width: 728px) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    button {
+      margin-top: 20px !important;
+    }
+  }
+
   p {
-    margin: 0 290px 0 0;
+    margin: 0;
     color: ${styles.colors.logColor};
     font-size: 18px;
   }
@@ -52,9 +73,12 @@ const FlexWrapper = styled.div`
     background-color: ${styles.colors.emphColor};
     font-size: 18px;
     cursor: pointer;
+    text-align: center;
 
-    a {
+    p {
+      margin: 0;
       color: #ffffff;
+      white-space: nowrap;
     }
   }
 `;

@@ -48,7 +48,12 @@ export default memo(function CommentInput({
           onChange={onChange}
           ref={TextareaRef}
         />
-        <Btn disabled={value === ''} type="submit" onClick={onClickSubmit}>
+        <Btn
+          disabled={value === ''}
+          type="submit"
+          data-value={value}
+          onClick={onClickSubmit}
+        >
           <WriteComment />
         </Btn>
       </Wrapper>

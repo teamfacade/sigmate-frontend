@@ -5,7 +5,10 @@ import {
   MouseEventHandler,
   FormEventHandler,
 } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import {
   CommentReplies,
   CommentBtns,
@@ -46,9 +49,12 @@ export default memo(function Comment({
   onSubmitComment,
   onClickReport,
 }: PropsType) {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [showOptions, setShowOptions] = useState(false);
   const [showCommentEdit, setShowCommentEdit] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
+  const [commentText, setCommentText] = useState(text);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShowReplies((curShow) => !curShow),
@@ -56,7 +62,11 @@ export default memo(function Comment({
   );
 
   const onClickSubmit: MouseEventHandler<HTMLButtonElement> = useCallback(
-    () => setShowCommentEdit(false),
+    (e) => {
+      const { value } = e.currentTarget.dataset;
+      setShowCommentEdit(false);
+      setCommentText((cur) => value || cur);
+    },
     []
   );
 
@@ -68,11 +78,24 @@ export default memo(function Comment({
           break;
         case 'Edit':
           setShowOptions(false);
-          setShowCommentEdit(true);
+          setShowCommentEdit((cur) => !cur);
           break;
         case 'Delete':
           setShowOptions(false);
-          alert('DELETE COMMENT');
+          dispatch(
+            AuthRequiredAxios({
+              method: 'DELETE',
+              url: `/forum/cm/${commentID}`,
+            })
+          ).then(async (action: any) => {
+            if (action.payload.status !== 200) {
+              alert(
+                `Comment Deletion Failed. Please try again.\r\nERR: ${action.payload.status}`
+              );
+            } else {
+              await router.reload();
+            }
+          });
           break;
         default:
           break;
@@ -88,7 +111,7 @@ export default memo(function Comment({
         <SubWrapper>
           <CommentContent
             author={author}
-            text={text}
+            text={commentText}
             showCommentEdit={showCommentEdit}
             articleID={articleID}
             commentID={commentID}
@@ -114,6 +137,7 @@ export default memo(function Comment({
           onClick={onClickOption}
           onClickReport={onClickReport}
           showOptions={showOptions}
+          showCommentEdit={showCommentEdit}
         />
       </FlexWrapper>
       <CommentReplies

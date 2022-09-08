@@ -31,6 +31,7 @@ export default memo(function CommentContent({
       {!showCommentEdit && <Text>{text}</Text>}
       <div style={{ display: `${showCommentEdit ? 'initial' : 'none'}` }}>
         <CommentInput
+          prevComment={text}
           articleID={articleID}
           commentID={commentID}
           onClickSubmit={onClickSubmit}

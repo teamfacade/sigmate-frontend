@@ -11,6 +11,7 @@ type PropsType = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   onClickReport: MouseEventHandler<HTMLButtonElement>;
   showOptions: boolean;
+  showCommentEdit: boolean;
 };
 
 export default function MoreOptions({
@@ -21,6 +22,7 @@ export default function MoreOptions({
   onClick,
   onClickReport,
   showOptions,
+  showCommentEdit,
 }: PropsType) {
   const { userName } = useAppSelector(({ account }) => account);
 
@@ -45,7 +47,7 @@ export default function MoreOptions({
                 data-reply-id={replyID}
                 onClick={onClick}
               >
-                Edit
+                {showCommentEdit ? 'Cancel' : 'Edit'}
               </OptionBtn>
               <OptionBtn
                 name="Delete"

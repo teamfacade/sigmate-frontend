@@ -59,9 +59,7 @@ export const AuthRequiredAxios = createAsyncThunk<
           if (result === 'SignOutNeeded') {
             alert('Session was expired. You need to sign in again.');
             ThunkAPI.dispatch(signOut());
-          } else if (result !== 'Success') {
-            alert('Please try again later.');
-          } else if (accessToken) {
+          } else if (result === 'Success' && accessToken) {
             if (refreshToken)
               await ThunkAPI.dispatch(
                 setAuthTokens({ accessToken, refreshToken })

@@ -59,7 +59,19 @@ export default function Article({
       ) as HTMLTextAreaElement;
       const { articleId, commentId, isEditMode } = dataset;
       if (isEditMode) {
-        alert('EDIT SUCCESS');
+        dispatch(
+          AuthRequiredAxios({
+            method: 'PATCH',
+            url: `/forum/cm/${commentId}`,
+            data: { content: value },
+          })
+        ).then((action: any) => {
+          if (action.payload.status !== 200) {
+            alert(
+              `Comment Edit failed. Please try again.\r\nERR: ${action.payload.status}`
+            );
+          }
+        });
       } else if (commentId) {
         alert(
           `Add comment to article ${articleId}'s comment ${commentId}: ${value}`
@@ -82,7 +94,7 @@ export default function Article({
         });
       }
     },
-    []
+    [comments]
   );
 
   const onClickReport: MouseEventHandler<HTMLButtonElement> = useCallback(

@@ -27,17 +27,13 @@ export default memo(function Recommend({ id, category, voteCount }: PropsType) {
 
   const getMyVote = useCallback(async () => {
     if (userName) {
-      try {
-        const { payload } = await dispatch(
-          AuthRequiredAxios({ method: 'GET', url: `/forum/p/${id}/vote` })
+      const { payload } = await dispatch(
+        AuthRequiredAxios({ method: 'GET', url: `/forum/p/${id}/vote` })
+      );
+      if (payload.status === 200) {
+        setUserLikes(
+          payload.data.myVote === null ? null : payload.data.myVote.like
         );
-        if (payload.status === 200) {
-          setUserLikes(
-            payload.data.myVote === null ? null : payload.data.myVote.like
-          );
-        }
-      } catch (e) {
-        alert('Error while loading your vote.\r\nPlease reload the page.');
       }
     }
   }, [id, userName]);

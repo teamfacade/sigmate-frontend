@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { Header } from 'components/user/account';
 
-const VerdictDisplayOptions: OptionType[] = [
+const VerdictDisplayOptions: ReactSelect.OptionType[] = [
   { value: 'ColorBar', label: 'Show color bar (default)' },
   { value: 'Hide', label: 'Hide' },
 ];

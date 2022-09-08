@@ -9,7 +9,7 @@ import { OAuthBtn } from 'components/auth';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import Web3 from 'web3';
 
-const API_DOMAIN = 'http://api.sigmate.io';
+const API_DOMAIN = 'http://api.sigmate.io:5100';
 const BASE_URL = `${API_DOMAIN}/api/v1`;
 
 export default function AuthComponents() {

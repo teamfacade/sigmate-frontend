@@ -45,7 +45,7 @@ export default function OAuthBtn({
         <SVGWrapper>
           <Icon style={{ margin: Margins[service] }} />
         </SVGWrapper>
-        <p>{`Continue with ${service}`}</p>
+        <p>{disabled ? 'Connected!' : `Continue with ${service}`}</p>
       </FlexWrapper>
     </Btn>
   );

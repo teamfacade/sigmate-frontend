@@ -1,20 +1,28 @@
 import { MouseEventHandler, useCallback } from 'react';
 import Link from 'next/link';
-import { useAppSelector } from 'hooks/reduxStoreHooks';
 import styled from 'styled-components';
+import { connectToMetaMask } from 'lib/global/connectMetamask';
+import { useAppSelector, useAppDispatch } from 'hooks/reduxStoreHooks';
+import { setMetamaskWallet } from 'store/modules/accountSlice';
 import { SectionWrapper, BasicWrapper } from 'components/global';
 import { WalletBtn } from 'components/user/account';
 import styles from 'styles/styleLib';
 
 export default function UserPage() {
+  const dispatch = useAppDispatch();
   const { metamaskWallet } = useAppSelector(({ account }) => account);
 
-  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
-    if (e.currentTarget.name === 'Metamask') {
-      // eslint-disable-next-line no-alert
-      alert('Connect metamask wallet');
-    }
-  }, []);
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      if (e.currentTarget.name === 'Metamask') {
+        connectToMetaMask(dispatch).then((action) => {
+          if (action.payload.status === 200)
+            dispatch(setMetamaskWallet(action.payload.data.metamaskWallet));
+        });
+      }
+    },
+    [dispatch]
+  );
 
   return (
     <BasicWrapper>

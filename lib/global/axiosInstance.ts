@@ -32,7 +32,7 @@ export const RenewAccessToken: (
     }))
     .catch((err) => {
       if (err.response.status === 401) return RenewRefreshToken(config);
-      return { result: 'Fail' as RenewResultResultsType };
+      throw new Error(err.response.status);
     })
     .finally(() => {
       renewingAccess = false;

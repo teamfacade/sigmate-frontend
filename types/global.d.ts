@@ -148,7 +148,7 @@ declare global {
   namespace Minting {
     type CollectionType = {
       name?: string;
-      twitterUrl?: string;
+      twitterHandle?: string;
       discordUrl?: string;
       websiteUrl?: string;
       telegramUrl?: string;
@@ -163,7 +163,7 @@ declare global {
       mintingTime: string;
       mintingUrl?: string;
       description?: string;
-      collectionInfo: CollectionType;
+      collection: CollectionType;
       mintingPrice?: string;
       mintingPriceSymbol?: string; // ETH/KLAYTN/SOL/Matic
     };

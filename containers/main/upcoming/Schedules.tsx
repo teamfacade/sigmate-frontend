@@ -18,16 +18,16 @@ export default memo(function Schedules({
           key={schedule.id}
           id={schedule.id}
           name={schedule.name}
-          category={schedule.category}
+          category={schedule.category || 'PFP'}
           tier={schedule.tier}
           mintingUrl={schedule.mintingUrl}
           mintingPrice={schedule.mintingPrice}
           mintingPriceSymbol={schedule.mintingPriceSymbol}
           wikiPageUrl={`/main/wiki/${schedule.name}`}
-          twitterUrl={schedule.collectionInfo.twitterUrl}
-          telegramUrl={schedule.collectionInfo.telegramUrl}
-          discordUrl={schedule.collectionInfo.discordUrl}
-          imageUrl={schedule.collectionInfo.imageUrl}
+          twitterHandle={schedule.collection.twitterHandle}
+          telegramUrl={schedule.collection.telegramUrl}
+          discordUrl={schedule.collection.discordUrl}
+          imageUrl={schedule.collection.imageUrl}
           onClickSchedule={onClickSchedule}
         />
       ))}

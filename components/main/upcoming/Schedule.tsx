@@ -17,7 +17,7 @@ type PropsType = {
   mintingPrice?: string;
   mintingPriceSymbol?: string; // ETH/KLAYTN/SOL/Matic
   wikiPageUrl: string;
-  twitterUrl?: string;
+  twitterHandle?: string;
   discordUrl?: string;
   websiteUrl?: string;
   telegramUrl?: string;
@@ -34,7 +34,7 @@ export default memo(function Schedule({
   mintingPrice,
   mintingPriceSymbol,
   wikiPageUrl,
-  twitterUrl,
+  twitterHandle,
   telegramUrl,
   discordUrl,
   imageUrl,
@@ -46,7 +46,7 @@ export default memo(function Schedule({
       <InnerWrapper>
         <Links
           wikiPageUrl={wikiPageUrl}
-          twitterUrl={twitterUrl}
+          twitterUrl={`https://www.twitter.com/${twitterHandle}`}
           telegramUrl={telegramUrl}
           discordUrl={discordUrl}
         />

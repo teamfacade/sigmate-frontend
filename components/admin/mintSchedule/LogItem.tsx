@@ -4,7 +4,7 @@ import convertDate from 'lib/global/convertDate';
 type PropsType = {
   id: number;
   name: string;
-  date: string;
+  mintingTime: string;
   tier: number;
   category: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -13,14 +13,14 @@ type PropsType = {
 export default memo(function LogItem({
   id,
   name,
-  date,
+  mintingTime,
   tier,
   category,
   onClick,
 }: PropsType) {
   const time = useMemo(
-    () => convertDate(new Date(date), 'time', undefined),
-    [date]
+    () => convertDate(new Date(mintingTime), 'time', undefined),
+    [mintingTime]
   );
 
   return (
@@ -36,7 +36,7 @@ export default memo(function LogItem({
               type="button"
               data-id={id}
               data-name={name}
-              data-time={date}
+              data-time={time}
               data-tier={tier}
               data-category={category}
               name="edit"

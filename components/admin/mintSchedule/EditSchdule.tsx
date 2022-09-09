@@ -1,48 +1,185 @@
-import { ChangeEventHandler, useCallback, useState } from 'react';
+import {
+  ChangeEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import styled from 'styled-components';
+import Axios from 'lib/global/axiosInstance';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { categories } from 'pages/admin/forum';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { NamedInput } from 'components/admin/mintSchedule';
 import { BlueBtnStyle } from 'styles/styleLib';
+import convertDate from '../../../lib/global/convertDate';
 
 type PropsType = {
   type: 'New' | 'Edit';
-  id?: number;
-  name?: string;
-  tier?: number;
-  category?: string;
-  date?: string;
+  id: number;
 };
 
 const tiers = Array.from({ length: 5 }, (_, i) => i + 1);
 const units = ['ETH', 'SOL', 'KLAY', 'MATIC'];
 
-export default function EditSchedule({
-  type,
-  id,
-  name: curName,
-  date: curDate,
-}: PropsType) {
-  const [name, setName] = useState(curName);
-  const [date, setDate] = useState(curDate);
+const fetcher = async (id: number) => {
+  try {
+    const res = await Axios.get(`/calendar/minting${id}`);
+    return res.data;
+  } catch {
+    alert('Error while fetching minting schedule data.\r\nPlease try again.');
+    return null;
+  }
+};
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-    (e) => {
-      const { name: elemName, value } = e.currentTarget;
+export default function EditSchedule({ type, id }: PropsType) {
+  const dispatch = useAppDispatch();
+  const [schedule, setSchedule] = useState<Admin.MintScheduleType>({
+    id,
+    name: '',
+    tier: 0,
+    mintingTimeTimeStamp: Date.now(),
+    mintingUrl: '',
+    description: '',
+    collectionSlug: '',
+    mintingPrice: '',
+    mintingPriceSymbol: 'ETH',
+  });
 
-      switch (elemName) {
-        case 'name':
-          setName(value);
-          break;
-        case 'date':
-          setDate(value);
-          break;
-        default:
-          break;
+  useEffect(() => {
+    if (type === 'Edit') {
+      fetcher(id).then((data) => {
+        if (data) {
+          setSchedule({
+            id: data.id,
+            name: data.name,
+            tier: data.tier,
+            mintingTimeTimeStamp: data.mintingTime.getTime(),
+            mintingUrl: data.mintingUrl,
+            description: data.description,
+            collectionSlug: '',
+            mintingPrice: data.mintingPrice,
+            mintingPriceSymbol: data.mintingPriceSymbol,
+          });
+        }
+      });
+    }
+  }, [fetcher]);
+
+  const onChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> =
+    useCallback(
+      (e) => {
+        const { name: elemName, value } = e.currentTarget;
+
+        switch (elemName) {
+          case 'Name':
+            setSchedule((cur) => ({
+              ...cur,
+              name: value,
+            }));
+            break;
+          case 'Tier':
+            setSchedule((cur) => ({
+              ...cur,
+              tier: Number.parseInt(value, 10),
+            }));
+            break;
+          case 'Date':
+            setSchedule((cur) => ({
+              ...cur,
+              mintingTimeTimeStamp: new Date(`${value} 00:00`).getTime(),
+            }));
+            break;
+          case 'Time':
+            setSchedule((cur) => {
+              const YYYYMMDD = convertDate(
+                new Date(cur.mintingTimeTimeStamp),
+                'dateInput',
+                '-'
+              );
+
+              return {
+                ...cur,
+                mintingTimeTimeStamp: new Date(
+                  `${YYYYMMDD} ${value}`
+                ).getTime(),
+              };
+            });
+            break;
+          case 'Category':
+            setSchedule((cur) => ({
+              ...cur,
+              category: value,
+            }));
+            break;
+          case 'Price':
+            setSchedule((cur) => ({
+              ...cur,
+              mintingPrice: value,
+            }));
+            break;
+          case 'Symbol':
+            setSchedule((cur) => ({
+              ...cur,
+              mintingPriceSymbol: value,
+            }));
+            break;
+          case 'MintingUrl':
+            setSchedule((cur) => ({
+              ...cur,
+              mintingUrl: value,
+            }));
+            break;
+          case 'Slug':
+            setSchedule((cur) => ({
+              ...cur,
+              collectionSlug: value,
+            }));
+            break;
+          case 'Description':
+            setSchedule((cur) => ({
+              ...cur,
+              description: value,
+            }));
+            break;
+          default:
+            break;
+        }
+      },
+      [id]
+    );
+
+  const onClickSubmit: MouseEventHandler<HTMLButtonElement> =
+    useCallback(async () => {
+      if (schedule.name) {
+        dispatch(
+          AuthRequiredAxios({
+            method: type === 'New' ? 'POST' : 'PATCH',
+            url: `/calendar/minting${type === 'New' ? '' : `/${schedule.id}`}`,
+            data: {
+              name: schedule.name,
+              tier: schedule.tier,
+              mintingTime: new Date(schedule.mintingTimeTimeStamp),
+              mintingUrl: schedule.mintingUrl,
+              description: schedule.description,
+              collection: schedule.collectionSlug,
+              mintingPrice: schedule.mintingPrice,
+              mintingPriceSymbol: schedule.mintingPriceSymbol,
+            },
+          })
+        ).then((action: any) => {
+          if (action.payload.status === 200)
+            alert('Created a minting schedule.');
+          else
+            alert(
+              `Error while creating a minting schedule.\r\nShow this code to youngwoo: ${action.payload.status}`
+            );
+        });
+      } else {
+        alert('Name is required.');
       }
-    },
-    [id]
-  );
+    }, [schedule]);
 
   return (
     <BasicWrapper>
@@ -51,95 +188,93 @@ export default function EditSchedule({
           type === 'New' ? 'New minting event' : 'Edit the minting schedule'
         }
       >
-        <form onSubmit={(e) => e.preventDefault()}>
-          <Wrapper>
-            <NamedInput
-              name="Name"
-              inputElemName="name"
-              type="text"
-              value={name || ''}
-              onChange={onChange}
-            />
-            <p>tier</p>
-            <select name="tier">
-              {tiers.map((tier) => (
-                <option key={tier} value={tier}>
-                  {tier}
+        <Wrapper>
+          <NamedInput
+            name="Name"
+            inputElemName="Name"
+            type="text"
+            value={schedule.name || ''}
+            onChange={onChange}
+          />
+          <p>tier</p>
+          <select name="Tier" onChange={onChange}>
+            {tiers.map((tier) => (
+              <option key={tier} value={tier}>
+                {tier}
+              </option>
+            ))}
+          </select>
+          <NamedInput
+            name="Date"
+            inputElemName="Date"
+            type="date"
+            value={
+              convertDate(
+                new Date(schedule.mintingTimeTimeStamp),
+                'dateInput',
+                '-'
+              ) || ''
+            }
+            onChange={onChange}
+          />
+          <NamedInput
+            name="Time"
+            inputElemName="Time"
+            type="time"
+            value=""
+            onChange={onChange}
+          />
+          <div>
+            <span>Category</span>
+            <select name="Category" onChange={onChange}>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
                 </option>
               ))}
             </select>
+          </div>
+          <div style={{ display: 'flex' }}>
             <NamedInput
-              name="Date"
-              inputElemName="date"
-              type="date"
-              value={date || ''}
-              onChange={onChange}
-            />
-            <NamedInput name="Time" inputElemName="time" type="time" value="" />
-            <div>
-              <span>Category</span>
-              <select name="category">
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div style={{ display: 'flex' }}>
-              <NamedInput
-                name="Price"
-                inputElemName="price"
-                type="text"
-                value=""
-              />
-              <select name="unit">
-                {units.map((unit) => (
-                  <option key={unit} value={unit}>
-                    {unit}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <NamedInput
-              name="Minting Link"
-              inputElemName="officialLink"
-              type="url"
-              value=""
-            />
-            <NamedInput
-              name="Wiki Link"
-              inputElemName="wikiLink"
-              type="url"
-              value=""
-            />
-            <NamedInput
-              name="Twitter Link"
-              inputElemName="twitterLink"
-              type="url"
-              value=""
-            />
-            <NamedInput
-              name="Telegram Link"
-              inputElemName="telegramLink"
-              type="url"
-              value=""
-            />
-            <NamedInput
-              name="Discord Link"
-              inputElemName="discordLink"
-              type="url"
-              value=""
-            />
-            <NamedInput
-              name="Details"
-              inputElemName="details"
+              name="Price"
+              inputElemName="Price"
               type="text"
               value=""
+              onChange={onChange}
             />
-          </Wrapper>
-          <SaveBtn>{type === 'New' ? 'Create' : 'Save'}</SaveBtn>
-        </form>
+            <select name="Symbol" onChange={onChange}>
+              {units.map((unit) => (
+                <option key={unit} value={unit}>
+                  {unit}
+                </option>
+              ))}
+            </select>
+          </div>
+          <NamedInput
+            name="Minting Link"
+            inputElemName="MintingUrl"
+            type="url"
+            value=""
+            onChange={onChange}
+          />
+          <NamedInput
+            name="Collection slug"
+            inputElemName="Slug"
+            type="text"
+            value=""
+            onChange={onChange}
+          />
+          <NamedInput
+            name="Description"
+            inputElemName="Description"
+            type="text"
+            value=""
+            onChange={onChange}
+          />
+        </Wrapper>
+        <SaveBtn onClick={onClickSubmit}>
+          {type === 'New' ? 'Create' : 'Save'}
+        </SaveBtn>
       </SectionWrapper>
     </BasicWrapper>
   );

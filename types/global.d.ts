@@ -158,7 +158,7 @@ declare global {
     type ScheduleType = {
       id: number;
       name: string;
-      category: string;
+      category?: string;
       tier: number;
       mintingTime: string;
       mintingUrl?: string;
@@ -319,8 +319,13 @@ declare global {
       id: number;
       name: string;
       tier: number;
-      category: string;
-      date: string;
+      mintingTimeTimeStamp: number;
+      mintingUrl?: string;
+      description?: string;
+      collectionSlug: string;
+      mintingPrice?: string;
+      mintingPriceSymbol?: string;
+      category?: string;
     };
 
     type ForumArticleDataType = {

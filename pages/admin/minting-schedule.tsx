@@ -13,37 +13,45 @@ import { LogHead, LogItem, EditSchedule } from 'components/admin/mintSchedule';
 import { categories } from 'pages/admin/forum';
 import convertDate from 'lib/global/convertDate';
 import { BlueBtnStyle } from 'styles/styleLib';
+import useSWR, { Fetcher } from 'swr';
+import Axios from '../../lib/global/axiosInstance';
 
 type ModalDataType = {
   type: 'New' | 'Edit';
-  data?: Admin.MintScheduleType;
+  id: number;
 };
 
-const EXSchedule: Admin.MintScheduleType = {
-  id: 1,
-  name: 'Bellygom Whitelist',
-  tier: 2,
-  category: 'Utility',
-  date: convertDate(new Date(Date.now()), 'dateInput', '-'),
-};
-const ExSchedules = [
-  EXSchedule,
-  { ...EXSchedule, id: 2 },
-  { ...EXSchedule, id: 3 },
-  { ...EXSchedule, id: 4 },
-  { ...EXSchedule, id: 5 },
-  { ...EXSchedule, id: 6 },
-  { ...EXSchedule, id: 7 },
-  { ...EXSchedule, id: 8 },
-  { ...EXSchedule, id: 9 },
-  { ...EXSchedule, id: 0 },
-];
 const total = 4242;
+const limit = 10;
+
+const startDay = new Date(20000101).getTime();
+const endDay = new Date(20240101).getTime();
+
+const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
+  url: string
+) => {
+  const { status, data } = await Axios.get(url);
+  if (status === 200) {
+    const values: Minting.ScheduleType[][] = Object.values(data);
+    const schedules: Minting.ScheduleType[] = [];
+    values.forEach((value) => schedules.concat(value));
+    return schedules;
+  }
+  return [];
+};
 
 export default function MintingSchedule() {
-  const [showModal, setShowModal] = useState<ModalDataType>({ type: 'New' });
+  const [showModal, setShowModal] = useState<ModalDataType>({
+    type: 'New',
+    id: -1,
+  });
   const [curPage, setCurPage] = useState(1);
   const ModalRef = useRef<HTMLDivElement>(null);
+
+  const { data: schedules } = useSWR(
+    `/calendar/minting?start=${startDay}&end=${endDay}&limit=${limit}&page=${curPage}`,
+    fetcher
+  );
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     const { name, dataset } = e.currentTarget;
@@ -52,27 +60,13 @@ export default function MintingSchedule() {
       case 'new':
         setShowModal({
           type: 'New',
-          data: {
-            id: 0,
-            name: '',
-            tier: 0,
-            category: 'Utility',
-            date: convertDate(new Date(Date.now()), 'dateInput', '-'),
-          },
+          id: -1,
         });
         break;
       case 'edit':
         setShowModal({
           type: 'Edit',
-          data: {
-            id: Number.parseInt(dataset?.id || '0', 10),
-            name: dataset?.name || '',
-            tier: Number.parseInt(dataset?.tier || '0', 10),
-            category: dataset?.category || '',
-            date:
-              dataset?.date ||
-              convertDate(new Date(Date.now()), 'dateInput', '-'),
-          },
+          id: Number.parseInt(dataset?.id || '0', 10),
         });
         break;
       default:
@@ -81,7 +75,7 @@ export default function MintingSchedule() {
   }, []);
 
   const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowModal({ type: 'New' }),
+    () => setShowModal({ type: 'New', id: -1 }),
     []
   );
 
@@ -154,14 +148,14 @@ export default function MintingSchedule() {
           <SectionWrapper header="Search result">
             <LogTable gap="8vw">
               <LogHead />
-              {ExSchedules.map((schedule) => (
+              {schedules?.map((schedule) => (
                 <LogItem
                   key={schedule.id}
                   id={schedule.id}
                   name={schedule.name}
-                  date={schedule.date}
+                  mintingTime={schedule.mintingTime}
                   tier={schedule.tier}
-                  category={schedule.category}
+                  category={schedule.category || ''}
                   onClick={onClick}
                 />
               ))}
@@ -176,21 +170,14 @@ export default function MintingSchedule() {
         </BasicWrapper>
       </Wrapper>
       <CSSTransition
-        in={!!showModal.data}
+        in={showModal.id >= 0}
         timeout={300}
         classNames="show-modal"
         unmountOnExit
         nodeRef={ModalRef}
       >
         <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          <EditSchedule
-            type={showModal.type}
-            id={showModal.data?.id}
-            name={showModal.data?.name}
-            date={showModal.data?.date}
-            tier={showModal.data?.tier}
-            category={showModal.data?.category}
-          />
+          <EditSchedule type={showModal.type} id={showModal.id} />
         </Modal>
       </CSSTransition>
     </>

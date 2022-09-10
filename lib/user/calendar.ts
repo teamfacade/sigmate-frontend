@@ -13,9 +13,9 @@ export function getMintingSchedules() {
     mintingTime: new Date(Date.now()).toISOString(),
     mintingUrl: 'https://bellygom.launchpad.xclusive.market/',
     description: '',
-    collectionInfo: {
+    collection: {
       imageUrl: '',
-      twitterUrl: 'https://www.twitter.com/elonmusk',
+      twitterHandle: 'elonmusk',
       telegramUrl: 'https://www.naver.com',
       discordUrl: 'https://www.tradingview.com',
     },

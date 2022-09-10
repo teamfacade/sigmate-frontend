@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { OnChangeDateCallback } from 'react-calendar';
 import Axios from 'lib/global/axiosInstance';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { Utils, Schedules } from 'containers/main/upcoming';
 import { PageMoveBtns, Modal } from 'components/global';
 import { RegisterBtn } from 'components/main/forum/main';
@@ -18,7 +20,8 @@ const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
     const schedules: Minting.ScheduleType[] = [];
     values.forEach((value) => schedules.concat(value));
     return schedules;
-  } return [];
+  }
+  return [];
 };
 
 const limit = 15;
@@ -26,6 +29,7 @@ const total = 13;
 const lastPage = Math.floor(Number.parseInt((total / limit).toFixed(), 10)) + 1;
 
 export default function Upcoming() {
+  const dispatch = useAppDispatch();
   const [today, setToday] = useState<Date>(new Date(Date.now()));
   const [showCalendar, setShowCalendar] = useState(false);
   const [curPage, setCurPage] = useState(1);
@@ -59,6 +63,35 @@ export default function Upcoming() {
     useCallback(() => {
       setShowModal(-1);
     }, []);
+
+  const AddToCalendar: (id: string, subscribed: boolean) => void = useCallback(
+    (id: string, subscribed: boolean) => {
+      dispatch(
+        AuthRequiredAxios({
+          method: subscribed ? 'DELETE' : 'POST',
+          url: '/calendar/my',
+          data: {
+            type: 'minting',
+            id: Number.parseInt(id, 10),
+          },
+        })
+      ).then((action: any) => {
+        if (action.payload.status === 200)
+          alert(
+            `${
+              subscribed
+                ? 'Unsubscribed the minting schedule.'
+                : 'Added to my calendar.'
+            }`
+          );
+        else
+          alert(
+            'Error while adding event to my calendar.\r\nPlease try again.'
+          );
+      });
+    },
+    []
+  );
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -98,7 +131,11 @@ export default function Upcoming() {
           onChange={onChangeDate}
         />
         {schedules && (
-          <Schedules schedules={schedules} onClickSchedule={onClickSchedule} />
+          <Schedules
+            schedules={schedules}
+            onClickSchedule={onClickSchedule}
+            AddToCalendar={AddToCalendar}
+          />
         )}
         <PageMoveBtns
           totalPage={total}

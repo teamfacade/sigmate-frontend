@@ -5,11 +5,13 @@ import { Schedule } from 'components/main/upcoming';
 type PropsType = {
   schedules: Minting.ScheduleType[];
   onClickSchedule: MouseEventHandler<HTMLDivElement>;
+  AddToCalendar: (id: string, subscribed: boolean) => void;
 };
 
 export default memo(function Schedules({
   schedules,
   onClickSchedule,
+  AddToCalendar,
 }: PropsType) {
   return (
     <GriddyWrapper>
@@ -29,6 +31,7 @@ export default memo(function Schedules({
           discordUrl={schedule.collection.discordUrl}
           imageUrl={schedule.collection.imageUrl}
           onClickSchedule={onClickSchedule}
+          AddToCalendar={AddToCalendar}
         />
       ))}
     </GriddyWrapper>

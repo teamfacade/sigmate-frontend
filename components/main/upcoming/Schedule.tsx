@@ -23,6 +23,7 @@ type PropsType = {
   telegramUrl?: string;
   imageUrl?: string;
   onClickSchedule: MouseEventHandler<HTMLDivElement>;
+  AddToCalendar: (id: string, subscribed: boolean) => void;
 };
 
 export default memo(function Schedule({
@@ -39,6 +40,7 @@ export default memo(function Schedule({
   discordUrl,
   imageUrl,
   onClickSchedule,
+  AddToCalendar,
 }: PropsType) {
   return (
     <Wrapper data-id={id} onClick={onClickSchedule}>
@@ -57,7 +59,11 @@ export default memo(function Schedule({
           symbol={mintingPriceSymbol}
           tier={tier}
         />
-        <ScheduleUtilBtns mintPageUrl={mintingUrl} />
+        <ScheduleUtilBtns
+          id={id}
+          mintPageUrl={mintingUrl}
+          AddToCalendar={AddToCalendar}
+        />
       </InnerWrapper>
     </Wrapper>
   );

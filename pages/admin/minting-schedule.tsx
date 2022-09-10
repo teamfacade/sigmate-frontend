@@ -1,6 +1,8 @@
 import { MouseEventHandler, useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
+import useSWR, { Fetcher } from 'swr';
+import Axios from 'lib/global/axiosInstance';
 import {
   BasicWrapper,
   SectionWrapper,
@@ -11,10 +13,7 @@ import {
 } from 'components/global';
 import { LogHead, LogItem, EditSchedule } from 'components/admin/mintSchedule';
 import { categories } from 'pages/admin/forum';
-import convertDate from 'lib/global/convertDate';
 import { BlueBtnStyle } from 'styles/styleLib';
-import useSWR, { Fetcher } from 'swr';
-import Axios from '../../lib/global/axiosInstance';
 
 type ModalDataType = {
   type: 'New' | 'Edit';
@@ -60,7 +59,7 @@ export default function MintingSchedule() {
       case 'new':
         setShowModal({
           type: 'New',
-          id: -1,
+          id: 0,
         });
         break;
       case 'edit':

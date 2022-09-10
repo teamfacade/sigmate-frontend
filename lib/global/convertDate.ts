@@ -26,11 +26,17 @@ const DateInputFormatter = new Intl.DateTimeFormat('en', {
   day: '2-digit',
 });
 
+const TimeInputFormatter = new Intl.DateTimeFormat('en', {
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h24',
+});
+
 const regex = /(,*\s|\/)/g;
 
 export default function convertDate(
   event: Date,
-  format: 'time' | 'MonthDDYYYY' | 'key' | 'dateInput',
+  format: 'time' | 'MonthDDYYYY' | 'key' | 'dateInput' | 'timeInput',
   delimiter: string | undefined
 ) {
   let converted = '';
@@ -47,6 +53,9 @@ export default function convertDate(
       break;
     case 'dateInput':
       converted = DateInputFormatter.format(event);
+      break;
+    case 'timeInput':
+      converted = TimeInputFormatter.format(event);
       break;
     default:
       break;

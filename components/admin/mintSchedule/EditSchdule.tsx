@@ -221,7 +221,13 @@ export default function EditSchedule({ type, id }: PropsType) {
             name="Time"
             inputElemName="Time"
             type="time"
-            value=""
+            value={
+              convertDate(
+                new Date(schedule.mintingTimeTimeStamp),
+                'timeInput',
+                ''
+              ) || ''
+            }
             onChange={onChange}
           />
           <div>
@@ -239,7 +245,7 @@ export default function EditSchedule({ type, id }: PropsType) {
               name="Price"
               inputElemName="Price"
               type="text"
-              value=""
+              value={schedule.mintingPrice || ''}
               onChange={onChange}
             />
             <select name="Symbol" onChange={onChange}>
@@ -254,21 +260,21 @@ export default function EditSchedule({ type, id }: PropsType) {
             name="Minting Link"
             inputElemName="MintingUrl"
             type="url"
-            value=""
+            value={schedule.mintingUrl || ''}
             onChange={onChange}
           />
           <NamedInput
             name="Collection slug"
             inputElemName="Slug"
             type="text"
-            value=""
+            value={schedule.collectionSlug}
             onChange={onChange}
           />
           <NamedInput
             name="Description"
             inputElemName="Description"
             type="text"
-            value=""
+            value={schedule.description || ''}
             onChange={onChange}
           />
         </Wrapper>

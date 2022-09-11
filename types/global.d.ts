@@ -160,7 +160,7 @@ declare global {
       name: string;
       category?: string;
       tier: number;
-      mintingTime: string;
+      mintingTime: Date;
       mintingUrl?: string;
       description?: string;
       collection: CollectionType;

@@ -104,3 +104,19 @@ export function getPrettyTimeDiff(dateString: string, lang = 'en') {
 
   return `${num}${numsep}${unit} ${negative ? after : before}`;
 }
+
+export function getTimeDiff(event: Date) {
+  const current = new Date(Date.now());
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  let diff = event - current;
+
+  if (diff < 0) diff = 0;
+
+  diff = Math.floor(diff / SECOND);
+  const second = diff % 60;
+  diff = Math.floor(diff / 60);
+  const minute = diff % 60;
+  const hour = Math.floor(diff / 60);
+  return `${hour}h ${minute}m ${second}s`;
+}

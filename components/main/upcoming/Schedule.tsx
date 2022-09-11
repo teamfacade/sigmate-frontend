@@ -1,4 +1,4 @@
-import { memo, MouseEventHandler } from 'react';
+import { memo, MouseEventHandler, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   ScheduleThumbnail,
@@ -6,6 +6,7 @@ import {
   ScheduleInfos,
   ScheduleUtilBtns,
 } from 'components/main/upcoming';
+import { getTimeDiff } from 'lib/global/calcTimeDiff';
 import styles from 'styles/styleLib';
 
 type PropsType = {
@@ -13,6 +14,7 @@ type PropsType = {
   name: string;
   category: string;
   tier: number;
+  mintingTime: Date;
   mintingUrl?: string;
   mintingPrice?: string;
   mintingPriceSymbol?: string; // ETH/KLAYTN/SOL/Matic
@@ -26,11 +28,14 @@ type PropsType = {
   AddToCalendar: (id: string, subscribed: boolean) => void;
 };
 
+let intervalId: ReturnType<typeof setInterval>;
+
 export default memo(function Schedule({
   id,
   name,
   category,
   tier,
+  mintingTime,
   mintingUrl,
   mintingPrice,
   mintingPriceSymbol,
@@ -42,8 +47,18 @@ export default memo(function Schedule({
   onClickSchedule,
   AddToCalendar,
 }: PropsType) {
+  const [timeDiff, setTimeDiff] = useState<string>('');
+
+  useEffect(() => {
+    intervalId = setInterval(() => setTimeDiff(getTimeDiff(mintingTime)), 1000);
+
+    return () => clearInterval(intervalId);
+  }, [mintingTime, intervalId]);
   return (
     <Wrapper data-id={id} onClick={onClickSchedule}>
+      <TimeLeft>
+        <p>{timeDiff}</p>
+      </TimeLeft>
       <ScheduleThumbnail name={name} imageUrl={imageUrl || ''} />
       <InnerWrapper>
         <Links
@@ -70,6 +85,7 @@ export default memo(function Schedule({
 });
 
 const Wrapper = styled.div`
+  position: relative;
   width: 340px;
   border-radius: 8px;
   background-color: #ffffff;
@@ -80,6 +96,28 @@ const Wrapper = styled.div`
   :hover,
   :active {
     filter: brightness(0.7);
+  }
+`;
+
+const TimeLeft = styled.div`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 7px 16px;
+  color: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+
+  p {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    color: #595959;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 150%;
   }
 `;
 

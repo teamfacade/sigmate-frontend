@@ -22,6 +22,7 @@ export default memo(function Schedules({
           name={schedule.name}
           category={schedule.category || 'PFP'}
           tier={schedule.tier}
+          mintingTime={schedule.mintingTime}
           mintingUrl={schedule.mintingUrl}
           mintingPrice={schedule.mintingPrice}
           mintingPriceSymbol={schedule.mintingPriceSymbol}

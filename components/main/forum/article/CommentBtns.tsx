@@ -1,5 +1,7 @@
 import { memo, MouseEventHandler, useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import styles from 'styles/styleLib';
 import { CommentDownVote, CommentUpVote } from 'public/Icons/main/forum';
 
@@ -26,6 +28,7 @@ export default memo(function CommentBtns({
   isReply,
   replyID,
 }: PropsType) {
+  const dispatch = useAppDispatch();
   const [curVoteCount, setCurVoteCount] = useState<number>(voteCount);
   const [userLikes, setUserLikes] = useState<boolean | null>(like);
 
@@ -35,43 +38,77 @@ export default memo(function CommentBtns({
 
       if (name === 'Up') {
         if (!userLikes) {
-          setCurVoteCount((cur) => {
-            return cur + (userLikes === null ? 1 : 2);
+          dispatch(
+            AuthRequiredAxios({
+              method: 'POST',
+              url: `/forum/cm/${replyID || commentID}/vote`,
+              data: {
+                like: true,
+              },
+            })
+          ).then((action: any) => {
+            if (action.payload.status === 200) {
+              setCurVoteCount(action.payload.data.forumPostComment.voteCount);
+              setUserLikes(true);
+            } else {
+              alert(
+                `Error while voting UP to the comment.\r\nPlease try again. ERR: ${action.payload.status}`
+              );
+            }
           });
-          setUserLikes(true);
-          alert(
-            `Vote as like for ${category}'s article ${articleID}'s comment ${commentID}${
-              isReply ? `'s reply ${replyID}` : ''
-            }`
-          );
         } else {
-          setCurVoteCount((cur) => cur - 1);
-          setUserLikes(null);
-          alert(
-            `Cancel like for ${category}'s article ${articleID}'s comment ${commentID}${
-              isReply ? `'s reply ${replyID}` : ''
-            }`
-          );
+          dispatch(
+            AuthRequiredAxios({
+              method: 'DELETE',
+              url: `/forum/cm/${replyID || commentID}/vote`,
+            })
+          ).then((action: any) => {
+            if (action.payload.status === 200) {
+              setCurVoteCount((cur) => cur - 1);
+              setUserLikes(null);
+            } else {
+              alert(
+                `Error while canceling vote to the comment.\r\nPlease try again. ERR: ${action.payload.status}`
+              );
+            }
+          });
         }
       } else if (name === 'Down') {
         if (userLikes || userLikes === null) {
-          setCurVoteCount((cur) => {
-            return cur - (userLikes === null ? 1 : 2);
+          dispatch(
+            AuthRequiredAxios({
+              method: 'POST',
+              url: `/forum/cm/${replyID || commentID}/vote`,
+              data: {
+                like: false,
+              },
+            })
+          ).then((action: any) => {
+            if (action.payload.status === 200) {
+              setCurVoteCount(action.payload.data.forumPostComment.voteCount);
+              setUserLikes(false);
+            } else {
+              alert(
+                `Error while voting DOWN to the comment.\r\nPlease try again. ERR: ${action.payload.status}`
+              );
+            }
           });
-          setUserLikes(false);
-          alert(
-            `Vote as dislike for ${category}'s article ${articleID}'s comment ${commentID}${
-              isReply ? `'s reply ${replyID}` : ''
-            }`
-          );
         } else {
-          setCurVoteCount((cur) => cur + 1);
-          setUserLikes(null);
-          alert(
-            `Cancel dislike for ${category}'s article ${articleID}'s comment ${commentID}${
-              isReply ? `'s reply ${replyID}` : ''
-            }`
-          );
+          dispatch(
+            AuthRequiredAxios({
+              method: 'DELETE',
+              url: `/forum/cm/${replyID || commentID}/vote`,
+            })
+          ).then((action: any) => {
+            if (action.payload.status === 200) {
+              setCurVoteCount((cur) => cur + 1);
+              setUserLikes(null);
+            } else {
+              alert(
+                `Error while canceling vote to the comment.\r\nPlease try again. ERR: ${action.payload.status}`
+              );
+            }
+          });
         }
       }
     },

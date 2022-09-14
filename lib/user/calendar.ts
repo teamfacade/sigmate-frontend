@@ -10,7 +10,7 @@ export function getMintingSchedules() {
     name: 'Bored Ape Yacht Club',
     category: 'PFP',
     tier: 1,
-    mintingTime: new Date(Date.now()).toISOString(),
+    mintingTime: new Date(Date.now()),
     mintingUrl: 'https://bellygom.launchpad.xclusive.market/',
     description: '',
     collection: {

@@ -1,7 +1,7 @@
 import { Dispatch, memo, SetStateAction } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
-import { gridAreas } from 'lib/main/wiki/getWikiData';
+import { gridAreas, KeyInfoIndex } from 'lib/main/wiki/getWikiData';
 import { ImageWrapper } from 'components/global';
 import { VerdictBlock } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
@@ -57,66 +57,70 @@ export default memo(function ReadKeyInfo({
       <Hr />
       <Table>
         {/* Name and Thumbnail */}
-        {TdBlocks[0]}
-        {TdBlocks[1]}
+        {TdBlocks[KeyInfoIndex.Name]}
+        {TdBlocks[KeyInfoIndex.Thumbnail]}
         <TableItem gridArea="Th_Team">
           <p>Team</p>
         </TableItem>
         <TableItem gridArea="Tr_Team">
           <p>Team</p>
         </TableItem>
-        {TdBlocks[2]}
+        {TdBlocks[KeyInfoIndex.Team]}
         <TableItem gridArea="Tr_Rugpool">
           <p>Rugpool</p>
         </TableItem>
-        {TdBlocks[3]}
+        {TdBlocks[KeyInfoIndex.Rugpool]}
         <TableItem gridArea="Th_Category">
           <p>Category</p>
         </TableItem>
+        <TableItem gridArea="Tr_Category">
+          <p />
+        </TableItem>
+        {TdBlocks[KeyInfoIndex.Category]}
         <TableItem gridArea="Tr_Utility">
           <p>Utility</p>
         </TableItem>
-        {TdBlocks[4]}
+        {TdBlocks[KeyInfoIndex.Utility]}
         <TableItem gridArea="Th_Price">
           <p>Minting Price</p>
         </TableItem>
         <TableItem gridArea="Tr_WLPrice">
           <p>Whitelist</p>
         </TableItem>
-        {TdBlocks[5]}
+        {TdBlocks[KeyInfoIndex.WLPrice]}
         <TableItem gridArea="Tr_PublicPrice">
           <p>Public</p>
         </TableItem>
-        {TdBlocks[6]}
+        {TdBlocks[KeyInfoIndex.PublicPrice]}
         <TableItem gridArea="Tr_CurrentPrice">
           <p>Current</p>
         </TableItem>
-        {TdBlocks[7]}
+        {TdBlocks[KeyInfoIndex.CurrentPrice]}
         <TableItem gridArea="Th_Community">
           <p>Community</p>
         </TableItem>
         <TableItem gridArea="Tr_Discord">
           <p>Discord</p>
         </TableItem>
-        {TdBlocks[8]}
+        {TdBlocks[KeyInfoIndex.Discord]}
         <TableItem gridArea="Tr_Twitter">
           <p>Twitter</p>
         </TableItem>
-        {TdBlocks[9]}
+        {TdBlocks[KeyInfoIndex.Twitter]}
         <TableItem gridArea="Tr_OfficialSite">
           <p>Official website</p>
         </TableItem>
-        {TdBlocks[10]}
+        {TdBlocks[KeyInfoIndex.OfficialSite]}
         <TableItem gridArea="Th_Chain">
           <p>Chain</p>
         </TableItem>
         <TableItem gridArea="Tr_Chain" />
-        {TdBlocks[11]}
+        {TdBlocks[KeyInfoIndex.Chain]}
         <TableItem gridArea="Th_Marketplace">
           <p>Marketplace</p>
         </TableItem>
         <TableItem gridArea="Tr_Marketplace" />
-        {TdBlocks[12]}
+        {TdBlocks[KeyInfoIndex.Marketplace]}
       </Table>
     </>
   );
@@ -143,6 +147,7 @@ const Table = styled.div`
     'Thumbnail      Thumbnail       Thumbnail'
     'Th_Team        Tr_Team         Td_Team'
     'Th_Team        Tr_Rugpool      Td_Rugpool'
+    'Th_Category    Tr_Category     Td_Category'
     'Th_Category    Tr_Utility      Td_Utility'
     'Th_Price       Tr_WLPrice      Td_WLPrice'
     'Th_Price       Tr_PublicPrice  Td_PublicPrice'
@@ -151,7 +156,7 @@ const Table = styled.div`
     'Th_Community   Tr_Twitter      Td_Twitter'
     'Th_Community   Tr_OfficialSite Td_OfficialSite'
     'Th_Chain       Tr_Chain        Td_Chain'
-    'Th_Marketplace Tr_Marketplace  Td_MarketPlace';
+    'Th_Marketplace Tr_Marketplace  Td_Marketplace';
   grid-template-rows: 40px 215px repeat(11, 30px);
   grid-template-columns: 115px 190px 195px;
   width: fit-content;

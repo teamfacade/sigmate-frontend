@@ -9,7 +9,7 @@ type PropsType = {
 export default memo(function Types({ types }: PropsType) {
   return (
     <>
-      <H3>Type</H3>
+      <H3>Class</H3>
       <Hr />
       <TypesWrapper>
         {types.map((type, idx) => {

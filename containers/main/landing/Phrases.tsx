@@ -5,7 +5,7 @@ import { GreenClick, YellowTriangle } from 'public/Icons/landingPage';
 export default function Phrases() {
   return (
     <Wrapper>
-      <Logo>sigmate</Logo>
+      <Logo>Sigmate</Logo>
       <Divider />
       <Phrase>
         {'Maximize your\r\n'}

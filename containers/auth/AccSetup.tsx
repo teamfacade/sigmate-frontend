@@ -9,9 +9,10 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { connectToMetaMask } from 'lib/global/connectMetamask';
 import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
-import { setUserName } from 'store/modules/accountSlice';
+import { setUserName, setMetamaskWallet } from 'store/modules/accountSlice';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
 import styles from 'styles/styleLib';
 
@@ -43,6 +44,9 @@ type PropsType = {
 export default function AccSetup({ signedWithMetamask }: PropsType) {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { googleAccount, metamaskWallet } = useAppSelector(
+    ({ account }) => account
+  );
   const [username, setUsername] = useState('');
   const [isValidUsername, setIsValidUsername] = useState<boolean | undefined>(
     undefined
@@ -78,7 +82,6 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
             url: `/user/check?userName=${username}`,
           })
         ).then((action: any) => {
-          console.log(action);
           const { status, data } = action.payload;
           setIsValidUsername(status === 200);
           if (status === 200) {
@@ -116,7 +119,10 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
     async (e) => {
       if (e.currentTarget.name === 'Metamask') {
         // eslint-disable-next-line no-alert
-        alert('Connect Metamask wallet');
+        connectToMetaMask(dispatch).then((action) => {
+          if (action.payload.status === 200)
+            dispatch(setMetamaskWallet(action.payload.data.metamaskWallet));
+        });
       } else if ((isValidRefCode || refCode === '') && isValidUsername) {
         dispatch(
           AuthRequiredAxios({
@@ -155,12 +161,14 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
         onChange={onChange}
         onBlur={onBlur}
         isValid={isValidRefCode}
+        description={refCodeCheckResult}
         ref={refCodeTextareaRef}
       />
       <Divider direction="row" separate={false} />
       <Name>Connect Wallet</Name>
       <OAuthBtn
         service={signedWithMetamask ? 'Google' : 'Metamask'}
+        disabled={signedWithMetamask ? !!googleAccount : !!metamaskWallet}
         onClick={onClick}
         width="470px"
         height="61px"

@@ -20,7 +20,7 @@ export default memo(function MintDetail({ mint }: PropsType) {
     <Wrapper>
       <ImageWrapper width="680px" height="415px">
         <Image
-          src={mint.collectionInfo.imageUrl || UserImageEx}
+          src={mint.collection.imageUrl || UserImageEx}
           alt={`${mint.name} Image`}
           layout="fill"
         />
@@ -41,23 +41,20 @@ export default memo(function MintDetail({ mint }: PropsType) {
         </FlexWrapper>
         <BtnWrapper>
           <InnerBtnWrapper>
-            {mint.collectionInfo.twitterUrl && (
+            {mint.collection.twitterHandle && (
               <SocialLink
                 platform="Twitter"
-                url={mint.collectionInfo.twitterUrl}
+                url={`https://www.twitter.com/${mint.collection.twitterHandle}`}
               />
             )}
-            {mint.collectionInfo.telegramUrl && (
+            {mint.collection.telegramUrl && (
               <SocialLink
                 platform="Telegram"
-                url={mint.collectionInfo.telegramUrl}
+                url={mint.collection.telegramUrl}
               />
             )}
-            {mint.collectionInfo.discordUrl && (
-              <SocialLink
-                platform="Discord"
-                url={mint.collectionInfo.discordUrl}
-              />
+            {mint.collection.discordUrl && (
+              <SocialLink platform="Discord" url={mint.collection.discordUrl} />
             )}
           </InnerBtnWrapper>
           <InnerBtnWrapper>

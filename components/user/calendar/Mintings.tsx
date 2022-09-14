@@ -9,17 +9,17 @@ type PropsType = {
 };
 
 export default function Mintings({ mintings, onClickMintItem }: PropsType) {
-  if (mintings) {
+  if (mintings.length) {
     return (
       <Grid>
         {mintings.map((minting) => {
           // @todo minting되는 NFT 프로젝트의 이름이 겹칠 수 있는지 체크. 겹칠 수 있으면 unique key를 다른 것으로 변경
           return (
             <MintingItem
-              key={minting.name}
+              key={minting.id}
               name={minting.name}
-              category={minting.category}
-              thumbnailURL={minting.collectionInfo.imageUrl || ''}
+              category={minting.category || ''}
+              thumbnailURL={minting.collection.imageUrl || ''}
               onClick={onClickMintItem}
             />
           );

@@ -14,9 +14,11 @@ const ExAuthor: Forum.AuthorType = {
   primaryProfile: ExProfile,
 };
 
+/*
 const ExVote: Forum.VoteType = {
   voteCount: 322,
 };
+*/
 
 const ExComment: Forum.CommentType = {
   id: 1,

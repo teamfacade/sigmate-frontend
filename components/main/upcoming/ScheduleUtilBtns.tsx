@@ -1,17 +1,37 @@
-import { memo } from 'react';
+import { memo, MouseEventHandler, useCallback, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import styles from '../../../styles/styleLib';
+import styles from 'styles/styleLib';
 
 type PropsType = {
+  id: number;
   mintPageUrl?: string;
+  AddToCalendar: (mintingId: string, subscribed: boolean) => void;
 };
 
-export default memo(function ScheduleUtilBtns({ mintPageUrl }: PropsType) {
+export default memo(function ScheduleUtilBtns({
+  id,
+  mintPageUrl,
+  AddToCalendar,
+}: PropsType) {
+  const [subscribed, setSubscribed] = useState<boolean>(false);
+
+  const onClickAddToCalendar: MouseEventHandler<HTMLButtonElement> =
+    useCallback(
+      (e) => {
+        const { mintingId } = e.currentTarget.dataset;
+        if (mintingId) {
+          AddToCalendar(mintingId, subscribed);
+          setSubscribed((cur) => !cur);
+        }
+      },
+      [AddToCalendar, subscribed]
+    );
+
   return (
     <BtnWrapper>
-      <AddCalenderBtn onClick={(e) => e.stopPropagation()}>
-        Add to calender
+      <AddCalenderBtn data-minting-id={id} onClick={onClickAddToCalendar}>
+        {subscribed ? 'Subscribed' : 'Add to calender'}
       </AddCalenderBtn>
       <MintBtn
         disabled={mintPageUrl === undefined}

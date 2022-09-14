@@ -152,7 +152,7 @@ export default function MintingSchedule() {
                   key={schedule.id}
                   id={schedule.id}
                   name={schedule.name}
-                  mintingTime={schedule.mintingTime}
+                  mintingTime={schedule.mintingTime.toISOString()}
                   tier={schedule.tier}
                   category={schedule.category || ''}
                   onClick={onClick}

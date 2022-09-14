@@ -11,7 +11,7 @@ type PropsType = {
 export default function SelectTypes({ value, onChange }: PropsType) {
   return (
     <Wrapper>
-      <Heading content="Type" />
+      <Heading content="Class" />
       <Select onChange={onChange} options={options} value={value} isMulti />
     </Wrapper>
   );

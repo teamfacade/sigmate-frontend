@@ -21,6 +21,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const router = useRouter();
 
+  console.log(router.pathname);
+
   const onSearch: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       e.preventDefault();
@@ -84,7 +86,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Heads />
-      <Navbar />
       {getLayout(<Component {...pageProps} />)}
       <Footer />
     </>

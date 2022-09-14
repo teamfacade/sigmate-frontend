@@ -1,3 +1,20 @@
+export const KeyInfoIndex: StringKeyObj<number> = {
+  Name: 0,
+  Thumbnail: 1,
+  Team: 2,
+  Rugpool: 3,
+  Category: 4,
+  Utility: 5,
+  WLPrice: 6,
+  PublicPrice: 7,
+  CurrentPrice: 8,
+  Discord: 9,
+  Twitter: 10,
+  OfficialSite: 11,
+  Chain: 12,
+  Marketplace: 13,
+};
+
 const ExProfile: UserProfileAttributes = {
   id: 1,
   displayName: 'Berry',
@@ -73,66 +90,71 @@ const ExKeyInfos: Wiki.DocumentBlockType[] = [
   {
     ...ExBlock,
     textContent: 'PEN',
-    id: 0,
+    id: KeyInfoIndex.Name,
   },
   {
     ...ExBlock,
-    id: 1,
+    id: KeyInfoIndex.Thumbnail,
     textContent: '',
   },
   {
     ...ExBlock,
-    id: 2,
+    id: KeyInfoIndex.Team,
     textContent: 'Sigmate',
   },
   {
     ...ExBlock,
-    id: 3,
+    id: KeyInfoIndex.Rugpool,
     textContent: '',
   },
   {
     ...ExBlock,
-    id: 4,
+    id: KeyInfoIndex.Category,
     textContent: 'Game',
   },
   {
     ...ExBlock,
-    id: 5,
+    id: KeyInfoIndex.Utility,
+    textContent: 'Item',
+  },
+  {
+    ...ExBlock,
+    id: KeyInfoIndex.WLPrice,
     textContent: '0.25 ETH',
   },
   {
     ...ExBlock,
-    id: 6,
+    id: KeyInfoIndex.PublicPrice,
     textContent: '0.5 ETH',
   },
   {
     ...ExBlock,
-    id: 7,
+    id: KeyInfoIndex.CurrentPrice,
     textContent: '1.4 ETH',
   },
   {
     ...ExBlock,
-    id: 8,
+    id: KeyInfoIndex.Discord,
     textContent: 'https://www.naver.com',
   },
   {
     ...ExBlock,
-    id: 9,
+    id: KeyInfoIndex.Twitter,
     textContent: 'https://www.twitter.com/sigmateOfficial',
   },
   {
     ...ExBlock,
-    id: 10,
+    id: KeyInfoIndex.OfficialSite,
     textContent: 'https://www.sigmate.io',
   },
   {
     ...ExBlock,
-    id: 11,
+    id: KeyInfoIndex.Chain,
     textContent: 'ETH',
   },
   {
     ...ExBlock,
-    id: 12,
+    id: KeyInfoIndex.Marketplace,
     textContent: 'opensea',
   },
 ];
@@ -146,27 +168,12 @@ const ExDocument: Wiki.DocumentType = {
   createdBy: ExAuthor,
 };
 
-export const KeyInfoIndex: StringKeyObj<number> = {
-  name: 0,
-  thumbnailUrl: 1,
-  team: 2,
-  rugpool: 3,
-  utility: 4,
-  whitelistPrice: 5,
-  publicPrice: 6,
-  currentPrice: 7,
-  discordUrl: 8,
-  twitterUrl: 9,
-  officialSiteUrl: 10,
-  chain: 11,
-  marketplace: 12,
-};
-
 export const gridAreas = [
   'Name',
   'Thumbnail',
   'Td_Team',
   'Td_Rugpool',
+  'Td_Category',
   'Td_Utility',
   'Td_WLPrice',
   'Td_PublicPrice',
@@ -175,73 +182,78 @@ export const gridAreas = [
   'Td_Twitter',
   'Td_OfficialSite',
   'Td_Chain',
-  'Td_MarketPlace',
+  'Td_Marketplace',
 ];
 
 export const InitialKeyInfos: Wiki.DocumentBlockType[] = [
   {
     ...ExBlock,
     textContent: 'sigmate',
-    id: 0,
+    id: KeyInfoIndex.Name,
   },
   {
     ...ExBlock,
-    id: 1,
+    id: KeyInfoIndex.Thumbnail,
     textContent: '',
   },
   {
     ...ExBlock,
-    id: 2,
+    id: KeyInfoIndex.Team,
     textContent: '',
   },
   {
     ...ExBlock,
-    id: 3,
+    id: KeyInfoIndex.Rugpool,
     textContent: '',
   },
   {
     ...ExBlock,
-    id: 4,
+    id: KeyInfoIndex.Category,
     textContent: '',
   },
   {
     ...ExBlock,
-    id: 5,
+    id: KeyInfoIndex.Utility,
+    textContent: '',
+  },
+  {
+    ...ExBlock,
+    id: KeyInfoIndex.WLPrice,
     textContent: '0.25 ETH',
   },
   {
     ...ExBlock,
-    id: 6,
+    id: KeyInfoIndex.PublicPrice,
     textContent: '0.5 ETH',
   },
   {
     ...ExBlock,
-    id: 7,
+    id: KeyInfoIndex.CurrentPrice,
     textContent: '1.4 ETH',
   },
   {
     ...ExBlock,
-    id: 8,
+    id: KeyInfoIndex.Discord,
     textContent: 'https://www.naver.com',
   },
   {
     ...ExBlock,
-    id: 9,
+    id: KeyInfoIndex.Twitter,
     textContent: 'https://www.twitter.com/sigmateOfficial',
   },
   {
     ...ExBlock,
-    id: 10,
+    id: KeyInfoIndex.OfficialSite,
     textContent: 'https://www.sigmate.io',
   },
   {
     ...ExBlock,
-    id: 11,
+    id: KeyInfoIndex.Chain,
     textContent: 'ETH',
   },
   {
     ...ExBlock,
-    id: 12,
+    id: KeyInfoIndex.Marketplace,
     textContent: '',
   },
 ];

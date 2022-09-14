@@ -30,12 +30,13 @@ export default memo(function EditKeyInfo({
       );
     }
     if (
-      i === KeyInfoIndex.team ||
-      i === KeyInfoIndex.rugpool ||
-      i === KeyInfoIndex.utility ||
-      i === KeyInfoIndex.marketplace
+      i === KeyInfoIndex.Team ||
+      i === KeyInfoIndex.Rugpool ||
+      i === KeyInfoIndex.Category ||
+      i === KeyInfoIndex.Utility ||
+      i === KeyInfoIndex.Marketplace
     ) {
-      const name: string = gridAreas[i].split('_')[1].toLowerCase();
+      const name: string = gridAreas[i].split('_')[1];
       return (
         <TableItem gridArea={gridAreas[i]}>
           <textarea
@@ -60,66 +61,70 @@ export default memo(function EditKeyInfo({
       <H3>Key Info</H3>
       <Hr />
       <Table>
-        {TdBlocks[KeyInfoIndex.name]}
-        {TdBlocks[KeyInfoIndex.thumbnailUrl]}
+        {TdBlocks[KeyInfoIndex.Name]}
+        {TdBlocks[KeyInfoIndex.Thumbnail]}
         <TableItem gridArea="Th_Team">
           <p>Team</p>
         </TableItem>
         <TableItem gridArea="Tr_Team">
           <p>Team</p>
         </TableItem>
-        {TdBlocks[KeyInfoIndex.team]}
+        {TdBlocks[KeyInfoIndex.Team]}
         <TableItem gridArea="Tr_Rugpool">
           <p>Rugpool</p>
         </TableItem>
-        {TdBlocks[KeyInfoIndex.rugpool]}
+        {TdBlocks[KeyInfoIndex.Rugpool]}
         <TableItem gridArea="Th_Category">
           <p>Category</p>
         </TableItem>
+        <TableItem gridArea="Tr_Category">
+          <p />
+        </TableItem>
+        {TdBlocks[KeyInfoIndex.Category]}
         <TableItem gridArea="Tr_Utility">
           <p>Utility</p>
         </TableItem>
-        {TdBlocks[KeyInfoIndex.utility]}
+        {TdBlocks[KeyInfoIndex.Utility]}
         <TableItem gridArea="Th_Price">
           <p>Minting Price</p>
         </TableItem>
         <TableItem gridArea="Tr_WLPrice">
           <p>Whitelist</p>
         </TableItem>
-        {TdBlocks[KeyInfoIndex.whitelistPrice]}
+        {TdBlocks[KeyInfoIndex.WLPrice]}
         <TableItem gridArea="Tr_PublicPrice">
           <p>Public</p>
         </TableItem>
-        {TdBlocks[KeyInfoIndex.publicPrice]}
+        {TdBlocks[KeyInfoIndex.PublicPrice]}
         <TableItem gridArea="Tr_CurrentPrice">
           <p>Current</p>
         </TableItem>
-        {TdBlocks[KeyInfoIndex.currentPrice]}
+        {TdBlocks[KeyInfoIndex.CurrentPrice]}
         <TableItem gridArea="Th_Community">
           <p>Community</p>
         </TableItem>
         <TableItem gridArea="Tr_Discord">
           <p>Discord</p>
         </TableItem>
-        {TdBlocks[KeyInfoIndex.discordUrl]}
+        {TdBlocks[KeyInfoIndex.Discord]}
         <TableItem gridArea="Tr_Twitter">
           <p>Twitter</p>
         </TableItem>
-        {TdBlocks[KeyInfoIndex.twitterUrl]}
+        {TdBlocks[KeyInfoIndex.Twitter]}
         <TableItem gridArea="Tr_OfficialSite">
           <p>Official website</p>
         </TableItem>
-        {TdBlocks[KeyInfoIndex.officialSiteUrl]}
+        {TdBlocks[KeyInfoIndex.OfficialSite]}
         <TableItem gridArea="Th_Chain">
           <p>Chain</p>
         </TableItem>
         <TableItem gridArea="Tr_Chain" />
-        {TdBlocks[KeyInfoIndex.chain]}
+        {TdBlocks[KeyInfoIndex.Chain]}
         <TableItem gridArea="Th_Marketplace">
           <p>Marketplace</p>
         </TableItem>
         <TableItem gridArea="Tr_Marketplace" />
-        {TdBlocks[KeyInfoIndex.marketplace]}
+        {TdBlocks[KeyInfoIndex.Marketplace]}
       </Table>
     </>
   );
@@ -146,6 +151,7 @@ const Table = styled.div`
     'Thumbnail      Thumbnail       Thumbnail'
     'Th_Team        Tr_Team         Td_Team'
     'Th_Team        Tr_Rugpool      Td_Rugpool'
+    'Th_Category    Tr_Category     Td_Category'
     'Th_Category    Tr_Utility      Td_Utility'
     'Th_Price       Tr_WLPrice      Td_WLPrice'
     'Th_Price       Tr_PublicPrice  Td_PublicPrice'
@@ -154,7 +160,7 @@ const Table = styled.div`
     'Th_Community   Tr_Twitter      Td_Twitter'
     'Th_Community   Tr_OfficialSite Td_OfficialSite'
     'Th_Chain       Tr_Chain        Td_Chain'
-    'Th_Marketplace Tr_Marketplace  Td_MarketPlace';
+    'Th_Marketplace Tr_Marketplace  Td_Marketplace';
   grid-template-rows: 40px 215px repeat(11, 30px);
   grid-template-columns: 115px 190px 195px;
   width: fit-content;

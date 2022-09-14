@@ -148,7 +148,7 @@ declare global {
   namespace Minting {
     type CollectionType = {
       name?: string;
-      twitterUrl?: string;
+      twitterHandle?: string;
       discordUrl?: string;
       websiteUrl?: string;
       telegramUrl?: string;
@@ -158,12 +158,12 @@ declare global {
     type ScheduleType = {
       id: number;
       name: string;
-      category: string;
+      category?: string;
       tier: number;
-      mintingTime: string;
+      mintingTime: Date;
       mintingUrl?: string;
       description?: string;
-      collectionInfo: CollectionType;
+      collection: CollectionType;
       mintingPrice?: string;
       mintingPriceSymbol?: string; // ETH/KLAYTN/SOL/Matic
     };
@@ -319,8 +319,13 @@ declare global {
       id: number;
       name: string;
       tier: number;
-      category: string;
-      date: string;
+      mintingTimeTimeStamp: number;
+      mintingUrl?: string;
+      description?: string;
+      collectionSlug: string;
+      mintingPrice?: string;
+      mintingPriceSymbol?: string;
+      category?: string;
     };
 
     type ForumArticleDataType = {

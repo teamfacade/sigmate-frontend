@@ -26,12 +26,24 @@ const DateInputFormatter = new Intl.DateTimeFormat('en', {
   day: '2-digit',
 });
 
+const TimeInputFormatter = new Intl.DateTimeFormat('en', {
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h24',
+});
+
 const regex = /(,*\s|\/)/g;
 
 export default function convertDate(
   event: Date,
-  format: 'time' | 'MonthDDYYYY' | 'key' | 'dateInput',
-  delimiter: string | undefined
+  format:
+    | 'time'
+    | 'MonthDDYYYY'
+    | 'key'
+    | 'dateInput'
+    | 'timeInput'
+    | 'MonthYear',
+  delimiter?: string
 ) {
   let converted = '';
 
@@ -39,6 +51,7 @@ export default function convertDate(
     case 'time':
       converted = logFormatter.format(event);
       break;
+    case 'MonthYear':
     case 'MonthDDYYYY':
       converted = MDYFormatter.format(event);
       break;
@@ -48,14 +61,20 @@ export default function convertDate(
     case 'dateInput':
       converted = DateInputFormatter.format(event);
       break;
+    case 'timeInput':
+      converted = TimeInputFormatter.format(event);
+      break;
     default:
       break;
   }
 
   converted = converted.replaceAll(regex, delimiter || ' ');
   if (format === 'dateInput') {
-    const splitted = converted.split('-');
-    converted = `${splitted[2]}-${splitted[0]}-${splitted[1]}`;
+    const split = converted.split('-');
+    converted = `${split[2]}-${split[0]}-${split[1]}`;
+  } else if (format === 'MonthYear') {
+    const split = converted.split('.');
+    converted = `${split[0]}.01.${split[2]}`;
   }
   return converted;
 }

@@ -1,28 +1,42 @@
-import {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  MouseEventHandler,
-} from 'react';
+import { useState, useCallback, useRef, MouseEventHandler } from 'react';
+import useSWR, { Fetcher } from 'swr';
 // eslint-disable-next-line import/no-named-default
 import { default as MyCalendar, OnChangeDateCallback } from 'react-calendar';
 import { CSSTransition } from 'react-transition-group';
 import convertDate from 'lib/global/convertDate';
-import { getMintingSchedules } from 'lib/user/calendar';
+import { AppDispatch } from 'store/store';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import CalendarModal from 'containers/user/calendar/CalendarModal';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { ScheduleThumbnail } from 'components/user/calendar';
 
-export default function Calendar() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [schedules, setSchedules] = useState<Minting.SchedulesType>(
-    getMintingSchedules()
+const fetcher: Fetcher<
+  Minting.SchedulesType,
+  { dispatch: AppDispatch; url: string }
+> = async ({ dispatch, url }) => {
+  const action: any = await dispatch(
+    AuthRequiredAxios({ method: 'GET', url })
   );
+  if (action.payload.status === 200) {
+    return action.payload.data;
+  } return null;
+};
+
+export default function Calendar() {
+  const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState(false);
   const [calDate, setCalDate] = useState('');
   const [mintingKey, setMintingKey] = useState('');
   const ModalRef = useRef<HTMLDivElement>(null);
+
+  const { data: schedules } = useSWR(
+    {
+      url: `/calendar/my?start=${convertDate(new Date(calDate), 'MonthYear')}`,
+      dispatch,
+    },
+    fetcher
+  );
 
   const onChange: OnChangeDateCallback = useCallback((value: Date) => {
     setShowModal(true);
@@ -48,6 +62,7 @@ export default function Calendar() {
             tileContent={({ date }) => {
               const formattedDate = convertDate(date, 'key', '.');
               if (
+                schedules &&
                 Object.keys(schedules).find((when) => when === formattedDate)
               ) {
                 return (
@@ -71,7 +86,7 @@ export default function Calendar() {
       >
         <CalendarModal
           date={calDate}
-          mintings={schedules[mintingKey]}
+          mintings={schedules ? schedules[mintingKey] : []}
           onClick={onClick}
           ref={ModalRef}
         />

@@ -24,7 +24,7 @@ export default memo(function WalletBtn({ name, onClick, disabled }: PropsType) {
         {name === 'ComingSoon' ? (
           <MWCS>More wallets coming soon</MWCS>
         ) : (
-          <p>{disabled ? 'Connected' : name}</p>
+          <p>{disabled ? 'Connected!' : name}</p>
         )}
       </div>
     </Btn>

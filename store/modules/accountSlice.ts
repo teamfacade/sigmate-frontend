@@ -63,6 +63,11 @@ export const accountSlice = createSlice({
     ) => ({
       ...action.payload,
     }),
+    // Action to set metamask wallet
+    setMetamaskWallet: (state, action: PayloadAction<string>) => ({
+      ...state,
+      metamaskWallet: action.payload,
+    }),
     // Action to set username
     setUserName: (state, action: PayloadAction<string>) => ({
       ...state,
@@ -108,6 +113,7 @@ export const accountSlice = createSlice({
 export const {
   clearAccountState,
   setAccountState,
+  setMetamaskWallet,
   setUserName,
   setDisplayName,
   setBio,

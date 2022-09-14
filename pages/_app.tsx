@@ -87,6 +87,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <Heads />
       {getLayout(<Component {...pageProps} />)}
+      <Footer />
     </>
   );
 }

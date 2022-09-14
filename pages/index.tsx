@@ -6,13 +6,15 @@ import TEMP from 'public/Icons/landingPage/TEMP.png';
 
 export default function MyApp() {
   return (
-    <Link href="/main/wiki/sigmate">
-      <A>
-        <ImageWrapper width="100vw" height="100vh">
-          <Image src={TEMP} layout="responsive" priority />
-        </ImageWrapper>
-      </A>
-    </Link>
+    <div>
+      <Link href="/main/wiki/sigmate">
+        <A>
+          <ImageWrapper width="100vw" height="100%">
+            <Image src={TEMP} layout="responsive" priority />
+          </ImageWrapper>
+        </A>
+      </Link>
+    </div>
   );
 }
 

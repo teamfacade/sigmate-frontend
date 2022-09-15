@@ -9,3 +9,6 @@ export { default as UltraViolet } from './UltraViolet.png';
 export { default as Orca } from './Orca.png';
 export { default as MangoSteen } from './MangoSteen.png';
 export { default as Strawberry } from './Strawberry.png';
+
+export { default as SigmateLogo } from './SigmateLogo.svg';
+export { default as WavingHand } from './WavingHand.svg';

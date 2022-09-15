@@ -10,6 +10,7 @@ const colors = {
   lightTextColor: '#676767' as const,
   lighterTextColor: '#BFBFBF' as const,
   dimTextColor: '#606C80' as const,
+  darkTextColor: '#3B3B3B' as const,
   headerColor: '#323C4D' as const,
   linkColor: '#98A2B2' as const,
   tableRowColor: '#FAFBFC' as const,

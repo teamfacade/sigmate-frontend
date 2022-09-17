@@ -10,7 +10,7 @@ import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
 type PropsType = {
   keyInfos: Wiki.DocumentBlockType[];
-  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement>;
+  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement>;
 };
 
 const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
@@ -48,7 +48,8 @@ export default memo(function EditKeyInfo({
           </ImageWrapper>
         </TableItem>
       );
-    } if (
+    }
+    if (
       i === KeyInfoIndex.Team ||
       i === KeyInfoIndex.Rugpool ||
       i === KeyInfoIndex.Utility ||
@@ -66,10 +67,11 @@ export default memo(function EditKeyInfo({
           />
         </TableItem>
       );
-    } if (i === KeyInfoIndex.Category) {
+    }
+    if (i === KeyInfoIndex.Category) {
       return (
         <TableItem gridArea={gridAreas[i]}>
-          <select name="Category">
+          <select name="Category" onChange={onChangeKeyInfos}>
             {categories?.map((category) => (
               <option key={category.id} value={category.name}>
                 {category.name}

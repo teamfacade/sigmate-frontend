@@ -48,7 +48,8 @@ export default memo(function VerdictBlock({
             isUpvote: name === 'Verify',
             timestamp,
           };
-        } if (name === 'Verify') {
+        }
+        if (name === 'Verify') {
           // canceled verify
           if (current.isUpvote) {
             return {
@@ -57,33 +58,32 @@ export default memo(function VerdictBlock({
               isUpvote: null,
               timestamp,
             };
-          } return {
-              ...current,
-              verify: current.verify + 1,
-              warning: current.warning - 1,
-              isUpvote: true,
-              timestamp,
-            };
-        } 
-          if (current.isUpvote) {
-            return {
-              ...current,
-              verify: current.verify - 1,
-              warning: current.warning + 1,
-              isUpvote: false,
-              timestamp,
-            };
           }
-          // canceled warning
-          
-            return {
-              ...current,
-              warning: current.warning - 1,
-              isUpvote: null,
-              timestamp,
-            };
-          
-        
+          return {
+            ...current,
+            verify: current.verify + 1,
+            warning: current.warning - 1,
+            isUpvote: true,
+            timestamp,
+          };
+        }
+        if (current.isUpvote) {
+          return {
+            ...current,
+            verify: current.verify - 1,
+            warning: current.warning + 1,
+            isUpvote: false,
+            timestamp,
+          };
+        }
+        // canceled warning
+
+        return {
+          ...current,
+          warning: current.warning - 1,
+          isUpvote: null,
+          timestamp,
+        };
       });
     },
     []
@@ -177,7 +177,7 @@ const Wrapper = styled.div<{ padding: boolean; percentage: number }>`
     }} !important;
 
   :hover {
-    border: 1px solid #276bff;
+    background-color: ${styles.colors.lightThumbsUpColor};
   }
 `;
 

@@ -11,12 +11,17 @@ import {
   PageMoveBtns,
   Modal,
 } from 'components/global';
-import { LogHead, LogItem, EditSchedule } from 'components/admin/mintSchedule';
+import {
+  LogHead,
+  LogItem,
+  EditSchedule,
+  EditCategory,
+} from 'components/admin/mintSchedule';
 import { categories } from 'pages/admin/forum';
 import { BlueBtnStyle } from 'styles/styleLib';
 
 type ModalDataType = {
-  type: 'New' | 'Edit';
+  type: 'New' | 'Edit' | 'Category';
   id: number;
 };
 
@@ -66,6 +71,12 @@ export default function MintingSchedule() {
         setShowModal({
           type: 'Edit',
           id: Number.parseInt(dataset?.id || '0', 10),
+        });
+        break;
+      case 'categories':
+        setShowModal({
+          type: 'Category',
+          id: 0,
         });
         break;
       default:
@@ -138,9 +149,14 @@ export default function MintingSchedule() {
               </select>
             </div>
             <Search />
-            <CreateNewBtn name="new" onClick={onClick}>
-              Add new
-            </CreateNewBtn>
+            <CreateBtnsWrapper>
+              <CreateNewBtn name="new" onClick={onClick}>
+                Add new
+              </CreateNewBtn>
+              <CreateNewBtn name="categories" onClick={onClick}>
+                Edit Categories
+              </CreateNewBtn>
+            </CreateBtnsWrapper>
           </SectionWrapper>
         </BasicWrapper>
         <BasicWrapper>
@@ -176,7 +192,11 @@ export default function MintingSchedule() {
         nodeRef={ModalRef}
       >
         <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          <EditSchedule type={showModal.type} id={showModal.id} />
+          {showModal.type !== 'Category' ? (
+            <EditSchedule type={showModal.type} id={showModal.id} />
+          ) : (
+            <EditCategory />
+          )}
         </Modal>
       </CSSTransition>
     </>
@@ -193,9 +213,17 @@ const Wrapper = styled.div`
   }
 `;
 
-const CreateNewBtn = styled.button`
-  ${BlueBtnStyle};
+const CreateBtnsWrapper = styled.div`
   position: absolute;
   top: -10px;
   right: 0;
+  display: flex;
+`;
+
+const CreateNewBtn = styled.button`
+  ${BlueBtnStyle};
+
+  & + & {
+    margin-left: 12px;
+  }
 `;

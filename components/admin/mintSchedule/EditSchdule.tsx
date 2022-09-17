@@ -16,7 +16,7 @@ import { BlueBtnStyle } from 'styles/styleLib';
 import convertDate from '../../../lib/global/convertDate';
 
 type PropsType = {
-  type: 'New' | 'Edit';
+  type: 'New' | 'Edit' | 'Category';
   id: number;
 };
 

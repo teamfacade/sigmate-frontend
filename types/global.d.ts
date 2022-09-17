@@ -177,6 +177,30 @@ declare global {
   }
 
   namespace Wiki {
+    type KeyInfoType = {
+      [index: string];
+      name: {
+        id: number;
+        textContent: string;
+      };
+      thumbnail: {
+        id: number;
+        textContent: string;
+      };
+      team: DocumentBlockType;
+      rugpool: DocumentBlockType;
+      category: DocumentBlockType;
+      utility: DocumentBlockType;
+      mintingPriceWl: DocumentBlockType;
+      mintingPricePublic: DocumentBlockType;
+      floorPrice: DocumentBlockType;
+      discordUrl: DocumentBlockType;
+      twitterHandle: DocumentBlockType;
+      websiteUrl: DocumentBlockType;
+      paymentTokens: DocumentBlockType;
+      marketplace: DocumentBlockType;
+    };
+
     type ModalDataType = {
       documentID: number;
       isKeyInfo: boolean;
@@ -212,9 +236,29 @@ declare global {
     type DocumentBlockType = {
       id: number;
       opinions?: OpinionType[];
+      document?: {
+        id: number;
+        title: string;
+      };
       element: string;
       textContent: string;
-      verifications?: Wiki.BlockVerificationType;
+      verificationCounts: {
+        verifyCount: number;
+        beAwareCount: number;
+      };
+      opinionCount: number;
+      myVerification?: {
+        id: number;
+        verificationType: {
+          id: number;
+          name: string; // verify, be aware, ...
+          isUpvote: boolean;
+        };
+        verificationOpinion?: {
+          id: number;
+          createdAt: Date;
+        };
+      };
     };
 
     type DocumentType = {
@@ -222,6 +266,7 @@ declare global {
       title: string;
       blocks?: Wiki.DocumentBlockType[];
       keyInfos?: Wiki.DocumentBlockType[];
+      keyInfo?: Wiki.KeyInfoType;
       types?: string[];
       createdBy: Forum.AuthorType;
     };

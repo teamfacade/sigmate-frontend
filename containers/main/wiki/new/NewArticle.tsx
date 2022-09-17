@@ -4,7 +4,9 @@ import {
   useCallback,
   ChangeEventHandler,
 } from 'react';
-import { InitialKeyInfos, KeyInfoIndex } from 'lib/main/wiki/getWikiData';
+import { InitialKeyInfos } from 'lib/main/wiki/getWikiData';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { store } from 'store/store';
 import { BasicInfos, WriteNew } from 'containers/main/wiki/new';
 import { SectionWrapper } from 'components/global';
@@ -16,13 +18,13 @@ type PropsType = {
 };
 
 export default function NewArticle({ topic }: PropsType) {
+  const dispatch = useAppDispatch();
   const [basicFetched, setBasicFetched] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedOption, setSelectedOption] = useState<
     ReactSelect.OptionType[]
   >([]);
-  const [keyInfo, setKeyInfo] =
-    useState<Wiki.DocumentBlockType[]>(InitialKeyInfos);
+  const [keyInfo, setKeyInfo] = useState<Wiki.KeyInfoType>(InitialKeyInfos);
   const [title, setTitle] = useState('');
   const [blocks, setBlocks] = useState<Wiki.DocumentBlockType[]>([]);
 
@@ -39,35 +41,68 @@ export default function NewArticle({ topic }: PropsType) {
     (e) => {
       const { name, value } = e.currentTarget;
       setKeyInfo((current) => {
-        if (current) {
-          return current.map((block, idx) => {
-            if (idx === KeyInfoIndex[name]) {
-              return {
-                ...block,
-                textContent: value,
-              };
-            }
-            return block;
-          });
-        }
-        return current;
+        const newKeyInfo = current;
+        newKeyInfo[name.toLowerCase()].textConent = value;
+        return newKeyInfo;
       });
     },
     []
   );
 
   const onSubmitBasicInfo: FormEventHandler<HTMLFormElement> = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       if (topic === 'Collection') {
-        // eslint-disable-next-line no-alert
-        alert(
-          (
-            e.currentTarget.elements.namedItem(
-              'MarketPlaceUrl'
-            ) as HTMLInputElement
-          )?.value
-        );
+        const slug = (
+          e.currentTarget.elements.namedItem(
+            'MarketPlaceUrl'
+          ) as HTMLInputElement
+        )?.value
+          .split('/')
+          .at(-1);
+
+        dispatch(
+          AuthRequiredAxios({
+            method: 'GET',
+            url: `/wiki/collection/s/${slug}?create=true&update=false`,
+          })
+        ).then((action: any) => {
+          if (action.payload.status === 200) {
+            const {
+              name,
+              imageUrl,
+              blocks: keyInfoBlocks,
+            } = action.payload.data.collection;
+
+            setKeyInfo((cur) => ({
+              name: {
+                ...cur.name,
+                textContent: name,
+              },
+              thumbnail: {
+                ...cur.thumbnail,
+                textContent: imageUrl || '',
+              },
+              team: keyInfoBlocks.team,
+              rugpool: keyInfoBlocks.history,
+              category: keyInfoBlocks.category,
+              utility: keyInfoBlocks.utility,
+              mintingPriceWl: keyInfoBlocks.mintingPriceWl,
+              mintingPricePublic: keyInfoBlocks.mintingPricePublic,
+              floorPrice: keyInfoBlocks.floorPrice,
+              discordUrl: keyInfoBlocks.discordUrl,
+              twitterHandle: keyInfoBlocks.twitterHandle,
+              websiteUrl: keyInfoBlocks.websiteUrl,
+              paymentTokens: keyInfoBlocks.paymentTokens,
+              marketplace: keyInfoBlocks.marketplace,
+            }));
+            setBasicFetched(true);
+          } else {
+            alert(
+              `Error while fetching collection info. ERR:${action.payload.status}.\r\nPlease try again.`
+            );
+          }
+        });
       } else if (topic === 'Token') {
         // eslint-disable-next-line no-console
         console.log(
@@ -84,7 +119,6 @@ export default function NewArticle({ topic }: PropsType) {
           }`
         );
       }
-      setBasicFetched(true);
     },
     []
   );
@@ -93,28 +127,24 @@ export default function NewArticle({ topic }: PropsType) {
     (e) => {
       e.preventDefault();
       if (topic !== 'Others') {
-        if (
-          keyInfo[KeyInfoIndex.marketplace].textContent &&
-          keyInfo[KeyInfoIndex.team].textContent
-        ) {
+        if (keyInfo.marketplace.textContent && keyInfo.team.textContent) {
           // eslint-disable-next-line no-alert
           alert('submit!');
           return;
-        } if (keyInfo[KeyInfoIndex.team].textContent === '') {
+        }
+        if (keyInfo.team.textContent === '') {
           (
-            e.currentTarget.elements.namedItem('team') as HTMLTextAreaElement
+            e.currentTarget.elements.namedItem('Team') as HTMLTextAreaElement
           ).focus();
           return;
-        } 
-          (
-            e.currentTarget.elements.namedItem(
-              'marketplace'
-            ) as HTMLTextAreaElement
-          ).focus();
-          return;
-        
+        }
+        (
+          e.currentTarget.elements.namedItem(
+            'Marketplace'
+          ) as HTMLTextAreaElement
+        ).focus();
+        return;
       }
-
       const { id, userName, primaryProfile } = (
         store.getState() as ReduxState.RootStateType
       ).account;
@@ -122,7 +152,7 @@ export default function NewArticle({ topic }: PropsType) {
         id: Date.now(),
         title,
         types: selectedOption.map((selected) => selected.value),
-        keyInfos: keyInfo,
+        keyInfo,
         blocks,
         createdBy: {
           id,

@@ -9,7 +9,7 @@ import styles from 'styles/styleLib';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
 type PropsType = {
-  keyInfos: Wiki.DocumentBlockType[];
+  keyInfos: Wiki.KeyInfoType;
   onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement>;
 };
 
@@ -35,7 +35,7 @@ export default memo(function EditKeyInfo({
     categoriesFetcher
   );
 
-  const TdBlocks = keyInfos.map((keyInfo, i) => {
+  const TdBlocks = Object.values(keyInfos).map((keyInfo, i) => {
     if (i === 1) {
       return (
         <TableItem gridArea={gridAreas[i]}>
@@ -48,8 +48,7 @@ export default memo(function EditKeyInfo({
           </ImageWrapper>
         </TableItem>
       );
-    }
-    if (
+    } if (
       i === KeyInfoIndex.Team ||
       i === KeyInfoIndex.Rugpool ||
       i === KeyInfoIndex.Utility ||
@@ -62,13 +61,12 @@ export default memo(function EditKeyInfo({
             name={name}
             rows={1}
             placeholder={`Type about ${name}`}
-            value={keyInfos[KeyInfoIndex[name]].textContent}
+            value={keyInfo.textContent}
             onChange={onChangeKeyInfos}
           />
         </TableItem>
       );
-    }
-    if (i === KeyInfoIndex.Category) {
+    } if (i === KeyInfoIndex.Category) {
       return (
         <TableItem gridArea={gridAreas[i]}>
           <select name="Category" onChange={onChangeKeyInfos}>
@@ -80,12 +78,11 @@ export default memo(function EditKeyInfo({
           </select>
         </TableItem>
       );
-    }
-    return (
-      <TableItem gridArea={gridAreas[i]}>
-        <p>{keyInfo.textContent}</p>
-      </TableItem>
-    );
+    } return (
+        <TableItem gridArea={gridAreas[i]}>
+          <p>{keyInfo.textContent}</p>
+        </TableItem>
+      );
   });
 
   return (

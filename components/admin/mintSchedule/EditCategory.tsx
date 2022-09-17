@@ -13,12 +13,9 @@ import { BasicWrapper, SectionWrapper } from 'components/global';
 import { CategoryControll } from 'components/admin/mintSchedule';
 import { BlueBtnStyle } from 'styles/styleLib';
 
-type CategoryType = {
-  id: number;
-  name: string;
-};
-
-const fetcher: Fetcher<CategoryType[], string> = async (url: string) => {
+const fetcher: Fetcher<CollectionCategoryType[], string> = async (
+  url: string
+) => {
   try {
     const res = await Axios.get(url);
     return res.data.categories;
@@ -84,7 +81,7 @@ export default function EditCategory() {
     <BasicWrapper>
       <SectionWrapper header="Edit Categories">
         <Wrapper>
-          {options?.map((option: CategoryType) => {
+          {options?.map((option) => {
             return (
               <CategoryControll
                 key={option.id}
@@ -110,7 +107,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
+  max-height: 315px;
   margin-bottom: 16px;
+  overflow: auto;
 `;
 
 const FlexWrapper = styled.div`

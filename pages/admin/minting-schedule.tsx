@@ -1,4 +1,5 @@
 import { MouseEventHandler, useCallback, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import useSWR, { Fetcher } from 'swr';
@@ -17,7 +18,6 @@ import {
   EditSchedule,
   EditCategory,
 } from 'components/admin/mintSchedule';
-import { categories } from 'pages/admin/forum';
 import { BlueBtnStyle } from 'styles/styleLib';
 
 type ModalDataType = {
@@ -44,7 +44,21 @@ const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
   return [];
 };
 
+const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
+  url: string
+) => {
+  const { status, data } = await Axios.get(url);
+  if (status === 200) {
+    return data.categories || [];
+  }
+  alert(
+    `Error while fetching collection categories: ERR ${status}.\r\nPlease reload the page.`
+  );
+  return [];
+};
+
 export default function MintingSchedule() {
+  const router = useRouter();
   const [showModal, setShowModal] = useState<ModalDataType>({
     type: 'New',
     id: -1,
@@ -55,6 +69,11 @@ export default function MintingSchedule() {
   const { data: schedules } = useSWR(
     `/calendar/minting?start=${startDay}&end=${endDay}&limit=${limit}&page=${curPage}`,
     fetcher
+  );
+
+  const { data: categories } = useSWR(
+    `/wiki/collection/category`,
+    categoriesFetcher
   );
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
@@ -84,10 +103,11 @@ export default function MintingSchedule() {
     }
   }, []);
 
-  const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowModal({ type: 'New', id: -1 }),
-    []
-  );
+  const onMouseDown: MouseEventHandler<HTMLDivElement> =
+    useCallback(async () => {
+      await router.reload();
+      setShowModal({ type: 'New', id: -1 });
+    }, []);
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -141,9 +161,9 @@ export default function MintingSchedule() {
               <input type="date" />
               <span>Category</span>
               <select name="category">
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                {categories?.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
                   </option>
                 ))}
               </select>

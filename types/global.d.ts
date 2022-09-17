@@ -117,6 +117,11 @@ declare global {
     ) => void;
   }
 
+  type CollectionCategoryType = {
+    id: number;
+    name: string;
+  };
+
   type EditType = {
     name: string;
     editor: string;

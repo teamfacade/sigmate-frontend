@@ -8,13 +8,8 @@ import styled from 'styled-components';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 
-type CategoryType = {
-  id: number;
-  name: string;
-};
-
 type PropsType = {
-  option: CategoryType;
+  option: CollectionCategoryType;
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 

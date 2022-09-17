@@ -1,6 +1,8 @@
 import { ChangeEventHandler, memo } from 'react';
 import Image from 'next/image';
+import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
+import Axios from 'lib/global/axiosInstance';
 import { gridAreas, KeyInfoIndex } from 'lib/main/wiki/getWikiData';
 import { ImageWrapper } from 'components/global';
 import styles from 'styles/styleLib';
@@ -11,10 +13,28 @@ type PropsType = {
   onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
+const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
+  url: string
+) => {
+  const { status, data } = await Axios.get(url);
+  if (status === 200) {
+    return data.categories || [];
+  }
+  alert(
+    `Error while fetching collection categories: ERR ${status}.\r\nPlease reload the page.`
+  );
+  return [];
+};
+
 export default memo(function EditKeyInfo({
   keyInfos,
   onChangeKeyInfos,
 }: PropsType) {
+  const { data: categories } = useSWR(
+    `/wiki/collection/category`,
+    categoriesFetcher
+  );
+
   const TdBlocks = keyInfos.map((keyInfo, i) => {
     if (i === 1) {
       return (
@@ -28,11 +48,9 @@ export default memo(function EditKeyInfo({
           </ImageWrapper>
         </TableItem>
       );
-    }
-    if (
+    } if (
       i === KeyInfoIndex.Team ||
       i === KeyInfoIndex.Rugpool ||
-      i === KeyInfoIndex.Category ||
       i === KeyInfoIndex.Utility ||
       i === KeyInfoIndex.Marketplace
     ) {
@@ -46,6 +64,18 @@ export default memo(function EditKeyInfo({
             value={keyInfos[KeyInfoIndex[name]].textContent}
             onChange={onChangeKeyInfos}
           />
+        </TableItem>
+      );
+    } if (i === KeyInfoIndex.Category) {
+      return (
+        <TableItem gridArea={gridAreas[i]}>
+          <select name="Category">
+            {categories?.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </TableItem>
       );
     }
@@ -235,6 +265,15 @@ const TableItem = styled.div<{ gridArea: string }>`
 
     ::placeholder {
       color: #c4c4c4;
+    }
+  }
+
+  select {
+    width: 100%;
+    margin: 0 14px;
+
+    :focus-visible {
+      outline: none;
     }
   }
 `;

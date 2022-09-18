@@ -12,3 +12,13 @@ export { default as Strawberry } from './Strawberry.png';
 
 export { default as SigmateLogo } from './SigmateLogo.svg';
 export { default as WavingHand } from './WavingHand.svg';
+
+export { default as Wiki } from './Wiki.png';
+export { default as Offchain } from './Offchain.png';
+export { default as Calendar } from './Calendar.png';
+export { default as Membership } from './Membership.png';
+export { default as CrossValidation } from './CrossValidation.png';
+export { default as Raffle } from './Raffle.png';
+export { default as Community } from './Community.png';
+export { default as Correlation } from './Correlation.png';
+export { default as Write2Earn } from './Write2Earn.png';

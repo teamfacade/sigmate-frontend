@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { Introduction } from 'containers/landing';
+import { Introduction, Features } from 'containers/landing';
 
 export default function MyApp() {
   return (
     <Wrapper>
       <Introduction />
+      <Features />
       {/*
-        <Features/>
         <Write2Earn/>
         <Calendar/>
         <BuildYourComm/>

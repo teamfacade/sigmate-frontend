@@ -38,6 +38,9 @@ const FeaturesWrapper = styled.div`
   justify-content: center;
 
   > div {
+    position: relative;
+    width: calc(33% - 28px);
+    aspect-ratio: 1.56;
     margin: 14px;
   }
 `;

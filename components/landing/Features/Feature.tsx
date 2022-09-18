@@ -75,12 +75,15 @@ const featureContents: StringKeyObj<FeatureContentType> = {
 export default memo(function Feature({ feature }: PropsType) {
   return (
     <div>
-      <ImageWrapper width="408px" height="261px">
-        <Image src={featureContents[feature].img} layout="fill" priority />
+      <ImageWrapper width="100%" height="100%">
+        <Image src={featureContents[feature].img} layout="fill" />
         <TextContent color={featureContents[feature].color}>
           {featureContents[feature].textContent}
         </TextContent>
       </ImageWrapper>
+      <TextContent color={featureContents[feature].color}>
+        {featureContents[feature].textContent}
+      </TextContent>
     </div>
   );
 });
@@ -88,10 +91,10 @@ export default memo(function Feature({ feature }: PropsType) {
 const TextContent = memo(styled.p<{ color: string }>`
   position: absolute;
   left: 50%;
-  bottom: 20px;
+  bottom: 6%;
   margin: 0;
   color: ${({ color }) => color};
-  font-size: 16px;
+  font-size: 1.2vw;
   font-weight: 700;
   line-height: 150%;
   transform: translateX(-50%);

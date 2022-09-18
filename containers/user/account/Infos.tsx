@@ -17,8 +17,23 @@ import {
 
 /* @todo :
      프로필 사진 변경 버튼 추가
-     state 초깃값을 서버에서 받아온 사용자 정보로 지정, onClick에 업데이트된 값을 서버로 보내는 작업 추가
 */
+const usernameRules: StringKeyObj<string> = {
+  default: 'Something went wrong.\r\nPlease try again.',
+  REQUIRED: "Username can't be empty",
+  TOO_SHORT: 'Username should be more than 2 characters',
+  TOO_LONG: 'Username should be less than 17 characters',
+  ERR_USERNAME_ILLEGAL_CHARS:
+    'We only allow alphanumeric characters, underscores, dashes, and periods',
+  ERR_USERNAME_CONSECUTIVE_SPECIAL_CHARS:
+    'Special characters cannot appear more than 2 times in a row',
+  ERR_USERNAME_START_OR_END_WITH_SPECIAL_CHARS:
+    'Username cannot start nor end with a special character',
+  ERR_USERNAME_ILLEGAL_WORDS: "You can't contain some words in username",
+  ERR_USERNAME_IS_URL: 'Username cannot be a URL',
+  ERR_USERNAME_CHANGE_INTERVAL: 'You can change your username per month.',
+};
+
 export default function Infos() {
   const dispatch = useAppDispatch();
   const { userName, isTwitterHandlePublic, isDiscordAccountPublic } =
@@ -28,6 +43,7 @@ export default function Infos() {
   );
 
   const [edit, setEdit] = useState(false);
+  const [usernameEditResult, setUsernameEditResult] = useState('');
   const [twitterPublic, setTwitterPublic] = useState<boolean>(
     isTwitterHandlePublic
   );
@@ -71,11 +87,11 @@ export default function Infos() {
         ).then((action: any) => {
           if (action.payload.status === 200) {
             dispatch(setUserName(newUserName));
-          } else if (
-            action.payload.data.validationErrors[0].msg ===
-            'ERR_USERNAME_CHANGE_INTERVAL'
-          ) {
-            alert('You can change your username per month.');
+            setUsernameEditResult('');
+          } else if (action.payload.data.validationErrors[0]) {
+            setUsernameEditResult(
+              usernameRules[action.payload.data.validationErrors[0].msg]
+            );
           }
         });
       }
@@ -139,7 +155,8 @@ export default function Infos() {
               edit={edit}
               header="User Name"
               content={userName}
-              description=""
+              isValid={usernameEditResult === ''}
+              description={usernameEditResult}
               ref={nameRef}
             />
             <InfoItem
@@ -147,7 +164,7 @@ export default function Infos() {
               header="Display Name"
               content={displayName}
               description={
-                'Your display name will be used in places where your profile needs to be displayed. If left blank, your username\r\nwill be used instead. Other users will still be able to see your username in your profile page.'
+                'Your display name will be used in places where your profile needs to be displayed. If left blank, your username will be used instead.\r\nOther users will still be able to see your username in your profile page.'
               }
               ref={displayNameRef}
             />

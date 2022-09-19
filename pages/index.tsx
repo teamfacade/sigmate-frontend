@@ -7,6 +7,7 @@ import {
   BuildYourComm,
   CorrelationAlg,
   RoadMap,
+  GoUpBtn,
 } from 'containers/landing';
 
 export default function MyApp() {
@@ -19,9 +20,7 @@ export default function MyApp() {
       <BuildYourComm />
       <CorrelationAlg />
       <RoadMap />
-      {/*
-        <GoUpBtn/>
-        */}
+      <GoUpBtn />
     </Wrapper>
   );
 }

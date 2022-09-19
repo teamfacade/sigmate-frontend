@@ -94,8 +94,8 @@ const TextContent = memo(styled.p<{ color: string }>`
   bottom: 6%;
   margin: 0;
   color: ${({ color }) => color};
-  font-size: 1.2vw;
-  font-weight: 700;
+  font-size: max(1.1vw, 13px);
+  font-weight: 600;
   line-height: 150%;
   transform: translateX(-50%);
   text-align: center;

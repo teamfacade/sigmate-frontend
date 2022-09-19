@@ -28,18 +28,19 @@ export default function Features() {
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 42px;
+  padding: 52px;
   background-color: ${styles.colors.lightThumbsUpColor};
 `;
 
 const FeaturesWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-evenly;
 
   > div {
     position: relative;
     width: calc(33% - 28px);
+    min-width: 300px;
     aspect-ratio: 1.56;
     margin: 14px;
   }

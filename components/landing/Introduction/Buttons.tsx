@@ -30,7 +30,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const HandShake = styled.button`
+const HandShake = styled.a`
   padding: 13px 100px;
   margin: 0 24px 0 0;
   border-radius: 8px;
@@ -41,6 +41,11 @@ const HandShake = styled.button`
   div {
     display: flex;
     align-items: center;
+
+    svg {
+      position: relative;
+      top: -3px;
+    }
 
     p {
       margin: 0 0 0 8px;

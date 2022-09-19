@@ -26,7 +26,7 @@ const Links: StringKeyObj<LinkDetailType> = {
   Discord: {
     icon: Discord,
     bgColor: '#6175C3',
-    href: 'https://discord.gg/DaEsBQh3dh',
+    href: 'https://discord.gg/jzwrEkbmwZ',
   },
   Telegram: {
     icon: Telegram,
@@ -36,7 +36,7 @@ const Links: StringKeyObj<LinkDetailType> = {
   Medium: {
     icon: Medium,
     bgColor: '#12100E',
-    href: 'https://medium.com/@sigmateofficial',
+    href: 'https://medium.com/@officialsigmate',
   },
 };
 
@@ -46,7 +46,7 @@ export default memo(function SocialLinkBtn({
 }: PropsType) {
   return (
     <Link href={Links[platform].href} passHref>
-      <a>
+      <a target="_blank">
         <Div bgColor={Links[platform].bgColor}>
           <ImageWrapper width={iconWidth} height={iconWidth}>
             <Image src={Links[platform].icon} layout="responsive" priority />

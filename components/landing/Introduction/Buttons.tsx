@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { SocialLinkWrapper, SocialLinkBtn } from 'components/global';
 import styles from 'styles/styleLib';
@@ -6,17 +7,15 @@ import { WavingHand } from 'public/Icons/landingPage';
 export default function Buttons() {
   return (
     <Wrapper>
-      <HandShake>
-        <div>
-          <WavingHand />
-          <p>Launch App</p>
-        </div>
-      </HandShake>
-      <SocialLinkWrapper
-        btnWidth="56px"
-        btnHeight="56px"
-        marginLeft="8px"
-      >
+      <Link href="/main/wiki/Sigmate" passHref>
+        <HandShake>
+          <div>
+            <WavingHand />
+            <p>Launch App</p>
+          </div>
+        </HandShake>
+      </Link>
+      <SocialLinkWrapper btnWidth="56px" btnHeight="56px" marginLeft="8px">
         <SocialLinkBtn platform="Twitter" />
         <SocialLinkBtn platform="Telegram" />
         <SocialLinkBtn platform="Discord" />

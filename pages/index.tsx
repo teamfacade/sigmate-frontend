@@ -4,6 +4,7 @@ import {
   Features,
   Write2Earn,
   Calendar,
+  BuildYourComm,
 } from 'containers/landing';
 
 export default function MyApp() {
@@ -13,8 +14,8 @@ export default function MyApp() {
       <Features />
       <Write2Earn />
       <Calendar />
+      <BuildYourComm />
       {/*
-        <BuildYourComm/>
         <CorrelationAlg/>
         <RoadMap/>
         <GoUpBtn/>

@@ -21,47 +21,48 @@ export default function InfoTable({ title, description }: PropsType) {
 
 const Wrapper = styled.div`
   display: flex;
-  min-height: 96px;
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: ${styles.shadows.blueShadow};
+  min-height: 130px;
+  background-color: ${styles.colors.tableRowColor};
+  border-radius: 20px;
   overflow: hidden;
 
   & + & {
-    margin-top: 22px;
+    margin-top: 24px;
   }
 
   > div > p {
     position: relative;
     top: 50%;
-    padding: 32px 0;
+    padding: 40px 0;
     margin: 0;
     transform: translateY(-50%);
   }
 `;
 
 const Title = styled.div`
-  flex: 0 1 468px;
+  flex: 0 1 280px;
   background-color: ${styles.colors.lightThumbsUpColor};
+  border-right: 3px solid #e9eaec;
   text-align: center;
 
   p {
     color: ${styles.colors.blueTextColor};
-    font-size: 20px;
+    font-size: 28px;
     font-weight: 600;
     line-height: 150%;
   }
 `;
 
 const Description = styled.div`
-  flex: 1.76 1.76 832px;
+  flex: 3.64 3.64 1020px;
   text-align: start;
 
   p {
-    margin: 0 48px !important;
+    margin: 0 40px !important;
     color: ${styles.colors.darkTextColor};
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     line-height: 150%;
+    white-space: pre-wrap;
   }
 `;

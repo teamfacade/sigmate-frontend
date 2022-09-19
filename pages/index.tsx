@@ -6,6 +6,7 @@ import {
   Calendar,
   BuildYourComm,
   CorrelationAlg,
+  RoadMap,
 } from 'containers/landing';
 
 export default function MyApp() {
@@ -17,8 +18,8 @@ export default function MyApp() {
       <Calendar />
       <BuildYourComm />
       <CorrelationAlg />
+      <RoadMap />
       {/*
-        <RoadMap/>
         <GoUpBtn/>
         */}
     </Wrapper>

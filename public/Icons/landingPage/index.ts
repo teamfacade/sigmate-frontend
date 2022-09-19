@@ -28,3 +28,5 @@ export { default as CalendarIcon } from './CalendarIcon.svg';
 export { default as HandShake } from './HandShake.svg';
 export { default as BarChart } from './BarChart.svg';
 export { default as CorrelationEx } from './CorrelationEx.png';
+export { default as Rocket } from './Rocket.svg';
+export { default as Roadmap } from './Roadmap.png';

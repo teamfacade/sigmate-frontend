@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { Introduction, Features, Write2Earn } from 'containers/landing';
+import {
+  Introduction,
+  Features,
+  Write2Earn,
+  Calendar,
+} from 'containers/landing';
 
 export default function MyApp() {
   return (
@@ -7,8 +12,8 @@ export default function MyApp() {
       <Introduction />
       <Features />
       <Write2Earn />
+      <Calendar />
       {/*
-        <Calendar/>
         <BuildYourComm/>
         <CorrelationAlg/>
         <RoadMap/>

@@ -28,8 +28,9 @@ const Wrapper = styled.div`
 
 const Btn = styled.button`
   position: relative;
-  width: 125px;
+  width: 115px;
   height: 115px;
+  padding: 0;
   border: none;
   border-radius: 125px;
   background-color: #ffffff;

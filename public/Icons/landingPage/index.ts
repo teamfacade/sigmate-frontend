@@ -26,3 +26,5 @@ export { default as Write2Earn } from './Write2Earn.png';
 export { default as WritingHand } from './WritingHand.svg';
 export { default as CalendarIcon } from './CalendarIcon.svg';
 export { default as HandShake } from './HandShake.svg';
+export { default as BarChart } from './BarChart.svg';
+export { default as CorrelationEx } from './CorrelationEx.png';

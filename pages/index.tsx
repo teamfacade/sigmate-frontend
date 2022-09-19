@@ -5,6 +5,7 @@ import {
   Write2Earn,
   Calendar,
   BuildYourComm,
+  CorrelationAlg,
 } from 'containers/landing';
 
 export default function MyApp() {
@@ -15,8 +16,8 @@ export default function MyApp() {
       <Write2Earn />
       <Calendar />
       <BuildYourComm />
+      <CorrelationAlg />
       {/*
-        <CorrelationAlg/>
         <RoadMap/>
         <GoUpBtn/>
         */}

@@ -10,6 +10,8 @@ const colors = {
   lightTextColor: '#676767' as const,
   lighterTextColor: '#BFBFBF' as const,
   dimTextColor: '#606C80' as const,
+  darkTextColor: '#3B3B3B' as const,
+  blueTextColor: '#1676CE' as const,
   headerColor: '#323C4D' as const,
   linkColor: '#98A2B2' as const,
   tableRowColor: '#FAFBFC' as const,
@@ -45,6 +47,7 @@ const shadows = {
   verdictBtnShadow: '0 4px 10px 0 rgba(58, 63, 69, .15)',
   containerShadow: `0 1px 3px 0 ${colors.darkBorderColor}`,
   modalShadow: '0 4px 4px 0 rgba(0, 0, 0, .25)',
+  blueShadow: '5px 4px 40px 0 rgba(184, 215, 243, 0.5)',
 };
 
 const styles = {

@@ -22,3 +22,6 @@ export { default as Raffle } from './Raffle.png';
 export { default as Community } from './Community.png';
 export { default as Correlation } from './Correlation.png';
 export { default as Write2Earn } from './Write2Earn.png';
+
+export { default as WritingHand } from './WritingHand.svg';
+export { default as CalendarIcon } from './CalendarIcon.svg';

@@ -5,3 +5,5 @@ export { default as ImageWrapper } from './ImageWrapper';
 export { default as PageMoveBtns } from './PageMoveBtns';
 export { default as LogTable } from './LogTable';
 export { default as Modal } from './Modal';
+export { default as SocialLinkWrapper } from './SocialLinkWrapper';
+export { default as SocialLinkBtn } from './SocialLinkBtn';

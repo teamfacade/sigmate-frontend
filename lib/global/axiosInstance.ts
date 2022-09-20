@@ -9,7 +9,7 @@ type RenewResultType = {
 };
 
 const Axios = axios.create({
-  // baseURL: 'http://api.sigmate.io:5100/api/v1',
+  // baseURL: 'http://api.sigmate.io/api/v1',
   baseURL: `http://${
     process.env.NODE_ENV === 'production' ? 'api.sigmate.io' : 'localhost:5100'
   }/api/v1`,

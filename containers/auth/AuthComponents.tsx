@@ -11,8 +11,8 @@ import Web3 from 'web3';
 
 // const API_DOMAIN = 'http://api.sigmate.io:5100';
 const API_DOMAIN = `http://${
-  process.env.NODE_ENV === 'production' ? 'api.sigmate.io' : 'localhost'
-}:5100`;
+  process.env.NODE_ENV === 'production' ? 'api.sigmate.io' : 'localhost:5100'
+}`;
 const BASE_URL = `${API_DOMAIN}/api/v1`;
 
 export default function AuthComponents() {

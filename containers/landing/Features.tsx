@@ -17,11 +17,13 @@ const features: string[] = [
 export default function Features() {
   return (
     <Wrapper>
-      <FeaturesWrapper>
-        {features.map((feature) => {
-          return <Feature key={feature} feature={feature} />;
-        })}
-      </FeaturesWrapper>
+      <div>
+        <FeaturesWrapper>
+          {features.map((feature) => {
+            return <Feature key={feature} feature={feature} />;
+          })}
+        </FeaturesWrapper>
+      </div>
     </Wrapper>
   );
 }
@@ -30,6 +32,12 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 52px;
   background-color: ${styles.colors.lightThumbsUpColor};
+
+  > div {
+    position: relative;
+    max-width: 1280px;
+    margin: auto;
+  }
 `;
 
 const FeaturesWrapper = styled.div`

@@ -28,3 +28,13 @@ export const saveState = (state: AppState) => {
     console.error(err);
   }
 };
+
+export const deleteState = () => {
+  try {
+    localStorage.removeItem('state');
+    console.log('removed');
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+  }
+};

@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import Axios, { RenewAccessToken } from 'lib/global/axiosInstance';
 import { useTokenAuth } from 'hooks/reduxStoreHooks';
+import { deleteState } from './localStorage';
 import { setAccountState, clearAccountState } from './accountSlice';
 import { AppDispatch } from '../store';
 
@@ -18,6 +19,7 @@ export const signIn = createAsyncThunk<
 export const signOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
   'auth/signOut',
   async (state, ThunkAPI) => {
+    deleteState();
     ThunkAPI.dispatch(clearAccountState());
   }
 );

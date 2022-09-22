@@ -31,7 +31,7 @@ export default function Navbar() {
       <nav>
         <Wrapper>
           <Link href="/main">
-            <Logo>sigmate</Logo>
+            <Logo>Sigmate</Logo>
           </Link>
           <SideHiddensWrapper showMenu={showMenu}>
             <Links />

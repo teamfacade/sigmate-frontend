@@ -6,20 +6,22 @@ import styles from 'styles/styleLib';
 export default memo(function Footer() {
   return (
     <footer>
-      <Wrapper>
-        <Logo>sigmate</Logo>
-        <ExternalLinks />
+      <div style={{ width: '100%' }}>
+        <Wrapper>
+          <Logo>Sigmate</Logo>
+          <ExternalLinks />
+        </Wrapper>
         <Copyright>
-          <p>© Copyright 2022 sigmate. All rights reserved</p>
+          <p>© Copyright 2022 Sigmate. All rights reserved</p>
         </Copyright>
-      </Wrapper>
+      </div>
     </footer>
   );
 });
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
   padding: 30px;
@@ -36,12 +38,10 @@ const Logo = styled.p`
 `;
 
 const Copyright = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  float: right;
 
   p {
-    margin: 0;
+    margin: 0 20px 20px 0;
     color: ${styles.colors.lightTextColor};
     font-size: 16px;
     font-family: 'Inter', sans-serif;

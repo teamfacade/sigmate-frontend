@@ -38,7 +38,7 @@ export default memo(function ExternalLinks() {
 
 const Wrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  margin: auto;
 
   ul {
     padding-left: 0;

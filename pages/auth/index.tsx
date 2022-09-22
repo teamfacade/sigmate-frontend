@@ -9,7 +9,7 @@ export default function AuthPage() {
   const router = useRouter();
 
   if (signedIn && userName) {
-    router.push('/main');
+    router.push('/main/wiki/Sigmate');
   }
 
   return (

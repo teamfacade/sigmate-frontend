@@ -117,12 +117,15 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     async (e) => {
-      if (e.currentTarget.name === 'Metamask') {
+      const { name } = e.currentTarget;
+      if (name === 'Metamask') {
         // eslint-disable-next-line no-alert
         connectToMetaMask(dispatch).then((action) => {
           if (action.payload.status === 200)
             dispatch(setMetamaskWallet(action.payload.data.metamaskWallet));
         });
+      } else if (name === 'Google') {
+        alert('Comming soon...');
       } else if ((isValidRefCode || refCode === '') && isValidUsername) {
         dispatch(
           AuthRequiredAxios({

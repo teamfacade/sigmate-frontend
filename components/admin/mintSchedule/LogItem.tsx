@@ -31,14 +31,18 @@ export default memo(function LogItem({
         <td>{category}</td>
         <td>
           <div style={{ display: 'flex' }}>
-            <button type="button">Delete</button>
             <button
               type="button"
               data-id={id}
-              data-name={name}
-              data-time={time}
+              name="delete"
+              onClick={onClick}
+            >
+              Delete
+            </button>
+            <button
+              type="button"
+              data-id={id}
               data-tier={tier}
-              data-category={category}
               name="edit"
               onClick={onClick}
             >

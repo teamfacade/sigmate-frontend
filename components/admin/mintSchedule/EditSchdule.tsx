@@ -7,13 +7,13 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
+import convertDate from 'lib/global/convertDate';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { categories } from 'pages/admin/forum';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { NamedInput } from 'components/admin/mintSchedule';
 import { BlueBtnStyle } from 'styles/styleLib';
-import convertDate from '../../../lib/global/convertDate';
 
 type PropsType = {
   type: 'New' | 'Edit' | 'Category';

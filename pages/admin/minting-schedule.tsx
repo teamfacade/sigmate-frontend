@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import useSWR, { Fetcher } from 'swr';
 import Axios from 'lib/global/axiosInstance';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import {
   BasicWrapper,
   SectionWrapper,
@@ -59,6 +61,7 @@ const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
 };
 
 export default function MintingSchedule() {
+  const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState<ModalDataType>({
     type: 'New',
     id: -1,
@@ -76,32 +79,49 @@ export default function MintingSchedule() {
     categoriesFetcher
   );
 
-  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
-    const { name, dataset } = e.currentTarget;
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      const { name, dataset } = e.currentTarget;
 
-    switch (name) {
-      case 'new':
-        setShowModal({
-          type: 'New',
-          id: 0,
-        });
-        break;
-      case 'edit':
-        setShowModal({
-          type: 'Edit',
-          id: Number.parseInt(dataset?.id || '0', 10),
-        });
-        break;
-      case 'categories':
-        setShowModal({
-          type: 'Category',
-          id: 0,
-        });
-        break;
-      default:
-        break;
-    }
-  }, []);
+      switch (name) {
+        case 'new':
+          setShowModal({
+            type: 'New',
+            id: 0,
+          });
+          break;
+        case 'edit':
+          setShowModal({
+            type: 'Edit',
+            id: Number.parseInt(dataset?.id || '0', 10),
+          });
+          break;
+        case 'delete':
+          dispatch(
+            AuthRequiredAxios({
+              method: 'DELETE',
+              url: `/calendar/minting/${dataset?.id}`,
+            })
+          ).then(async (action: any) => {
+            if (action.payload.status === 200) await mutate();
+            else
+              alert(
+                `Error while deleting the schedule. ERR: ${action.payload.status}`
+              );
+          });
+          break;
+        case 'categories':
+          setShowModal({
+            type: 'Category',
+            id: 0,
+          });
+          break;
+        default:
+          break;
+      }
+    },
+    [mutate]
+  );
 
   const onMouseDown: MouseEventHandler<HTMLDivElement> =
     useCallback(async () => {

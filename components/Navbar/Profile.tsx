@@ -63,11 +63,11 @@ const Wrapper = styled.div`
 
 const TextWrapper = styled.div`
   flex: 0 0 auto;
-  margin: 0 30px 0 30px;
+  margin: 0 20px 0 20px;
 `;
 
 const Name = styled.p`
-  max-width: 110px;
+  max-width: 85px;
   margin: 0;
   color: ${styles.colors.profileNameColor};
   font-size: 16px;

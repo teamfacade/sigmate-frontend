@@ -25,8 +25,8 @@ const units = ['ETH', 'SOL', 'KLAY', 'MATIC'];
 
 const fetcher = async (id: number) => {
   try {
-    const res = await Axios.get(`/calendar/minting${id}`);
-    return res.data;
+    const res = await Axios.get(`/calendar/minting/${id}`);
+    return res.data.data;
   } catch {
     alert('Error while fetching minting schedule data.\r\nPlease try again.');
     return null;
@@ -55,10 +55,10 @@ export default function EditSchedule({ type, id }: PropsType) {
             id: data.id,
             name: data.name,
             tier: data.tier,
-            mintingTimeTimeStamp: data.mintingTime.getTime(),
+            mintingTimeTimeStamp: new Date(data.mintingTime).getTime(),
             mintingUrl: data.mintingUrl,
             description: data.description,
-            collectionSlug: '',
+            collectionSlug: data.collection.id,
             mintingPrice: data.mintingPrice,
             mintingPriceSymbol: data.mintingPriceSymbol,
           });
@@ -169,8 +169,8 @@ export default function EditSchedule({ type, id }: PropsType) {
             },
           })
         ).then((action: any) => {
-          if (action.payload.status === 200)
-            alert('Created a minting schedule.');
+          if (action.payload.status === (type === 'New' ? 201 : 200))
+            alert('Created/Edited a minting schedule.');
           else
             alert(
               `Error while creating a minting schedule.\r\nShow this code to youngwoo: ${action.payload.status}`

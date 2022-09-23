@@ -152,7 +152,9 @@ declare global {
 
   namespace Minting {
     type CollectionType = {
+      id?: number;
       name?: string;
+      category?: string;
       twitterHandle?: string;
       discordUrl?: string;
       websiteUrl?: string;

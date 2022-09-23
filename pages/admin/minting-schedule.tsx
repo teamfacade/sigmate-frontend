@@ -1,5 +1,4 @@
 import { MouseEventHandler, useCallback, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import useSWR, { Fetcher } from 'swr';
@@ -28,17 +27,19 @@ type ModalDataType = {
 const total = 4242;
 const limit = 10;
 
-const startDay = new Date(20000101).getTime();
-const endDay = new Date(20240101).getTime();
+const startDay = new Date('2000-01-01').getTime();
+const endDay = new Date('2024-01-01').getTime();
 
 const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
   url: string
 ) => {
   const { status, data } = await Axios.get(url);
   if (status === 200) {
-    const values: Minting.ScheduleType[][] = Object.values(data);
-    const schedules: Minting.ScheduleType[] = [];
-    values.forEach((value) => schedules.concat(value));
+    const values: Minting.ScheduleType[][] = Object.values(data.data);
+    let schedules: Minting.ScheduleType[] = [];
+    values.forEach((value) => {
+      schedules = schedules.concat(value);
+    });
     return schedules;
   }
   return [];
@@ -58,7 +59,6 @@ const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
 };
 
 export default function MintingSchedule() {
-  const router = useRouter();
   const [showModal, setShowModal] = useState<ModalDataType>({
     type: 'New',
     id: -1,
@@ -66,7 +66,7 @@ export default function MintingSchedule() {
   const [curPage, setCurPage] = useState(1);
   const ModalRef = useRef<HTMLDivElement>(null);
 
-  const { data: schedules } = useSWR(
+  const { data: schedules, mutate } = useSWR(
     `/calendar/minting?start=${startDay}&end=${endDay}&limit=${limit}&page=${curPage}`,
     fetcher
   );
@@ -105,9 +105,9 @@ export default function MintingSchedule() {
 
   const onMouseDown: MouseEventHandler<HTMLDivElement> =
     useCallback(async () => {
-      await router.reload();
+      await mutate();
       setShowModal({ type: 'New', id: -1 });
-    }, []);
+    }, [mutate]);
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -188,9 +188,9 @@ export default function MintingSchedule() {
                   key={schedule.id}
                   id={schedule.id}
                   name={schedule.name}
-                  mintingTime={schedule.mintingTime.toISOString()}
+                  mintingTime={new Date(schedule.mintingTime).toISOString()}
                   tier={schedule.tier}
-                  category={schedule.category || ''}
+                  category={schedule.collection.category || ''}
                   onClick={onClick}
                 />
               ))}

@@ -29,7 +29,7 @@ const DateInputFormatter = new Intl.DateTimeFormat('en', {
 const TimeInputFormatter = new Intl.DateTimeFormat('en', {
   hour: '2-digit',
   minute: '2-digit',
-  hourCycle: 'h24',
+  hourCycle: 'h23',
 });
 
 const regex = /(,*\s|\/)/g;
@@ -72,6 +72,8 @@ export default function convertDate(
   if (format === 'dateInput') {
     const split = converted.split('-');
     converted = `${split[2]}-${split[0]}-${split[1]}`;
+  } else if (format === 'timeInput') {
+    [converted] = converted.split(' ');
   } else if (format === 'MonthYear') {
     const split = converted.split('.');
     converted = `${split[0]}.01.${split[2]}`;

@@ -28,7 +28,7 @@ const createNewBlock: (element: string) => Wiki.DocumentBlockType = (
   element: string
 ) => ({
   ...InitialDocumentBlock,
-  id: Date.now(),
+  id: -1 * Date.now(),
   element,
 });
 

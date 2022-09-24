@@ -20,7 +20,7 @@ type PropsType = {
   onChangeTypes?: ReactSelect.MultiSelectChangeEventHandler;
   blocks: Wiki.DocumentBlockType[];
   setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
-  keyInfos?: Wiki.DocumentBlockType[];
+  keyInfos?: Wiki.KeyInfoType;
   onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement>;
 };
 

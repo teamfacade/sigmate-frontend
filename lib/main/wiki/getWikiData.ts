@@ -165,32 +165,6 @@ const ExKeyInfos: Wiki.DocumentBlockType[] = [
   },
 ];
 
-const ExDocument: Wiki.DocumentType = {
-  id: 1,
-  title: '',
-  blocks: ExBlocks,
-  types: ['Game', 'PFP'],
-  keyInfos: ExKeyInfos,
-  createdBy: ExAuthor,
-};
-
-export const gridAreas = [
-  'Name',
-  'Thumbnail',
-  'Td_Team',
-  'Td_Rugpool',
-  'Td_Category',
-  'Td_Utility',
-  'Td_WLPrice',
-  'Td_PublicPrice',
-  'Td_CurrentPrice',
-  'Td_Discord',
-  'Td_Twitter',
-  'Td_OfficialSite',
-  'Td_Chain',
-  'Td_Marketplace',
-];
-
 export const InitialKeyInfos: Wiki.KeyInfoType = {
   name: {
     textContent: '',
@@ -261,6 +235,33 @@ export const InitialKeyInfos: Wiki.KeyInfoType = {
     textContent: '',
   },
 };
+
+const ExDocument: Wiki.DocumentType = {
+  id: 1,
+  title: '',
+  blocks: ExBlocks,
+  types: ['Game', 'PFP'],
+  keyInfos: ExKeyInfos,
+  keyInfo: InitialKeyInfos,
+  createdBy: ExAuthor,
+};
+
+export const gridAreas = [
+  'Name',
+  'Thumbnail',
+  'Td_Team',
+  'Td_Rugpool',
+  'Td_Category',
+  'Td_Utility',
+  'Td_WLPrice',
+  'Td_PublicPrice',
+  'Td_CurrentPrice',
+  'Td_Discord',
+  'Td_Twitter',
+  'Td_OfficialSite',
+  'Td_Chain',
+  'Td_Marketplace',
+];
 
 export const InitialDocumentBlock: Wiki.DocumentBlockType = {
   id: Date.now(),

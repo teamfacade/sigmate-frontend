@@ -17,9 +17,9 @@ export default function WikiEditPage({
   const [blocks, setBlocks] = useState<Wiki.DocumentBlockType[]>(
     document.blocks || []
   );
-  const [keyInfos, setKeyInfos] = useState<
-    Wiki.DocumentBlockType[] | undefined
-  >(document.keyInfos || undefined);
+  const [keyInfos, setKeyInfos] = useState<Wiki.KeyInfoType | undefined>(
+    document.keyInfo
+  );
   const [summary, setSummary] = useState('');
 
   const onChangeTypes: ReactSelect.MultiSelectChangeEventHandler = useCallback(
@@ -37,15 +37,9 @@ export default function WikiEditPage({
     const { name, value } = e.currentTarget;
     setKeyInfos((current) => {
       if (current) {
-        return current.map((block, idx) => {
-          if (idx === KeyInfoIndex[name]) {
-            return {
-              ...block,
-              textContent: value,
-            };
-          }
-          return block;
-        });
+        const newKeyInfo = current;
+        newKeyInfo[name.toLowerCase()].textConent = value;
+        return newKeyInfo;
       }
       return current;
     });

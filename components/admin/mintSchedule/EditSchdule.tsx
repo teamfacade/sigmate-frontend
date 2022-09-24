@@ -153,7 +153,6 @@ export default function EditSchedule({ type, id }: PropsType) {
   const onClickSubmit: MouseEventHandler<HTMLButtonElement> =
     useCallback(() => {
       if (schedule.name) {
-        console.log(schedule);
         dispatch(
           AuthRequiredAxios({
             method: type === 'New' ? 'POST' : 'PATCH',
@@ -170,7 +169,6 @@ export default function EditSchedule({ type, id }: PropsType) {
             },
           })
         ).then((action: any) => {
-          console.log(action.payload);
           if (action.payload.status === (type === 'New' ? 201 : 200))
             alert('Created/Edited a minting schedule.');
           else

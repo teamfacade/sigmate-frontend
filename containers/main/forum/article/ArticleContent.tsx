@@ -8,6 +8,7 @@ import styles from 'styles/styleLib';
 type PropsType = {
   category: string;
   post: Forum.PostType;
+  commentCount: number;
   onClickDelete: MouseEventHandler<HTMLButtonElement>;
   onSubmitComment: FormEventHandler<HTMLFormElement>;
   onClickReport: MouseEventHandler<HTMLButtonElement>;
@@ -16,6 +17,7 @@ type PropsType = {
 export default memo(function ArticleContent({
   category,
   post,
+  commentCount,
   onClickDelete,
   onSubmitComment,
   onClickReport,
@@ -33,9 +35,9 @@ export default memo(function ArticleContent({
         <Infos
           author={
             post.createdBy.primaryProfile.displayName ||
-            post.createdBy.userName ||
-            ''
+            (post.createdBy.userName as string)
           }
+          username={post.createdBy.userName as string}
           tags={post.tags || []}
           timestamp={post.createdAt || new Date(Date.now()).toISOString()}
           isAuthor={userName === post.createdBy.userName}
@@ -54,6 +56,7 @@ export default memo(function ArticleContent({
           title={post.title}
           content={post.content}
           imageUrls={post.imageUrls || []}
+          commentCount={commentCount}
           onSubmitComment={onSubmitComment}
           onClickReport={onClickReport}
         />

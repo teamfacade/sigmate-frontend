@@ -72,7 +72,7 @@ export default function WritePost({
           data: {
             title,
             content,
-            categories: [router.query.category],
+            categories: [Number.parseInt(router.query.category as string, 10)],
             tags: tag.split(','),
           },
         })

@@ -58,7 +58,7 @@ export default function Article({
         'textarea'
       ) as HTMLTextAreaElement;
       const { articleId, commentId, isEditMode } = dataset;
-      if (isEditMode) {
+      if (isEditMode === 'true') {
         dispatch(
           AuthRequiredAxios({
             method: 'PATCH',
@@ -181,6 +181,7 @@ export default function Article({
         <ArticleContent
           category={category}
           post={forumPost as Forum.PostType}
+          commentCount={comments?.length || 0}
           onClickDelete={onClickDelete}
           onSubmitComment={onSubmitComment}
           onClickReport={onClickReport}

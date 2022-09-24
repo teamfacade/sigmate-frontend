@@ -6,6 +6,7 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   author: string;
+  username: string;
   tags: any[];
   timestamp: string;
   children?: ReactNode;
@@ -14,6 +15,7 @@ type PropsType = {
 
 export default memo(function Infos({
   author,
+  username,
   tags,
   timestamp,
   children,
@@ -21,7 +23,7 @@ export default memo(function Infos({
 }: PropsType) {
   return (
     <Wrapper>
-      <Link href={`/main/profile/${author}`} passHref>
+      <Link href={`/main/profile/${username}`} passHref>
         <Author>{author}</Author>
       </Link>
       <TextWrapper isAuthor={isAuthor}>

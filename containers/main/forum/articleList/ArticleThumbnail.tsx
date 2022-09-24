@@ -8,6 +8,7 @@ type PropsType = {
   category: string;
   votes?: Forum.VoteType;
   author: string;
+  username: string;
   tags: any[];
   timestamp: string;
   title: string;
@@ -20,6 +21,7 @@ export default memo(function ArticleThumbnail({
   category,
   votes,
   author,
+  username,
   tags,
   timestamp,
   title,
@@ -34,7 +36,12 @@ export default memo(function ArticleThumbnail({
         category={category}
       />
       <ContentWrapper>
-        <Infos author={author} tags={tags} timestamp={timestamp} />
+        <Infos
+          author={author}
+          username={username}
+          tags={tags}
+          timestamp={timestamp}
+        />
         <Content
           id={id}
           category={category}

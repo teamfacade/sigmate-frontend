@@ -10,6 +10,7 @@ type PropsType = {
   title: string;
   content: string;
   imageUrls: string[];
+  commentCount: number;
   onSubmitComment: FormEventHandler<HTMLFormElement>;
   onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
@@ -19,6 +20,7 @@ export default memo(function Content({
   title,
   content,
   imageUrls,
+  commentCount,
   onSubmitComment,
   onClickReport,
 }: PropsType) {
@@ -37,7 +39,7 @@ export default memo(function Content({
           {content}
         </MainText>
       </MainContentWrapper>
-      <UtilBtns onClickReport={onClickReport} />
+      <UtilBtns commentCount={commentCount} onClickReport={onClickReport} />
       <CommentInput articleID={id} onSubmitComment={onSubmitComment} />
     </Wrapper>
   );

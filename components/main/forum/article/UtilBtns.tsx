@@ -5,10 +5,14 @@ import ClipboardJS from 'clipboard';
 import styles from 'styles/styleLib';
 
 type PropsType = {
+  commentCount: number;
   onClickReport: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default memo(function UtilBtns({ onClickReport }: PropsType) {
+export default memo(function UtilBtns({
+  commentCount,
+  onClickReport,
+}: PropsType) {
   const [copied, setCopied] = useState(false);
   const ShareBtnRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
@@ -42,7 +46,7 @@ export default memo(function UtilBtns({ onClickReport }: PropsType) {
       >
         <Btn>
           <div>
-            <span>42 Comments</span>
+            <span>{`${commentCount} Comments`}</span>
           </div>
         </Btn>
       </a>

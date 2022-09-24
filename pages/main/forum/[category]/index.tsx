@@ -9,11 +9,14 @@ import useSWR, { Fetcher } from 'swr';
 import Axios from 'lib/global/axiosInstance';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
 
-const total = 42;
+let total = 42;
 const limit = 10;
 
 const fetcher: Fetcher<Forum.PostType[], string> = (url: string) =>
-  Axios.get(url).then((res) => res.data.forumPosts);
+  Axios.get(url).then((res) => {
+    total = res.data.forumPosts.length;
+    return res.data.forumPosts;
+  });
 
 export default function ArticleLists() {
   const router = useRouter();
@@ -79,6 +82,7 @@ export default function ArticleLists() {
           category={router.query.category as string}
           votes={{ voteCount: article.voteCount || 0 }}
           author={getAuthorName(article.createdBy)}
+          username={article.createdBy.userName as string}
           tags={article.tags?.map((tag) => tag.name) || []}
           timestamp={article.createdAt as string}
           title={article.title}

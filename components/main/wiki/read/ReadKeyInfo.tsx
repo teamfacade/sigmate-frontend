@@ -8,19 +8,16 @@ import styles from 'styles/styleLib';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
 type PropsType = {
-  keyInfos: Wiki.DocumentBlockType[];
+  keyInfo: Wiki.KeyInfoType;
   setShowModal?: Dispatch<SetStateAction<Wiki.ModalDataType>>;
 };
 
-export default memo(function ReadKeyInfo({
-  keyInfos,
-  setShowModal,
-}: PropsType) {
-  const TdBlocks = keyInfos.map((keyInfo, i) => {
+export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
+  const TdBlocks = Object.values(keyInfo).map((_keyInfo, i) => {
     if (i === 0)
       return (
         <TableItem gridArea={gridAreas[i]}>
-          <p>{keyInfo.textContent}</p>
+          <p>{_keyInfo.textContent}</p>
         </TableItem>
       );
     if (i === 1)
@@ -28,7 +25,7 @@ export default memo(function ReadKeyInfo({
         <TableItem gridArea={gridAreas[i]}>
           <ImageWrapper width="100%" height="100%">
             <Image
-              src={keyInfo.textContent || UserImageEx}
+              src={_keyInfo.textContent || UserImageEx}
               alt="thumbnail image"
               layout="fill"
             />
@@ -37,15 +34,15 @@ export default memo(function ReadKeyInfo({
       );
     return (
       <VerdictBlock
-        id={keyInfo.id}
-        verifications={keyInfo.verifications}
+        id={_keyInfo.id}
+        verifications={_keyInfo.verifications}
         setShowModal={
           setShowModal as Dispatch<SetStateAction<Wiki.ModalDataType>>
         }
         padding={false}
       >
         <TableItem gridArea={gridAreas[i]}>
-          <p>{keyInfo.textContent}</p>
+          <p>{_keyInfo.textContent}</p>
         </TableItem>
       </VerdictBlock>
     );

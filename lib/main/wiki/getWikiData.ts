@@ -92,79 +92,6 @@ const ExBlocks: Wiki.DocumentBlockType[] = [
   },
 ];
 
-const ExKeyInfos: Wiki.DocumentBlockType[] = [
-  {
-    ...ExBlock,
-    textContent: 'PEN',
-    id: KeyInfoIndex.Name,
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.Thumbnail,
-    textContent: '',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.Team,
-    textContent: 'Sigmate',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.Rugpool,
-    textContent: '',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.Category,
-    textContent: 'Game',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.Utility,
-    textContent: 'Item',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.WLPrice,
-    textContent: '0.25 ETH',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.PublicPrice,
-    textContent: '0.5 ETH',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.CurrentPrice,
-    textContent: '1.4 ETH',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.Discord,
-    textContent: 'https://www.naver.com',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.Twitter,
-    textContent: 'https://www.twitter.com/sigmateOfficial',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.OfficialSite,
-    textContent: 'https://www.sigmate.io',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.Chain,
-    textContent: 'ETH',
-  },
-  {
-    ...ExBlock,
-    id: KeyInfoIndex.Marketplace,
-    textContent: 'opensea',
-  },
-];
-
 export const InitialKeyInfos: Wiki.KeyInfoType = {
   name: {
     textContent: '',
@@ -241,7 +168,6 @@ const ExDocument: Wiki.DocumentType = {
   title: '',
   blocks: ExBlocks,
   types: ['Game', 'PFP'],
-  keyInfos: ExKeyInfos,
   keyInfo: InitialKeyInfos,
   createdBy: ExAuthor,
 };

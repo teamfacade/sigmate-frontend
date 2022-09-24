@@ -44,8 +44,8 @@ export default function WikiArticle({ document }: PropsType) {
     <Wrapper>
       <Title title={document.title} />
       <Types types={document.types || []} />
-      {document.keyInfos && (
-        <ReadKeyInfo setShowModal={setShowModal} keyInfos={document.keyInfos} />
+      {document.keyInfo && (
+        <ReadKeyInfo setShowModal={setShowModal} keyInfo={document.keyInfo} />
       )}
       {document.blocks?.map((block) => {
         return (
@@ -97,10 +97,3 @@ const EditBtn = memo(styled.button`
   font-family: 'Inter', sans-serif;
   cursor: pointer;
 `);
-
-const NonDarkenAnchor = styled.a`
-  :hover,
-  :active {
-    filter: none !important;
-  }
-`;

@@ -26,7 +26,7 @@ type ModalDataType = {
   id: number;
 };
 
-const total = 4242;
+let total = 4242;
 const limit = 10;
 
 const startDay = new Date('2000-01-01').getTime();
@@ -37,6 +37,7 @@ const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
 ) => {
   const { status, data } = await Axios.get(url);
   if (status === 200) {
+    total = data.page.total;
     const values: Minting.ScheduleType[][] = Object.values(data.data);
     let schedules: Minting.ScheduleType[] = [];
     values.forEach((value) => {

@@ -24,7 +24,7 @@ export default memo(function PageMoveBtns({
     else len = totalPage - curPage + 6;
 
     return Array.from({ length: len }, (_, i) => start + i);
-  }, [curPage, start]);
+  }, [curPage, totalPage, start]);
 
   return (
     <Wrapper>

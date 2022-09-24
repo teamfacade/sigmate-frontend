@@ -25,7 +25,6 @@ const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
   url: string
 ) => {
   const { status, data } = await Axios.get(url);
-  console.log(data);
   if (status === 200) {
     total = data.page.total;
     const values: Minting.ScheduleType[][] = Object.values(data.data);
@@ -88,14 +87,21 @@ export default function Upcoming() {
   const AddToCalendar: (id: string, subscribed: boolean) => void = useCallback(
     (id: string, subscribed: boolean) => {
       dispatch(
-        AuthRequiredAxios({
-          method: subscribed ? 'DELETE' : 'POST',
-          url: '/calendar/my',
-          data: {
-            type: 'minting',
-            id: Number.parseInt(id, 10),
-          },
-        })
+        AuthRequiredAxios(
+          subscribed
+            ? {
+                method: 'DELETE',
+                url: `/calendar/my/minting/${Number.parseInt(id, 10)}`,
+              }
+            : {
+                method: 'POST',
+                url: '/calendar/my/minting',
+                data: {
+                  type: 'minting',
+                  id: Number.parseInt(id, 10),
+                },
+              }
+        )
       ).then((action: any) => {
         if (action.payload.status === 200)
           alert(

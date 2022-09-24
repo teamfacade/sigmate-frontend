@@ -15,24 +15,28 @@ const fetcher: Fetcher<
   Minting.SchedulesType,
   { dispatch: AppDispatch; url: string }
 > = async ({ dispatch, url }) => {
-  const action: any = await dispatch(
-    AuthRequiredAxios({ method: 'GET', url })
-  );
+  const action: any = await dispatch(AuthRequiredAxios({ method: 'GET', url }));
+  console.log(action);
   if (action.payload.status === 200) {
-    return action.payload.data;
-  } return null;
+    return action.payload.data.data;
+  }
+  return null;
 };
 
 export default function Calendar() {
   const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState(false);
-  const [calDate, setCalDate] = useState('');
-  const [mintingKey, setMintingKey] = useState('');
+  const [calDate, setCalDate] = useState<string>(
+    convertDate(new Date(Date.now()), 'MonthDDYYYY', '.')
+  );
+  const [mintingKey, setMintingKey] = useState<string>('');
   const ModalRef = useRef<HTMLDivElement>(null);
 
   const { data: schedules } = useSWR(
     {
-      url: `/calendar/my?start=${convertDate(new Date(calDate), 'MonthYear')}`,
+      url: `/calendar/my/minting?start=${new Date(
+        convertDate(new Date(calDate), 'MonthYear', '.')
+      ).getTime()}`,
       dispatch,
     },
     fetcher
@@ -41,7 +45,7 @@ export default function Calendar() {
   const onChange: OnChangeDateCallback = useCallback((value: Date) => {
     setShowModal(true);
     setCalDate(convertDate(value, 'MonthDDYYYY', '.'));
-    setMintingKey(convertDate(value, 'key', '.'));
+    setMintingKey(value.getTime().toString());
   }, []);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
@@ -60,7 +64,7 @@ export default function Calendar() {
             className="my-calendar"
             // eslint-disable-next-line react/no-unstable-nested-components
             tileContent={({ date }) => {
-              const formattedDate = convertDate(date, 'key', '.');
+              const formattedDate = date.getTime().toString();
               if (
                 schedules &&
                 Object.keys(schedules).find((when) => when === formattedDate)

@@ -136,7 +136,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
         ).then(async (action: any) => {
           if (action.payload.status === 200) {
             dispatch(setUserName(username));
-            await router.push('/main');
+            await router.push('/main/wiki/Sigmate');
           } else
             alert(
               `Error while setting username.\r\nERR: ${action.payload.status}`

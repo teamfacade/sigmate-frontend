@@ -1,21 +1,41 @@
 import { ChangeEventHandler, memo } from 'react';
 import Image from 'next/image';
+import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
+import Axios from 'lib/global/axiosInstance';
 import { gridAreas, KeyInfoIndex } from 'lib/main/wiki/getWikiData';
 import { ImageWrapper } from 'components/global';
 import styles from 'styles/styleLib';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
 type PropsType = {
-  keyInfos: Wiki.DocumentBlockType[];
-  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement>;
+  keyInfos: Wiki.KeyInfoType;
+  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement>;
+};
+
+const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
+  url: string
+) => {
+  const { status, data } = await Axios.get(url);
+  if (status === 200) {
+    return data.categories || [];
+  }
+  alert(
+    `Error while fetching collection categories: ERR ${status}.\r\nPlease reload the page.`
+  );
+  return [];
 };
 
 export default memo(function EditKeyInfo({
   keyInfos,
   onChangeKeyInfos,
 }: PropsType) {
-  const TdBlocks = keyInfos.map((keyInfo, i) => {
+  const { data: categories } = useSWR(
+    `/wiki/collection/category`,
+    categoriesFetcher
+  );
+
+  const TdBlocks = Object.values(keyInfos).map((keyInfo, i) => {
     if (i === 1) {
       return (
         <TableItem gridArea={gridAreas[i]}>
@@ -32,7 +52,6 @@ export default memo(function EditKeyInfo({
     if (
       i === KeyInfoIndex.Team ||
       i === KeyInfoIndex.Rugpool ||
-      i === KeyInfoIndex.Category ||
       i === KeyInfoIndex.Utility ||
       i === KeyInfoIndex.Marketplace
     ) {
@@ -43,9 +62,22 @@ export default memo(function EditKeyInfo({
             name={name}
             rows={1}
             placeholder={`Type about ${name}`}
-            value={keyInfos[KeyInfoIndex[name]].textContent}
+            value={keyInfo.textContent}
             onChange={onChangeKeyInfos}
           />
+        </TableItem>
+      );
+    }
+    if (i === KeyInfoIndex.Category) {
+      return (
+        <TableItem gridArea={gridAreas[i]}>
+          <select name="Category" onChange={onChangeKeyInfos}>
+            {categories?.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </TableItem>
       );
     }
@@ -235,6 +267,15 @@ const TableItem = styled.div<{ gridArea: string }>`
 
     ::placeholder {
       color: #c4c4c4;
+    }
+  }
+
+  select {
+    width: 100%;
+    margin: 0 14px;
+
+    :focus-visible {
+      outline: none;
     }
   }
 `;

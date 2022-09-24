@@ -40,6 +40,7 @@ const Wrapper = styled.div`
   height: fit-content;
   border-radius: 8px;
   background-color: ${styles.colors.modalContentBgColor};
+  overflow: hidden;
 `;
 
 const DescriptionWrapper = styled.div`
@@ -48,7 +49,7 @@ const DescriptionWrapper = styled.div`
 
 const Name = styled.p`
   height: 26px;
-  margin: 0 0 8px 0;
+  margin: 12px 0 8px 0;
   color: ${styles.colors.logoColor};
   font-size: 24px;
   font-weight: bold;

@@ -67,7 +67,11 @@ const ExBlock: Wiki.DocumentBlockType = {
     'of "de Finibus Bonorum et Malorum" (The Extremes of G\n' +
     'ethics, very popular during the Renaissance. The first \n' +
     'line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.',
-  verifications: ExVerdict,
+  verificationCounts: {
+    verifyCount: 0,
+    beAwareCount: 0,
+  },
+  opinionCount: 0,
 };
 
 const ExBlocks: Wiki.DocumentBlockType[] = [
@@ -185,96 +189,86 @@ export const gridAreas = [
   'Td_Marketplace',
 ];
 
-export const InitialKeyInfos: Wiki.DocumentBlockType[] = [
-  {
-    ...ExBlock,
-    textContent: 'sigmate',
+export const InitialKeyInfos: Wiki.KeyInfoType = {
+  name: {
+    textContent: '',
     id: KeyInfoIndex.Name,
   },
-  {
-    ...ExBlock,
+  thumbnail: {
     id: KeyInfoIndex.Thumbnail,
     textContent: '',
   },
-  {
+  team: {
     ...ExBlock,
     id: KeyInfoIndex.Team,
     textContent: '',
   },
-  {
+  rugpool: {
     ...ExBlock,
     id: KeyInfoIndex.Rugpool,
     textContent: '',
   },
-  {
+  category: {
     ...ExBlock,
     id: KeyInfoIndex.Category,
     textContent: '',
   },
-  {
+  utility: {
     ...ExBlock,
     id: KeyInfoIndex.Utility,
     textContent: '',
   },
-  {
+  mintingPriceWl: {
     ...ExBlock,
     id: KeyInfoIndex.WLPrice,
     textContent: '0.25 ETH',
   },
-  {
+  mintingPricePublic: {
     ...ExBlock,
     id: KeyInfoIndex.PublicPrice,
     textContent: '0.5 ETH',
   },
-  {
+  floorPrice: {
     ...ExBlock,
     id: KeyInfoIndex.CurrentPrice,
     textContent: '1.4 ETH',
   },
-  {
+  discordUrl: {
     ...ExBlock,
     id: KeyInfoIndex.Discord,
     textContent: 'https://www.naver.com',
   },
-  {
+  twitterHandle: {
     ...ExBlock,
     id: KeyInfoIndex.Twitter,
     textContent: 'https://www.twitter.com/sigmateOfficial',
   },
-  {
+  websiteUrl: {
     ...ExBlock,
     id: KeyInfoIndex.OfficialSite,
     textContent: 'https://www.sigmate.io',
   },
-  {
+  paymentTokens: {
     ...ExBlock,
     id: KeyInfoIndex.Chain,
     textContent: 'ETH',
   },
-  {
+  marketplace: {
     ...ExBlock,
     id: KeyInfoIndex.Marketplace,
     textContent: '',
   },
-];
+};
 
-const InitialVerification: Wiki.VerificationType = {
-  id: Date.now(),
-  isUpvote: null,
-  verify: 0,
-  warning: 0,
-  timestamp: new Date(Date.now()).toISOString(),
-};
-const InitialBlockVerification: Wiki.BlockVerificationType = {
-  id: Date.now(),
-  verification: InitialVerification,
-  comments: [],
-};
 export const InitialDocumentBlock: Wiki.DocumentBlockType = {
   id: Date.now(),
   element: '',
   textContent: '',
-  verifications: InitialBlockVerification,
+  verificationCounts: {
+    verifyCount: 0,
+    beAwareCount: 0,
+  },
+  opinionCount: 0,
 };
 
 export function getAllArticleTitles() {

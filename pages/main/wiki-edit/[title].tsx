@@ -31,24 +31,25 @@ export default function WikiEditPage({
     []
   );
 
-  const onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
-    (e) => {
-      const { name, value } = e.currentTarget;
-      setKeyInfos((current) => {
-        if (current) {
-          return current.map((block, idx) => {
-            if (idx === KeyInfoIndex[name]) {
-              return {
-                ...block,
-                textContent: value,
-              };
-            } return block;
-          });
-        } return current;
-      });
-    },
-    []
-  );
+  const onChangeKeyInfos: ChangeEventHandler<
+    HTMLTextAreaElement | HTMLSelectElement
+  > = useCallback((e) => {
+    const { name, value } = e.currentTarget;
+    setKeyInfos((current) => {
+      if (current) {
+        return current.map((block, idx) => {
+          if (idx === KeyInfoIndex[name]) {
+            return {
+              ...block,
+              textContent: value,
+            };
+          }
+          return block;
+        });
+      }
+      return current;
+    });
+  }, []);
 
   const onSummaryChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => setSummary(e.target.value),

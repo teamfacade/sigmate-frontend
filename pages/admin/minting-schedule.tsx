@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import useSWR, { Fetcher } from 'swr';
 import Axios from 'lib/global/axiosInstance';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import {
   BasicWrapper,
   SectionWrapper,
@@ -11,35 +13,56 @@ import {
   PageMoveBtns,
   Modal,
 } from 'components/global';
-import { LogHead, LogItem, EditSchedule } from 'components/admin/mintSchedule';
-import { categories } from 'pages/admin/forum';
+import {
+  LogHead,
+  LogItem,
+  EditSchedule,
+  EditCategory,
+} from 'components/admin/mintSchedule';
 import { BlueBtnStyle } from 'styles/styleLib';
 
 type ModalDataType = {
-  type: 'New' | 'Edit';
+  type: 'New' | 'Edit' | 'Category';
   id: number;
 };
 
-const total = 4242;
+let total = 4242;
 const limit = 10;
 
-const startDay = new Date(20000101).getTime();
-const endDay = new Date(20240101).getTime();
+const startDay = new Date('2000-01-01').getTime();
+const endDay = new Date('2024-01-01').getTime();
 
 const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
   url: string
 ) => {
   const { status, data } = await Axios.get(url);
   if (status === 200) {
-    const values: Minting.ScheduleType[][] = Object.values(data);
-    const schedules: Minting.ScheduleType[] = [];
-    values.forEach((value) => schedules.concat(value));
+    total = data.page.total;
+    const values: Minting.ScheduleType[][] = Object.values(data.data);
+    let schedules: Minting.ScheduleType[] = [];
+    values.forEach((value) => {
+      schedules = schedules.concat(value);
+    });
     return schedules;
   }
   return [];
 };
 
+const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
+  url: string
+) => {
+  const { status, data } = await Axios.get(url);
+  if (status === 200) {
+    return data.categories || [];
+  }
+  alert(
+    `Error while fetching collection categories: ERR ${status}.\r\nPlease reload the page.`
+  );
+  return [];
+};
+
 export default function MintingSchedule() {
+  const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState<ModalDataType>({
     type: 'New',
     id: -1,
@@ -47,36 +70,65 @@ export default function MintingSchedule() {
   const [curPage, setCurPage] = useState(1);
   const ModalRef = useRef<HTMLDivElement>(null);
 
-  const { data: schedules } = useSWR(
+  const { data: schedules, mutate } = useSWR(
     `/calendar/minting?start=${startDay}&end=${endDay}&limit=${limit}&page=${curPage}`,
     fetcher
   );
 
-  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
-    const { name, dataset } = e.currentTarget;
-
-    switch (name) {
-      case 'new':
-        setShowModal({
-          type: 'New',
-          id: 0,
-        });
-        break;
-      case 'edit':
-        setShowModal({
-          type: 'Edit',
-          id: Number.parseInt(dataset?.id || '0', 10),
-        });
-        break;
-      default:
-        break;
-    }
-  }, []);
-
-  const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowModal({ type: 'New', id: -1 }),
-    []
+  const { data: categories } = useSWR(
+    `/wiki/collection/category`,
+    categoriesFetcher
   );
+
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      const { name, dataset } = e.currentTarget;
+
+      switch (name) {
+        case 'new':
+          setShowModal({
+            type: 'New',
+            id: 0,
+          });
+          break;
+        case 'edit':
+          setShowModal({
+            type: 'Edit',
+            id: Number.parseInt(dataset?.id || '0', 10),
+          });
+          break;
+        case 'delete':
+          dispatch(
+            AuthRequiredAxios({
+              method: 'DELETE',
+              url: `/calendar/minting/${dataset?.id}`,
+            })
+          ).then(async (action: any) => {
+            if (action.payload.status === 200) await mutate();
+            else
+              alert(
+                `Error while deleting the schedule. ERR: ${action.payload.status}`
+              );
+          });
+          break;
+        case 'categories':
+          setShowModal({
+            type: 'Category',
+            id: 0,
+          });
+          break;
+        default:
+          break;
+      }
+    },
+    [mutate]
+  );
+
+  const onMouseDown: MouseEventHandler<HTMLDivElement> =
+    useCallback(async () => {
+      await mutate();
+      setShowModal({ type: 'New', id: -1 });
+    }, [mutate]);
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -130,17 +182,22 @@ export default function MintingSchedule() {
               <input type="date" />
               <span>Category</span>
               <select name="category">
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                {categories?.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
                   </option>
                 ))}
               </select>
             </div>
             <Search />
-            <CreateNewBtn name="new" onClick={onClick}>
-              Add new
-            </CreateNewBtn>
+            <CreateBtnsWrapper>
+              <CreateNewBtn name="new" onClick={onClick}>
+                Add new
+              </CreateNewBtn>
+              <CreateNewBtn name="categories" onClick={onClick}>
+                Edit Categories
+              </CreateNewBtn>
+            </CreateBtnsWrapper>
           </SectionWrapper>
         </BasicWrapper>
         <BasicWrapper>
@@ -152,9 +209,9 @@ export default function MintingSchedule() {
                   key={schedule.id}
                   id={schedule.id}
                   name={schedule.name}
-                  mintingTime={schedule.mintingTime.toISOString()}
+                  mintingTime={new Date(schedule.mintingTime).toISOString()}
                   tier={schedule.tier}
-                  category={schedule.category || ''}
+                  category={schedule.collection.category || ''}
                   onClick={onClick}
                 />
               ))}
@@ -176,7 +233,11 @@ export default function MintingSchedule() {
         nodeRef={ModalRef}
       >
         <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          <EditSchedule type={showModal.type} id={showModal.id} />
+          {showModal.type !== 'Category' ? (
+            <EditSchedule type={showModal.type} id={showModal.id} />
+          ) : (
+            <EditCategory />
+          )}
         </Modal>
       </CSSTransition>
     </>
@@ -193,9 +254,17 @@ const Wrapper = styled.div`
   }
 `;
 
-const CreateNewBtn = styled.button`
-  ${BlueBtnStyle};
+const CreateBtnsWrapper = styled.div`
   position: absolute;
   top: -10px;
   right: 0;
+  display: flex;
+`;
+
+const CreateNewBtn = styled.button`
+  ${BlueBtnStyle};
+
+  & + & {
+    margin-left: 12px;
+  }
 `;

@@ -7,16 +7,16 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
+import convertDate from 'lib/global/convertDate';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { categories } from 'pages/admin/forum';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { NamedInput } from 'components/admin/mintSchedule';
 import { BlueBtnStyle } from 'styles/styleLib';
-import convertDate from '../../../lib/global/convertDate';
 
 type PropsType = {
-  type: 'New' | 'Edit';
+  type: 'New' | 'Edit' | 'Category';
   id: number;
 };
 
@@ -25,8 +25,8 @@ const units = ['ETH', 'SOL', 'KLAY', 'MATIC'];
 
 const fetcher = async (id: number) => {
   try {
-    const res = await Axios.get(`/calendar/minting${id}`);
-    return res.data;
+    const res = await Axios.get(`/calendar/minting/${id}`);
+    return res.data.data;
   } catch {
     alert('Error while fetching minting schedule data.\r\nPlease try again.');
     return null;
@@ -38,7 +38,7 @@ export default function EditSchedule({ type, id }: PropsType) {
   const [schedule, setSchedule] = useState<Admin.MintScheduleType>({
     id,
     name: '',
-    tier: 0,
+    tier: 1,
     mintingTimeTimeStamp: Date.now(),
     mintingUrl: '',
     description: '',
@@ -55,10 +55,10 @@ export default function EditSchedule({ type, id }: PropsType) {
             id: data.id,
             name: data.name,
             tier: data.tier,
-            mintingTimeTimeStamp: data.mintingTime.getTime(),
+            mintingTimeTimeStamp: new Date(data.mintingTime).getTime(),
             mintingUrl: data.mintingUrl,
             description: data.description,
-            collectionSlug: '',
+            collectionSlug: data.collection.id,
             mintingPrice: data.mintingPrice,
             mintingPriceSymbol: data.mintingPriceSymbol,
           });
@@ -151,8 +151,9 @@ export default function EditSchedule({ type, id }: PropsType) {
     );
 
   const onClickSubmit: MouseEventHandler<HTMLButtonElement> =
-    useCallback(async () => {
+    useCallback(() => {
       if (schedule.name) {
+        console.log(schedule);
         dispatch(
           AuthRequiredAxios({
             method: type === 'New' ? 'POST' : 'PATCH',
@@ -169,8 +170,9 @@ export default function EditSchedule({ type, id }: PropsType) {
             },
           })
         ).then((action: any) => {
-          if (action.payload.status === 200)
-            alert('Created a minting schedule.');
+          console.log(action.payload);
+          if (action.payload.status === (type === 'New' ? 201 : 200))
+            alert('Created/Edited a minting schedule.');
           else
             alert(
               `Error while creating a minting schedule.\r\nShow this code to youngwoo: ${action.payload.status}`

@@ -72,7 +72,6 @@ const MainContentWrapper = styled.div<{ needsWrapper: boolean }>`
   position: relative;
   display: inline-block;
   width: 100%;
-  overflow: hidden;
 
   ${({ needsWrapper }) =>
     needsWrapper

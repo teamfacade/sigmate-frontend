@@ -19,6 +19,7 @@ export default memo(function ScheduleUtilBtns({
   const onClickAddToCalendar: MouseEventHandler<HTMLButtonElement> =
     useCallback(
       (e) => {
+        e.stopPropagation();
         const { mintingId } = e.currentTarget.dataset;
         if (mintingId) {
           AddToCalendar(mintingId, subscribed);

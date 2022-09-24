@@ -1,4 +1,10 @@
-import { MouseEventHandler, useCallback, useRef, useState } from 'react';
+import {
+  MouseEventHandler,
+  useCallback,
+  useRef,
+  useState,
+  useMemo,
+} from 'react';
 import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
@@ -10,23 +16,26 @@ import { Utils, Schedules } from 'containers/main/upcoming';
 import { PageMoveBtns, Modal } from 'components/global';
 import { RegisterBtn } from 'components/main/forum/main';
 import { ScheduleDetail } from 'components/main/upcoming';
+import convertDate from '../../lib/global/convertDate';
+
+const limit = 15;
+let total = 13;
 
 const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
   url: string
 ) => {
   const { status, data } = await Axios.get(url);
   if (status === 200) {
-    const values: Minting.ScheduleType[][] = Object.values(data);
-    const schedules: Minting.ScheduleType[] = [];
-    values.forEach((value) => schedules.concat(value));
+    total = data.page.total;
+    const values: Minting.ScheduleType[][] = Object.values(data.data);
+    let schedules: Minting.ScheduleType[] = [];
+    values.forEach((value) => {
+      schedules = schedules.concat(value);
+    });
     return schedules;
   }
   return [];
 };
-
-const limit = 15;
-const total = 13;
-const lastPage = Math.floor(Number.parseInt((total / limit).toFixed(), 10)) + 1;
 
 export default function Upcoming() {
   const dispatch = useAppDispatch();
@@ -35,10 +44,21 @@ export default function Upcoming() {
   const [curPage, setCurPage] = useState(1);
   const [showModal, setShowModal] = useState(-1);
 
+  const lastPage = useMemo(
+    () => Math.floor(Number.parseInt((total / limit).toFixed(), 10)) + 1,
+    [total]
+  );
+  const todayMidnight = useMemo(
+    () => new Date(`${convertDate(today, 'dateInput', '-')} 00:00`).getTime(),
+    [today]
+  );
+
   const ModalRef = useRef<HTMLDivElement>(null);
 
   const { data: schedules } = useSWR(
-    `/calendar/minting?start=${today.getTime()}&end=${today.getTime()}&limit=${limit}&page=${curPage}`,
+    `/calendar/minting?start=${todayMidnight}&end=${
+      todayMidnight + 86400000
+    }&limit=${limit}&page=${curPage}`,
     fetcher
   );
 
@@ -67,14 +87,21 @@ export default function Upcoming() {
   const AddToCalendar: (id: string, subscribed: boolean) => void = useCallback(
     (id: string, subscribed: boolean) => {
       dispatch(
-        AuthRequiredAxios({
-          method: subscribed ? 'DELETE' : 'POST',
-          url: '/calendar/my',
-          data: {
-            type: 'minting',
-            id: Number.parseInt(id, 10),
-          },
-        })
+        AuthRequiredAxios(
+          subscribed
+            ? {
+                method: 'DELETE',
+                url: `/calendar/my/minting/${Number.parseInt(id, 10)}`,
+              }
+            : {
+                method: 'POST',
+                url: '/calendar/my/minting',
+                data: {
+                  type: 'minting',
+                  id: Number.parseInt(id, 10),
+                },
+              }
+        )
       ).then((action: any) => {
         if (action.payload.status === 200)
           alert(

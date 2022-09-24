@@ -217,6 +217,24 @@ declare global {
       timestamp: string;
     };
 
+    type VerificationCountType = {
+      verifyCount: number;
+      beAwareCount: number;
+    };
+
+    type MyVerificationType = {
+      id: number;
+      verificationType: {
+        id: number;
+        name: string; // verify, be aware, ...
+        isUpvote: boolean | null;
+      };
+      verificationOpinion?: {
+        id: number;
+        createdAt: Date;
+      };
+    };
+
     type OpinionType = {
       id: number;
       content: string;
@@ -244,23 +262,11 @@ declare global {
       };
       element: string;
       textContent: string;
-      verificationCounts: {
-        verifyCount: number;
-        beAwareCount: number;
-      };
+      verificationCounts: VerificationCountType;
       opinionCount: number;
-      myVerification?: {
-        id: number;
-        verificationType: {
-          id: number;
-          name: string; // verify, be aware, ...
-          isUpvote: boolean;
-        };
-        verificationOpinion?: {
-          id: number;
-          createdAt: Date;
-        };
-      };
+      myVerification?: MyVerificationType;
+      // temporary data
+      verifications?: BlockVerificationType;
     };
 
     type DocumentType = {

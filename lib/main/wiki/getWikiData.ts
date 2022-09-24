@@ -72,6 +72,8 @@ const ExBlock: Wiki.DocumentBlockType = {
     beAwareCount: 0,
   },
   opinionCount: 0,
+  // temporary data for wiki-read verification data
+  verifications: ExVerdict,
 };
 
 const ExBlocks: Wiki.DocumentBlockType[] = [

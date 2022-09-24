@@ -10,16 +10,16 @@ import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { OnChangeDateCallback } from 'react-calendar';
 import Axios from 'lib/global/axiosInstance';
+import convertDate from 'lib/global/convertDate';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { Utils, Schedules } from 'containers/main/upcoming';
-import { PageMoveBtns, Modal } from 'components/global';
+import { PageMoveBtns, Modal, BasicWrapper } from 'components/global';
 import { RegisterBtn } from 'components/main/forum/main';
 import { ScheduleDetail } from 'components/main/upcoming';
-import convertDate from '../../lib/global/convertDate';
 
 const limit = 15;
-let total = 13;
+let total = 0;
 
 const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
   url: string
@@ -157,12 +157,16 @@ export default function Upcoming() {
           onClick={onClickDateBtn}
           onChange={onChangeDate}
         />
-        {schedules && (
+        {schedules ? (
           <Schedules
             schedules={schedules}
             onClickSchedule={onClickSchedule}
             AddToCalendar={AddToCalendar}
           />
+        ) : (
+          <BasicWrapper>
+            <LargeText>No mintings today ;(</LargeText>
+          </BasicWrapper>
         )}
         <PageMoveBtns
           totalPage={total}
@@ -198,4 +202,14 @@ export default function Upcoming() {
 const Wrapper = styled.div`
   max-width: 1080px;
   margin: auto;
+`;
+
+const LargeText = styled.p`
+  margin: auto;
+  text-align: center;
+  color: #96b8d7;
+  font-family: 'Claris Sans', sans-serif;
+  font-size: 50px;
+  font-weight: 200;
+  line-height: 150%;
 `;

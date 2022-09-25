@@ -44,7 +44,9 @@ export default function Calendar() {
   const onChange: OnChangeDateCallback = useCallback((value: Date) => {
     setShowModal(true);
     setCalDate(convertDate(value, 'MonthDDYYYY', '.'));
-    setMintingKey(value.getTime().toString());
+    setMintingKey(
+      (value.getTime() - value.getTimezoneOffset() * 60 * 1000).toString()
+    );
   }, []);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {

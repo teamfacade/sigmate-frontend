@@ -160,8 +160,8 @@ export default function Infos() {
           })
         ).then(async (action: any) => {
           if (action.payload.status === 204) {
-            alert('Deleted your account.');
             dispatch(signOut());
+            alert('Deleted your account.');
             await router.push('/main/wiki/Sigmate');
           } else {
             alert(

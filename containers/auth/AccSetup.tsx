@@ -181,7 +181,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
         ref={refCodeTextareaRef}
       />
       <Divider direction="row" separate={false} />
-      <Name>Connect Wallet</Name>
+      <Name>{`Connect ${signedWithMetamask ? 'Google' : 'Wallet'}`}</Name>
       <OAuthBtn
         service={signedWithMetamask ? 'Google' : 'Metamask'}
         disabled={signedWithMetamask ? !!googleAccount : !!metamaskWallet}
@@ -189,13 +189,15 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
         width="470px"
         height="61px"
       />
-      <WalletDescription>
-        Connect to receive rewards based on your activity.{' '}
-        <Link href="https://naver.com">
-          <a>Learn more</a>
-        </Link>
-      </WalletDescription>
-      <form onSubmit={onSubmit}>
+      {!signedWithMetamask && (
+        <WalletDescription>
+          Connect to receive rewards based on your activity.{' '}
+          <Link href="https://naver.com">
+            <a>Learn more</a>
+          </Link>
+        </WalletDescription>
+      )}
+      <form onSubmit={onSubmit} style={{ paddingTop: '16px' }}>
         <DisclaimWrapper>
           <input type="checkbox" required />
           <span>

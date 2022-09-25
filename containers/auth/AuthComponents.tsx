@@ -16,10 +16,14 @@ const API_DOMAIN = `${
 }`;
 const BASE_URL = `${API_DOMAIN}/api/v1`;
 
-export default function AuthComponents() {
+type PropsType = {
+  signedIn: boolean;
+};
+
+export default function AuthComponents({ signedIn }: PropsType) {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [isSignInProgress, setSignInProgress] = useState<boolean>(false);
+  const [isSignInProgress, setSignInProgress] = useState<boolean>(signedIn);
 
   useEffect(() => {
     if (Object.keys(router.query).length) {

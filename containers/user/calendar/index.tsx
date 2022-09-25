@@ -16,7 +16,6 @@ const fetcher: Fetcher<
   { dispatch: AppDispatch; url: string }
 > = async ({ dispatch, url }) => {
   const action: any = await dispatch(AuthRequiredAxios({ method: 'GET', url }));
-  console.log(action);
   if (action.payload.status === 200) {
     return action.payload.data.data;
   }
@@ -64,10 +63,15 @@ export default function Calendar() {
             className="my-calendar"
             // eslint-disable-next-line react/no-unstable-nested-components
             tileContent={({ date }) => {
-              const formattedDate = date.getTime().toString();
+              const formattedDate = (
+                date.getTime() -
+                date.getTimezoneOffset() * 60 * 1000
+              ).toString();
               if (
                 schedules &&
-                Object.keys(schedules).find((when) => when === formattedDate)
+                Object.keys(schedules).find(
+                  (utcTimeVal) => utcTimeVal === formattedDate
+                )
               ) {
                 return (
                   <ScheduleThumbnail

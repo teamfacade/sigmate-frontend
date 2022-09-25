@@ -16,7 +16,7 @@ export default function UserPage() {
   const { signedIn } = useAppSelector(({ auth }) => auth);
 
   useEffect(() => {
-    if (!signedIn) router.push('/main');
+    if (!signedIn) router.push('/main/wiki/Sigmate');
   }, [signedIn]);
 
   return (

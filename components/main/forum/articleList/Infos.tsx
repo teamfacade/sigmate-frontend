@@ -56,6 +56,9 @@ const Author = styled.a`
   font-size: 16px;
   font-weight: 700;
   line-height: 160%;
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const TextWrapper = styled.div<{ isAuthor: boolean }>`
@@ -76,4 +79,5 @@ const Text = styled.p`
   font-size: 15px;
   font-weight: 500;
   line-height: 140%;
+  white-space: pre;
 `;

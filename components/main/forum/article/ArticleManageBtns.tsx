@@ -27,6 +27,7 @@ export default function ArticleManageBtns({
 }
 
 const ArticleManageBtnWrapper = styled.div`
+  display: flex;
   margin-left: 4px;
   background: #ffffff;
 

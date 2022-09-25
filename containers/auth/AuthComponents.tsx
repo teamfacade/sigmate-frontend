@@ -85,7 +85,6 @@ export default function AuthComponents() {
           })
         )
       );
-      setSignInProgress(false);
       return true;
     },
     []

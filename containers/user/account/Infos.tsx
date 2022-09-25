@@ -1,7 +1,8 @@
 import { memo, useState, useRef, useCallback, MouseEventHandler } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useAppSelector, useAppDispatch } from 'hooks/reduxStoreHooks';
-import { AuthRequiredAxios } from 'store/modules/authSlice';
+import { AuthRequiredAxios, signOut } from 'store/modules/authSlice';
 import {
   setUserName,
   setDisplayName,
@@ -35,6 +36,7 @@ const usernameRules: StringKeyObj<string> = {
 };
 
 export default function Infos() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { userName, isTwitterHandlePublic, isDiscordAccountPublic } =
     useAppSelector(({ account }) => account);
@@ -68,82 +70,109 @@ export default function Infos() {
     }
   }, []);
 
-  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    if (!edit) {
-      setEdit(true);
-    } else {
-      setEdit(false);
-      // update user name
-      if (nameRef && nameRef.current && nameRef.current.value) {
-        const newUserName = nameRef.current.value;
+  const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      const { name } = e.currentTarget;
+
+      if (name === 'edit') {
+        if (!edit) {
+          setEdit(true);
+        } else {
+          setEdit(false);
+          // update user name
+          if (nameRef && nameRef.current && nameRef.current.value) {
+            const newUserName = nameRef.current.value;
+            dispatch(
+              AuthRequiredAxios({
+                method: 'PATCH',
+                url: '/user',
+                data: {
+                  userName: newUserName,
+                },
+              })
+            ).then((action: any) => {
+              if (action.payload.status === 200) {
+                dispatch(setUserName(newUserName));
+                setUsernameEditResult('');
+              } else if (action.payload.data.validationErrors[0]) {
+                setUsernameEditResult(
+                  usernameRules[action.payload.data.validationErrors[0].msg]
+                );
+              }
+            });
+          }
+
+          // update display name and bio
+          if (displayNameRef?.current?.value || bioRef?.current?.value) {
+            const profileUpdate: any = {};
+
+            if (displayNameRef?.current?.value) {
+              profileUpdate.displayName = displayNameRef.current.value;
+            }
+            if (bioRef?.current?.value) {
+              profileUpdate.bio = bioRef.current.value;
+            }
+            dispatch(
+              AuthRequiredAxios({
+                method: 'PATCH',
+                url: '/profile',
+                data: profileUpdate,
+              })
+            ).then((action: any) => {
+              if (action.payload.status === 200) {
+                if (profileUpdate.bio) dispatch(setBio(profileUpdate.bio));
+                if (profileUpdate.displayName)
+                  dispatch(setDisplayName(profileUpdate.displayName));
+              } else {
+                alert(action.payload.data.validationErrors[0].msg);
+              }
+            });
+          }
+
+          // update twitter and discord publicity
+          dispatch(
+            AuthRequiredAxios({
+              method: 'PATCH',
+              url: '/user',
+              data: {
+                isTwitterHandlePublic: twitterPublic,
+                isDiscordAccountPublic: discordPublic,
+              },
+            })
+          ).then((action: any) => {
+            if (action.payload.status === 200) {
+              dispatch(
+                setSocialPublic({
+                  twitter: twitterPublic,
+                  discord: discordPublic,
+                })
+              );
+            } else {
+              alert(action.payload.data.validationErrors[0].msg);
+            }
+          });
+        }
+      } else {
         dispatch(
           AuthRequiredAxios({
-            method: 'PATCH',
+            method: 'DELETE',
             url: '/user',
-            data: {
-              userName: newUserName,
-            },
           })
-        ).then((action: any) => {
-          if (action.payload.status === 200) {
-            dispatch(setUserName(newUserName));
-            setUsernameEditResult('');
-          } else if (action.payload.data.validationErrors[0]) {
-            setUsernameEditResult(
-              usernameRules[action.payload.data.validationErrors[0].msg]
+        ).then(async (action: any) => {
+          if (action.payload.status === 204) {
+            alert('Deleted your account.');
+            dispatch(signOut());
+            await router.push('/main/wiki/Sigmate');
+          } else {
+            alert(
+              `Error while deleting your account. ERR: ${action.payload.status}`
             );
           }
         });
       }
-
-      // update display name and bio
-      if (displayNameRef?.current?.value || bioRef?.current?.value) {
-        const profileUpdate: any = {};
-
-        if (displayNameRef?.current?.value) {
-          profileUpdate.displayName = displayNameRef.current.value;
-        }
-        if (bioRef?.current?.value) {
-          profileUpdate.bio = bioRef.current.value;
-        }
-        dispatch(
-          AuthRequiredAxios({
-            method: 'PATCH',
-            url: '/profile',
-            data: profileUpdate,
-          })
-        ).then((action: any) => {
-          if (action.payload.status === 200) {
-            if (profileUpdate.bio) dispatch(setBio(profileUpdate.bio));
-            if (profileUpdate.displayName)
-              dispatch(setDisplayName(profileUpdate.displayName));
-          } else {
-            alert(action.payload.data.validationErrors[0].msg);
-          }
-        });
-      }
-
-      // update twitter and discord publicity
-      dispatch(
-        AuthRequiredAxios({
-          method: 'PATCH',
-          url: '/user',
-          data: {
-            isTwitterHandlePublic: twitterPublic,
-            isDiscordAccountPublic: discordPublic,
-          },
-        })
-      ).then((action: any) => {
-        if (action.payload.status === 200) {
-          dispatch(
-            setSocialPublic({ twitter: twitterPublic, discord: discordPublic })
-          );
-        } else {
-          alert(action.payload.data.validationErrors[0].msg);
-        }
-      });
-    }
-  }, [edit, twitterPublic, discordPublic]);
+    },
+    [edit, twitterPublic, discordPublic]
+  );
 
   return (
     <BasicWrapper style={{ marginTop: '20px' }}>
@@ -182,9 +211,14 @@ export default function Infos() {
               discordPublic={discordPublic}
               onToggle={onToggle}
             />
-            <EditBtn onClick={onClick}>{edit ? 'Save' : 'Edit'}</EditBtn>
+            <EditBtn name="edit" onClick={onClick}>
+              {edit ? 'Save' : 'Edit'}
+            </EditBtn>
           </InfoWrapper>
         </Wrapper>
+        <EditBtn name="delete" onClick={onClick}>
+          Delete account
+        </EditBtn>
       </SectionWrapper>
     </BasicWrapper>
   );
@@ -203,7 +237,6 @@ const InfoWrapper = memo(styled.div`
 `);
 
 const EditBtn = memo(styled.button`
-  width: 75px;
   padding: 7px 15px;
   margin-top: 20px;
   background-color: #0070f3;
@@ -213,5 +246,6 @@ const EditBtn = memo(styled.button`
   border-radius: 8px;
   font-weight: bolder;
   font-family: 'Inter', sans-serif;
+  text-align: center;
   float: right;
 `);

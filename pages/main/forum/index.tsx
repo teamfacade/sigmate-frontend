@@ -72,7 +72,7 @@ export default function ForumMain() {
   return (
     <Wrapper>
       <SearchUtils setFilter={setFilter} onSearch={onSearch} />
-      {categories ? (
+      {categories && categories.length > 0 ? (
         <Categories categories={categories || []} />
       ) : (
         <BasicWrapper>

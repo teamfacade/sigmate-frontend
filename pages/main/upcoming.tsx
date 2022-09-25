@@ -68,8 +68,8 @@ export default function Upcoming() {
   );
 
   const onChangeDate: OnChangeDateCallback = useCallback((value: Date) => {
-    setShowCalendar(false);
     setToday(value);
+    setShowCalendar(false);
   }, []);
 
   const onClickSchedule: MouseEventHandler<HTMLDivElement> = useCallback(
@@ -157,7 +157,7 @@ export default function Upcoming() {
           onClick={onClickDateBtn}
           onChange={onChangeDate}
         />
-        {schedules ? (
+        {schedules && schedules.length > 0 ? (
           <Schedules
             schedules={schedules}
             onClickSchedule={onClickSchedule}

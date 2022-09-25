@@ -106,11 +106,9 @@ export function getPrettyTimeDiff(dateString: string, lang = 'en') {
 }
 
 export function getTimeDiff(event: Date) {
-  const current = new Date(Date.now());
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  let diff = event - current;
-
+  let diff = new Date(event) - new Date(Date.now());
   if (diff < 0) diff = 0;
 
   diff = Math.floor(diff / SECOND);

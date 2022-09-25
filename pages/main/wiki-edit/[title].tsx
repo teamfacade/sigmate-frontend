@@ -3,6 +3,7 @@ import {
   useCallback,
   ChangeEventHandler,
   MouseEventHandler,
+  FormEventHandler,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { getArticleEditData, KeyInfoIndex } from 'lib/main/wiki/getWikiData';
@@ -50,17 +51,21 @@ export default function WikiEditPage({
     []
   );
 
-  const onSave: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    const newDocument = {
-      ...document,
-      types: selectedOption.map((selected) => selected.value),
-      blocks,
-    };
+  const onSave: FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+      const newDocument = {
+        ...document,
+        types: selectedOption.map((selected) => selected.value),
+        blocks,
+      };
 
-    alert('Save edits');
-    // eslint-disable-next-line no-console
-    console.log(newDocument);
-  }, [selectedOption, blocks]);
+      alert('Save edits');
+      // eslint-disable-next-line no-console
+      console.log(newDocument);
+    },
+    [selectedOption, blocks]
+  );
 
   return (
     <>
@@ -73,7 +78,7 @@ export default function WikiEditPage({
         keyInfos={keyInfos}
         onChangeKeyInfos={onChangeKeyInfos}
       />
-      <Summary summary={summary} onChange={onSummaryChange} onClick={onSave} />
+      <Summary summary={summary} onChange={onSummaryChange} onSubmit={onSave} />
     </>
   );
 }

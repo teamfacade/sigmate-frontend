@@ -5,6 +5,7 @@ import {
   useCallback,
   useState,
   useRef,
+  FormEventHandler,
 } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,6 +15,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { setUserName, setMetamaskWallet } from 'store/modules/accountSlice';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
+import { DisclaimWrapper } from 'components/main/wiki/edit';
 import styles from 'styles/styleLib';
 
 const usernameRules: StringKeyObj<string> = {
@@ -99,7 +101,6 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
             url: `/user/check?referralCode=${refCode}`,
           })
         ).then((action: any) => {
-          console.log(action);
           const { status, data } = action.payload;
           setIsValidRefCode(status === 200);
           if (status === 200) {
@@ -126,12 +127,24 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
         });
       } else if (name === 'Google') {
         alert('Comming soon...');
-      } else if ((isValidRefCode || refCode === '') && isValidUsername) {
+      }
+    },
+    []
+  );
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+      if ((isValidRefCode || refCode === '') && isValidUsername) {
         dispatch(
           AuthRequiredAxios({
             method: 'PATCH',
             url: '/user',
-            data: { userName: username },
+            data: {
+              userName: username,
+              agreeTos: new Date(Date.now()),
+              agreePrivacy: new Date(Date.now()),
+            },
           })
         ).then(async (action: any) => {
           if (action.payload.status === 200) {
@@ -168,7 +181,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
         ref={refCodeTextareaRef}
       />
       <Divider direction="row" separate={false} />
-      <Name>Connect Wallet</Name>
+      <Name>{`Connect ${signedWithMetamask ? 'Google' : 'Wallet'}`}</Name>
       <OAuthBtn
         service={signedWithMetamask ? 'Google' : 'Metamask'}
         disabled={signedWithMetamask ? !!googleAccount : !!metamaskWallet}
@@ -176,15 +189,37 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
         width="470px"
         height="61px"
       />
-      <WalletDescription>
-        Connect to receive rewards based on your activity.{' '}
-        <Link href="https://naver.com">
-          <a>Learn more</a>
-        </Link>
-      </WalletDescription>
-      <SignUp name="SignUp" onClick={onClick}>
-        Sign Up
-      </SignUp>
+      {!signedWithMetamask && (
+        <WalletDescription>
+          Connect to receive rewards based on your activity.{' '}
+          <Link href="https://naver.com">
+            <a>Learn more</a>
+          </Link>
+        </WalletDescription>
+      )}
+      <form onSubmit={onSubmit} style={{ paddingTop: '16px' }}>
+        <DisclaimWrapper>
+          <input type="checkbox" required />
+          <span>
+            {'I am 18 years of age or older and agree to the '}
+            <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+              Sigmate terms of service.
+            </a>
+          </span>
+        </DisclaimWrapper>
+        <DisclaimWrapper>
+          <input type="checkbox" required />
+          <span>
+            {'I agree to the '}
+            <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+              Sigmate Privacy Policy.
+            </a>
+          </span>
+        </DisclaimWrapper>
+        <SignUp name="SignUp" type="submit">
+          Sign Up
+        </SignUp>
+      </form>
     </Wrapper>
   );
 }

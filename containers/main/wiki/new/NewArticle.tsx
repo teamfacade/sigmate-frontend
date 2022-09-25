@@ -185,18 +185,16 @@ export default function NewArticle({ topic }: PropsType) {
             onChangeKeyInfos={onChangeKeyInfos}
           />
           <DisclaimWrapper>
-            <input type="checkbox" />
+            <input type="checkbox" required />
             <span>
-              All of the Content above must be filled in order to claim article
-              creation award.
+              {'By publishing new article, you agree to the '}
+              <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+                Terms of Use
+              </a>
+              , and you irrevocably agree to release your contribution under the CC BY-SA 3.0 License. You agree that a hyperlink or URL is sufficient attribution under the Creative Commons license.
             </span>
-            <Disclaimer>
-              {
-                ' comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" '
-              }
-            </Disclaimer>
           </DisclaimWrapper>
-          <BlueBtn width="162px" margin="29px 0 0 0">
+          <BlueBtn width="162px" margin="29px 0 0 0" type="submit">
             Submit
           </BlueBtn>
         </form>

@@ -19,7 +19,7 @@ export default function AuthPage() {
           {signedIn && !userName ? (
             <AccSetup signedWithMetamask={!!metamaskWallet} />
           ) : (
-            <AuthComponents />
+            <AuthComponents signedIn={signedIn} />
           )}
         </LeftWrapper>
         <RightWrapper>

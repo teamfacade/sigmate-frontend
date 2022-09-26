@@ -25,6 +25,11 @@ export default function Navbar() {
       setShowMenu((current) => !current);
   }, []);
 
+  const onClickSideLinks: MouseEventHandler<HTMLAnchorElement> = useCallback(
+    () => setShowMenu(false),
+    []
+  );
+
   return (
     <>
       <nav>
@@ -33,7 +38,7 @@ export default function Navbar() {
             <Logo>Sigmate</Logo>
           </Link>
           <SideHiddensWrapper showMenu={showMenu}>
-            <Links onClickShowMenu={onClickShowMenu} />
+            <Links onClickShowMenu={onClickSideLinks} />
             {!signedIn ? (
               <Profile
                 signedIn={signedIn}

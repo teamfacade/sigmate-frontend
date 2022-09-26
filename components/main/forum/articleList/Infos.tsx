@@ -62,9 +62,11 @@ const Author = styled.a`
 `;
 
 const TextWrapper = styled.div<{ isAuthor: boolean }>`
-  width: calc(100% - 440px);
+  flex: 1 1 calc(100% - 440px);
   margin-right: 16px;
-  overflow: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-overflow-ellipsis: ${styles.colors.forumSubTextColor};
 
   p {
     display: inline;
@@ -73,7 +75,6 @@ const TextWrapper = styled.div<{ isAuthor: boolean }>`
 `;
 
 const Text = styled.p`
-  width: fit-content;
   margin-right: 4px;
   color: ${styles.colors.forumSubTextColor};
   font-size: 15px;

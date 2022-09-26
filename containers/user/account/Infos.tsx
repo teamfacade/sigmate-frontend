@@ -211,14 +211,16 @@ export default function Infos() {
               discordPublic={discordPublic}
               onToggle={onToggle}
             />
-            <EditBtn name="edit" onClick={onClick}>
-              {edit ? 'Save' : 'Edit'}
-            </EditBtn>
+            <BtnWrapper>
+              <EditBtn name="edit" onClick={onClick}>
+                {edit ? 'Save' : 'Edit'}
+              </EditBtn>
+              <EditBtn name="delete" onClick={onClick}>
+                Delete account
+              </EditBtn>
+            </BtnWrapper>
           </InfoWrapper>
         </Wrapper>
-        <EditBtn name="delete" onClick={onClick}>
-          Delete account
-        </EditBtn>
       </SectionWrapper>
     </BasicWrapper>
   );
@@ -236,6 +238,11 @@ const InfoWrapper = memo(styled.div`
   margin-left: 60px;
 `);
 
+const BtnWrapper = styled.div`
+  display: inline-flex;
+  float: right;
+`;
+
 const EditBtn = memo(styled.button`
   padding: 7px 15px;
   margin-top: 20px;
@@ -247,5 +254,8 @@ const EditBtn = memo(styled.button`
   font-weight: bolder;
   font-family: 'Inter', sans-serif;
   text-align: center;
-  float: right;
+
+  & + & {
+    margin-left: 8px;
+  }
 `);

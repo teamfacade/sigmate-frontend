@@ -22,10 +22,12 @@ export default function ProfileComponents({
 }: PropsType) {
   return (
     <Wrapper>
-      <PFP PFPUrl={PFPUrl} />
+      <CirclePFP>
+        <PFP PFPUrl={PFPUrl} />
+      </CirclePFP>
       <NameAndLevel
-        username={displayName || username}
-        displayName=""
+        username={username}
+        displayName={displayName}
         level={level}
       />
       <BioAndSocials bio={bio} twitterID={twitterID} discordID={discordID} />
@@ -37,4 +39,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 0 40px 40px 40px;
+`;
+
+const CirclePFP = styled.div`
+  width: 170px;
+  height: 170px;
+  border-radius: 170px;
+  border: 1px solid #fac29f;
+  overflow: hidden;
 `;

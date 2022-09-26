@@ -18,13 +18,12 @@ export default function Navbar() {
     []
   );
 
-  const onClickShowMenu: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      if (e.currentTarget.name !== 'BlurBg' || e.target === e.currentTarget)
-        setShowMenu((current) => !current);
-    },
-    []
-  );
+  const onClickShowMenu: MouseEventHandler<
+    HTMLButtonElement | HTMLAnchorElement
+  > = useCallback((e) => {
+    if (e.currentTarget.name !== 'BlurBg' || e.target === e.currentTarget)
+      setShowMenu((current) => !current);
+  }, []);
 
   return (
     <>
@@ -34,7 +33,7 @@ export default function Navbar() {
             <Logo>Sigmate</Logo>
           </Link>
           <SideHiddensWrapper showMenu={showMenu}>
-            <Links />
+            <Links onClickShowMenu={onClickShowMenu} />
             {!signedIn ? (
               <Profile
                 signedIn={signedIn}

@@ -1,6 +1,8 @@
 import { MouseEventHandler, useCallback, useRef, useState } from 'react';
+import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
+import Axios from 'lib/global/axiosInstance';
 import {
   BasicWrapper,
   SectionWrapper,
@@ -9,23 +11,13 @@ import {
   PageMoveBtns,
   Modal,
 } from 'components/global';
-import { LogHead, LogItem, CreateCategory } from 'components/admin/forum';
+import {
+  LogHead,
+  LogItem,
+  CreateCategory,
+  EditForumCategories,
+} from 'components/admin/forum';
 import { BlueBtnStyle } from 'styles/styleLib';
-
-export const categories = [
-  'Game',
-  'Metaverse',
-  'Collectibles',
-  'Sports',
-  'Utility',
-  'Art',
-  'Photography',
-  'Defi',
-  'Music',
-  'Domain names',
-  'DAO',
-  'Meme',
-];
 
 const ExForumArticle: Admin.ForumArticleDataType = {
   id: 1,
@@ -50,20 +42,33 @@ const ExForumArticles = [
 ];
 const total = 4242;
 
+const categoriesFetcher: Fetcher<Forum.CategoryType[], string> = async (
+  url: string
+) => {
+  const { status, data } = await Axios.get(url);
+  if (status === 200) {
+    return data.categories;
+  }
+  return [];
+};
+
 export default function ForumManagement() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<string | null>(null);
   const [curPage, setCurPage] = useState(1);
   const ModalRef = useRef<HTMLDivElement>(null);
 
+  const { data: categories, mutate } = useSWR('/forum/c', categoriesFetcher);
+
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
-    () => setShowModal(true),
+    (e) => setShowModal(e.currentTarget.name),
     []
   );
 
-  const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowModal(false),
-    []
-  );
+  const onMouseDown: MouseEventHandler<HTMLDivElement> =
+    useCallback(async () => {
+      await mutate();
+      setShowModal(null);
+    }, [mutate]);
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -116,18 +121,23 @@ export default function ForumManagement() {
             <div>
               <span>Category</span>
               <select name="category">
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                {categories?.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
                   </option>
                 ))}
               </select>
             </div>
             <span>Tags</span>
             <Search />
-            <CreateNewBtn name="new" onClick={onClick}>
-              Add new
-            </CreateNewBtn>
+            <ManageBtnsWrapper>
+              <ManageBtn name="Create" onClick={onClick}>
+                Add new
+              </ManageBtn>
+              <ManageBtn name="Edit" onClick={onClick}>
+                Edit Categories
+              </ManageBtn>
+            </ManageBtnsWrapper>
           </SectionWrapper>
         </BasicWrapper>
         <BasicWrapper>
@@ -157,14 +167,18 @@ export default function ForumManagement() {
         </BasicWrapper>
       </Wrapper>
       <CSSTransition
-        in={showModal}
+        in={showModal !== null}
         timeout={300}
         classNames="show-modal"
         unmountOnExit
         nodeRef={ModalRef}
       >
         <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          <CreateCategory />
+          {showModal === 'Create' ? (
+            <CreateCategory />
+          ) : (
+            <EditForumCategories />
+          )}
         </Modal>
       </CSSTransition>
     </>
@@ -181,9 +195,17 @@ const Wrapper = styled.div`
   }
 `;
 
-const CreateNewBtn = styled.button`
-  ${BlueBtnStyle};
+const ManageBtnsWrapper = styled.div`
   position: absolute;
   top: -10px;
   right: 0;
+  display: flex;
+`;
+
+const ManageBtn = styled.button`
+  ${BlueBtnStyle};
+
+  & + & {
+    margin-left: 8px;
+  }
 `;

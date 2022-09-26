@@ -29,19 +29,21 @@ export default memo(function ScheduleUtilBtns({
       [AddToCalendar, subscribed]
     );
 
+  console.log(mintPageUrl);
+
   return (
     <BtnWrapper>
       <AddCalenderBtn data-minting-id={id} onClick={onClickAddToCalendar}>
         {subscribed ? 'Subscribed' : 'Add to calender'}
       </AddCalenderBtn>
-      <MintBtn
-        disabled={mintPageUrl === undefined}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Link href={mintPageUrl || '/main'}>
-          <a>Mint</a>
-        </Link>
-      </MintBtn>
+      <a href={mintPageUrl} target="_blank" rel="noreferrer">
+        <MintBtn
+          disabled={mintPageUrl === undefined}
+          onClick={(e) => e.stopPropagation()}
+        >
+          Mint
+        </MintBtn>
+      </a>
     </BtnWrapper>
   );
 });
@@ -77,7 +79,5 @@ const MintBtn = styled.button`
   padding: 7px 38px;
   margin: 0 0 0 10px;
   background-color: ${styles.colors.emphColor};
-  a {
-    color: #ffffff;
-  }
+  color: #ffffff;
 `;

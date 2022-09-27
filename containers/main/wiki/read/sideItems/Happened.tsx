@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import Link from 'next/link';
 import styled from 'styled-components';
 import {
   Platform,
@@ -9,7 +8,6 @@ import {
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  index: number;
   platform: string;
   author: string;
   timestamp: string;
@@ -17,7 +15,6 @@ type PropsType = {
 };
 
 export default memo(function Happened({
-  index,
   platform,
   author,
   timestamp,
@@ -29,7 +26,7 @@ export default memo(function Happened({
         <Platform platform={platform} />
         <InfoInnerWrapper>
           <Author>{author}</Author>
-          <TimeDiff index={index} timestamp={timestamp} />
+          <TimeDiff platform={platform} timestamp={timestamp} />
         </InfoInnerWrapper>
       </InfoWrapper>
       <EllipsisText height="63px" content={content} />

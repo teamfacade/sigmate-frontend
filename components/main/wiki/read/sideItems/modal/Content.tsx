@@ -54,7 +54,7 @@ export default memo(function Content({
           ) : (
             <NoLinkAuthor>{author}</NoLinkAuthor>
           )}
-          <TimeDiff index={index} timestamp={timestamp} />
+          <TimeDiff platform={platform} timestamp={timestamp} />
         </InfoInnerWrapper>
       </InfoWrapper>
       {content.length < maxWord || showMore ? (

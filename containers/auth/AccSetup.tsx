@@ -31,6 +31,7 @@ const usernameRules: StringKeyObj<string> = {
     'Username cannot start nor end with a special character',
   ERR_USERNAME_ILLEGAL_WORDS: "You can't contain some words in username",
   ERR_USERNAME_IS_URL: 'Username cannot be a URL',
+  DUPLICATE: 'This name is already being used by someone else.',
 };
 
 const referralRules: StringKeyObj<string> = {

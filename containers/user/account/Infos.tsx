@@ -33,6 +33,8 @@ const usernameRules: StringKeyObj<string> = {
   ERR_USERNAME_ILLEGAL_WORDS: "You can't contain some words in username",
   ERR_USERNAME_IS_URL: 'Username cannot be a URL',
   ERR_USERNAME_CHANGE_INTERVAL: 'You can change your username per month.',
+  ERR_USERNAME_ALREADY_MINE: 'You are using this name now.',
+  DUPLICATE: 'This name is already being used by someone else.',
 };
 
 export default function Infos() {

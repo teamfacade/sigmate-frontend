@@ -13,7 +13,10 @@ export default function Heads({ curPath }: PropsType) {
         <meta property="og:url" content={curPath} />
         <meta property="og:title" content="Sigmate" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/Icons/Favicon/Logo_310x310.png" />
+        <meta
+          property="og:image"
+          content="/Icons/Favicon/ms-icon-144x144.png"
+        />
         <meta
           property="og:description"
           content="All you need to know about your NFT"

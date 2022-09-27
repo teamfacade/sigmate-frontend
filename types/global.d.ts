@@ -349,6 +349,7 @@ declare global {
       votes?: Forum.VoteType;
       voteCount?: number;
       comments?: Forum.CommentType[];
+      commentCount?: number;
       tags?: any[];
       imageUrls?: string[];
       createdAt?: string;

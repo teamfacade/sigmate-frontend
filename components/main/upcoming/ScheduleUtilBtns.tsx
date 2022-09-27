@@ -1,5 +1,4 @@
 import { memo, MouseEventHandler, useCallback, useState } from 'react';
-import Link from 'next/link';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
@@ -28,8 +27,6 @@ export default memo(function ScheduleUtilBtns({
       },
       [AddToCalendar, subscribed]
     );
-
-  console.log(mintPageUrl);
 
   return (
     <BtnWrapper>

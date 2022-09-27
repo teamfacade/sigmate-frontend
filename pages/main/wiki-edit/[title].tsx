@@ -2,11 +2,10 @@ import {
   useState,
   useCallback,
   ChangeEventHandler,
-  MouseEventHandler,
   FormEventHandler,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import { getArticleEditData, KeyInfoIndex } from 'lib/main/wiki/getWikiData';
+import { getArticleEditData } from 'lib/main/wiki/getWikiData';
 import { WikiEdit, Summary } from 'containers/main/wiki/edit';
 
 export default function WikiEditPage({

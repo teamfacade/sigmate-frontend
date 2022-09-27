@@ -27,7 +27,7 @@ export default memo(function Content({
           <TextWrapper>
             <Title>{title}</Title>
             <EllipsisContent>{`${content.slice(0, 650)}${
-              content.length > 650 && '...'
+              content.length > 650 ? '...' : ''
             }`}</EllipsisContent>
           </TextWrapper>
           {imageURL && (

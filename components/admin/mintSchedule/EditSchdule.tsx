@@ -10,10 +10,11 @@ import Axios from 'lib/global/axiosInstance';
 import convertDate from 'lib/global/convertDate';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
-import { categories } from 'pages/admin/forum';
+import { categoriesFetcher } from 'pages/admin/minting-schedule';
 import { BasicWrapper, SectionWrapper } from 'components/global';
 import { NamedInput } from 'components/admin/mintSchedule';
 import { BlueBtnStyle } from 'styles/styleLib';
+import useSWR from 'swr';
 
 type PropsType = {
   type: 'New' | 'Edit' | 'Category';
@@ -66,6 +67,11 @@ export default function EditSchedule({ type, id }: PropsType) {
       });
     }
   }, [fetcher]);
+
+  const { data: categories } = useSWR(
+    `/wiki/collection/category`,
+    categoriesFetcher
+  );
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> =
     useCallback(
@@ -233,9 +239,9 @@ export default function EditSchedule({ type, id }: PropsType) {
           <div>
             <span>Category</span>
             <select name="Category" onChange={onChange}>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
+              {categories?.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
                 </option>
               ))}
             </select>

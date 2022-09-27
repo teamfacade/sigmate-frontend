@@ -48,9 +48,10 @@ const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
   return [];
 };
 
-const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
-  url: string
-) => {
+export const categoriesFetcher: Fetcher<
+  CollectionCategoryType[],
+  string
+> = async (url: string) => {
   const { status, data } = await Axios.get(url);
   if (status === 200) {
     return data.categories || [];

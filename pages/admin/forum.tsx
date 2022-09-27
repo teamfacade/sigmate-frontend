@@ -85,7 +85,6 @@ export default function ForumManagement() {
   const onSelectCategory: ChangeEventHandler<HTMLSelectElement> = useCallback(
     (e) => {
       const { value } = e.currentTarget;
-      console.log(value);
       setQueryCategory(value);
     },
     []

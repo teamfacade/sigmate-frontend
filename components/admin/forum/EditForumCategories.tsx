@@ -27,10 +27,7 @@ export default function EditForumCategories() {
         dispatch(
           AuthRequiredAxios({
             method: 'DELETE',
-            url: `/forum/c`,
-            data: {
-              id: Number.parseInt(dataset.id, 10),
-            },
+            url: `/forum/c/${dataset.id}`,
           })
         ).then(async (action: any) => {
           if (action.payload.status === 204) {

@@ -10,6 +10,7 @@ type PropsType = {
   width?: string;
   height?: string;
   disabled?: boolean;
+  done?: boolean;
 };
 
 type SVGIcon = ReturnType<typeof Google>;
@@ -30,6 +31,7 @@ export default function OAuthBtn({
   width,
   height,
   disabled,
+  done,
 }: PropsType) {
   const Icon = Icons[service];
 
@@ -39,13 +41,17 @@ export default function OAuthBtn({
       onClick={onClick}
       width={width}
       height={height}
-      disabled={disabled}
+      disabled={disabled || done}
     >
       <FlexWrapper>
         <SVGWrapper>
           <Icon style={{ margin: Margins[service] }} />
         </SVGWrapper>
-        <p>{disabled ? 'Connecting...' : `Continue with ${service}`}</p>
+        {done ? (
+          <p>Connected!</p>
+        ) : (
+          <p>{disabled ? 'Connecting...' : `Continue with ${service}`}</p>
+        )}
       </FlexWrapper>
     </Btn>
   );

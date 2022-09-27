@@ -2,10 +2,16 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthComponents, AccSetup, LogoWithLinks } from 'containers/auth';
+import { useMemo } from 'react';
+import { store } from '../../store/store';
 
 export default function AuthPage() {
   const signedIn = useAppSelector(({ auth }) => auth.signedIn);
-  const { userName, metamaskWallet } = useAppSelector(({ account }) => account);
+  const { userName } = useAppSelector(({ account }) => account);
+  const { metamaskWallet } = useMemo(
+    () => (store.getState() as ReduxState.RootStateType).account,
+    [signedIn]
+  );
   const router = useRouter();
 
   if (signedIn && userName) {

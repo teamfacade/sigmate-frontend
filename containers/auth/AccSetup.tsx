@@ -6,6 +6,7 @@ import {
   useState,
   useRef,
   FormEventHandler,
+  useMemo,
 } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -17,6 +18,7 @@ import { setUserName, setMetamaskWallet } from 'store/modules/accountSlice';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
 import { DisclaimWrapper } from 'components/main/wiki/edit';
 import styles from 'styles/styleLib';
+import { store } from '../../store/store';
 
 const usernameRules: StringKeyObj<string> = {
   default: 'Username should be more than 2, less than 17 characters',
@@ -90,9 +92,12 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
           if (status === 200) {
             setUsernameCheckResult('');
           } else if (status === 400) {
-            setUsernameCheckResult(
-              usernameRules[data.validationErrors[0].msg || 'default']
-            );
+            if (data.userName?.isAvailable)
+              setUsernameCheckResult(usernameRules.DUPLICATE);
+            else
+              setUsernameCheckResult(
+                usernameRules[data.validationErrors[0].msg || 'default']
+              );
           }
         });
       } else if (refCode !== '') {
@@ -127,7 +132,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
             dispatch(setMetamaskWallet(action.payload.data.metamaskWallet));
         });
       } else if (name === 'Google') {
-        alert('Comming soon...');
+        alert('Coming soon...');
       }
     },
     []
@@ -185,7 +190,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
       <Name>{`Connect ${signedWithMetamask ? 'Google' : 'Wallet'}`}</Name>
       <OAuthBtn
         service={signedWithMetamask ? 'Google' : 'Metamask'}
-        disabled={signedWithMetamask ? !!googleAccount : !!metamaskWallet}
+        done={signedWithMetamask ? !!googleAccount : !!metamaskWallet}
         onClick={onClick}
         width="470px"
         height="61px"

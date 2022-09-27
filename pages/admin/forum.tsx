@@ -1,4 +1,10 @@
-import { MouseEventHandler, useCallback, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
 import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
@@ -19,45 +25,51 @@ import {
 } from 'components/admin/forum';
 import { BlueBtnStyle } from 'styles/styleLib';
 
-const ExForumArticle: Admin.ForumArticleDataType = {
-  id: 1,
-  title: 'Sigmate fighting!!',
-  category: 'Game',
-  author: 'WKSEO',
-  tags: ['hello', 'tired', 'so', 'annoying'],
-  comments: 42,
-  date: new Date(Date.now()).toISOString(),
-};
-const ExForumArticles = [
-  ExForumArticle,
-  { ...ExForumArticle, id: 2 },
-  { ...ExForumArticle, id: 3 },
-  { ...ExForumArticle, id: 4 },
-  { ...ExForumArticle, id: 5 },
-  { ...ExForumArticle, id: 6 },
-  { ...ExForumArticle, id: 7 },
-  { ...ExForumArticle, id: 8 },
-  { ...ExForumArticle, id: 9 },
-  { ...ExForumArticle, id: 0 },
-];
-const total = 4242;
+let total = 0;
+const limit = 10;
 
 const categoriesFetcher: Fetcher<Forum.CategoryType[], string> = async (
   url: string
 ) => {
-  const { status, data } = await Axios.get(url);
-  if (status === 200) {
-    return data.categories;
+  try {
+    const { status, data } = await Axios.get(url);
+    if (status === 200) {
+      return data.categories;
+    }
+    return [];
+  } catch (e) {
+    alert(`Error while fetching categories: ERR ${e}`);
+    return [];
   }
-  return [];
+};
+
+const postsFetcher: Fetcher<Forum.PostType[], string> = async (url: string) => {
+  try {
+    const { status, data } = await Axios.get(url);
+    if (status === 200) {
+      total = data.forumPosts.length;
+      return data.forumPosts;
+    }
+    return [];
+  } catch (e) {
+    alert(`Error while fetching posts: ERR ${e}`);
+    return [];
+  }
 };
 
 export default function ForumManagement() {
   const [showModal, setShowModal] = useState<string | null>(null);
+  const [queryCategory, setQueryCategory] = useState<string | null>(null);
   const [curPage, setCurPage] = useState(1);
   const ModalRef = useRef<HTMLDivElement>(null);
 
   const { data: categories, mutate } = useSWR('/forum/c', categoriesFetcher);
+  const { data: posts } = useSWR(
+    queryCategory
+      ? `forum/c/${queryCategory}/p?limit=${limit}&page=${curPage}`
+      : null,
+    queryCategory ? postsFetcher : null
+  );
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => setShowModal(e.currentTarget.name),
@@ -69,6 +81,15 @@ export default function ForumManagement() {
       await mutate();
       setShowModal(null);
     }, [mutate]);
+
+  const onSelectCategory: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => {
+      const { value } = e.currentTarget;
+      console.log(value);
+      setQueryCategory(value);
+    },
+    []
+  );
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -120,9 +141,9 @@ export default function ForumManagement() {
           <SectionWrapper header="Forum articles">
             <div>
               <span>Category</span>
-              <select name="category">
+              <select name="category" onChange={onSelectCategory}>
                 {categories?.map((category) => (
-                  <option key={category.id} value={category.name}>
+                  <option key={category.id} value={category.id}>
                     {category.name}
                   </option>
                 ))}
@@ -144,23 +165,23 @@ export default function ForumManagement() {
           <SectionWrapper header="Search result">
             <LogTable gap="3vw">
               <LogHead />
-              {ExForumArticles.map((article) => (
+              {posts?.map((article) => (
                 <LogItem
                   key={article.id}
                   id={article.id}
                   title={article.title}
-                  category={article.category}
-                  author={article.author}
-                  tags={article.tags}
-                  date={article.date}
-                  comments={article.comments}
+                  category={queryCategory as string}
+                  author={article.createdBy.userName as string}
+                  tags={article.tags?.map((tag) => tag.name) || []}
+                  date={article.createdAt as string}
+                  comments={article.commentCount || 0}
                 />
               ))}
             </LogTable>
             <PageMoveBtns
               onClickPageNumBtn={onClickPageNumBtn}
               onClickPageMoveBtn={onClickPageMoveBtn}
-              totalPage={total}
+              totalPage={Math.floor(total / limit) + 1}
               curPage={curPage}
             />
           </SectionWrapper>

@@ -21,10 +21,7 @@ export default memo(function LogItem({
   date,
   comments,
 }: PropsType) {
-  const time = useMemo(
-    () => convertDate(new Date(date), 'time', undefined),
-    [date]
-  );
+  const time = useMemo(() => convertDate(new Date(date), 'time'), [date]);
 
   return (
     <tbody>

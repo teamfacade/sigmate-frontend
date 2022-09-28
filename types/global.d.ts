@@ -46,10 +46,11 @@ declare global {
       cookiesAnalytics: boolean;
       cookiesFunctional: boolean;
       cookiesTargeting: boolean;
-      agreeTos: Date | null; // 동의한 날짜
-      agreePrivacy: Date | null;
-      agreeLegal: Date | null;
+      agreeTos: string | null; // 동의한 날짜
+      agreePrivacy: string | null;
+      agreeLegal: string | null;
       referralCode: string;
+      referredBy: string;
       group: {
         // 유저 권한
         id: number;

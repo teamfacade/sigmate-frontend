@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { ClientRoute } from 'hooks/useSPARouting';
+import { store } from 'store/store';
 import Staking from 'containers/user/staking';
 
 const Account = dynamic(() => import('containers/user/account'));
@@ -12,12 +11,11 @@ const Referrals = dynamic(() => import('containers/user/referrals'));
 const Calendar = dynamic(() => import('containers/user/calendar'));
 
 export default function UserPage() {
-  const router = useRouter();
-  const { signedIn } = useAppSelector(({ auth }) => auth);
-
   useEffect(() => {
-    if (!signedIn) router.push('/main/wiki/Sigmate');
-  }, [signedIn]);
+    if (!(store.getState() as ReduxState.RootStateType).account.agreeTos) {
+      window.location.assign('/auth');
+    }
+  }, []);
 
   return (
     <>

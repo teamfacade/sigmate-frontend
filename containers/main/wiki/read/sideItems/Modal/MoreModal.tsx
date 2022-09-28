@@ -21,7 +21,8 @@ export default memo(
     { header, onClick },
     ref
   ) {
-    const signedIn = useAppSelector(({ auth }) => auth.signedIn);
+    const { signedIn } = useAppSelector(({ auth }) => auth);
+    const { agreeTos } = useAppSelector(({ account }) => account);
 
     return (
       <Modal ref={ref}>
@@ -30,7 +31,7 @@ export default memo(
             <CloseIcon />
           </Close>
           <Contents header={header} />
-          {!signedIn && <BlurDiv />}
+          {!(signedIn && agreeTos) && <BlurDiv signedIn={signedIn} />}
         </SectionWrapper>
       </Modal>
     );

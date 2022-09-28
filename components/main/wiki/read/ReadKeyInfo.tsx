@@ -154,8 +154,8 @@ const Table = styled.div`
     'Th_Community   Tr_OfficialSite Td_OfficialSite'
     'Th_Chain       Tr_Chain        Td_Chain'
     'Th_Marketplace Tr_Marketplace  Td_Marketplace';
-  grid-template-rows: 40px 215px repeat(11, 30px);
-  grid-template-columns: 115px 190px 195px;
+  grid-template-rows: 40px 500px repeat(12, 30px);
+  grid-template-columns: 115px 120px 265px;
   width: fit-content;
   margin-bottom: 24px;
   border: 1px solid ${styles.colors.hrColor};
@@ -163,9 +163,11 @@ const Table = styled.div`
 `;
 
 const TableItem = styled.div<{ gridArea: string }>`
+  text-align: center;
   grid-area: ${({ gridArea }) => gridArea};
 
   display: flex;
+
   align-items: center;
   justify-content: ${({ gridArea }) => {
     if (gridArea === 'Name' || gridArea.startsWith('Th_')) return `center;`;
@@ -188,6 +190,12 @@ const TableItem = styled.div<{ gridArea: string }>`
       gridArea.startsWith('Tr_') ||
       gridArea.startsWith('Td_')
     )
+      return `1px solid ${styles.colors.hrColor};`;
+    return '';
+  }};
+
+  border-right: ${({ gridArea }) => {
+    if (gridArea.startsWith('Th_'))
       return `1px solid ${styles.colors.hrColor};`;
     return '';
   }};

@@ -26,7 +26,7 @@ export default function AuthComponents({ signedIn }: PropsType) {
   const [isSignInProgress, setSignInProgress] = useState<boolean>(signedIn);
 
   useEffect(() => {
-    if (Object.keys(router.query).length) {
+    if (Object.keys(router.query).length && !signedIn) {
       setSignInProgress(true);
       Axios.post('/auth/google', {
         code: router.query.code,
@@ -47,7 +47,7 @@ export default function AuthComponents({ signedIn }: PropsType) {
           window.history.replaceState({}, document.title, '/auth');
         });
     }
-  }, [router]);
+  }, [router, signedIn]);
 
   // @todo OAuth 기능 구현
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(

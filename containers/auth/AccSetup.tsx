@@ -14,11 +14,15 @@ import styled from 'styled-components';
 import { connectToMetaMask } from 'lib/global/connectMetamask';
 import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
-import { setUserName, setMetamaskWallet } from 'store/modules/accountSlice';
+import {
+  setUserName,
+  setMetamaskWallet,
+  setAgreeTerms,
+  setReferredBy,
+} from 'store/modules/accountSlice';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
 import { DisclaimWrapper } from 'components/main/wiki/edit';
 import styles from 'styles/styleLib';
-import { store } from '../../store/store';
 
 const usernameRules: StringKeyObj<string> = {
   default: 'Username should be more than 2, less than 17 characters',
@@ -92,7 +96,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
           if (status === 200) {
             setUsernameCheckResult('');
           } else if (status === 400) {
-            if (data.userName?.isAvailable)
+            if (data.userName?.isAvailable === false)
               setUsernameCheckResult(usernameRules.DUPLICATE);
             else
               setUsernameCheckResult(
@@ -112,9 +116,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
           if (status === 200) {
             setRefCodeCheckResult('');
           } else if (status === 400) {
-            setRefCodeCheckResult(
-              referralRules[data.validationErrors[0].msg || 'default']
-            );
+            setRefCodeCheckResult(referralRules.REFERRED_USER_NOT_FOUND);
           }
         });
       }
@@ -142,23 +144,29 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
     (e) => {
       e.preventDefault();
       if ((isValidRefCode || refCode === '') && isValidUsername) {
+        const now = new Date(Date.now()).toISOString();
+        const data: any = {
+          userName: username,
+          agreeTos: now,
+          agreePrivacy: now,
+        };
+        if (refCode !== '') data.referredBy = refCode;
         dispatch(
           AuthRequiredAxios({
             method: 'PATCH',
             url: '/user',
-            data: {
-              userName: username,
-              agreeTos: new Date(Date.now()),
-              agreePrivacy: new Date(Date.now()),
-            },
+            data,
           })
         ).then(async (action: any) => {
           if (action.payload.status === 200) {
+            console.log(action.payload);
+            dispatch(setAgreeTerms(now));
+            dispatch(setReferredBy(refCode));
             dispatch(setUserName(username));
             await router.push('/main/wiki/Sigmate');
           } else
             alert(
-              `Error while setting username.\r\nERR: ${action.payload.status}`
+              `Error while creating a user.\r\nERR: ${action.payload.status}-${action.payload.data.validationErrors[0].msg}`
             );
         });
       } else if (!isValidUsername) usernameTextareaRef.current?.focus();

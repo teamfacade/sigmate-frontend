@@ -45,7 +45,6 @@ const Wrapper = styled.div`
 
 const Header = styled.h2`
   margin: 0;
-  padding-bottom: 20px;
   color: ${styles.colors.headerColor};
   font-size: 16px;
   font-weight: bold;
@@ -58,7 +57,7 @@ const FoldBtn = styled.button<{ show: boolean }>`
   right: 20px;
   background-color: transparent;
   border: none;
-  transform: ${({ show }) => (show ? 'rotate(-90deg)' : 'none')};
+  transform: ${({ show }) => (show ? 'rotate(-180deg)' : 'none')};
   transition: all 300ms ease-in-out;
 `;
 
@@ -71,7 +70,7 @@ const OuterWrapper = styled.div`
 `;
 
 const InnerWrapper = styled.div<{ show: boolean }>`
-  padding: 0;
+  padding: ${({ show }) => (show ? '20px 0 0 0' : '0')};
   margin-top: ${({ show }) => (show ? '0' : '-200%')};
   transition: all 300ms ease-in-out;
 `;

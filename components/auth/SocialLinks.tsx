@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import styled from 'styled-components';
 import { SNSBtn } from '.';
 
@@ -6,26 +5,18 @@ export default function SocialLinks() {
   return (
     <Wrapper>
       <LinkWrapper>
-        <Link href="https://twitter.com/OfficialSigmate">
-          <a>
-            <SNSBtn platform="Twitter" />
-          </a>
-        </Link>
-        <Link href="https://t.me/officialsigmate">
-          <a>
-            <SNSBtn platform="Telegram" />
-          </a>
-        </Link>
-        <Link href="https://discord.gg/DaEsBQh3dh">
-          <a>
-            <SNSBtn platform="Discord" />
-          </a>
-        </Link>
-        <Link href="https://medium.com/@sigmateofficial">
-          <a>
-            <SNSBtn platform="Medium" />
-          </a>
-        </Link>
+        <a href="https://twitter.com/OfficialSigmate" target="_blank" rel="noreferrer">
+          <SNSBtn platform="Twitter" />
+        </a>
+        <a href="https://t.me/officialsigmate" target="_blank" rel="noreferrer">
+          <SNSBtn platform="Telegram" />
+        </a>
+        <a href="https://discord.gg/DaEsBQh3dh" target="_blank" rel="noreferrer">
+          <SNSBtn platform="Discord" />
+        </a>
+        <a href="https://medium.com/@sigmateofficial" target="_blank" rel="noreferrer">
+          <SNSBtn platform="Medium" />
+        </a>
       </LinkWrapper>
     </Wrapper>
   );

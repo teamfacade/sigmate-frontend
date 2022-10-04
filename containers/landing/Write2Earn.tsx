@@ -5,12 +5,14 @@ import styles from 'styles/styleLib';
 export default function Write2Earn() {
   return (
     <Wrapper>
-      <Title />
-      <Bold>User based NFT information platform</Bold>
-      <Text>
-        {'Editing articles will reward users with Sigma Points based on the word count and the effort. \n' +
-          'Once users are given credibility with reliable edits, higher rewards will be compensated.'}
-      </Text>
+      <div>
+        <Title />
+        <Bold>User based NFT information platform</Bold>
+        <Text>
+          {'Editing articles will reward users with Sigma Points based on the word count and the effort. \n' +
+            'Once users are given credibility with reliable edits, higher rewards will be compensated.'}
+        </Text>
+      </div>
     </Wrapper>
   );
 }
@@ -19,6 +21,12 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 42px 72px 112px;
   background-color: #ffffff;
+
+  > div {
+    position: relative;
+    max-width: 1280px;
+    margin: auto;
+  }
 `;
 
 const Bold = styled.p`

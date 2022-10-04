@@ -8,20 +8,22 @@ import { CorrelationEx } from 'public/Icons/landingPage';
 export default function CorrelationAlg() {
   return (
     <Wrapper>
-      <Title />
-      <Content>
-        <ImageWrapper width="100%" height="100%">
-          <Image
-            src={CorrelationEx}
-            layout="fill"
-            objectFit="contain"
-            priority
-          />
-        </ImageWrapper>
-        <BlurFilter>
-          <p>Coming soon</p>
-        </BlurFilter>
-      </Content>
+      <div>
+        <Title />
+        <Content>
+          <ImageWrapper width="100%" height="100%">
+            <Image
+              src={CorrelationEx}
+              layout="fill"
+              objectFit="contain"
+              priority
+            />
+          </ImageWrapper>
+          <BlurFilter>
+            <p>Coming soon</p>
+          </BlurFilter>
+        </Content>
+      </div>
     </Wrapper>
   );
 }
@@ -30,6 +32,12 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 42px 72px 112px;
   background-color: #ffffff;
+
+  > div {
+    position: relative;
+    max-width: 1280px;
+    margin: auto;
+  }
 `;
 
 const Content = styled.div`

@@ -7,6 +7,7 @@ import {
   useRef,
   FormEventHandler,
   useMemo,
+  useEffect,
 } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -72,6 +73,16 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
   );
   const usernameTextareaRef = useRef<HTMLTextAreaElement>(null);
   const refCodeTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (refCodeTextareaRef.current) {
+      const result = localStorage.getItem('refCode');
+      if (result) {
+        setRefCode(result);
+        refCodeTextareaRef.current.value = result;
+      }
+    }
+  }, []);
 
   const onChange: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
@@ -170,7 +181,11 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
             );
         });
       } else if (!isValidUsername) usernameTextareaRef.current?.focus();
-      else refCodeTextareaRef.current?.focus();
+      else {
+        refCodeTextareaRef.current?.focus();
+        if (refCodeTextareaRef.current?.value !== '')
+          refCodeTextareaRef.current?.blur();
+      }
     },
     [isValidUsername, isValidRefCode, refCode]
   );

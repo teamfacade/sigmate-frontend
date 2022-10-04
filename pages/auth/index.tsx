@@ -1,4 +1,4 @@
-import { useEffect , useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
@@ -18,8 +18,6 @@ export default function AuthPage() {
     if (router.query.refCode) {
       localStorage.setItem('refCode', router.query.refCode as string);
     }
-
-    return () => localStorage.removeItem('refCode');
   }, [router]);
 
   if (signedIn && userName) {

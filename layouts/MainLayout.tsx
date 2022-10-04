@@ -1,4 +1,4 @@
-import { FormEventHandler, ReactNode } from 'react';
+import { useEffect, FormEventHandler, ReactNode } from 'react';
 import styled from 'styled-components';
 import { SideContent } from 'containers/main/layout';
 import { Search } from 'components/global';
@@ -15,6 +15,8 @@ export default function MainLayout({
   onSearch,
   children,
 }: PropsType) {
+  useEffect(() => localStorage.removeItem('refCode'), []);
+
   return (
     <main>
       <div>

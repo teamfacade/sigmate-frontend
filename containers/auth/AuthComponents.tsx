@@ -26,7 +26,7 @@ export default function AuthComponents({ signedIn }: PropsType) {
   const [isSignInProgress, setSignInProgress] = useState<boolean>(signedIn);
 
   useEffect(() => {
-    if (Object.keys(router.query).length && !signedIn) {
+    if (Object.keys(router.query).length > 1 && !signedIn) {
       setSignInProgress(true);
       Axios.post('/auth/google', {
         code: router.query.code,

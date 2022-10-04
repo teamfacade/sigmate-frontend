@@ -1,8 +1,8 @@
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthComponents, AccSetup, LogoWithLinks } from 'containers/auth';
-import { useMemo } from 'react';
 import { store } from '../../store/store';
 
 export default function AuthPage() {
@@ -13,6 +13,12 @@ export default function AuthPage() {
     [signedIn]
   );
   const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.refCode) {
+      localStorage.setItem('refCode', router.query.refCode as string);
+    }
+  }, [router]);
 
   if (signedIn && userName) {
     router.push('/main/wiki/Sigmate');

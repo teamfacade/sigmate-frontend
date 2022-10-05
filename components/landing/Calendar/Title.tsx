@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { TextHighlight } from 'components/global';
 import { CalendarIcon } from 'public/Icons/landingPage';
 import styles from 'styles/styleLib';
 
@@ -7,8 +8,10 @@ export default function Title() {
     <Wrapper>
       <CalendarIcon />
       <div style={{ zIndex: '0', position: 'relative' }}>
-        <Text>{'  Calendar'}</Text>
-        <Bold>{'   Keep you updated with upcoming drops'}</Bold>
+        <Text>
+          <TextHighlight color="#fffbc9">Calendar</TextHighlight>
+        </Text>
+        <Bold>Keep you updated with upcoming drops</Bold>
       </div>
     </Wrapper>
   );
@@ -33,20 +36,6 @@ const Text = styled.p`
   font-size: 30px;
   font-weight: 700;
   line-height: 150%;
-  white-space: pre;
-
-  ::before {
-    display: block;
-    position: absolute;
-    top: 24px;
-    left: 4px;
-    content: '';
-    width: 164px;
-    height: 20px;
-    border-radius: 20px;
-    background-color: #fffbc9;
-    z-index: -1;
-  }
 `;
 
 const Bold = styled.p`
@@ -55,5 +44,4 @@ const Bold = styled.p`
   font-size: 20px;
   font-weight: 700;
   line-height: 180%;
-  white-space: pre;
 `;

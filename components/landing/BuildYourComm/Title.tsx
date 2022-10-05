@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { TextHighlight } from 'components/global';
 import { HandShake } from 'public/Icons/landingPage';
 import styles from 'styles/styleLib';
 
@@ -6,7 +7,11 @@ export default function Title() {
   return (
     <Wrapper>
       <HandShake />
-      <Text>{'  Build your NFT community and share your insights'}</Text>
+      <Text>
+        <TextHighlight color="#d4fbfb">
+          Build your NFT community and share your insights
+        </TextHighlight>
+      </Text>
     </Wrapper>
   );
 }
@@ -30,18 +35,5 @@ const Text = styled.p`
   font-size: 30px;
   font-weight: 700;
   line-height: 150%;
-  white-space: pre;
   z-index: 0;
-
-  ::before {
-    display: block;
-    position: absolute;
-    bottom: 0;
-    content: '';
-    width: 762px;
-    height: 20px;
-    border-radius: 20px;
-    background-color: #d4fbfb;
-    z-index: -1;
-  }
 `;

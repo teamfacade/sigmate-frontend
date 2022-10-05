@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { TextHighlight } from 'components/global';
 import { Rocket } from 'public/Icons/landingPage';
 import styles from 'styles/styleLib';
 
@@ -6,7 +7,9 @@ export default function Title() {
   return (
     <Wrapper>
       <Rocket />
-      <Text>{'  Road Map'}</Text>
+      <Text>
+        <TextHighlight color="#fffbc9">Road Map</TextHighlight>
+      </Text>
     </Wrapper>
   );
 }
@@ -31,18 +34,5 @@ const Text = styled.p`
   font-size: 30px;
   font-weight: 700;
   line-height: 150%;
-  white-space: pre;
   z-index: 0;
-
-  ::before {
-    display: block;
-    position: absolute;
-    bottom: 0;
-    content: '';
-    width: 170px;
-    height: 20px;
-    border-radius: 20px;
-    background-color: #fffbc9;
-    z-index: -1;
-  }
 `;

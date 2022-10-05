@@ -24,11 +24,6 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 30px;
   background: linear-gradient(#f0f2f5, transparent);
-
-  @media (max-width: 1024px) {
-    display: flex;
-    flex-wrap: wrap;
-  }
 `;
 
 const Logo = styled.p`
@@ -38,13 +33,6 @@ const Logo = styled.p`
   font-weight: 500;
   font-family: 'Claris Sans', sans-serif;
   cursor: pointer;
-
-  @media (max-width: 1024px) {
-    position: relative;
-  }
-  @media (min-width: 1025px) {
-    position: absolute;
-  }
 `;
 
 const Copyright = styled.div`

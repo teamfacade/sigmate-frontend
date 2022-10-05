@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { TextHighlight } from 'components/global';
 import { WritingHand } from 'public/Icons/landingPage';
 import styles from 'styles/styleLib';
 
@@ -6,7 +7,11 @@ export default function Title() {
   return (
     <Wrapper>
       <WritingHand />
-      <Text>{'  Write 2 Earn System'}</Text>
+      <Text>
+        <TextHighlight color="#F7E7FF">
+          {'  Write 2 Earn System'}
+        </TextHighlight>
+      </Text>
     </Wrapper>
   );
 }
@@ -24,24 +29,11 @@ const Wrapper = styled.div`
   }
 `;
 
-const Text = styled.p`
+const Text = styled.span`
   margin: 0;
   color: ${styles.colors.darkTextColor};
   font-size: 30px;
   font-weight: 700;
   line-height: 150%;
-  white-space: pre;
   z-index: 0;
-
-  ::before {
-    display: block;
-    position: absolute;
-    bottom: 0;
-    content: '';
-    width: 332px;
-    height: 20px;
-    border-radius: 20px;
-    background-color: #f7e7ff;
-    z-index: -1;
-  }
 `;

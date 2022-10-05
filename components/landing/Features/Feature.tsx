@@ -76,7 +76,7 @@ export default memo(function Feature({ feature }: PropsType) {
   return (
     <div>
       <ImageWrapper width="100%" height="100%">
-        <Image src={featureContents[feature].img} layout="fill" />
+        <Image src={featureContents[feature].img} layout="fill" priority />
         <TextContent color={featureContents[feature].color}>
           {featureContents[feature].textContent}
         </TextContent>

@@ -7,8 +7,7 @@ type PropsType = {
 
 export default function Heads({ curPath }: PropsType) {
   return (
-    <>
-      <Head>
+    <Head>
         <title>Sigmate</title>
         <meta property="og:url" content={curPath} />
         <meta property="og:title" content="Sigmate" />
@@ -26,7 +25,5 @@ export default function Heads({ curPath }: PropsType) {
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"
         />
       </Head>
-      <Script src="node_modules/clipboard/dist/clipboard.min.js" />
-    </>
   );
 }

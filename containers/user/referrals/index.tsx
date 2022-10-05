@@ -6,6 +6,7 @@ import {
   useState,
   memo,
 } from 'react';
+import { store } from 'store/store';
 import ReferralLogs from 'containers/user/referrals/ReferralLogs';
 import {
   BasicWrapper,
@@ -109,7 +110,11 @@ export default function Referrals() {
   return (
     <BasicWrapper>
       <SectionWrapper header="Referral" marginBottom="20px">
-        <MyReferral refCode="F2810230" />
+        <MyReferral
+          refCode={
+            (store.getState() as ReduxState.RootStateType).account.referralCode
+          }
+        />
         <ReferralLogs refLogs={refLogs} />
         <UtilWrapper>
           <Search white placeholder="Search a user..." onSubmit={onSubmit} />

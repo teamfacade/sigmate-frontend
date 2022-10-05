@@ -28,6 +28,7 @@ export const initialState: ReduxState.AccountStateType = {
   agreePrivacy: null,
   agreeLegal: null,
   referralCode: '',
+  referredBy: '',
   group: {
     // 유저 권한
     id: -1,
@@ -98,6 +99,15 @@ export const accountSlice = createSlice({
       isTwitterHandlePublic: action.payload.twitter,
       isDiscordAccountPublic: action.payload.discord,
     }),
+    setAgreeTerms: (state, action: PayloadAction<string>) => ({
+      ...state,
+      agreeTos: action.payload,
+      agreePrivacy: action.payload,
+    }),
+    setReferredBy: (state, action: PayloadAction<string>) => ({
+      ...state,
+      referredBy: action.payload,
+    }),
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
   extraReducers: {
@@ -118,6 +128,8 @@ export const {
   setDisplayName,
   setBio,
   setSocialPublic,
+  setAgreeTerms,
+  setReferredBy,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

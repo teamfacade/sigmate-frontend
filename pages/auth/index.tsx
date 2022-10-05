@@ -1,15 +1,27 @@
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthComponents, AccSetup, LogoWithLinks } from 'containers/auth';
+import { store } from '../../store/store';
 
 export default function AuthPage() {
   const signedIn = useAppSelector(({ auth }) => auth.signedIn);
-  const { userName, metamaskWallet } = useAppSelector(({ account }) => account);
+  const { userName } = useAppSelector(({ account }) => account);
+  const { metamaskWallet } = useMemo(
+    () => (store.getState() as ReduxState.RootStateType).account,
+    [signedIn]
+  );
   const router = useRouter();
 
+  useEffect(() => {
+    if (router.query.refCode) {
+      localStorage.setItem('refCode', router.query.refCode as string);
+    }
+  }, [router]);
+
   if (signedIn && userName) {
-    router.push('/main');
+    router.push('/main/wiki/Sigmate');
   }
 
   return (
@@ -19,7 +31,7 @@ export default function AuthPage() {
           {signedIn && !userName ? (
             <AccSetup signedWithMetamask={!!metamaskWallet} />
           ) : (
-            <AuthComponents />
+            <AuthComponents signedIn={signedIn} />
           )}
         </LeftWrapper>
         <RightWrapper>

@@ -17,6 +17,7 @@ const Wrapper = styled.div`
 `;
 
 const LeftBorder = styled.div`
+  flex: 0 0 auto;
   width: 10px;
   height: 64px;
   border-radius: 10px;

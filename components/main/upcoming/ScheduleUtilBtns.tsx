@@ -1,5 +1,4 @@
 import { memo, MouseEventHandler, useCallback, useState } from 'react';
-import Link from 'next/link';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
@@ -19,6 +18,7 @@ export default memo(function ScheduleUtilBtns({
   const onClickAddToCalendar: MouseEventHandler<HTMLButtonElement> =
     useCallback(
       (e) => {
+        e.stopPropagation();
         const { mintingId } = e.currentTarget.dataset;
         if (mintingId) {
           AddToCalendar(mintingId, subscribed);
@@ -33,14 +33,14 @@ export default memo(function ScheduleUtilBtns({
       <AddCalenderBtn data-minting-id={id} onClick={onClickAddToCalendar}>
         {subscribed ? 'Subscribed' : 'Add to calender'}
       </AddCalenderBtn>
-      <MintBtn
-        disabled={mintPageUrl === undefined}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Link href={mintPageUrl || '/main'}>
-          <a>Mint</a>
-        </Link>
-      </MintBtn>
+      <a href={mintPageUrl} target="_blank" rel="noreferrer">
+        <MintBtn
+          disabled={mintPageUrl === undefined}
+          onClick={(e) => e.stopPropagation()}
+        >
+          Mint
+        </MintBtn>
+      </a>
     </BtnWrapper>
   );
 });
@@ -76,7 +76,5 @@ const MintBtn = styled.button`
   padding: 7px 38px;
   margin: 0 0 0 10px;
   background-color: ${styles.colors.emphColor};
-  a {
-    color: #ffffff;
-  }
+  color: #ffffff;
 `;

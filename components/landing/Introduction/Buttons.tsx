@@ -13,24 +13,31 @@ export default function Buttons() {
           <p>Launch App</p>
         </div>
       </HandShake>
-      <SocialLinkWrapper btnWidth="56px" btnHeight="56px" marginLeft="8px">
-        <SocialLinkBtn platform="Twitter" />
-        <SocialLinkBtn platform="Telegram" />
-        <SocialLinkBtn platform="Discord" />
-        <SocialLinkBtn platform="Medium" />
-      </SocialLinkWrapper>
+      <SocialLinkDiv>
+        <SocialLinkWrapper btnWidth="56px" btnHeight="56px" marginLeft="8px">
+          <SocialLinkBtn platform="Twitter" />
+          <SocialLinkBtn platform="Telegram" />
+          <SocialLinkBtn platform="Discord" />
+          <SocialLinkBtn platform="Medium" />
+        </SocialLinkWrapper>
+      </SocialLinkDiv>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
+  @media (min-width: 729px) {
+    display: flex;
+    align-items: center;
+  }
+  @media (max-width: 728px) {
+    display: inline-grid;
+  }
 `;
 
 const HandShake = styled.a`
-  padding: 13px 100px;
-  margin: 0 24px 0 0;
+  width: max(250px, min(365px, calc(100vw - 144px)));
+  padding: 13px 0;
   border-radius: 8px;
   border: none;
   background-color: #ffffff;
@@ -38,6 +45,7 @@ const HandShake = styled.a`
 
   div {
     display: flex;
+    justify-content: center;
     align-items: center;
 
     svg {
@@ -51,6 +59,16 @@ const HandShake = styled.a`
       font-size: 20px;
       font-weight: 700;
       line-height: 160%;
+      white-space: pre;
     }
+  }
+`;
+
+const SocialLinkDiv = styled.div`
+  @media (min-width: 729px) {
+    margin: 0 0 0 24px;
+  }
+  @media (max-width: 728px) {
+    margin: 32px 0 0 0;
   }
 `;

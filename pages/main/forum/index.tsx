@@ -7,7 +7,7 @@ import {
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
 import { SearchUtils, Categories } from 'containers/main/forum/main';
-import { PageMoveBtns } from 'components/global';
+import { BasicWrapper, PageMoveBtns } from 'components/global';
 import useSWR, { Fetcher } from 'swr';
 
 const fetcher: Fetcher<Forum.CategoryType[], string> = (url: string) =>
@@ -72,7 +72,13 @@ export default function ForumMain() {
   return (
     <Wrapper>
       <SearchUtils setFilter={setFilter} onSearch={onSearch} />
-      <Categories categories={categories || []} />
+      {categories && categories.length > 0 ? (
+        <Categories categories={categories || []} />
+      ) : (
+        <BasicWrapper>
+          <LargeText>There's no categories yet : (</LargeText>
+        </BasicWrapper>
+      )}
       <PageMoveBtns
         totalPage={(categories?.length || 0) / limit}
         curPage={curPage}
@@ -86,4 +92,14 @@ export default function ForumMain() {
 const Wrapper = styled.div`
   max-width: 1080px;
   margin: auto;
+`;
+
+const LargeText = styled.p`
+  margin: auto;
+  text-align: center;
+  color: #96b8d7;
+  font-family: 'Claris Sans', sans-serif;
+  font-size: 50px;
+  font-weight: 200;
+  line-height: 150%;
 `;

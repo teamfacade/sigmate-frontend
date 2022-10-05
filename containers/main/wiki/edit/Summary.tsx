@@ -1,4 +1,9 @@
-import { memo, ChangeEventHandler, MouseEventHandler } from 'react';
+import {
+  memo,
+  ChangeEventHandler,
+  MouseEventHandler,
+  FormEventHandler,
+} from 'react';
 import styled from 'styled-components';
 import { DisclaimWrapper, Disclaimer } from 'components/main/wiki/edit';
 import BlueBtn from 'components/main/wiki/BlueBtn';
@@ -7,13 +12,13 @@ import styles from 'styles/styleLib';
 type PropsType = {
   summary: string;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
 };
 
 export default memo(function Summary({
   summary,
   onChange,
-  onClick,
+  onSubmit,
 }: PropsType) {
   return (
     <Wrapper>
@@ -23,20 +28,21 @@ export default memo(function Summary({
         value={summary}
         onChange={onChange}
       />
-      <DisclaimWrapper>
-        <input type="checkbox" required />
-        <span>
-          undoubtable source. Lorem Ipsum comes from sections 1.10.32 and
-          1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and
-          Evil) by Cicero, written in 45 BC. This book is a treatise on the
-          theory of ethics, very popular during the Renaissance.
-        </span>
-        <Disclaimer>
-          comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et
-          Malorum"
-        </Disclaimer>
-      </DisclaimWrapper>
-      <BlueBtn onClick={onClick}>Save</BlueBtn>
+      <form onSubmit={onSubmit}>
+        <DisclaimWrapper>
+          <input type="checkbox" required />
+          <span>
+            {'By publishing new article, you agree to the '}
+            <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+              Terms of Use
+            </a>
+            , and you irrevocably agree to release your contribution under the
+            CC BY-SA 3.0 License. You agree that a hyperlink or URL is
+            sufficient attribution under the Creative Commons license.
+          </span>
+        </DisclaimWrapper>
+        <BlueBtn type="submit">Save</BlueBtn>
+      </form>
     </Wrapper>
   );
 });

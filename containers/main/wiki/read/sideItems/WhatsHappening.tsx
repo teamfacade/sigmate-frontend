@@ -65,10 +65,9 @@ export default memo(function WhatsHappening({ title }: PropsType) {
   return (
     <>
       <SideItemWrapper header={"What's happening"}>
-        {ExHappens.slice(0, 3).map((happen, idx) => (
+        {ExHappens.slice(0, 3).map((happen) => (
           <Happened
             key={happen.id}
-            index={idx}
             platform={happen.platform}
             author={happen.author}
             timestamp={happen.timestamp}

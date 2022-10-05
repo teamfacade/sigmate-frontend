@@ -12,7 +12,7 @@ export default memo(function Footer() {
           <ExternalLinks />
         </Wrapper>
         <Copyright>
-          <p>© Copyright 2022 Sigmate. All rights reserved</p>
+          <p>{'© Copyright 2022 Sigmate. \r\nAll rights reserved'}</p>
         </Copyright>
       </div>
     </footer>
@@ -48,19 +48,24 @@ const Logo = styled.p`
 `;
 
 const Copyright = styled.div`
-  float: right;
+  @media (min-width: 729px) {
+    float: right;
+
+    p {
+      white-space: nowrap;
+    }
+  }
+  @media (max-width: 728px) {
+    float: left;
+
+    p {
+      white-space: pre;
+    }
+  }
 
   p {
     margin: 0 20px 20px 0;
     color: ${styles.colors.lightTextColor};
     font-family: 'Inter', sans-serif;
-    white-space: nowrap;
-
-    @media (max-width: 1024px) {
-      font-size: 13px;
-    }
-    @media (min-width: 1025px) {
-      font-size: 16px;
-    }
   }
 `;

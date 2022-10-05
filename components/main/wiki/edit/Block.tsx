@@ -25,12 +25,12 @@ const options: ReactSelect.OptionType[] = [
 
 export default memo(function Block({
   id,
-  isTitle,
+  isTitle = false,
   onClickSelect,
   removeBlock,
   children,
 }: PropsType) {
-  const [showBtn, setShowBtn] = useState(false);
+  const [showBtn, setShowBtn] = useState(isTitle);
   const [showSelect, setShowSelect] = useState(false);
 
   const onMouseEnter: MouseEventHandler<HTMLDivElement> = useCallback(

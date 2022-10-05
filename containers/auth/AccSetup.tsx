@@ -5,6 +5,9 @@ import {
   useCallback,
   useState,
   useRef,
+  FormEventHandler,
+  useMemo,
+  useEffect,
 } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -12,8 +15,14 @@ import styled from 'styled-components';
 import { connectToMetaMask } from 'lib/global/connectMetamask';
 import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
-import { setUserName, setMetamaskWallet } from 'store/modules/accountSlice';
+import {
+  setUserName,
+  setMetamaskWallet,
+  setAgreeTerms,
+  setReferredBy,
+} from 'store/modules/accountSlice';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
+import { DisclaimWrapper } from 'components/main/wiki/edit';
 import styles from 'styles/styleLib';
 
 const usernameRules: StringKeyObj<string> = {
@@ -29,6 +38,7 @@ const usernameRules: StringKeyObj<string> = {
     'Username cannot start nor end with a special character',
   ERR_USERNAME_ILLEGAL_WORDS: "You can't contain some words in username",
   ERR_USERNAME_IS_URL: 'Username cannot be a URL',
+  DUPLICATE: 'This name is already being used by someone else.',
 };
 
 const referralRules: StringKeyObj<string> = {
@@ -64,6 +74,16 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
   const usernameTextareaRef = useRef<HTMLTextAreaElement>(null);
   const refCodeTextareaRef = useRef<HTMLTextAreaElement>(null);
 
+  useEffect(() => {
+    if (refCodeTextareaRef.current) {
+      const result = localStorage.getItem('refCode');
+      if (result) {
+        setRefCode(result);
+        refCodeTextareaRef.current.value = result;
+      }
+    }
+  }, []);
+
   const onChange: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => {
       if (e.currentTarget.name === 'Username')
@@ -87,9 +107,12 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
           if (status === 200) {
             setUsernameCheckResult('');
           } else if (status === 400) {
-            setUsernameCheckResult(
-              usernameRules[data.validationErrors[0].msg || 'default']
-            );
+            if (data.userName?.isAvailable === false)
+              setUsernameCheckResult(usernameRules.DUPLICATE);
+            else
+              setUsernameCheckResult(
+                usernameRules[data.validationErrors[0].msg || 'default']
+              );
           }
         });
       } else if (refCode !== '') {
@@ -99,15 +122,12 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
             url: `/user/check?referralCode=${refCode}`,
           })
         ).then((action: any) => {
-          console.log(action);
           const { status, data } = action.payload;
           setIsValidRefCode(status === 200);
           if (status === 200) {
             setRefCodeCheckResult('');
           } else if (status === 400) {
-            setRefCodeCheckResult(
-              referralRules[data.validationErrors[0].msg || 'default']
-            );
+            setRefCodeCheckResult(referralRules.REFERRED_USER_NOT_FOUND);
           }
         });
       }
@@ -117,30 +137,55 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     async (e) => {
-      if (e.currentTarget.name === 'Metamask') {
+      const { name } = e.currentTarget;
+      if (name === 'Metamask') {
         // eslint-disable-next-line no-alert
         connectToMetaMask(dispatch).then((action) => {
           if (action.payload.status === 200)
             dispatch(setMetamaskWallet(action.payload.data.metamaskWallet));
         });
-      } else if ((isValidRefCode || refCode === '') && isValidUsername) {
+      } else if (name === 'Google') {
+        alert('Coming soon...');
+      }
+    },
+    []
+  );
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+      if ((isValidRefCode || refCode === '') && isValidUsername) {
+        const now = new Date(Date.now()).toISOString();
+        const data: any = {
+          userName: username,
+          agreeTos: now,
+          agreePrivacy: now,
+        };
+        if (refCode !== '') data.referredBy = refCode;
         dispatch(
           AuthRequiredAxios({
             method: 'PATCH',
             url: '/user',
-            data: { userName: username },
+            data,
           })
         ).then(async (action: any) => {
           if (action.payload.status === 200) {
+            console.log(action.payload);
+            dispatch(setAgreeTerms(now));
+            dispatch(setReferredBy(refCode));
             dispatch(setUserName(username));
-            await router.push('/main');
+            await router.push('/main/wiki/Sigmate');
           } else
             alert(
-              `Error while setting username.\r\nERR: ${action.payload.status}`
+              `Error while creating a user.\r\nERR: ${action.payload.status}-${action.payload.data.validationErrors[0].msg}`
             );
         });
       } else if (!isValidUsername) usernameTextareaRef.current?.focus();
-      else refCodeTextareaRef.current?.focus();
+      else {
+        refCodeTextareaRef.current?.focus();
+        if (refCodeTextareaRef.current?.value !== '')
+          refCodeTextareaRef.current?.blur();
+      }
     },
     [isValidUsername, isValidRefCode, refCode]
   );
@@ -165,23 +210,45 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
         ref={refCodeTextareaRef}
       />
       <Divider direction="row" separate={false} />
-      <Name>Connect Wallet</Name>
+      <Name>{`Connect ${signedWithMetamask ? 'Google' : 'Wallet'}`}</Name>
       <OAuthBtn
         service={signedWithMetamask ? 'Google' : 'Metamask'}
-        disabled={signedWithMetamask ? !!googleAccount : !!metamaskWallet}
+        done={signedWithMetamask ? !!googleAccount : !!metamaskWallet}
         onClick={onClick}
         width="470px"
         height="61px"
       />
-      <WalletDescription>
-        Connect to receive rewards based on your activity.{' '}
-        <Link href="https://naver.com">
-          <a>Learn more</a>
-        </Link>
-      </WalletDescription>
-      <SignUp name="SignUp" onClick={onClick}>
-        Sign Up
-      </SignUp>
+      {!signedWithMetamask && (
+        <WalletDescription>
+          Connect to receive rewards based on your activity.{' '}
+          <Link href="https://naver.com">
+            <a>Learn more</a>
+          </Link>
+        </WalletDescription>
+      )}
+      <form onSubmit={onSubmit} style={{ paddingTop: '16px' }}>
+        <DisclaimWrapper>
+          <input type="checkbox" required />
+          <span>
+            {'I am 18 years of age or older and agree to the '}
+            <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+              Sigmate terms of service.
+            </a>
+          </span>
+        </DisclaimWrapper>
+        <DisclaimWrapper>
+          <input type="checkbox" required />
+          <span>
+            {'I agree to the '}
+            <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+              Sigmate Privacy Policy.
+            </a>
+          </span>
+        </DisclaimWrapper>
+        <SignUp name="SignUp" type="submit">
+          Sign Up
+        </SignUp>
+      </form>
     </Wrapper>
   );
 }

@@ -3,7 +3,7 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   username: string;
-  displayName: string;
+  displayName: string | null;
   level: number;
 };
 

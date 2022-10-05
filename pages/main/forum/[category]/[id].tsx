@@ -15,7 +15,7 @@ import { getForumArticleData } from 'lib/main/forum/getForumDatas';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { ArticleContent, Comments } from 'containers/main/forum/article';
-import { Modal, PageMoveBtns } from 'components/global';
+import { BasicWrapper, Modal, PageMoveBtns } from 'components/global';
 import styles from 'styles/styleLib';
 
 const limit = 10;
@@ -58,7 +58,7 @@ export default function Article({
         'textarea'
       ) as HTMLTextAreaElement;
       const { articleId, commentId, isEditMode } = dataset;
-      if (isEditMode) {
+      if (isEditMode === 'true') {
         dispatch(
           AuthRequiredAxios({
             method: 'PATCH',
@@ -174,13 +174,19 @@ export default function Article({
     [comments]
   );
 
-  if (forumPost === null) return <div>There's no article : (</div>;
+  if (forumPost === null)
+    return (
+      <BasicWrapper>
+        <LargeText>There's no article : (</LargeText>
+      </BasicWrapper>
+    );
   return (
     <>
       <Wrapper>
         <ArticleContent
           category={category}
           post={forumPost as Forum.PostType}
+          commentCount={comments?.length || 0}
           onClickDelete={onClickDelete}
           onSubmitComment={onSubmitComment}
           onClickReport={onClickReport}
@@ -194,13 +200,17 @@ export default function Article({
           onClickReport={onClickReport}
           onSubmitComment={onSubmitComment}
         >
-          {comments && (
+          {comments ? (
             <PageMoveBtns
               totalPage={comments.length / 10}
               curPage={curPage}
               onClickPageMoveBtn={onClickPageMoveBtn}
               onClickPageNumBtn={onClickPageNumBtn}
             />
+          ) : (
+            <BasicWrapper>
+              <LargeText>No comments yet :(</LargeText>
+            </BasicWrapper>
           )}
         </Comments>
       </Wrapper>
@@ -241,4 +251,14 @@ const Wrapper = styled.div`
   width: 100%;
   border-radius: 8px;
   box-shadow: ${styles.shadows.containerShadow};
+`;
+
+const LargeText = styled.p`
+  margin: auto;
+  text-align: center;
+  color: #96b8d7;
+  font-family: 'Claris Sans', sans-serif;
+  font-size: 50px;
+  font-weight: 200;
+  line-height: 150%;
 `;

@@ -36,7 +36,10 @@ export default memo(function MyReferral({ refCode }: PropsType) {
   return (
     <Wrapper>
       <MyCode>{`My Code: ${refCode}`}</MyCode>
-      <CopyBtn ref={ref} data-clipboard-text={refCode}>
+      <CopyBtn
+        ref={ref}
+        data-clipboard-text={`https://www.sigmate.io/auth?refCode=${refCode}`}
+      >
         <p>{copied ? 'Copied!' : 'Copy My Referral'}</p>
       </CopyBtn>
     </Wrapper>

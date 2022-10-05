@@ -15,6 +15,7 @@ export default function UserLayout({ children }: PropsType) {
   useEffect(() => {
     syncWithUrl();
     window.addEventListener('popstate', syncWithUrl);
+    localStorage.removeItem('refCode');
 
     return () => window.removeEventListener('popstate', syncWithUrl);
   }, []);

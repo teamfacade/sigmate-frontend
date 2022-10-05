@@ -2,10 +2,10 @@ import {
   useState,
   useCallback,
   ChangeEventHandler,
-  MouseEventHandler,
+  FormEventHandler,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import { getArticleEditData, KeyInfoIndex } from 'lib/main/wiki/getWikiData';
+import { getArticleEditData } from 'lib/main/wiki/getWikiData';
 import { WikiEdit, Summary } from 'containers/main/wiki/edit';
 
 export default function WikiEditPage({
@@ -17,9 +17,9 @@ export default function WikiEditPage({
   const [blocks, setBlocks] = useState<Wiki.DocumentBlockType[]>(
     document.blocks || []
   );
-  const [keyInfos, setKeyInfos] = useState<
-    Wiki.DocumentBlockType[] | undefined
-  >(document.keyInfos || undefined);
+  const [keyInfos, setKeyInfos] = useState<Wiki.KeyInfoType | undefined>(
+    document.keyInfo
+  );
   const [summary, setSummary] = useState('');
 
   const onChangeTypes: ReactSelect.MultiSelectChangeEventHandler = useCallback(
@@ -31,41 +31,40 @@ export default function WikiEditPage({
     []
   );
 
-  const onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
-    (e) => {
-      const { name, value } = e.currentTarget;
-      setKeyInfos((current) => {
-        if (current) {
-          return current.map((block, idx) => {
-            if (idx === KeyInfoIndex[name]) {
-              return {
-                ...block,
-                textContent: value,
-              };
-            } return block;
-          });
-        } return current;
-      });
-    },
-    []
-  );
+  const onChangeKeyInfos: ChangeEventHandler<
+    HTMLTextAreaElement | HTMLSelectElement
+  > = useCallback((e) => {
+    const { name, value } = e.currentTarget;
+    setKeyInfos((current) => {
+      if (current) {
+        const newKeyInfo = current;
+        newKeyInfo[name.toLowerCase()].textConent = value;
+        return newKeyInfo;
+      }
+      return current;
+    });
+  }, []);
 
   const onSummaryChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => setSummary(e.target.value),
     []
   );
 
-  const onSave: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    const newDocument = {
-      ...document,
-      types: selectedOption.map((selected) => selected.value),
-      blocks,
-    };
+  const onSave: FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+      const newDocument = {
+        ...document,
+        types: selectedOption.map((selected) => selected.value),
+        blocks,
+      };
 
-    alert('Save edits');
-    // eslint-disable-next-line no-console
-    console.log(newDocument);
-  }, [selectedOption, blocks]);
+      alert('Save edits');
+      // eslint-disable-next-line no-console
+      console.log(newDocument);
+    },
+    [selectedOption, blocks]
+  );
 
   return (
     <>
@@ -78,7 +77,7 @@ export default function WikiEditPage({
         keyInfos={keyInfos}
         onChangeKeyInfos={onChangeKeyInfos}
       />
-      <Summary summary={summary} onChange={onSummaryChange} onClick={onSave} />
+      <Summary summary={summary} onChange={onSummaryChange} onSubmit={onSave} />
     </>
   );
 }

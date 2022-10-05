@@ -3,7 +3,7 @@ import styles from 'styles/styleLib';
 
 const DisclaimWrapper = styled.div`
   width: 100%;
-  margin-top: 29px;
+  margin-top: 24px;
 
   input {
     margin: 0 8px 0 0;
@@ -16,6 +16,10 @@ const DisclaimWrapper = styled.div`
     font-size: 14px;
     line-height: 140%;
     text-align: left;
+  }
+
+  & + & {
+    margin-top: 4px;
   }
 `;
 

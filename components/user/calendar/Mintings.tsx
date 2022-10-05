@@ -9,7 +9,7 @@ type PropsType = {
 };
 
 export default function Mintings({ mintings, onClickMintItem }: PropsType) {
-  if (mintings.length) {
+  if (mintings && mintings.length) {
     return (
       <Grid>
         {mintings.map((minting) => {

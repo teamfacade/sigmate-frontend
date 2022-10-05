@@ -27,6 +27,10 @@ const Wrapper = styled.div`
   box-shadow: ${styles.shadows.blueShadow};
   overflow: hidden;
 
+  @media (max-width: 728px) {
+    flex-wrap: wrap;
+  }
+
   & + & {
     margin-top: 22px;
   }
@@ -41,7 +45,12 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  flex: 0 1 468px;
+  @media (min-width: 729px) {
+    flex: 0 1 468px;
+  }
+  @media (max-width: 728px) {
+    flex: 0 0 100%;
+  }
   background-color: ${styles.colors.lightThumbsUpColor};
   text-align: center;
 
@@ -54,7 +63,12 @@ const Title = styled.div`
 `;
 
 const Description = styled.div`
-  flex: 1.76 1.76 832px;
+  @media (min-width: 729px) {
+    flex: 1.76 1.76 832px;
+  }
+  @media (max-width: 728px) {
+    flex: 0 0 100%;
+  }
   text-align: start;
 
   p {

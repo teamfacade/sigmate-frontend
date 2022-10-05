@@ -1,6 +1,14 @@
-import { MouseEventHandler, useCallback, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
+import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
+import Axios from 'lib/global/axiosInstance';
 import {
   BasicWrapper,
   SectionWrapper,
@@ -9,59 +17,76 @@ import {
   PageMoveBtns,
   Modal,
 } from 'components/global';
-import { LogHead, LogItem, CreateCategory } from 'components/admin/forum';
+import {
+  LogHead,
+  LogItem,
+  CreateCategory,
+  EditForumCategories,
+} from 'components/admin/forum';
 import { BlueBtnStyle } from 'styles/styleLib';
 
-export const categories = [
-  'Game',
-  'Metaverse',
-  'Collectibles',
-  'Sports',
-  'Utility',
-  'Art',
-  'Photography',
-  'Defi',
-  'Music',
-  'Domain names',
-  'DAO',
-  'Meme',
-];
+let total = 0;
+const limit = 10;
 
-const ExForumArticle: Admin.ForumArticleDataType = {
-  id: 1,
-  title: 'Sigmate fighting!!',
-  category: 'Game',
-  author: 'WKSEO',
-  tags: ['hello', 'tired', 'so', 'annoying'],
-  comments: 42,
-  date: new Date(Date.now()).toISOString(),
+const categoriesFetcher: Fetcher<Forum.CategoryType[], string> = async (
+  url: string
+) => {
+  try {
+    const { status, data } = await Axios.get(url);
+    if (status === 200) {
+      return data.categories;
+    }
+    return [];
+  } catch (e) {
+    alert(`Error while fetching categories: ERR ${e}`);
+    return [];
+  }
 };
-const ExForumArticles = [
-  ExForumArticle,
-  { ...ExForumArticle, id: 2 },
-  { ...ExForumArticle, id: 3 },
-  { ...ExForumArticle, id: 4 },
-  { ...ExForumArticle, id: 5 },
-  { ...ExForumArticle, id: 6 },
-  { ...ExForumArticle, id: 7 },
-  { ...ExForumArticle, id: 8 },
-  { ...ExForumArticle, id: 9 },
-  { ...ExForumArticle, id: 0 },
-];
-const total = 4242;
+
+const postsFetcher: Fetcher<Forum.PostType[], string> = async (url: string) => {
+  try {
+    const { status, data } = await Axios.get(url);
+    if (status === 200) {
+      total = data.forumPosts.length;
+      return data.forumPosts;
+    }
+    return [];
+  } catch (e) {
+    alert(`Error while fetching posts: ERR ${e}`);
+    return [];
+  }
+};
 
 export default function ForumManagement() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<string | null>(null);
+  const [queryCategory, setQueryCategory] = useState<string | null>(null);
   const [curPage, setCurPage] = useState(1);
   const ModalRef = useRef<HTMLDivElement>(null);
 
+  const { data: categories, mutate } = useSWR('/forum/c', categoriesFetcher);
+  const { data: posts } = useSWR(
+    queryCategory
+      ? `forum/c/${queryCategory}/p?limit=${limit}&page=${curPage}`
+      : null,
+    queryCategory ? postsFetcher : null
+  );
+
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
-    () => setShowModal(true),
+    (e) => setShowModal(e.currentTarget.name),
     []
   );
 
-  const onMouseDown: MouseEventHandler<HTMLDivElement> = useCallback(
-    () => setShowModal(false),
+  const onMouseDown: MouseEventHandler<HTMLDivElement> =
+    useCallback(async () => {
+      await mutate();
+      setShowModal(null);
+    }, [mutate]);
+
+  const onSelectCategory: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => {
+      const { value } = e.currentTarget;
+      setQueryCategory(value);
+    },
     []
   );
 
@@ -115,56 +140,65 @@ export default function ForumManagement() {
           <SectionWrapper header="Forum articles">
             <div>
               <span>Category</span>
-              <select name="category">
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+              <select name="category" onChange={onSelectCategory}>
+                {categories?.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
                   </option>
                 ))}
               </select>
             </div>
             <span>Tags</span>
             <Search />
-            <CreateNewBtn name="new" onClick={onClick}>
-              Add new
-            </CreateNewBtn>
+            <ManageBtnsWrapper>
+              <ManageBtn name="Create" onClick={onClick}>
+                Add new
+              </ManageBtn>
+              <ManageBtn name="Edit" onClick={onClick}>
+                Edit Categories
+              </ManageBtn>
+            </ManageBtnsWrapper>
           </SectionWrapper>
         </BasicWrapper>
         <BasicWrapper>
           <SectionWrapper header="Search result">
             <LogTable gap="3vw">
               <LogHead />
-              {ExForumArticles.map((article) => (
+              {posts?.map((article) => (
                 <LogItem
                   key={article.id}
                   id={article.id}
                   title={article.title}
-                  category={article.category}
-                  author={article.author}
-                  tags={article.tags}
-                  date={article.date}
-                  comments={article.comments}
+                  category={queryCategory as string}
+                  author={article.createdBy.userName as string}
+                  tags={article.tags?.map((tag) => tag.name) || []}
+                  date={article.createdAt as string}
+                  comments={article.commentCount || 0}
                 />
               ))}
             </LogTable>
             <PageMoveBtns
               onClickPageNumBtn={onClickPageNumBtn}
               onClickPageMoveBtn={onClickPageMoveBtn}
-              totalPage={total}
+              totalPage={Math.floor(total / limit) + 1}
               curPage={curPage}
             />
           </SectionWrapper>
         </BasicWrapper>
       </Wrapper>
       <CSSTransition
-        in={showModal}
+        in={showModal !== null}
         timeout={300}
         classNames="show-modal"
         unmountOnExit
         nodeRef={ModalRef}
       >
         <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          <CreateCategory />
+          {showModal === 'Create' ? (
+            <CreateCategory />
+          ) : (
+            <EditForumCategories />
+          )}
         </Modal>
       </CSSTransition>
     </>
@@ -181,9 +215,17 @@ const Wrapper = styled.div`
   }
 `;
 
-const CreateNewBtn = styled.button`
-  ${BlueBtnStyle};
+const ManageBtnsWrapper = styled.div`
   position: absolute;
   top: -10px;
   right: 0;
+  display: flex;
+`;
+
+const ManageBtn = styled.button`
+  ${BlueBtnStyle};
+
+  & + & {
+    margin-left: 8px;
+  }
 `;

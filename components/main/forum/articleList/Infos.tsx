@@ -6,6 +6,7 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   author: string;
+  username: string;
   tags: any[];
   timestamp: string;
   children?: ReactNode;
@@ -14,6 +15,7 @@ type PropsType = {
 
 export default memo(function Infos({
   author,
+  username,
   tags,
   timestamp,
   children,
@@ -21,7 +23,7 @@ export default memo(function Infos({
 }: PropsType) {
   return (
     <Wrapper>
-      <Link href={`/main/profile/${author}`} passHref>
+      <Link href={`/main/profile/${username}`} passHref>
         <Author>{author}</Author>
       </Link>
       <TextWrapper isAuthor={isAuthor}>
@@ -54,12 +56,17 @@ const Author = styled.a`
   font-size: 16px;
   font-weight: 700;
   line-height: 160%;
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const TextWrapper = styled.div<{ isAuthor: boolean }>`
-  width: calc(100% - 440px);
+  flex: 1 1 calc(100% - 440px);
   margin-right: 16px;
-  overflow: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-overflow-ellipsis: ${styles.colors.forumSubTextColor};
 
   p {
     display: inline;
@@ -68,10 +75,10 @@ const TextWrapper = styled.div<{ isAuthor: boolean }>`
 `;
 
 const Text = styled.p`
-  width: fit-content;
   margin-right: 4px;
   color: ${styles.colors.forumSubTextColor};
   font-size: 15px;
   font-weight: 500;
   line-height: 140%;
+  white-space: pre;
 `;

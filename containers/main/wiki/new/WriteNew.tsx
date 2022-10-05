@@ -18,7 +18,7 @@ type PropsType = {
   onChangeTypes?: ReactSelect.MultiSelectChangeEventHandler;
   blocks: Wiki.DocumentBlockType[];
   setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
-  keyInfo: Wiki.DocumentBlockType[];
+  keyInfo: Wiki.KeyInfoType;
   onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
@@ -28,6 +28,11 @@ const createNewBlock: (element: string) => Wiki.DocumentBlockType = (
   id: Date.now(),
   element,
   textContent: '',
+  verificationCounts: {
+    verifyCount: 0,
+    beAwareCount: 0,
+  },
+  opinionCount: 0,
 });
 
 export default memo(function WriteNew({
@@ -108,7 +113,7 @@ export default memo(function WriteNew({
 });
 
 const ContentWrapper = styled.div`
-  height: 870px;
+  height: 1280px;
   padding: 39px 49px 39px 60px;
   border: 1px solid ${styles.colors.darkBorderColor};
   border-radius: 8px;

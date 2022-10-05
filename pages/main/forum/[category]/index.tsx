@@ -2,18 +2,21 @@ import { MouseEventHandler, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { getAuthorName } from 'lib/main/forum/getForumDatas';
-import { Search, PageMoveBtns } from 'components/global';
+import { Search, PageMoveBtns, BasicWrapper } from 'components/global';
 import { ArticleThumbnail } from 'containers/main/forum/articleList';
 import { PostBtn } from 'components/main/forum/articleList';
 import useSWR, { Fetcher } from 'swr';
 import Axios from 'lib/global/axiosInstance';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
 
-const total = 42;
+let total = 42;
 const limit = 10;
 
 const fetcher: Fetcher<Forum.PostType[], string> = (url: string) =>
-  Axios.get(url).then((res) => res.data.forumPosts);
+  Axios.get(url).then((res) => {
+    total = res.data.forumPosts.length;
+    return res.data.forumPosts;
+  });
 
 export default function ArticleLists() {
   const router = useRouter();
@@ -72,20 +75,27 @@ export default function ArticleLists() {
           <PostBtn onClickNew={onClickNew} />
         )}
       </UtilWrapper>
-      {articles?.map((article) => (
-        <ArticleThumbnail
-          key={article.id}
-          id={article.id}
-          category={router.query.category as string}
-          votes={{ voteCount: article.voteCount || 0 }}
-          author={getAuthorName(article.createdBy)}
-          tags={article.tags?.map((tag) => tag.name) || []}
-          timestamp={article.createdAt as string}
-          title={article.title}
-          content={article.content}
-          imageURL={(article.imageUrls && article.imageUrls[0]) || ''}
-        />
-      ))}
+      {articles ? (
+        articles.map((article) => (
+          <ArticleThumbnail
+            key={article.id}
+            id={article.id}
+            category={router.query.category as string}
+            votes={{ voteCount: article.voteCount || 0 }}
+            author={getAuthorName(article.createdBy)}
+            username={article.createdBy.userName as string}
+            tags={article.tags?.map((tag) => tag.name) || []}
+            timestamp={article.createdAt as string}
+            title={article.title}
+            content={article.content}
+            imageURL={(article.imageUrls && article.imageUrls[0]) || ''}
+          />
+        ))
+      ) : (
+        <BasicWrapper>
+          <LargeText>There's no article : (</LargeText>
+        </BasicWrapper>
+      )}
       <PageMoveBtns
         totalPage={Math.floor(total / limit) + 1}
         curPage={curPage}
@@ -100,4 +110,14 @@ const UtilWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+`;
+
+const LargeText = styled.p`
+  margin: auto;
+  text-align: center;
+  color: #96b8d7;
+  font-family: 'Claris Sans', sans-serif;
+  font-size: 50px;
+  font-weight: 200;
+  line-height: 150%;
 `;

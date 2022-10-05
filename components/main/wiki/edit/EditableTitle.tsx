@@ -26,7 +26,7 @@ export default memo(function Heading({
   setTitle,
 }: PropsType) {
   const [value, setValue] = useState(title);
-  const [showTextarea, setShowTextarea] = useState(false);
+  const [showTextarea, setShowTextarea] = useState(true);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     e.preventDefault();

@@ -21,8 +21,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const router = useRouter();
 
-  console.log(router.pathname);
-
   const onSearch: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       e.preventDefault();
@@ -37,7 +35,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   if (router.pathname.startsWith('/auth')) {
     return (
       <>
-        <Heads />
+        <Heads curPath={router.pathname} />
         {getLayout(<Component {...pageProps} />)}
       </>
     );
@@ -45,7 +43,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   if (router.pathname.startsWith('/main')) {
     return (
       <>
-        <Heads />
+        <Heads curPath={router.pathname} />
         <Navbar />
         <MainLayout
           needsWrapper={
@@ -66,7 +64,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   if (router.pathname.startsWith('/user')) {
     return (
       <>
-        <Heads />
+        <Heads curPath={router.pathname} />
         <Navbar />
         <UserLayout>{getLayout(<Component {...pageProps} />)}</UserLayout>
         <Footer />
@@ -76,7 +74,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   if (router.pathname.startsWith('/admin')) {
     return (
       <>
-        <Heads />
+        <Heads curPath={router.pathname} />
         <Navbar />
         <AdminLayout>{getLayout(<Component {...pageProps} />)}</AdminLayout>
         <Footer />
@@ -85,7 +83,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   }
   return (
     <>
-      <Heads />
+      <Heads curPath={router.pathname} />
       {getLayout(<Component {...pageProps} />)}
       <Footer />
     </>

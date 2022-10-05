@@ -21,10 +21,9 @@ const getPublicAddress = async () => {
     });
     if (accounts && accounts[0]) {
       return accounts[0];
-    } 
-      // Failed to retrieve user's account from MetaMask
-      return handleMetaMaskLoginFail();
-    
+    }
+    // Failed to retrieve user's account from MetaMask
+    return handleMetaMaskLoginFail();
   } catch (e) {
     const error = e as any;
     if (error.code === 4001) {
@@ -112,7 +111,8 @@ const tryConnection = async (
   ).then((action: any) => {
     if (action.payload.status === 200) {
       return action;
-    } if (action.payload.status === 409) {
+    }
+    if (action.payload.status === 409) {
       if (action.payload.data.msg === 'ERR_METAMASK_ALREADY_MY_ADDRESS')
         alert('You already connected a wallet.');
       else if (action.payload.data.msg === 'ERR_METAMASK_ALREADY_EXISTS')
@@ -130,17 +130,23 @@ const tryConnection = async (
 };
 
 const connectToMetaMask = async (dispatch: AppDispatch) => {
-  return getPublicAddress()
-    .then(async (publicAddresss) => {
-      const nonce = await getNonce(dispatch, publicAddresss);
-      const signedMsg = await getSignedMsg(
-        dispatch,
-        publicAddresss,
-        nonce as number
-      );
-      return tryConnection(dispatch, publicAddresss, signedMsg);
-    })
-    .catch(async (e) => e);
+  if (window?.ethereum?.isMetaMask) {
+    return getPublicAddress()
+      .then(async (publicAddresss) => {
+        const nonce = await getNonce(dispatch, publicAddresss);
+        const signedMsg = await getSignedMsg(
+          dispatch,
+          publicAddresss,
+          nonce as number
+        );
+        return tryConnection(dispatch, publicAddresss, signedMsg);
+      })
+      .catch(async (e) => e);
+  }
+  // MetaMask is not installed on user's browser.
+  // Redirect to metamask install page
+  window.open('https://metamask.io/download/');
+  return handleMetaMaskLoginFail();
 };
 
 export { connectToMetaMask };

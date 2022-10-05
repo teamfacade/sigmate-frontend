@@ -1,25 +1,29 @@
 import Link from 'next/link';
-import { memo } from 'react';
+import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
 import styles from 'styles/styleLib';
 
-export default memo(function Links() {
+type PropsType = {
+  onClickShowMenu: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
+};
+
+export default memo(function Links({ onClickShowMenu }: PropsType) {
   return (
     <LinksWrapper>
       <li>
         <Link href="/main/recent-edits">
-          <a>Recent Edits</a>
+          <a onClick={onClickShowMenu}>Recent Edits</a>
         </Link>
       </li>
       <li>
         <Link href="/main/upcoming">
-          <a>Upcoming</a>
+          <a onClick={onClickShowMenu}>Upcoming</a>
         </Link>
       </li>
       <li>
         <Link href="/main/forum">
-          <a>Forum</a>
+          <a onClick={onClickShowMenu}>Forum</a>
         </Link>
       </li>
     </LinksWrapper>

@@ -74,6 +74,8 @@ const PriceWrapper = styled.div`
   align-items: center;
 
   svg {
+    position: relative;
+    top: 2px;
     margin-left: 8px;
   }
 `;

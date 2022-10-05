@@ -1,9 +1,11 @@
-import { useState, useCallback, MouseEventHandler } from 'react';
+import { useState, useCallback, useEffect, MouseEventHandler } from 'react';
 import { Guidelines, Categorize, NewArticle } from 'containers/main/wiki/new';
 
 export default function MakeNewArticle() {
   const [phase, setPhase] = useState(1);
   const [topic, setTopic] = useState('Others');
+
+  useEffect(() => window.scrollTo(0, 0), [phase]);
 
   const onClickNext: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setPhase((curPhase) => curPhase + 1),

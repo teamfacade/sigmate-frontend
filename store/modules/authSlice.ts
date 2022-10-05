@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import Axios, { RenewAccessToken } from 'lib/global/axiosInstance';
 import { useTokenAuth } from 'hooks/reduxStoreHooks';
+import { deleteState } from './localStorage';
 import { setAccountState, clearAccountState } from './accountSlice';
 import { AppDispatch } from '../store';
 
@@ -18,6 +19,7 @@ export const signIn = createAsyncThunk<
 export const signOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
   'auth/signOut',
   async (state, ThunkAPI) => {
+    deleteState();
     ThunkAPI.dispatch(clearAccountState());
   }
 );
@@ -52,36 +54,41 @@ export const AuthRequiredAxios = createAsyncThunk<
     };
   } catch (e: any) {
     if (e.response.status === 401) {
-      RenewAccessToken(ThunkAPI.getState().auth.refreshToken, config)
-        .then(async (res) => {
-          const { result, accessToken, refreshToken } = res;
+      try {
+        const { result, accessToken, refreshToken } = await RenewAccessToken(
+          ThunkAPI.getState().auth.refreshToken,
+          config
+        );
 
-          if (result === 'SignOutNeeded') {
-            alert('Session was expired. You need to sign in again.');
-            ThunkAPI.dispatch(signOut());
-          } else if (result === 'Success' && accessToken) {
-            if (refreshToken)
-              await ThunkAPI.dispatch(
-                setAuthTokens({ accessToken, refreshToken })
-              );
-            else await ThunkAPI.dispatch(setAccessToken({ accessToken }));
-            ThunkAPI.dispatch(AuthRequiredAxios({ method, url, data })).then(
-              (resp: any) => ({
-                status: resp.status,
-                data: resp.data,
-              })
+        if (result === 'SignOutNeeded') {
+          alert('Session was expired. You need to sign in again.');
+          ThunkAPI.dispatch(signOut());
+          return {
+            status: 200,
+            data: e.response.data,
+          };
+        }
+        if (result === 'Success' && accessToken) {
+          if (refreshToken)
+            await ThunkAPI.dispatch(
+              setAuthTokens({ accessToken, refreshToken })
             );
-          }
-        })
-        .catch(() => {
-          alert('ERROR while renewing token');
-        });
-    } else if (e.response.status === 400) {
-      // msg like ERR_USERNAME_CHANGE_INTERVAL
-      return {
-        status: e.response.status,
-        data: e.response.data,
-      };
+          else await ThunkAPI.dispatch(setAccessToken({ accessToken }));
+          const action: any = await ThunkAPI.dispatch(
+            AuthRequiredAxios({ method, url, data })
+          );
+          return {
+            status: action.payload.status,
+            data: action.payload.data,
+          };
+        }
+      } catch (err: any) {
+        alert(`Error while renewing access token. ERR: ${err.status}`);
+        return {
+          status: err.status,
+          data: e.data,
+        };
+      }
     }
     return {
       status: e.response.status,

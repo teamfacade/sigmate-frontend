@@ -50,8 +50,12 @@ export default memo(function Schedule({
   const [timeDiff, setTimeDiff] = useState<string>('');
 
   useEffect(() => {
-    intervalId = setInterval(() => setTimeDiff(getTimeDiff(mintingTime)), 1000);
-
+    const diff = getTimeDiff(mintingTime);
+    if (diff !== '0h 0m 0s')
+      intervalId = setInterval(
+        () => setTimeDiff(getTimeDiff(mintingTime)),
+        1000
+      );
     return () => clearInterval(intervalId);
   }, [mintingTime, intervalId]);
   return (
@@ -107,12 +111,9 @@ const TimeLeft = styled.div`
   color: rgba(255, 255, 255, 0.5);
   border-radius: 4px;
   backdrop-filter: blur(4px);
+  z-index: 1;
 
   p {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     margin: 0;
     color: #595959;
     font-size: 12px;

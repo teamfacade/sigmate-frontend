@@ -9,19 +9,24 @@ import { OAuthBtn } from 'components/auth';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import Web3 from 'web3';
 
-// const API_DOMAIN = 'http://api.sigmate.io:5100';
-const API_DOMAIN = `http://${
-  process.env.NODE_ENV === 'production' ? 'api.sigmate.io' : 'localhost'
-}:5100`;
+const API_DOMAIN = `${
+  process.env.NODE_ENV === 'production'
+    ? 'https://api.sigmate.io'
+    : 'http://localhost:5100'
+}`;
 const BASE_URL = `${API_DOMAIN}/api/v1`;
 
-export default function AuthComponents() {
+type PropsType = {
+  signedIn: boolean;
+};
+
+export default function AuthComponents({ signedIn }: PropsType) {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [isSignInProgress, setSignInProgress] = useState<boolean>(false);
+  const [isSignInProgress, setSignInProgress] = useState<boolean>(signedIn);
 
   useEffect(() => {
-    if (Object.keys(router.query).length) {
+    if (Object.keys(router.query).length > 1 && !signedIn) {
       setSignInProgress(true);
       Axios.post('/auth/google', {
         code: router.query.code,
@@ -42,7 +47,7 @@ export default function AuthComponents() {
           window.history.replaceState({}, document.title, '/auth');
         });
     }
-  }, [router]);
+  }, [router, signedIn]);
 
   // @todo OAuth 기능 구현
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -84,7 +89,6 @@ export default function AuthComponents() {
           })
         )
       );
-      setSignInProgress(false);
       return true;
     },
     []

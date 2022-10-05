@@ -8,10 +8,18 @@ type PropsType = {
   content: string;
   inputHeight?: string;
   description: string;
+  isValid?: boolean;
 };
 
 export default forwardRef<HTMLTextAreaElement, PropsType>(function InfoItem(
-  { edit, header, content, inputHeight = '40px', description }: PropsType,
+  {
+    edit,
+    header,
+    content,
+    inputHeight = '40px',
+    description,
+    isValid = true,
+  }: PropsType,
   ref
 ) {
   return (
@@ -28,7 +36,9 @@ export default forwardRef<HTMLTextAreaElement, PropsType>(function InfoItem(
       ) : (
         <Content inputHeight={inputHeight}>{content}</Content>
       )}
-      <Description>{description}</Description>
+      {description && (
+        <Description isValid={isValid}>{description}</Description>
+      )}
     </Wrapper>
   );
 });
@@ -84,10 +94,10 @@ const Content = styled.span<{ inputHeight: string }>`
   font-weight: 300;
 `;
 
-const Description = memo(styled.p`
+const Description = memo(styled.p<{ isValid?: boolean }>`
   margin: 12px 0 0 0;
   padding-left: 10px;
-  color: ${styles.colors.logoColor};
+  color: ${({ isValid }) => (isValid ? styles.colors.logColor : `#E54646`)};
   font-size: 14px;
   white-space: pre-wrap;
 `);

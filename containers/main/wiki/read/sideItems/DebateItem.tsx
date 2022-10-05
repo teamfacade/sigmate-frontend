@@ -30,7 +30,7 @@ export default memo(function DebateItem({
           <Link href={`/main/profile/${author}`} passHref>
             <Author>{author}</Author>
           </Link>
-          <TimeDiff index={-1} timestamp={timestamp} />
+          <TimeDiff platform="" timestamp={timestamp} />
         </InfoInnerWrapper>
       </InfoWrapper>
       <EllipsisText height="63px" content={content} />

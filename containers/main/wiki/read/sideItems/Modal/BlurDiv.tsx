@@ -2,10 +2,16 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import styles, { BlueBtnStyle } from 'styles/styleLib';
 
-export default function BlurDiv() {
+type PropsType = {
+  signedIn: boolean;
+};
+
+export default function BlurDiv({ signedIn }: PropsType) {
   return (
     <Background>
-      <Text>Create a Sigmate Account to continue</Text>
+      <Text>{`${
+        signedIn ? 'Complete sign in process ' : 'Create a Sigmate Account '
+      }to continue`}</Text>
       <Link href="/auth" passHref>
         <a>
           <SignUpBtn>Sign up</SignUpBtn>

@@ -46,10 +46,11 @@ declare global {
       cookiesAnalytics: boolean;
       cookiesFunctional: boolean;
       cookiesTargeting: boolean;
-      agreeTos: Date | null; // 동의한 날짜
-      agreePrivacy: Date | null;
-      agreeLegal: Date | null;
+      agreeTos: string | null; // 동의한 날짜
+      agreePrivacy: string | null;
+      agreeLegal: string | null;
       referralCode: string;
+      referredBy: string;
       group: {
         // 유저 권한
         id: number;
@@ -117,6 +118,11 @@ declare global {
     ) => void;
   }
 
+  type CollectionCategoryType = {
+    id: number;
+    name: string;
+  };
+
   type EditType = {
     name: string;
     editor: string;
@@ -147,7 +153,9 @@ declare global {
 
   namespace Minting {
     type CollectionType = {
+      id?: number;
       name?: string;
+      category?: string;
       twitterHandle?: string;
       discordUrl?: string;
       websiteUrl?: string;
@@ -172,6 +180,30 @@ declare global {
   }
 
   namespace Wiki {
+    type KeyInfoType = {
+      [index: string];
+      name: {
+        id: number;
+        textContent: string;
+      };
+      thumbnail: {
+        id: number;
+        textContent: string;
+      };
+      team: DocumentBlockType;
+      rugpool: DocumentBlockType;
+      category: DocumentBlockType;
+      utility: DocumentBlockType;
+      mintingPriceWl: DocumentBlockType;
+      mintingPricePublic: DocumentBlockType;
+      floorPrice: DocumentBlockType;
+      discordUrl: DocumentBlockType;
+      twitterHandle: DocumentBlockType;
+      websiteUrl: DocumentBlockType;
+      paymentTokens: DocumentBlockType;
+      marketplace: DocumentBlockType;
+    };
+
     type ModalDataType = {
       documentID: number;
       isKeyInfo: boolean;
@@ -184,6 +216,24 @@ declare global {
       verify: number;
       warning: number;
       timestamp: string;
+    };
+
+    type VerificationCountType = {
+      verifyCount: number;
+      beAwareCount: number;
+    };
+
+    type MyVerificationType = {
+      id: number;
+      verificationType: {
+        id: number;
+        name: string; // verify, be aware, ...
+        isUpvote: boolean | null;
+      };
+      verificationOpinion?: {
+        id: number;
+        createdAt: Date;
+      };
     };
 
     type OpinionType = {
@@ -207,9 +257,17 @@ declare global {
     type DocumentBlockType = {
       id: number;
       opinions?: OpinionType[];
+      document?: {
+        id: number;
+        title: string;
+      };
       element: string;
       textContent: string;
-      verifications?: Wiki.BlockVerificationType;
+      verificationCounts: VerificationCountType;
+      opinionCount: number;
+      myVerification?: MyVerificationType;
+      // temporary data
+      verifications?: BlockVerificationType;
     };
 
     type DocumentType = {
@@ -217,6 +275,7 @@ declare global {
       title: string;
       blocks?: Wiki.DocumentBlockType[];
       keyInfos?: Wiki.DocumentBlockType[];
+      keyInfo?: Wiki.KeyInfoType;
       types?: string[];
       createdBy: Forum.AuthorType;
     };
@@ -291,6 +350,7 @@ declare global {
       votes?: Forum.VoteType;
       voteCount?: number;
       comments?: Forum.CommentType[];
+      commentCount?: number;
       tags?: any[];
       imageUrls?: string[];
       createdAt?: string;

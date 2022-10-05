@@ -20,15 +20,15 @@ type PropsType = {
   onChangeTypes?: ReactSelect.MultiSelectChangeEventHandler;
   blocks: Wiki.DocumentBlockType[];
   setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
-  keyInfos?: Wiki.DocumentBlockType[];
-  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement>;
+  keyInfos?: Wiki.KeyInfoType;
+  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement>;
 };
 
 const createNewBlock: (element: string) => Wiki.DocumentBlockType = (
   element: string
 ) => ({
   ...InitialDocumentBlock,
-  id: Date.now(),
+  id: -1 * Date.now(),
   element,
 });
 
@@ -44,7 +44,7 @@ export default memo(function WikiEdit({
 }: PropsType) {
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
-      console.log(`create new${  tag}`);
+      console.log(`create new${tag}`);
       setBlocks((curState) => {
         const clickedIdx = curState.findIndex((block) => block.id === id);
         return curState

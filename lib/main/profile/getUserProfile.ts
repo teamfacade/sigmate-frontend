@@ -30,7 +30,6 @@ export async function getProfileData(username: string) {
     const res = await Axios.get(`/profile/u/${username}`, {
       params: { userName: username },
     });
-
     profile = { user: res.data.user, profile: res.data.profile };
 
     return {

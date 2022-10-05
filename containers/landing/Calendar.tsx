@@ -42,5 +42,4 @@ const Text = styled.p`
   font-size: 20px;
   font-weight: 400;
   line-height: 180%;
-  white-space: pre-wrap;
 `;

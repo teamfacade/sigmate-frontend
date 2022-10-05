@@ -26,6 +26,10 @@ const Wrapper = styled.div`
   border-radius: 20px;
   overflow: hidden;
 
+  @media (max-width: 728px) {
+    flex-wrap: wrap;
+  }
+
   & + & {
     margin-top: 24px;
   }
@@ -40,9 +44,15 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  flex: 0 1 280px;
+  @media (min-width: 729px) {
+    flex: 0 1 280px;
+    border-right: 3px solid #e9eaec;
+  }
+  @media (max-width: 728px) {
+    flex: 0 0 100%;
+    border-bottom: 3px solid #e9eaec;
+  }
   background-color: ${styles.colors.lightThumbsUpColor};
-  border-right: 3px solid #e9eaec;
   text-align: center;
 
   p {
@@ -54,7 +64,12 @@ const Title = styled.div`
 `;
 
 const Description = styled.div`
-  flex: 3.64 3.64 1020px;
+  @media (min-width: 729px) {
+    flex: 3.64 3.64 1020px;
+  }
+  @media (max-width: 728px) {
+    flex: 0 0 100%;
+  }
   text-align: start;
 
   p {

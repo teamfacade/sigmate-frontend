@@ -24,6 +24,7 @@ const Wrapper = styled.div`
   bottom: 28px;
   border-radius: 125px;
   box-shadow: ${styles.shadows.modalShadow};
+  z-index: 5;
 `;
 
 const Btn = styled.button`

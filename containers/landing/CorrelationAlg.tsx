@@ -68,7 +68,7 @@ const BlurFilter = styled.div`
     text-align: center;
     color: #96b8d7;
     font-family: 'Claris Sans', sans-serif;
-    font-size: 50px;
+    font-size: 5vw;
     font-weight: 200;
     line-height: 150%;
   }

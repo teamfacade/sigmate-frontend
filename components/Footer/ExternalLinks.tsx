@@ -37,20 +37,22 @@ export default memo(function ExternalLinks() {
 });
 
 const Wrapper = styled.div`
-  display: flex;
-  margin: auto;
+  @media (min-width: 729px) {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+
+    ul:not(:first-child) {
+      margin-left: 40px;
+    }
+  }
+  @media (max-width: 728px) {
+    display: inline-grid;
+  }
 
   ul {
     padding-left: 0;
     white-space: nowrap;
-
-    :not(:first-child) {
-      margin-left: 40px;
-    }
-
-    :last-child {
-      margin-right: 40px;
-    }
 
     li:first-child {
       margin-bottom: 8px;

@@ -26,7 +26,7 @@ export default function Calendar() {
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 42px 72px 85px;
+  padding: 42px min(72px, calc((100% - 300px) / 2)) 85px;
   background-color: ${styles.colors.emptyColor};
 
   > div {

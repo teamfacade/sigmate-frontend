@@ -1,6 +1,8 @@
+import Image from 'next/image';
 import { useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import { Up } from 'public/Icons/landingPage';
+import { ImageWrapper } from 'components/global';
+import { UpIcon } from 'public/Icons/landingPage';
 import styles from 'styles/styleLib';
 
 export default function GoUpBtn() {
@@ -12,7 +14,9 @@ export default function GoUpBtn() {
   return (
     <Wrapper>
       <Btn onClick={onClick}>
-        <Up />
+        <ImageWrapper width="60%" height="fit-content">
+          <Image src={UpIcon} layout="responsive" />
+        </ImageWrapper>
       </Btn>
     </Wrapper>
   );
@@ -29,15 +33,15 @@ const Wrapper = styled.div`
 
 const Btn = styled.button`
   position: relative;
-  width: 115px;
-  height: 115px;
+  width: min(115px, 20vw);
+  height: min(115px, 20vw);
   padding: 0;
   border: none;
   border-radius: 125px;
   background-color: #ffffff;
   box-shadow: 0 30px 120px 0 rgba(58, 65, 72, 0.4);
 
-  svg {
+  > div {
     position: absolute;
     top: 50%;
     left: 50%;

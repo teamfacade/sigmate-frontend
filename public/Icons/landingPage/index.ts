@@ -19,3 +19,4 @@ export { default as CorrelationEx } from './CorrelationEx.png';
 export { default as Rocket } from './Rocket.svg';
 export { default as Roadmap } from './Roadmap.png';
 export { default as Up } from './Up.svg';
+export { default as UpIcon } from './UpIcon.png';

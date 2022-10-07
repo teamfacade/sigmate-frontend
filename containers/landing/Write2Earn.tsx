@@ -19,7 +19,7 @@ export default function Write2Earn() {
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 42px 72px 112px;
+  padding: 42px min(72px, calc((100% - 300px) / 2)) 112px;
   background-color: #ffffff;
 
   > div {

@@ -16,8 +16,8 @@ export default function Introduction() {
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 88px min(72px, calc((100% - 250px) / 2)) 80px
-    min(72px, calc((100% - 250px) / 2));
+  padding: 88px min(72px, calc((100% - 300px) / 2)) 80px
+    min(72px, calc((100% - 300px) / 2));
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   border-bottom: 15px solid #09b0e6;

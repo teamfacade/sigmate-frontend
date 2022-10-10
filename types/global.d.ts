@@ -180,6 +180,17 @@ declare global {
   }
 
   namespace Wiki {
+    type SearchResultType = {
+      id: number;
+      title: string;
+      collection: {
+        id: number;
+        slug: string;
+        name: string;
+      };
+      textContent: string;
+    };
+
     type KeyInfoType = {
       [index: string];
       name: {

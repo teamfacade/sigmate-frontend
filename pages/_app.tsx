@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
       const title = (e.target as HTMLFormElement).bar.value;
       (e.target as HTMLFormElement).bar.value = '';
-      router.push(`/main/wiki/${title}`);
+      router.push(`/main/wiki/search?title=${title}`);
     },
     [router]
   );

@@ -15,6 +15,23 @@ export const KeyInfoIndex: StringKeyObj<number> = {
   Marketplace: 13,
 };
 
+export const KeyInfoTitles: string[] = [
+  'Name',
+  'Thumbnail',
+  'Team',
+  'History',
+  'Category',
+  'Utility',
+  'Whitelist',
+  'Public',
+  'Current',
+  'Discord',
+  'Twitter',
+  'Official website',
+  'Chain',
+  'Marketplace',
+];
+
 const ExProfile: UserProfileAttributes = {
   id: 1,
   displayName: 'Berry',

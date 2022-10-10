@@ -16,7 +16,7 @@ type PropsType = {
   id: number;
   setShowModal: Dispatch<SetStateAction<Wiki.ModalDataType>>;
   verifications?: Wiki.BlockVerificationType;
-  padding?: boolean;
+  isKeyInfo?: boolean;
   children: ReactNode;
 };
 
@@ -24,7 +24,7 @@ export default memo(function VerdictBlock({
   id,
   setShowModal,
   verifications,
-  padding = true,
+  isKeyInfo = false,
   children,
 }: PropsType) {
   const [showBtn, setShowBtn] = useState(false);
@@ -108,7 +108,7 @@ export default memo(function VerdictBlock({
           setShowBtn(false);
           setShowModal((current) => ({
             ...current,
-            isKeyInfo: !padding,
+            isKeyInfo,
             blockID: id,
           }));
           break;
@@ -131,7 +131,7 @@ export default memo(function VerdictBlock({
     <Wrapper
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      padding={padding}
+      isKeyInfo={isKeyInfo}
       percentage={Number.parseInt(percentage, 10)}
     >
       {children}
@@ -163,9 +163,13 @@ export default memo(function VerdictBlock({
   );
 });
 
-const Wrapper = styled.div<{ padding: boolean; percentage: number }>`
+const Wrapper = styled.div<{ isKeyInfo: boolean; percentage: number }>`
   position: relative;
-  padding: ${({ padding }) => (padding ? '20px' : '0')};
+  ${({ isKeyInfo }) => {
+    if (isKeyInfo)
+      return `width: 100%; height: 100%; display: flex; align-items: center;`;
+    return `padding: 20px;`;
+  }};
   border-left: 4px solid
     ${({ percentage }) => {
       if (percentage > 50)

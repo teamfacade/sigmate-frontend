@@ -19,21 +19,24 @@ type PropsType = {
   blocks: Wiki.DocumentBlockType[];
   setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
   keyInfo: Wiki.KeyInfoType;
-  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
 const createNewBlock: (element: string) => Wiki.DocumentBlockType = (
   element: string
-) => ({
-  id: Date.now(),
-  element,
-  textContent: '',
-  verificationCounts: {
-    verifyCount: 0,
-    beAwareCount: 0,
-  },
-  opinionCount: 0,
-});
+) => {
+  const newBlock = {
+    id: Date.now(),
+    element,
+    textContent: '',
+    verificationCounts: {
+      verifyCount: 0,
+      beAwareCount: 0,
+    },
+    opinionCount: 0,
+  };
+  newBlock.id *= -1;
+  return newBlock;
+};
 
 export default memo(function WriteNew({
   topic,
@@ -43,8 +46,8 @@ export default memo(function WriteNew({
   blocks,
   setBlocks,
   keyInfo,
-  onChangeKeyInfos,
 }: PropsType) {
+  // @todo 언젠가 children 구조가 생기면 setBlocks 로직을 parent id 존재 유무에 따라 바꾸기
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
       setBlocks((curState) => {
@@ -54,7 +57,7 @@ export default memo(function WriteNew({
           .concat(createNewBlock(tag), curState.slice(clickedIdx + 1));
       });
     },
-    []
+    [createNewBlock]
   );
 
   const removeBlock: (id: number) => void = useCallback((id) => {
@@ -73,6 +76,7 @@ export default memo(function WriteNew({
     []
   );
 
+  console.log(blocks);
   return (
     <div>
       <ContentWrapper>
@@ -88,10 +92,7 @@ export default memo(function WriteNew({
                 onChangeTypes as ReactSelect.MultiSelectChangeEventHandler
               }
             />
-            <EditKeyInfo
-              keyInfos={keyInfo}
-              onChangeKeyInfos={onChangeKeyInfos}
-            />
+            <EditKeyInfo keyInfos={keyInfo} />
           </>
         )}
         {blocks.map((block) => {

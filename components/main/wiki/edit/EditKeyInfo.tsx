@@ -1,4 +1,10 @@
-import { ChangeEventHandler, memo } from 'react';
+import {
+  ChangeEventHandler,
+  memo,
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
 import Image from 'next/image';
 import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
@@ -8,9 +14,17 @@ import { ImageWrapper } from 'components/global';
 import styles from 'styles/styleLib';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
+type EditableKeyInfosType = {
+  [index: string]: string;
+  team: string;
+  history: string;
+  category: string;
+  utility: string;
+  marketPlace: string;
+};
+
 type PropsType = {
   keyInfos: Wiki.KeyInfoType;
-  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement>;
 };
 
 const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
@@ -26,67 +40,114 @@ const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
   return [];
 };
 
-export default memo(function EditKeyInfo({
-  keyInfos,
-  onChangeKeyInfos,
-}: PropsType) {
+export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
   const { data: categories } = useSWR(
     `/wiki/collection/category`,
     categoriesFetcher
   );
 
-  const TdBlocks = Object.values(keyInfos).map((keyInfo, i) => {
-    if (i === 1) {
-      return (
-        <TableItem gridArea={gridAreas[i]}>
-          <ImageWrapper width="100%" height="100%">
-            <Image
-              src={keyInfo.textContent || UserImageEx}
-              alt="thumbnail image"
-              layout="fill"
+  const [editableKeyInfos, setEditableKeyInfos] =
+    useState<EditableKeyInfosType>({
+      team: keyInfos.team.textContent,
+      history: keyInfos.rugpool.textContent,
+      category: keyInfos.category.textContent,
+      utility: keyInfos.utility.textContent,
+      marketPlace: keyInfos.marketplace.textContent,
+    });
+
+  const onChange: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement> =
+    useCallback((e) => {
+      const { name, value } = e.currentTarget;
+      switch (name) {
+        case 'Team':
+          setEditableKeyInfos((current) => ({
+            ...current,
+            team: value,
+          }));
+          break;
+        case 'Rugpool':
+          setEditableKeyInfos((current) => ({
+            ...current,
+            history: value,
+          }));
+          break;
+        case 'Category':
+          setEditableKeyInfos((current) => ({
+            ...current,
+            category: value,
+          }));
+          break;
+        case 'Utility':
+          setEditableKeyInfos((current) => ({
+            ...current,
+            utility: value,
+          }));
+          break;
+        case 'Marketplace':
+          setEditableKeyInfos((current) => ({
+            ...current,
+            marketPlace: value,
+          }));
+          break;
+        default:
+          break;
+      }
+    }, []);
+
+  const TdBlocks = useMemo(() => {
+    return Object.values(keyInfos).map((keyInfo, i) => {
+      if (i === 1) {
+        return (
+          <TableItem gridArea={gridAreas[i]}>
+            <ImageWrapper width="100%" height="100%">
+              <Image
+                src={keyInfo.textContent || UserImageEx}
+                alt="thumbnail image"
+                layout="fill"
+              />
+            </ImageWrapper>
+          </TableItem>
+        );
+      }
+      if (
+        i === KeyInfoIndex.Team ||
+        i === KeyInfoIndex.Rugpool ||
+        i === KeyInfoIndex.Utility ||
+        i === KeyInfoIndex.Marketplace
+      ) {
+        const name: string = gridAreas[i].split('_')[1];
+        return (
+          <TableItem gridArea={gridAreas[i]}>
+            <textarea
+              name={name}
+              rows={1}
+              placeholder={`Type about ${name}`}
+              value={editableKeyInfos[name]}
+              onChange={onChange}
             />
-          </ImageWrapper>
-        </TableItem>
-      );
-    }
-    if (
-      i === KeyInfoIndex.Team ||
-      i === KeyInfoIndex.Rugpool ||
-      i === KeyInfoIndex.Utility ||
-      i === KeyInfoIndex.Marketplace
-    ) {
-      const name: string = gridAreas[i].split('_')[1];
+          </TableItem>
+        );
+      }
+      if (i === KeyInfoIndex.Category) {
+        return (
+          <TableItem gridArea={gridAreas[i]}>
+            <select name="Category" onChange={onChange}>
+              {categories?.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </TableItem>
+        );
+      }
       return (
         <TableItem gridArea={gridAreas[i]}>
-          <textarea
-            name={name}
-            rows={1}
-            placeholder={`Type about ${name}`}
-            value={keyInfo.textContent}
-            onChange={onChangeKeyInfos}
-          />
+          <p>{keyInfo.textContent}</p>
         </TableItem>
       );
-    }
-    if (i === KeyInfoIndex.Category) {
-      return (
-        <TableItem gridArea={gridAreas[i]}>
-          <select name="Category" onChange={onChangeKeyInfos}>
-            {categories?.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </TableItem>
-      );
-    }
-    return (
-      <TableItem gridArea={gridAreas[i]}>
-        <p>{keyInfo.textContent}</p>
-      </TableItem>
-    );
-  });
+    });
+  }, []);
 
   return (
     <>

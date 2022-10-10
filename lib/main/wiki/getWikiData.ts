@@ -176,7 +176,7 @@ export const InitialKeyInfos: Wiki.KeyInfoType = {
   marketplace: {
     ...ExBlock,
     id: KeyInfoIndex.Marketplace,
-    textContent: '',
+    textContent: 'opensea',
   },
 };
 

@@ -138,7 +138,8 @@ export default function NewArticle({ topic }: PropsType) {
         alert('A wiki document should have a title.');
         (elements.namedItem('Title') as HTMLButtonElement).focus();
         return;
-      } if (blocks.length === 0) {
+      }
+      if (blocks.length === 0) {
         alert('A wiki document must have contents.');
         return;
       }
@@ -163,7 +164,7 @@ export default function NewArticle({ topic }: PropsType) {
       ).then(async (action: any) => {
         if (action.payload.status === 200) {
           alert('Created new article!');
-          await router.push(`/main/wiki/${title}?id=${id}`);
+          await router.push(`/main/wiki/${id}`);
         } else
           alert(
             `Error while creating new article. ERR: ${action.payload.status}`

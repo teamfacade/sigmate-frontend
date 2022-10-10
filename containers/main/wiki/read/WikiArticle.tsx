@@ -39,7 +39,7 @@ export default function WikiArticle({ document }: PropsType) {
       })),
     []
   );
-
+  console.log(document);
   return (
     <Wrapper>
       <Title title={document.title} />
@@ -47,18 +47,19 @@ export default function WikiArticle({ document }: PropsType) {
       {document.keyInfo && (
         <ReadKeyInfo setShowModal={setShowModal} keyInfo={document.keyInfo} />
       )}
-      {document.blocks?.map((block) => {
-        return (
-          <ReadBlock
-            key={block.id}
-            id={block.id}
-            element={block.element}
-            content={block.textContent}
-            setShowModal={setShowModal}
-            verifications={block.verifications}
-          />
-        );
-      })}
+      {document.blocks &&
+        Object.values(document.blocks).map((block) => {
+          return (
+            <ReadBlock
+              key={block.id}
+              id={block.id}
+              element={block.element}
+              content={block.textContent}
+              setShowModal={setShowModal}
+              verifications={block.verifications}
+            />
+          );
+        })}
       <EditBtn onClick={onClickEdit}>Edit</EditBtn>
       <CSSTransition
         in={showModal.blockID !== -1}

@@ -56,8 +56,8 @@ const FlexWrapper = styled.div`
   }
 
   button {
-    width: 255px;
-    height: 41px;
+    width: 200px;
+    height: 40px;
     margin: 0;
     border: none;
     border-radius: 8px;

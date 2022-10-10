@@ -1,3 +1,6 @@
+import Axios from 'lib/global/axiosInstance';
+import { AxiosError } from 'axios';
+
 export const KeyInfoIndex: StringKeyObj<number> = {
   Name: 0,
   Thumbnail: 1,
@@ -224,20 +227,32 @@ export function getAllArticleTitles() {
   return titles.map((title) => {
     return {
       params: {
-        title,
+        id: title,
       },
     };
   });
 }
 
-export function getArticleReadData(title: string) {
-  // @todo blocks, 검증 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
-  const document: Wiki.DocumentType | null =
-    title === 'empty' ? null : { ...ExDocument, title };
-
-  return {
-    document,
-  };
+export async function getArticleReadData(id: string) {
+  try {
+    const res = await Axios.get(`/wiki/d/${id}`);
+    if (res.status === 200) {
+      const { data } = res.data;
+      const document: Wiki.DocumentType = {
+        id: Number.parseInt(id, 10),
+        title: data.title,
+        blocks: data.blocks,
+        keyInfos: data.collection.blocks,
+        createdBy: data.createdBy,
+      };
+      return document;
+    } return null;
+  } catch (e: any) {
+    console.log(
+      `Error while fetching wiki document. ERR: ${(e as AxiosError).status}`
+    );
+    return null;
+  }
 }
 
 export function getArticleEditData(title: string) {

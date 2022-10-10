@@ -76,7 +76,6 @@ export default memo(function WriteNew({
     []
   );
 
-  console.log(blocks);
   return (
     <div>
       <ContentWrapper>

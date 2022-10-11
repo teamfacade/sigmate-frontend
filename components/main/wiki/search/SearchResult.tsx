@@ -50,7 +50,7 @@ const FlexWrapper = styled.div`
   }
 
   p {
-    margin: 0;
+    margin: 0 16px 0 0;
     color: ${styles.colors.logColor};
     font-size: 18px;
   }

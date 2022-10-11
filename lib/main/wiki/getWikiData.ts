@@ -266,7 +266,7 @@ const InitialKeyInfos: Wiki.KeyInfoType = {
 
 export function getAllArticleTitles() {
   // @todo const titles = fetch....
-  const titles = ['Sigmate', 'empty'];
+  const titles = ['hush', 'empty'];
 
   return titles.map((title) => {
     return {

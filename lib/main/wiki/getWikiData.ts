@@ -47,6 +47,7 @@ const ExBlock: Wiki.DocumentBlockType = {
     verifyCount: 0,
     beAwareCount: 0,
   },
+  myVerification: null,
   opinionCount: 0,
 };
 
@@ -134,6 +135,7 @@ const SigmateDocument: Wiki.DocumentType = {
         verifyCount: 0,
         beAwareCount: 0,
       },
+      myVerification: null,
       opinionCount: 0,
     },
     2: {
@@ -145,6 +147,7 @@ const SigmateDocument: Wiki.DocumentType = {
         verifyCount: 0,
         beAwareCount: 0,
       },
+      myVerification: null,
       opinionCount: 0,
     },
     3: {
@@ -156,6 +159,7 @@ const SigmateDocument: Wiki.DocumentType = {
         verifyCount: 0,
         beAwareCount: 0,
       },
+      myVerification: null,
       opinionCount: 0,
     },
     4: {
@@ -166,6 +170,7 @@ const SigmateDocument: Wiki.DocumentType = {
         verifyCount: 0,
         beAwareCount: 0,
       },
+      myVerification: null,
       opinionCount: 0,
     },
     5: {
@@ -177,6 +182,7 @@ const SigmateDocument: Wiki.DocumentType = {
         verifyCount: 0,
         beAwareCount: 0,
       },
+      myVerification: null,
       opinionCount: 0,
     },
   },

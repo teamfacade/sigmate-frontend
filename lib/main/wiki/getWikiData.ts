@@ -5,7 +5,7 @@ export const KeyInfoIndex: StringKeyObj<number> = {
   Name: 0,
   Thumbnail: 1,
   Team: 2,
-  Rugpool: 3,
+  History: 3,
   Category: 4,
   Utility: 5,
   WLPrice: 6,
@@ -126,9 +126,9 @@ export const InitialKeyInfos: Wiki.KeyInfoType = {
     id: KeyInfoIndex.Team,
     textContent: '',
   },
-  rugpool: {
+  history: {
     ...ExBlock,
-    id: KeyInfoIndex.Rugpool,
+    id: KeyInfoIndex.History,
     textContent: '',
   },
   category: {
@@ -238,15 +238,51 @@ export async function getArticleReadData(id: string) {
     const res = await Axios.get(`/wiki/d/${id}`);
     if (res.status === 200) {
       const { data } = res.data;
+      const {
+        team,
+        history,
+        category,
+        utility,
+        mintingPriceWl,
+        mintingPricePublic,
+        floorPrice,
+        discordUrl,
+        twitterHandle,
+        websiteUrl,
+        paymentTokens,
+        marketplace,
+      } = data.collection.blocks;
       const document: Wiki.DocumentType = {
         id: Number.parseInt(id, 10),
         title: data.title,
         blocks: data.blocks,
-        keyInfos: data.collection.blocks,
+        keyInfo: {
+          name: {
+            id: data.collection.id,
+            textContent: data.collection.name,
+          },
+          thumbnail: {
+            id: data.collection.id,
+            textContent: data.collection.imageUrl,
+          },
+          team,
+          history,
+          category,
+          utility,
+          mintingPriceWl,
+          mintingPricePublic,
+          floorPrice,
+          discordUrl,
+          twitterHandle,
+          websiteUrl,
+          paymentTokens,
+          marketplace,
+        },
         createdBy: data.createdBy,
       };
       return document;
-    } return null;
+    }
+    return null;
   } catch (e: any) {
     console.log(
       `Error while fetching wiki document. ERR: ${(e as AxiosError).status}`

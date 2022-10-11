@@ -20,12 +20,15 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
           <p>{_keyInfo.textContent}</p>
         </Name>
       );
-    } if (i === KeyInfoIndex.Thumbnail) {
+    }
+    if (i === KeyInfoIndex.Thumbnail) {
       return (
         <ImageWrapper width="100%" height="fit-content" key={KeyInfoTitles[i]}>
           <Image
             src={_keyInfo.textContent || UserImageEx}
             alt="thumbnail image"
+            width="100%"
+            height="100%"
             layout="responsive"
           />
         </ImageWrapper>
@@ -38,7 +41,9 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
         </Th>
         <VerdictBlock
           id={_keyInfo.id}
-          verifications={_keyInfo.verifications}
+          verificationCounts={_keyInfo.verificationCounts}
+          opinionCount={_keyInfo.opinionCount}
+          myVerification={_keyInfo.myVerification}
           setShowModal={
             setShowModal as Dispatch<SetStateAction<Wiki.ModalDataType>>
           }
@@ -96,6 +101,9 @@ const Name = styled.div`
   background-color: ${styles.colors.globalBackgroundColor};
 
   p {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 17px;
     font-weight: 700;
     text-align: center;

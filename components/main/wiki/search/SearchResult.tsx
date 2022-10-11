@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 
 const FlexWrapper = styled.div`
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
 
   @media (max-width: 728px) {

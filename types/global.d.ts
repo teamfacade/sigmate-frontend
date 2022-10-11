@@ -202,7 +202,7 @@ declare global {
         textContent: string;
       };
       team: DocumentBlockType;
-      rugpool: DocumentBlockType;
+      history: DocumentBlockType;
       category: DocumentBlockType;
       utility: DocumentBlockType;
       mintingPriceWl: DocumentBlockType;
@@ -221,30 +221,14 @@ declare global {
       blockID: number;
     };
 
-    type VerificationType = {
-      id: number;
-      isUpvote: boolean | null;
-      verify: number;
-      warning: number;
-      timestamp: string;
-    };
-
     type VerificationCountType = {
       verifyCount: number;
       beAwareCount: number;
     };
 
-    type MyVerificationType = {
-      id: number;
-      verificationType: {
-        id: number;
-        name: string; // verify, be aware, ...
-        isUpvote: boolean | null;
-      };
-      verificationOpinion?: {
-        id: number;
-        createdAt: Date;
-      };
+    type VerificationType = {
+      verificationCounts: VerificationCountType;
+      myVerification: boolean | null;
     };
 
     type OpinionType = {
@@ -259,12 +243,6 @@ declare global {
       comment: string;
     };
 
-    type BlockVerificationType = {
-      id: number;
-      verification: VerificationType;
-      comments: DocumentCommentType[];
-    };
-
     type DocumentBlockType = {
       id: number;
       opinions?: OpinionType[];
@@ -277,8 +255,6 @@ declare global {
       verificationCounts: VerificationCountType;
       opinionCount: number;
       myVerification?: MyVerificationType;
-      // temporary data
-      verifications?: BlockVerificationType;
     };
 
     type DocumentType = {

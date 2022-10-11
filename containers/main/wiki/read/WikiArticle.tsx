@@ -39,7 +39,7 @@ export default function WikiArticle({ document }: PropsType) {
       })),
     []
   );
-  console.log(document);
+
   return (
     <Wrapper>
       <Title title={document.title} />
@@ -56,7 +56,9 @@ export default function WikiArticle({ document }: PropsType) {
               element={block.element}
               content={block.textContent}
               setShowModal={setShowModal}
-              verifications={block.verifications}
+              verificationCounts={block.verificationCounts}
+              myVerification={block.myVerification}
+              opinionCount={block.opinionCount}
             />
           );
         })}

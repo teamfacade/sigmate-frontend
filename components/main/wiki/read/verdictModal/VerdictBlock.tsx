@@ -18,7 +18,7 @@ type PropsType = {
   verificationCounts: Wiki.VerificationCountType;
   myVerification: boolean | null;
   opinionCount: number;
-  isKeyInfo?: boolean;
+  isKeyInfo?: string;
   children: ReactNode;
 };
 
@@ -28,7 +28,7 @@ export default memo(function VerdictBlock({
   verificationCounts,
   myVerification,
   opinionCount,
-  isKeyInfo = false,
+  isKeyInfo = undefined,
   children,
 }: PropsType) {
   const [showBtn, setShowBtn] = useState(false);
@@ -118,8 +118,8 @@ export default memo(function VerdictBlock({
           setShowBtn(false);
           setShowModal((current) => ({
             ...current,
-            isKeyInfo,
-            blockID: id,
+            isKeyInfo: !!isKeyInfo,
+            blockID: isKeyInfo || id.toString(10),
           }));
           break;
         default:
@@ -141,7 +141,7 @@ export default memo(function VerdictBlock({
     <Wrapper
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      isKeyInfo={isKeyInfo}
+      isKeyInfo={!!isKeyInfo}
       percentage={Number.parseInt(percentage, 10)}
     >
       {children}

@@ -47,7 +47,7 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
           setShowModal={
             setShowModal as Dispatch<SetStateAction<Wiki.ModalDataType>>
           }
-          isKeyInfo
+          isKeyInfo={KeyInfoTitles[i]}
         >
           <Td>
             <p>{_keyInfo.textContent || 'TBA'}</p>

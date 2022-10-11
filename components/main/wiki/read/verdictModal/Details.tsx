@@ -10,6 +10,7 @@ type PropsType = {
 
 export default memo(function Details({ verify, warning, name }: PropsType) {
   const percentage = useMemo(() => {
+    if (verify + warning === 0) return 50;
     if (name === 'Verify')
       return ((verify / (verify + warning)) * 100).toFixed(1);
     return ((warning / (verify + warning)) * 100).toFixed(1);

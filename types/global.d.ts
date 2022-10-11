@@ -216,8 +216,6 @@ declare global {
     };
 
     type ModalDataType = {
-      documentID: number;
-      isKeyInfo: boolean;
       blockID: string;
     };
 

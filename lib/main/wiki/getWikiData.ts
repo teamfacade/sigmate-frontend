@@ -35,50 +35,6 @@ export const KeyInfoTitles: string[] = [
   'Marketplace',
 ];
 
-const ExProfile: UserProfileAttributes = {
-  id: 1,
-  displayName: 'Berry',
-  bio: null,
-  profileImage: null,
-  profileImageUrl: null,
-};
-
-const ExAuthor: Forum.AuthorType = {
-  id: 1,
-  userName: 'jmyoung',
-  primaryProfile: ExProfile,
-};
-
-const ExVerification: Wiki.VerificationType = {
-  id: 1,
-  verify: 2400,
-  warning: 351,
-  isUpvote: null,
-  timestamp: '0',
-};
-
-const ExVerdict: Wiki.BlockVerificationType = {
-  id: 1,
-  verification: ExVerification,
-  comments: [
-    {
-      id: 1,
-      username: 'jmyung0803',
-      comment: 'This is not a fraud!',
-    },
-    {
-      id: 2,
-      username: 'limeAhn',
-      comment: 'This is not a fraud!',
-    },
-    {
-      id: 3,
-      username: 'kwang jin',
-      comment: 'This is a fraud!',
-    },
-  ],
-};
-
 const ExBlock: Wiki.DocumentBlockType = {
   id: 0,
   element: 'p',
@@ -92,25 +48,7 @@ const ExBlock: Wiki.DocumentBlockType = {
     beAwareCount: 0,
   },
   opinionCount: 0,
-  // temporary data for wiki-read verification data
-  verifications: ExVerdict,
 };
-
-const ExBlocks: Wiki.DocumentBlockType[] = [
-  ExBlock,
-  {
-    ...ExBlock,
-    id: 2,
-  },
-  {
-    ...ExBlock,
-    id: 3,
-  },
-  {
-    ...ExBlock,
-    id: 4,
-  },
-];
 
 export const InitialKeyInfos: Wiki.KeyInfoType = {
   name: {
@@ -183,15 +121,6 @@ export const InitialKeyInfos: Wiki.KeyInfoType = {
   },
 };
 
-const ExDocument: Wiki.DocumentType = {
-  id: 1,
-  title: '',
-  blocks: ExBlocks,
-  types: ['Game', 'PFP'],
-  keyInfo: InitialKeyInfos,
-  createdBy: ExAuthor,
-};
-
 export const gridAreas = [
   'Name',
   'Thumbnail',
@@ -208,17 +137,6 @@ export const gridAreas = [
   'Td_Chain',
   'Td_Marketplace',
 ];
-
-export const InitialDocumentBlock: Wiki.DocumentBlockType = {
-  id: Date.now(),
-  element: '',
-  textContent: '',
-  verificationCounts: {
-    verifyCount: 0,
-    beAwareCount: 0,
-  },
-  opinionCount: 0,
-};
 
 export function getAllArticleTitles() {
   // @todo const titles = fetch....
@@ -255,6 +173,7 @@ export async function getArticleReadData(id: string) {
       const document: Wiki.DocumentType = {
         id: Number.parseInt(id, 10),
         title: data.title,
+        structure: data.structure,
         blocks: data.blocks,
         types: data.categories,
         keyInfo: {
@@ -290,9 +209,4 @@ export async function getArticleReadData(id: string) {
     );
     return null;
   }
-}
-
-// called when verdict modal is rendered
-export function getVerifyData() {
-  return ExVerdict;
 }

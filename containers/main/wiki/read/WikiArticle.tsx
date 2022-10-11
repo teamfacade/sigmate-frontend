@@ -1,4 +1,11 @@
-import { useState, useCallback, useRef, MouseEventHandler, memo } from 'react';
+import {
+  useState,
+  useCallback,
+  useRef,
+  useMemo,
+  MouseEventHandler,
+  memo,
+} from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
@@ -17,14 +24,35 @@ export default function WikiArticle({ document }: PropsType) {
   const { signedIn } = useAppSelector(({ auth }) => auth);
   const { userName } = useAppSelector(({ account }) => account);
   const [showModal, setShowModal] = useState<Wiki.ModalDataType>({
-    documentID: document.id,
-    isKeyInfo: false,
-    blockID: -1,
+    blockID: '',
   });
   const ModalRef = useRef<HTMLDivElement>(null);
+  const VerificationData: Wiki.VerificationType | undefined = useMemo(() => {
+    if (showModal.blockID !== '') {
+      const targetID = Number.parseInt(showModal.blockID, 10);
+      if (Number.isInteger(targetID) && document.blocks) {
+        const targetBlock = Object.values(document.blocks).find(
+          (block) => block.id === Number.parseInt(showModal.blockID, 10)
+        );
+        if (targetBlock)
+          return {
+            verificationCounts: targetBlock.verificationCounts,
+            myVerification: targetBlock.myVerification,
+          };
+      } else if (Number.isNaN(targetID) && document.keyInfo) {
+        const targetBlock: Wiki.DocumentBlockType =
+          document.keyInfo[showModal.blockID.toLowerCase()];
+        return {
+          verificationCounts: targetBlock.verificationCounts,
+          myVerification: targetBlock.myVerification,
+        };
+      }
+    }
+    return undefined;
+  }, [document, showModal.blockID]);
 
   const onClickEdit: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    if (signedIn && userName) router.push(`/main/wiki-edit/${document.title}`);
+    if (signedIn && userName) router.push(`/main/wiki-edit/${document.id}`);
     else {
       alert('You have to sign in to edit the document.');
       router.push('/auth');
@@ -35,7 +63,7 @@ export default function WikiArticle({ document }: PropsType) {
     () =>
       setShowModal((current) => ({
         ...current,
-        blockID: -1,
+        blockID: '',
       })),
     []
   );
@@ -48,7 +76,10 @@ export default function WikiArticle({ document }: PropsType) {
         <ReadKeyInfo setShowModal={setShowModal} keyInfo={document.keyInfo} />
       )}
       {document.blocks &&
-        Object.values(document.blocks).map((block) => {
+        document.structure.map((blockID) => {
+          const block = (
+            document.blocks as StringKeyObj<Wiki.DocumentBlockType>
+          )[blockID.toString(10)];
           return (
             <ReadBlock
               key={block.id}
@@ -64,16 +95,14 @@ export default function WikiArticle({ document }: PropsType) {
         })}
       <EditBtn onClick={onClickEdit}>Edit</EditBtn>
       <CSSTransition
-        in={showModal.blockID !== -1}
+        in={!!VerificationData}
         timeout={300}
         classNames="show-modal"
         unmountOnExit
         nodeRef={ModalRef}
       >
         <VerdictModal
-          documentID={showModal.documentID}
-          isKeyInfo={showModal.isKeyInfo}
-          blockID={showModal.blockID}
+          verificationData={VerificationData}
           onMouseDown={onMouseDown}
           ref={ModalRef}
         />

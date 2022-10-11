@@ -1,10 +1,4 @@
-import {
-  MouseEventHandler,
-  useState,
-  useCallback,
-  forwardRef,
-  useEffect,
-} from 'react';
+import { MouseEventHandler, useState, useCallback, forwardRef } from 'react';
 import styled from 'styled-components';
 import {
   CommunityVerdict,
@@ -16,39 +10,77 @@ import {
   VerdictLog,
 } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
-import { getVerifyData } from 'lib/main/wiki/getWikiData';
 
 type PropsType = {
-  documentID: number;
-  isKeyInfo: boolean;
-  blockID: number;
+  verificationData?: Wiki.VerificationType;
   onMouseDown: MouseEventHandler<HTMLDivElement>;
 };
 
 export default forwardRef<HTMLDivElement, PropsType>(function VerdictModal(
-  { onMouseDown },
+  { verificationData, onMouseDown },
   ref
 ) {
-  useEffect(() => {
-    setVotes(getVerifyData().verification);
-  }, []);
-
-  const [votes, setVotes] = useState<Wiki.VerificationType>({
-    id: -1,
-    verify: 0,
-    warning: 0,
-    isUpvote: null,
-    timestamp: '0',
-  });
+  const [votes, setVotes] = useState<Wiki.VerificationType>(
+    verificationData as Wiki.VerificationType
+  );
 
   const onClickVerdict: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       const { name } = e.currentTarget;
-      setVotes((current) => ({
-        ...current,
-        isUpvote: name === 'Verify',
-        timestamp: new Date(Date.now()).toISOString(),
-      }));
+      setVotes((current) => {
+        // user voted first time
+        if (current.myVerification === null) {
+          return {
+            verificationCounts: {
+              verifyCount:
+                current.verificationCounts.verifyCount +
+                (name === 'Verify' ? 1 : 0),
+              beAwareCount:
+                current.verificationCounts.beAwareCount +
+                (name === 'Warning' ? 1 : 0),
+            },
+            myVerification: name === 'Verify',
+          };
+        }
+        if (name === 'Verify') {
+          // canceled verify
+          if (current.myVerification) {
+            return {
+              ...current,
+              verificationCounts: {
+                ...current.verificationCounts,
+                verifyCount: current.verificationCounts.verifyCount - 1,
+              },
+              myVerification: null,
+            };
+          }
+          return {
+            verificationCounts: {
+              verifyCount: current.verificationCounts.verifyCount + 1,
+              beAwareCount: current.verificationCounts.beAwareCount - 1,
+            },
+            myVerification: true,
+          };
+        }
+        // name === 'BeAware'
+        if (current.myVerification) {
+          return {
+            verificationCounts: {
+              verifyCount: current.verificationCounts.verifyCount - 1,
+              beAwareCount: current.verificationCounts.beAwareCount + 1,
+            },
+            myVerification: false,
+          };
+        }
+        // canceled warning
+        return {
+          verificationCounts: {
+            ...current.verificationCounts,
+            beAwareCount: current.verificationCounts.beAwareCount - 1,
+          },
+          myVerification: null,
+        };
+      });
     },
     []
   );
@@ -59,12 +91,12 @@ export default forwardRef<HTMLDivElement, PropsType>(function VerdictModal(
       <VerdictBtnWrapper>
         <VerdictModalBtn
           name="Verify"
-          isUpvote={votes.isUpvote}
+          isUpvote={votes.myVerification}
           onClick={onClickVerdict}
         />
         <VerdictModalBtn
           name="Warning"
-          isUpvote={votes.isUpvote}
+          isUpvote={votes.myVerification}
           onClick={onClickVerdict}
         />
       </VerdictBtnWrapper>

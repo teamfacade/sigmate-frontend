@@ -62,7 +62,6 @@ export default function WikiEditPage({
 
   const onSave: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
-      console.log(blocks);
       const collection: any = {};
       e.preventDefault();
       const { id } = document;

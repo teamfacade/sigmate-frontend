@@ -9,7 +9,6 @@ type PropsType = {
 };
 
 export default memo(function ComVerdictData({ show, votes }: PropsType) {
-  console.log(votes);
   const { verifyCount, beAwareCount } = votes.verificationCounts;
 
   const result = useMemo(() => {

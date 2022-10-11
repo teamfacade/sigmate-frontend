@@ -188,6 +188,7 @@ export async function getArticleReadData(id: string) {
     }
     return null;
   } catch (e: any) {
+    // eslint-disable-next-line no-console
     console.log(
       `Error while fetching wiki document. ERR: ${(e as AxiosError).status}`
     );

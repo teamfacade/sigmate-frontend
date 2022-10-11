@@ -1,7 +1,7 @@
 import Axios from 'lib/global/axiosInstance';
 import { AxiosError } from 'axios';
 
-export const KeyInfoIndex: StringKeyObj<number> = {
+const KeyInfoIndex: StringKeyObj<number> = {
   Name: 0,
   Thumbnail: 1,
   Team: 2,
@@ -18,7 +18,7 @@ export const KeyInfoIndex: StringKeyObj<number> = {
   Marketplace: 13,
 };
 
-export const KeyInfoTitles: string[] = [
+const KeyInfoTitles: string[] = [
   'Name',
   'Thumbnail',
   'Team',
@@ -50,7 +50,150 @@ const ExBlock: Wiki.DocumentBlockType = {
   opinionCount: 0,
 };
 
-export const InitialKeyInfos: Wiki.KeyInfoType = {
+const SigmateDocument: Wiki.DocumentType = {
+  id: -1,
+  title: 'Sigmate',
+  keyInfo: {
+    name: {
+      id: -1,
+      textContent: 'Sigmate',
+    },
+    thumbnail: {
+      id: KeyInfoIndex.Thumbnail,
+      textContent: '/Icons/Favicon/Logo_310x310.png',
+    },
+    team: {
+      ...ExBlock,
+      id: KeyInfoIndex.Team,
+      textContent: 'Sigmate',
+    },
+    history: {
+      ...ExBlock,
+      id: KeyInfoIndex.History,
+      textContent: 'Launched on mid october',
+    },
+    category: {
+      ...ExBlock,
+      id: KeyInfoIndex.Category,
+      textContent: 'NFT information platform',
+    },
+    utility: {
+      ...ExBlock,
+      id: KeyInfoIndex.Utility,
+      textContent: 'Write 2 Earn system',
+    },
+    mintingPriceWl: {
+      ...ExBlock,
+      id: KeyInfoIndex.WLPrice,
+      textContent: '0.01 ETH',
+    },
+    mintingPricePublic: {
+      ...ExBlock,
+      id: KeyInfoIndex.PublicPrice,
+      textContent: '0.01 ETH',
+    },
+    floorPrice: {
+      ...ExBlock,
+      id: KeyInfoIndex.CurrentPrice,
+      textContent: '100 ETH',
+    },
+    discordUrl: {
+      ...ExBlock,
+      id: KeyInfoIndex.Discord,
+      textContent: 'https://discord.gg/jzwrEkbmwZ',
+    },
+    twitterHandle: {
+      ...ExBlock,
+      id: KeyInfoIndex.Twitter,
+      textContent: 'https://twitter.com/OfficialSigmate',
+    },
+    websiteUrl: {
+      ...ExBlock,
+      id: KeyInfoIndex.OfficialSite,
+      textContent: 'https://www.sigmate.io',
+    },
+    paymentTokens: {
+      ...ExBlock,
+      id: KeyInfoIndex.Chain,
+      textContent: 'SIGMA',
+    },
+    marketplace: {
+      ...ExBlock,
+      id: KeyInfoIndex.Marketplace,
+      textContent: 'Sigmate',
+    },
+  },
+  structure: [1, 2, 3, 4, 5],
+  types: [{ id: 1, name: 'Platform', description: '', imageURL: '' }],
+  blocks: {
+    1: {
+      id: 1,
+      element: 'h',
+      textContent: 'About sigmate',
+      verificationCounts: {
+        verifyCount: 0,
+        beAwareCount: 0,
+      },
+      opinionCount: 0,
+    },
+    2: {
+      id: 2,
+      element: 'p',
+      textContent:
+        'NFT market has grown rapidly over the past three years with inconvenience. The biggest point is the lack of extensive NFT information service. Investors have to snoop around multiple sites and SNS communities such as Discord, Twitter, and Telegram to find scattered information.',
+      verificationCounts: {
+        verifyCount: 0,
+        beAwareCount: 0,
+      },
+      opinionCount: 0,
+    },
+    3: {
+      id: 3,
+      element: 'p',
+      textContent:
+        'NFT market is notorious for low reliability market, so most investors have to take care of verifying the information they get and always have to keep their eyes on fraud risk.',
+      verificationCounts: {
+        verifyCount: 0,
+        beAwareCount: 0,
+      },
+      opinionCount: 0,
+    },
+    4: {
+      id: 4,
+      element: 'h',
+      textContent: "𝚺 That's why Sigmate is needed.",
+      verificationCounts: {
+        verifyCount: 0,
+        beAwareCount: 0,
+      },
+      opinionCount: 0,
+    },
+    5: {
+      id: 5,
+      element: 'p',
+      textContent:
+        'Sigmate is developed to overcome those pain-points and create the NFT market where anyone can participate with ease. Ultimately, Sigmate will lower the entry barriers for new inflow.',
+      verificationCounts: {
+        verifyCount: 0,
+        beAwareCount: 0,
+      },
+      opinionCount: 0,
+    },
+  },
+  createdBy: {
+    id: 1,
+    userName: 'Admin',
+    primaryProfile: {
+      id: 1,
+      displayName: 'Sigmate',
+      bio: null,
+      profileImage: null,
+      profileImageUrl: null,
+    },
+  },
+};
+
+const InitialKeyInfos: Wiki.KeyInfoType = {
   name: {
     textContent: '',
     id: KeyInfoIndex.Name,
@@ -123,7 +266,7 @@ export const InitialKeyInfos: Wiki.KeyInfoType = {
 
 export function getAllArticleTitles() {
   // @todo const titles = fetch....
-  const titles = ['hush', 'empty'];
+  const titles = ['Sigmate', 'empty'];
 
   return titles.map((title) => {
     return {
@@ -195,3 +338,5 @@ export async function getArticleReadData(id: string) {
     return null;
   }
 }
+
+export { KeyInfoIndex, KeyInfoTitles, InitialKeyInfos, SigmateDocument };

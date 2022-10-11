@@ -153,6 +153,7 @@ export async function getArticleReadData(id: string) {
         paymentTokens,
         marketplace,
       } = data.collection.blocks;
+
       const document: Wiki.DocumentType = {
         id: Number.parseInt(id, 10),
         title: data.title,

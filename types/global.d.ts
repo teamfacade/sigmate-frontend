@@ -261,7 +261,7 @@ declare global {
       structure: number[];
       blocks?: StringKeyObj<Wiki.DocumentBlockType>;
       keyInfo?: Wiki.KeyInfoType;
-      types: string[];
+      types: Forum.CategoryType[];
       createdBy: Forum.AuthorType;
     };
   }

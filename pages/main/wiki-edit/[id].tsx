@@ -29,8 +29,8 @@ export default function WikiEditPage({
     ReactSelect.OptionType[]
   >(
     document.types?.map((type) => ({
-      value: type,
-      label: type,
+      value: type.id.toString(10),
+      label: type.name,
     })) || []
   );
   const [blocks, setBlocks] = useState<Wiki.DocumentBlockType[]>(() => {

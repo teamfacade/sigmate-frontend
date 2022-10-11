@@ -172,7 +172,7 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
         </Tr>
       );
     });
-  }, [editableKeyInfos]);
+  }, [editableKeyInfos, categories]);
 
   return (
     <>

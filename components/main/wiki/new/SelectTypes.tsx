@@ -1,9 +1,8 @@
+import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import Select from 'react-select';
+import Axios from 'lib/global/axiosInstance';
 import { Heading } from 'components/main/wiki/read';
-import options from 'components/main/wiki/TypeOptions';
-import useSWR, { Fetcher } from 'swr';
-import Axios from '../../../../lib/global/axiosInstance';
 
 type PropsType = {
   value?: ReactSelect.OptionType[];
@@ -16,11 +15,10 @@ const typesFetcher: Fetcher<ReactSelect.OptionType[], string> = async (
   try {
     const { status, data } = await Axios.get(url);
     if (status === 200) {
-      console.log(data);
       const { categories: types } = data;
-      return (types as string[]).map((type, i) => ({
-        value: i.toString(10),
-        label: type,
+      return (types as Forum.CategoryType[]).map((type) => ({
+        value: type.id.toString(10),
+        label: type.name,
       }));
     }
     return [];

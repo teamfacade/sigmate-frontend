@@ -12,7 +12,6 @@ import { SigmateDocument as document } from 'lib/main/wiki/getWikiData';
 import { ReadBlock } from 'containers/main/wiki/read';
 import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
 import { ReadKeyInfo, Title, Types } from 'components/main/wiki/read';
-import styles from 'styles/styleLib';
 
 export default function Sigmate() {
   const [showModal, setShowModal] = useState<Wiki.ModalDataType>({
@@ -96,19 +95,4 @@ export default function Sigmate() {
 
 const Wrapper = memo(styled.div`
   position: relative;
-`);
-
-const EditBtn = memo(styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 133px;
-  height: 45px;
-  border: none;
-  border-radius: 8px;
-  color: #ffffff;
-  background-color: ${styles.colors.emphColor};
-  font-size: 18px;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
 `);

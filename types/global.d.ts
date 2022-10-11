@@ -218,7 +218,7 @@ declare global {
     type ModalDataType = {
       documentID: number;
       isKeyInfo: boolean;
-      blockID: number;
+      blockID: string;
     };
 
     type VerificationCountType = {
@@ -260,7 +260,8 @@ declare global {
     type DocumentType = {
       id: number;
       title: string;
-      blocks?: Wiki.DocumentBlockType[];
+      structure: number[];
+      blocks?: StringKeyObj<Wiki.DocumentBlockType>;
       keyInfo?: Wiki.KeyInfoType;
       types: string[];
       createdBy: Forum.AuthorType;

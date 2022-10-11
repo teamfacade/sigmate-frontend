@@ -5,89 +5,135 @@ import {
   FormEventHandler,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import { getArticleEditData } from 'lib/main/wiki/getWikiData';
+import { useRouter } from 'next/router';
+import { getArticleReadData } from 'lib/main/wiki/getWikiData';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { WikiEdit, Summary } from 'containers/main/wiki/edit';
+import { LargeText } from 'components/global';
 
 export default function WikiEditPage({
   document,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [selectedOption, setSelectedOption] = useState<
-    ReactSelect.OptionType[]
-  >(document.types?.map((type) => ({ value: type, label: type })) || []);
-  const [blocks, setBlocks] = useState<Wiki.DocumentBlockType[]>(
-    document.blocks || []
-  );
-  const [keyInfos, setKeyInfos] = useState<Wiki.KeyInfoType | undefined>(
-    document.keyInfo
-  );
-  const [summary, setSummary] = useState('');
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  const onChangeTypes: ReactSelect.MultiSelectChangeEventHandler = useCallback(
-    (selected) => {
-      if (selected) {
-        setSelectedOption(selected.concat());
+  if (!document) {
+    router.push('/main/wiki/Sigmate');
+    return (
+      <LargeText>There's no such document you are trying to edit.</LargeText>
+    );
+  } 
+    const [selectedOption, setSelectedOption] = useState<
+      ReactSelect.OptionType[]
+    >(
+      document.types?.map((type) => ({
+        value: type,
+        label: type,
+      })) || []
+    );
+    const [blocks, setBlocks] = useState<Wiki.DocumentBlockType[]>(() => {
+      const initBlocks: Wiki.DocumentBlockType[] = [];
+      if (document.blocks) {
+        const flattenBlocks = Object.values(document.blocks);
+        document.structure.forEach((blockID) => {
+          const curBlock = flattenBlocks.find((block) => block.id === blockID);
+          if (curBlock) initBlocks.push(curBlock);
+        });
       }
-    },
-    []
-  );
-
-  const onChangeKeyInfos: ChangeEventHandler<
-    HTMLTextAreaElement | HTMLSelectElement
-  > = useCallback((e) => {
-    const { name, value } = e.currentTarget;
-    setKeyInfos((current) => {
-      if (current) {
-        const newKeyInfo = current;
-        newKeyInfo[name.toLowerCase()].textConent = value;
-        return newKeyInfo;
-      }
-      return current;
+      return initBlocks;
     });
-  }, []);
+    const [summary, setSummary] = useState('');
 
-  const onSummaryChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
-    (e) => setSummary(e.target.value),
-    []
-  );
+    const onChangeTypes: ReactSelect.MultiSelectChangeEventHandler =
+      useCallback((selected) => {
+        if (selected) {
+          setSelectedOption(selected.concat());
+        }
+      }, []);
 
-  const onSave: FormEventHandler<HTMLFormElement> = useCallback(
-    (e) => {
-      e.preventDefault();
-      const newDocument = {
-        ...document,
-        types: selectedOption.map((selected) => selected.value),
-        blocks,
-      };
+    const onSummaryChange: ChangeEventHandler<HTMLTextAreaElement> =
+      useCallback((e) => setSummary(e.target.value), []);
 
-      alert('Save edits');
-      // eslint-disable-next-line no-console
-      console.log(newDocument);
-    },
-    [selectedOption, blocks]
-  );
+    const onSave: FormEventHandler<HTMLFormElement> = useCallback(
+      (e) => {
+        const collection: any = {};
+        e.preventDefault();
+        const { id, title } = document;
+        const { elements } = e.currentTarget;
 
-  return (
-    <>
-      <WikiEdit
-        types={selectedOption}
-        onChangeTypes={onChangeTypes}
-        title={document.title}
-        blocks={blocks}
-        setBlocks={setBlocks}
-        keyInfos={keyInfos}
-        onChangeKeyInfos={onChangeKeyInfos}
-      />
-      <Summary summary={summary} onChange={onSummaryChange} onSubmit={onSave} />
-    </>
-  );
+        if (document.keyInfo) {
+          const team = elements.namedItem('Team') as HTMLTextAreaElement;
+          const history = elements.namedItem('History') as HTMLTextAreaElement;
+          const category = elements.namedItem('Category') as HTMLSelectElement;
+          const utility = elements.namedItem('Utility') as HTMLTextAreaElement;
+
+          if (team.value === '') {
+            alert('NFT Collection document must have team information.');
+            team.focus();
+            return;
+          }
+          collection.team = team.value;
+          collection.history = history.value;
+          collection.category = category.value;
+          collection.utility = utility.value;
+        }
+
+        if (blocks.length === 0) {
+          alert('A wiki document must have contents.');
+          return;
+        }
+        dispatch(
+          AuthRequiredAxios({
+            method: 'PATCH',
+            url: `/wiki/d/${id}`,
+            data: {
+              document: {
+                title,
+                categories: selectedOption.map((selected) => selected.value),
+                blocks,
+              },
+              collection,
+            },
+          })
+        ).then(async (action: any) => {
+          if (action.payload.status === 200) {
+            alert('Successfully saved the document.');
+            await router.push(`/main/wiki/${id}`);
+          } else
+            alert(
+              `Error while creating new article. ERR: ${action.payload.status}`
+            );
+        });
+      },
+      [selectedOption, blocks, document, router]
+    );
+
+    return (
+      <>
+        <WikiEdit
+          types={selectedOption}
+          onChangeTypes={onChangeTypes}
+          title={document.title}
+          blocks={blocks}
+          setBlocks={setBlocks}
+          keyInfo={document.keyInfo}
+        />
+        <Summary
+          summary={summary}
+          onChange={onSummaryChange}
+          onSubmit={onSave}
+        />
+      </>
+    );
+  
 }
 
 // This gets called on every request
 export async function getServerSideProps({
   params,
 }: GetServerSidePropsContext) {
-  // Fetch data from external API
-  const { document } = getArticleEditData(params?.title as string);
+  const document = await getArticleReadData(params?.id as string);
 
   // Pass data to the page via props
   return { props: { document } };

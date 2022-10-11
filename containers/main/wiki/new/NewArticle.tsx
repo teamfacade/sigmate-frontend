@@ -5,7 +5,7 @@ import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { BasicInfos, WriteNew } from 'containers/main/wiki/new';
 import { SectionWrapper } from 'components/global';
-import { DisclaimWrapper, Disclaimer } from 'components/main/wiki/edit';
+import { DisclaimWrapper } from 'components/main/wiki/edit';
 import BlueBtn from 'components/main/wiki/BlueBtn';
 
 type PropsType = {
@@ -119,19 +119,25 @@ export default function NewArticle({ topic }: PropsType) {
 
   const onSubmitArticle: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
+      const collection: any = {};
       e.preventDefault();
       const { elements } = e.currentTarget;
-      const team = elements.namedItem('Team') as HTMLTextAreaElement;
-      const history = elements.namedItem('History') as HTMLTextAreaElement;
-      const category = elements.namedItem('Category') as HTMLSelectElement;
-      const utility = elements.namedItem('Utility') as HTMLTextAreaElement;
 
       if (topic !== 'Others') {
+        const team = elements.namedItem('Team') as HTMLTextAreaElement;
+        const history = elements.namedItem('History') as HTMLTextAreaElement;
+        const category = elements.namedItem('Category') as HTMLSelectElement;
+        const utility = elements.namedItem('Utility') as HTMLTextAreaElement;
+
         if (team.value === '') {
           alert('NFT Collection document must have team information.');
           team.focus();
           return;
         }
+        collection.team = team.value;
+        collection.history = history.value;
+        collection.category = category.value;
+        collection.utility = utility.value;
       }
       if (title === '') {
         alert('A wiki document should have a title.');
@@ -152,17 +158,12 @@ export default function NewArticle({ topic }: PropsType) {
               categories: selectedOption.map((selected) => selected.value),
               blocks,
             },
-            collection: {
-              team: team.value,
-              history: history.value,
-              category: category.value,
-              utility: utility.value,
-            },
+            collection,
           },
         })
       ).then(async (action: any) => {
         if (action.payload.status === 200) {
-          alert('Created new article!');
+          alert('Created a new document!');
           await router.push(`/main/wiki/${id}`);
         } else
           alert(

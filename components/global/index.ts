@@ -8,3 +8,4 @@ export { default as Modal } from './Modal';
 export { default as SocialLinkWrapper } from './SocialLinkWrapper';
 export { default as SocialLinkBtn } from './SocialLinkBtn';
 export { default as TextHighlight } from './TextHighlight';
+export { default as LargeText } from './LargeText';

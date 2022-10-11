@@ -1,11 +1,6 @@
-import {
-  useCallback,
-  SetStateAction,
-  Dispatch,
-  memo,
-  ChangeEventHandler,
-} from 'react';
+import { useCallback, SetStateAction, Dispatch, memo } from 'react';
 import styled from 'styled-components';
+import { createNewBlock } from 'lib/main/wiki/utils';
 import { EditBlock } from 'containers/main/wiki/edit';
 import { EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
 import { SelectTypes } from 'components/main/wiki/new';
@@ -19,23 +14,6 @@ type PropsType = {
   blocks: Wiki.DocumentBlockType[];
   setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
   keyInfo: Wiki.KeyInfoType;
-};
-
-const createNewBlock: (element: string) => Wiki.DocumentBlockType = (
-  element: string
-) => {
-  const newBlock = {
-    id: Date.now(),
-    element,
-    textContent: '',
-    verificationCounts: {
-      verifyCount: 0,
-      beAwareCount: 0,
-    },
-    opinionCount: 0,
-  };
-  newBlock.id *= -1;
-  return newBlock;
 };
 
 export default memo(function WriteNew({
@@ -57,7 +35,7 @@ export default memo(function WriteNew({
           .concat(createNewBlock(tag), curState.slice(clickedIdx + 1));
       });
     },
-    [createNewBlock]
+    []
   );
 
   const removeBlock: (id: number) => void = useCallback((id) => {

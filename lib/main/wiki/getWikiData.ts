@@ -121,23 +121,6 @@ export const InitialKeyInfos: Wiki.KeyInfoType = {
   },
 };
 
-export const gridAreas = [
-  'Name',
-  'Thumbnail',
-  'Td_Team',
-  'Td_Rugpool',
-  'Td_Category',
-  'Td_Utility',
-  'Td_WLPrice',
-  'Td_PublicPrice',
-  'Td_CurrentPrice',
-  'Td_Discord',
-  'Td_Twitter',
-  'Td_OfficialSite',
-  'Td_Chain',
-  'Td_Marketplace',
-];
-
 export function getAllArticleTitles() {
   // @todo const titles = fetch....
   const titles = ['hush', 'empty'];

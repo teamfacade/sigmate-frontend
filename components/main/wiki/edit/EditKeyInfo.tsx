@@ -9,7 +9,7 @@ import Image from 'next/image';
 import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
-import { gridAreas, KeyInfoIndex } from 'lib/main/wiki/getWikiData';
+import { KeyInfoIndex, KeyInfoTitles } from 'lib/main/wiki/getWikiData';
 import { ImageWrapper } from 'components/global';
 import styles from 'styles/styleLib';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
@@ -94,19 +94,30 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
       }
     }, []);
 
-  const TdBlocks = useMemo(() => {
+  const TableRows = useMemo(() => {
     return Object.values(keyInfos).map((keyInfo, i) => {
-      if (i === 1) {
+      if (i === KeyInfoIndex.Name) {
         return (
-          <TableItem gridArea={gridAreas[i]}>
-            <ImageWrapper width="100%" height="100%">
-              <Image
-                src={keyInfo.textContent || UserImageEx}
-                alt="thumbnail image"
-                layout="fill"
-              />
-            </ImageWrapper>
-          </TableItem>
+          <Name key={KeyInfoTitles[i]}>
+            <p>{keyInfo.textContent}</p>
+          </Name>
+        );
+      }
+      if (i === KeyInfoIndex.Thumbnail) {
+        return (
+          <ImageWrapper
+            width="100%"
+            height="fit-content"
+            key={KeyInfoTitles[i]}
+          >
+            <Image
+              src={keyInfo.textContent || UserImageEx}
+              alt="thumbnail image"
+              width="100%"
+              height="100%"
+              layout="responsive"
+            />
+          </ImageWrapper>
         );
       }
       if (
@@ -115,110 +126,59 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
         i === KeyInfoIndex.Utility ||
         i === KeyInfoIndex.Marketplace
       ) {
-        const name: string = gridAreas[i].split('_')[1];
         return (
-          <TableItem gridArea={gridAreas[i]}>
-            <textarea
-              name={name}
-              rows={1}
-              placeholder={`Type about ${name}`}
-              value={editableKeyInfos[name]}
-              onChange={onChange}
-            />
-          </TableItem>
+          <Tr key={KeyInfoTitles[i]}>
+            <Th>
+              <p>{KeyInfoTitles[i]}</p>
+            </Th>
+            <Td>
+              <textarea
+                name={KeyInfoTitles[i]}
+                rows={1}
+                placeholder={`Type about ${KeyInfoTitles[i].toLowerCase()}`}
+                value={editableKeyInfos[KeyInfoTitles[i].toLowerCase()]}
+                onChange={onChange}
+              />
+            </Td>
+          </Tr>
         );
       }
       if (i === KeyInfoIndex.Category) {
         return (
-          <TableItem gridArea={gridAreas[i]}>
-            <select name="Category" onChange={onChange}>
-              {categories?.map((category) => (
-                <option key={category.id} value={category.name}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </TableItem>
+          <Tr key={KeyInfoTitles[i]}>
+            <Th>
+              <p>{KeyInfoTitles[i]}</p>
+            </Th>
+            <Td key={KeyInfoTitles[i]}>
+              <select name="Category" onChange={onChange}>
+                {categories?.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </Td>
+          </Tr>
         );
       }
       return (
-        <TableItem gridArea={gridAreas[i]}>
-          <p>{keyInfo.textContent}</p>
-        </TableItem>
+        <Tr key={KeyInfoTitles[i]}>
+          <Th>
+            <p>{KeyInfoTitles[i]}</p>
+          </Th>
+          <Td>
+            <p>{keyInfo.textContent || 'TBA'}</p>
+          </Td>
+        </Tr>
       );
     });
-  }, []);
+  }, [editableKeyInfos]);
 
   return (
     <>
       <H3>Key Info</H3>
       <Hr />
-      <Table>
-        {TdBlocks[KeyInfoIndex.Name]}
-        {TdBlocks[KeyInfoIndex.Thumbnail]}
-        <TableItem gridArea="Th_Team">
-          <p>Team</p>
-        </TableItem>
-        <TableItem gridArea="Tr_Team">
-          <p>Team</p>
-        </TableItem>
-        {TdBlocks[KeyInfoIndex.Team]}
-        <TableItem gridArea="History">
-          <p>History</p>
-        </TableItem>
-        {TdBlocks[KeyInfoIndex.History]}
-        <TableItem gridArea="Th_Category">
-          <p>Category</p>
-        </TableItem>
-        <TableItem gridArea="Tr_Category">
-          <p />
-        </TableItem>
-        {TdBlocks[KeyInfoIndex.Category]}
-        <TableItem gridArea="Tr_Utility">
-          <p>Utility</p>
-        </TableItem>
-        {TdBlocks[KeyInfoIndex.Utility]}
-        <TableItem gridArea="Th_Price">
-          <p>Minting Price</p>
-        </TableItem>
-        <TableItem gridArea="Tr_WLPrice">
-          <p>Whitelist</p>
-        </TableItem>
-        {TdBlocks[KeyInfoIndex.WLPrice]}
-        <TableItem gridArea="Tr_PublicPrice">
-          <p>Public</p>
-        </TableItem>
-        {TdBlocks[KeyInfoIndex.PublicPrice]}
-        <TableItem gridArea="Tr_CurrentPrice">
-          <p>Current</p>
-        </TableItem>
-        {TdBlocks[KeyInfoIndex.CurrentPrice]}
-        <TableItem gridArea="Th_Community">
-          <p>Community</p>
-        </TableItem>
-        <TableItem gridArea="Tr_Discord">
-          <p>Discord</p>
-        </TableItem>
-        {TdBlocks[KeyInfoIndex.Discord]}
-        <TableItem gridArea="Tr_Twitter">
-          <p>Twitter</p>
-        </TableItem>
-        {TdBlocks[KeyInfoIndex.Twitter]}
-        <TableItem gridArea="Tr_OfficialSite">
-          <p>Official website</p>
-        </TableItem>
-        {TdBlocks[KeyInfoIndex.OfficialSite]}
-        <TableItem gridArea="Th_Chain">
-          <p>Chain</p>
-        </TableItem>
-        <TableItem gridArea="Tr_Chain" />
-        {TdBlocks[KeyInfoIndex.Chain]}
-        <TableItem gridArea="Th_Marketplace">
-          <p>Marketplace</p>
-        </TableItem>
-        <TableItem gridArea="Tr_Marketplace" />
-        {TdBlocks[KeyInfoIndex.Marketplace]}
-      </Table>
+      <Table>{TableRows.map((row) => row)}</Table>
     </>
   );
 });
@@ -238,81 +198,76 @@ const Hr = memo(styled.hr`
 `);
 
 const Table = styled.div`
-  display: grid;
-  grid-template-areas:
-    'Name           Name            Name'
-    'Thumbnail      Thumbnail       Thumbnail'
-    'Th_Team        Tr_Team         Td_Team'
-    'Th_Team        Tr_History      Td_History'
-    'Th_Category    Tr_Category     Td_Category'
-    'Th_Category    Tr_Utility      Td_Utility'
-    'Th_Price       Tr_WLPrice      Td_WLPrice'
-    'Th_Price       Tr_PublicPrice  Td_PublicPrice'
-    'Th_Price       Tr_CurrentPrice Td_CurrentPrice'
-    'Th_Community   Tr_Discord      Td_Discord'
-    'Th_Community   Tr_Twitter      Td_Twitter'
-    'Th_Community   Tr_OfficialSite Td_OfficialSite'
-    'Th_Chain       Tr_Chain        Td_Chain'
-    'Th_Marketplace Tr_Marketplace  Td_Marketplace';
-  grid-template-rows: 40px 215px repeat(11, 30px);
-  grid-template-columns: 115px 190px 195px;
-  width: fit-content;
+  min-width: 250px;
+  max-width: 450px;
   margin-bottom: 24px;
   border: 1px solid ${styles.colors.hrColor};
   border-bottom: none;
-`;
-
-const TableItem = styled.div<{ gridArea: string }>`
-  grid-area: ${({ gridArea }) => gridArea};
-
-  display: flex;
-  align-items: center;
-  justify-content: ${({ gridArea }) => {
-    if (gridArea === 'Name' || gridArea.startsWith('Th_')) return `center;`;
-    return `flex-start;`;
-  }};
-
-  width: 100%;
-  height: 100%;
-  background-color: ${({ gridArea }) => {
-    if (gridArea === 'Name' || gridArea.startsWith('Th_'))
-      return styles.colors.globalBackgroundColor;
-    if (gridArea.startsWith('Tr_')) return styles.colors.tableRowColor;
-    return '#FFFFFF';
-  }};
-
-  border-bottom: ${({ gridArea }) => {
-    if (
-      gridArea === 'Thumbnail' ||
-      gridArea.startsWith('Th_') ||
-      gridArea.startsWith('Tr_') ||
-      gridArea.startsWith('Td_')
-    )
-      return `1px solid ${styles.colors.hrColor};`;
-    return '';
-  }};
-
-  overflow: auto;
 
   p {
     margin: 0;
     color: ${styles.colors.logColor};
     font-family: 'Inter', sans-serif;
-    line-height: 160%;
+  }
+`;
 
-    ${({ gridArea }) => {
-      if (gridArea === 'Name')
-        return `font-size: 17px; font-weight: 700; text-align: center;`;
-      if (gridArea.startsWith('Th_'))
-        return `font-size: 14px; font-weight: 500; text-align: center;`;
-      return `padding-left: 14px; font-size: 13px; font-weight: 300; text-align: start`;
-    }};
+const Name = styled.div`
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid ${styles.colors.hrColor};
+  background-color: ${styles.colors.globalBackgroundColor};
+
+  p {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 17px;
+    font-weight: 700;
+    text-align: center;
+  }
+`;
+
+const Tr = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid ${styles.colors.hrColor};
+  background-color: ${styles.colors.globalBackgroundColor};
+`;
+
+const Th = styled.div`
+  flex: 0 1 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: transparent;
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+  }
+`;
+
+const Td = styled.div`
+  flex: 1 1 300px;
+  display: flex;
+  align-items: center;
+  min-height: 35px;
+  padding: 8px 14px;
+  background-color: #ffffff;
+
+  p {
+    font-size: 13px;
+    font-weight: 300;
+    text-align: start;
+    line-break: anywhere;
   }
 
   textarea {
     width: 100%;
     margin: 0;
-    padding-left: 14px;
     color: ${styles.colors.logColor};
     font-size: 13px;
     font-weight: 300;
@@ -333,7 +288,7 @@ const TableItem = styled.div<{ gridArea: string }>`
 
   select {
     width: 100%;
-    margin: 0 14px;
+    margin: 0;
 
     :focus-visible {
       outline: none;

@@ -6,7 +6,9 @@ type PropsType = {
   id: number;
   element: string;
   content: string;
-  verifications?: Wiki.BlockVerificationType;
+  verificationCounts: Wiki.VerificationCountType;
+  myVerification: boolean | null;
+  opinionCount: number;
   setShowModal: Dispatch<SetStateAction<Wiki.ModalDataType>>;
 };
 
@@ -14,14 +16,18 @@ export default memo(function ReadBlock({
   id,
   element,
   content,
-  verifications,
+  verificationCounts,
+  myVerification,
+  opinionCount,
   setShowModal,
 }: PropsType) {
   return (
     <VerdictBlock
       id={id}
       setShowModal={setShowModal}
-      verifications={verifications}
+      verificationCounts={verificationCounts}
+      myVerification={myVerification}
+      opinionCount={opinionCount}
     >
       <ReadComponent element={element} content={content} />
     </VerdictBlock>

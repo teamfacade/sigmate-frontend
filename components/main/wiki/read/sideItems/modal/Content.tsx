@@ -23,7 +23,6 @@ type PropsType = {
 const maxWord = 190;
 
 export default memo(function Content({
-  index = -1,
   header,
   platform,
   PFPUrl,

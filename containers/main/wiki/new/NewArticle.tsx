@@ -1,16 +1,11 @@
-import {
-  FormEventHandler,
-  useState,
-  useCallback,
-  ChangeEventHandler,
-} from 'react';
+import { FormEventHandler, useState, useCallback } from 'react';
+import { useRouter } from 'next/router';
 import { InitialKeyInfos } from 'lib/main/wiki/getWikiData';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
-import { store } from 'store/store';
 import { BasicInfos, WriteNew } from 'containers/main/wiki/new';
 import { SectionWrapper } from 'components/global';
-import { DisclaimWrapper, Disclaimer } from 'components/main/wiki/edit';
+import { DisclaimWrapper } from 'components/main/wiki/edit';
 import BlueBtn from 'components/main/wiki/BlueBtn';
 
 type PropsType = {
@@ -18,8 +13,10 @@ type PropsType = {
 };
 
 export default function NewArticle({ topic }: PropsType) {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const [basicFetched, setBasicFetched] = useState(false);
+  const [id, setId] = useState<number>(-1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedOption, setSelectedOption] = useState<
     ReactSelect.OptionType[]
@@ -33,18 +30,6 @@ export default function NewArticle({ topic }: PropsType) {
       if (selected) {
         setSelectedOption(selected.concat());
       }
-    },
-    []
-  );
-
-  const onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
-    (e) => {
-      const { name, value } = e.currentTarget;
-      setKeyInfo((current) => {
-        const newKeyInfo = current;
-        newKeyInfo[name.toLowerCase()].textConent = value;
-        return newKeyInfo;
-      });
     },
     []
   );
@@ -63,16 +48,23 @@ export default function NewArticle({ topic }: PropsType) {
 
         dispatch(
           AuthRequiredAxios({
-            method: 'GET',
-            url: `/wiki/collection/s/${slug}?create=true&update=false`,
+            method: 'POST',
+            url: `/wiki/d`,
+            data: {
+              collection: {
+                slug,
+                marketplace: 'opensea',
+              },
+            },
           })
         ).then((action: any) => {
-          if (action.payload.status === 200) {
+          if (action.payload.status === 201) {
+            setId(action.payload.data.document.id);
             const {
               name,
               imageUrl,
               blocks: keyInfoBlocks,
-            } = action.payload.data.collection;
+            } = action.payload.data.document.collection;
 
             setKeyInfo((cur) => ({
               name: {
@@ -84,7 +76,7 @@ export default function NewArticle({ topic }: PropsType) {
                 textContent: imageUrl || '',
               },
               team: keyInfoBlocks.team,
-              rugpool: keyInfoBlocks.history,
+              history: keyInfoBlocks.history,
               category: keyInfoBlocks.category,
               utility: keyInfoBlocks.utility,
               mintingPriceWl: keyInfoBlocks.mintingPriceWl,
@@ -97,6 +89,8 @@ export default function NewArticle({ topic }: PropsType) {
               marketplace: keyInfoBlocks.marketplace,
             }));
             setBasicFetched(true);
+          } else if (action.payload.status === 409) {
+            alert('A document about this collection already exists.');
           } else {
             alert(
               `Error while fetching collection info. ERR:${action.payload.status}.\r\nPlease try again.`
@@ -125,53 +119,66 @@ export default function NewArticle({ topic }: PropsType) {
 
   const onSubmitArticle: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
+      const collection: any = {};
       e.preventDefault();
+      const { elements } = e.currentTarget;
+
       if (topic !== 'Others') {
-        if (keyInfo.marketplace.textContent && keyInfo.team.textContent) {
-          // eslint-disable-next-line no-alert
-          alert('submit!');
+        const team = elements.namedItem('Team') as HTMLTextAreaElement;
+        const history = elements.namedItem('History') as HTMLTextAreaElement;
+        const category = elements.namedItem('Category') as HTMLSelectElement;
+        const utility = elements.namedItem('Utility') as HTMLTextAreaElement;
+
+        if (team.value === '') {
+          alert('NFT Collection document must have team information.');
+          team.focus();
           return;
         }
-        if (keyInfo.team.textContent === '') {
-          (
-            e.currentTarget.elements.namedItem('Team') as HTMLTextAreaElement
-          ).focus();
-          return;
-        }
-        (
-          e.currentTarget.elements.namedItem(
-            'Marketplace'
-          ) as HTMLTextAreaElement
-        ).focus();
+        collection.team = team.value;
+        collection.history = history.value;
+        collection.category = category.value;
+        collection.utility = utility.value;
+      }
+      if (title === '') {
+        alert('A wiki document should have a title.');
+        (elements.namedItem('Title') as HTMLButtonElement).focus();
         return;
       }
-      const { id, userName, primaryProfile } = (
-        store.getState() as ReduxState.RootStateType
-      ).account;
-      const newDocument: Wiki.DocumentType = {
-        id: Date.now(),
-        title,
-        types: selectedOption.map((selected) => selected.value),
-        keyInfo,
-        blocks,
-        createdBy: {
-          id,
-          userName: userName as string,
-          primaryProfile: {
-            ...primaryProfile,
-            profileImage: null,
+      if (blocks.length === 0) {
+        alert('A wiki document must have contents.');
+        return;
+      }
+      dispatch(
+        AuthRequiredAxios({
+          method: 'PATCH',
+          url: `/wiki/d/${id}`,
+          data: {
+            document: {
+              title,
+              categories: selectedOption.map((selected) => selected.value),
+              blocks,
+            },
+            collection,
           },
-        },
-      };
-      // eslint-disable-next-line no-console
-      console.log(newDocument);
+        })
+      ).then(async (action: any) => {
+        if (action.payload.status === 200) {
+          alert('Created a new document!');
+          await router.push(`/main/wiki/${id}`);
+        } else
+          alert(
+            `Error while creating new article. ERR: ${action.payload.status}`
+          );
+      });
     },
-    [title, selectedOption, blocks, keyInfo]
+    [id, title, selectedOption, blocks, keyInfo, router]
   );
 
   return (
     <SectionWrapper header="Start New Article" marginBottom="20px">
-      <BasicInfos topic={topic} onSubmit={onSubmitBasicInfo} />
+      {!basicFetched && (
+        <BasicInfos topic={topic} onSubmit={onSubmitBasicInfo} />
+      )}
       {(basicFetched || topic === 'Others') && (
         <form onSubmit={onSubmitArticle}>
           <WriteNew
@@ -182,7 +189,6 @@ export default function NewArticle({ topic }: PropsType) {
             blocks={blocks}
             setBlocks={setBlocks}
             keyInfo={keyInfo}
-            onChangeKeyInfos={onChangeKeyInfos}
           />
           <DisclaimWrapper>
             <input type="checkbox" required />
@@ -191,7 +197,9 @@ export default function NewArticle({ topic }: PropsType) {
               <a href="https://www.naver.com" target="_blank" rel="noreferrer">
                 Terms of Use
               </a>
-              , and you irrevocably agree to release your contribution under the CC BY-SA 3.0 License. You agree that a hyperlink or URL is sufficient attribution under the Creative Commons license.
+              , and you irrevocably agree to release your contribution under the
+              CC BY-SA 3.0 License. You agree that a hyperlink or URL is
+              sufficient attribution under the Creative Commons license.
             </span>
           </DisclaimWrapper>
           <BlueBtn width="162px" margin="29px 0 0 0" type="submit">

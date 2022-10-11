@@ -8,23 +8,19 @@ type PropsType = {
 };
 
 export default memo(function VerdictLog({ votes }: PropsType) {
-  if (votes.isUpvote !== null)
+  if (votes.myVerification !== null)
     return (
-      <Log voted={votes.isUpvote ? 'Verify' : 'Warning'}>{`You ${
-        votes.isUpvote ? 'verified' : 'flagged'
-      } this block at ${convertDate(
-        new Date(votes.timestamp),
-        'time',
-        ' '
-      )}`}</Log>
+      <Log voted={votes.myVerification}>{`You ${
+        votes.myVerification ? 'verified' : 'flagged'
+      } this block at ${convertDate(new Date(Date.now()), 'time', ' ')}`}</Log>
     );
-  return <Log voted="None" />;
+  return <Log voted={false} />;
 });
 
-const Log = styled.p<{ voted: string }>`
+const Log = styled.p<{ voted: boolean }>`
   margin: 17px 0 0 0;
   color: ${({ voted }) =>
-    voted === 'Verify' ? styles.colors.emphColor : styles.colors.warningColor};
+    voted ? styles.colors.emphColor : styles.colors.warningColor};
   font-size: 14px;
   font-weight: 300;
   line-height: 140%;

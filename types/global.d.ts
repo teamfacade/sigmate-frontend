@@ -180,6 +180,17 @@ declare global {
   }
 
   namespace Wiki {
+    type SearchResultType = {
+      id: number;
+      title: string;
+      collection: {
+        id: number;
+        slug: string;
+        name: string;
+      };
+      textContent: string;
+    };
+
     type KeyInfoType = {
       [index: string];
       name: {
@@ -191,7 +202,7 @@ declare global {
         textContent: string;
       };
       team: DocumentBlockType;
-      rugpool: DocumentBlockType;
+      history: DocumentBlockType;
       category: DocumentBlockType;
       utility: DocumentBlockType;
       mintingPriceWl: DocumentBlockType;
@@ -205,17 +216,7 @@ declare global {
     };
 
     type ModalDataType = {
-      documentID: number;
-      isKeyInfo: boolean;
-      blockID: number;
-    };
-
-    type VerificationType = {
-      id: number;
-      isUpvote: boolean | null;
-      verify: number;
-      warning: number;
-      timestamp: string;
+      blockID: string;
     };
 
     type VerificationCountType = {
@@ -223,17 +224,9 @@ declare global {
       beAwareCount: number;
     };
 
-    type MyVerificationType = {
-      id: number;
-      verificationType: {
-        id: number;
-        name: string; // verify, be aware, ...
-        isUpvote: boolean | null;
-      };
-      verificationOpinion?: {
-        id: number;
-        createdAt: Date;
-      };
+    type VerificationType = {
+      verificationCounts: VerificationCountType;
+      myVerification: boolean | null;
     };
 
     type OpinionType = {
@@ -248,12 +241,6 @@ declare global {
       comment: string;
     };
 
-    type BlockVerificationType = {
-      id: number;
-      verification: VerificationType;
-      comments: DocumentCommentType[];
-    };
-
     type DocumentBlockType = {
       id: number;
       opinions?: OpinionType[];
@@ -266,17 +253,15 @@ declare global {
       verificationCounts: VerificationCountType;
       opinionCount: number;
       myVerification?: MyVerificationType;
-      // temporary data
-      verifications?: BlockVerificationType;
     };
 
     type DocumentType = {
       id: number;
       title: string;
-      blocks?: Wiki.DocumentBlockType[];
-      keyInfos?: Wiki.DocumentBlockType[];
+      structure: number[];
+      blocks?: StringKeyObj<Wiki.DocumentBlockType>;
       keyInfo?: Wiki.KeyInfoType;
-      types?: string[];
+      types: Forum.CategoryType[];
       createdBy: Forum.AuthorType;
     };
   }

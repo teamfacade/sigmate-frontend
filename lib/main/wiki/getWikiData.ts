@@ -1,8 +1,11 @@
+import Axios from 'lib/global/axiosInstance';
+import { AxiosError } from 'axios';
+
 export const KeyInfoIndex: StringKeyObj<number> = {
   Name: 0,
   Thumbnail: 1,
   Team: 2,
-  Rugpool: 3,
+  History: 3,
   Category: 4,
   Utility: 5,
   WLPrice: 6,
@@ -15,49 +18,22 @@ export const KeyInfoIndex: StringKeyObj<number> = {
   Marketplace: 13,
 };
 
-const ExProfile: UserProfileAttributes = {
-  id: 1,
-  displayName: 'Berry',
-  bio: null,
-  profileImage: null,
-  profileImageUrl: null,
-};
-
-const ExAuthor: Forum.AuthorType = {
-  id: 1,
-  userName: 'jmyoung',
-  primaryProfile: ExProfile,
-};
-
-const ExVerification: Wiki.VerificationType = {
-  id: 1,
-  verify: 2400,
-  warning: 351,
-  isUpvote: null,
-  timestamp: '0',
-};
-
-const ExVerdict: Wiki.BlockVerificationType = {
-  id: 1,
-  verification: ExVerification,
-  comments: [
-    {
-      id: 1,
-      username: 'jmyung0803',
-      comment: 'This is not a fraud!',
-    },
-    {
-      id: 2,
-      username: 'limeAhn',
-      comment: 'This is not a fraud!',
-    },
-    {
-      id: 3,
-      username: 'kwang jin',
-      comment: 'This is a fraud!',
-    },
-  ],
-};
+export const KeyInfoTitles: string[] = [
+  'Name',
+  'Thumbnail',
+  'Team',
+  'History',
+  'Category',
+  'Utility',
+  'Whitelist',
+  'Public',
+  'Current',
+  'Discord',
+  'Twitter',
+  'Official website',
+  'Chain',
+  'Marketplace',
+];
 
 const ExBlock: Wiki.DocumentBlockType = {
   id: 0,
@@ -72,25 +48,7 @@ const ExBlock: Wiki.DocumentBlockType = {
     beAwareCount: 0,
   },
   opinionCount: 0,
-  // temporary data for wiki-read verification data
-  verifications: ExVerdict,
 };
-
-const ExBlocks: Wiki.DocumentBlockType[] = [
-  ExBlock,
-  {
-    ...ExBlock,
-    id: 2,
-  },
-  {
-    ...ExBlock,
-    id: 3,
-  },
-  {
-    ...ExBlock,
-    id: 4,
-  },
-];
 
 export const InitialKeyInfos: Wiki.KeyInfoType = {
   name: {
@@ -106,9 +64,9 @@ export const InitialKeyInfos: Wiki.KeyInfoType = {
     id: KeyInfoIndex.Team,
     textContent: '',
   },
-  rugpool: {
+  history: {
     ...ExBlock,
-    id: KeyInfoIndex.Rugpool,
+    id: KeyInfoIndex.History,
     textContent: '',
   },
   category: {
@@ -159,45 +117,8 @@ export const InitialKeyInfos: Wiki.KeyInfoType = {
   marketplace: {
     ...ExBlock,
     id: KeyInfoIndex.Marketplace,
-    textContent: '',
+    textContent: 'opensea',
   },
-};
-
-const ExDocument: Wiki.DocumentType = {
-  id: 1,
-  title: '',
-  blocks: ExBlocks,
-  types: ['Game', 'PFP'],
-  keyInfo: InitialKeyInfos,
-  createdBy: ExAuthor,
-};
-
-export const gridAreas = [
-  'Name',
-  'Thumbnail',
-  'Td_Team',
-  'Td_Rugpool',
-  'Td_Category',
-  'Td_Utility',
-  'Td_WLPrice',
-  'Td_PublicPrice',
-  'Td_CurrentPrice',
-  'Td_Discord',
-  'Td_Twitter',
-  'Td_OfficialSite',
-  'Td_Chain',
-  'Td_Marketplace',
-];
-
-export const InitialDocumentBlock: Wiki.DocumentBlockType = {
-  id: Date.now(),
-  element: '',
-  textContent: '',
-  verificationCounts: {
-    verifyCount: 0,
-    beAwareCount: 0,
-  },
-  opinionCount: 0,
 };
 
 export function getAllArticleTitles() {
@@ -207,32 +128,70 @@ export function getAllArticleTitles() {
   return titles.map((title) => {
     return {
       params: {
-        title,
+        id: title,
       },
     };
   });
 }
 
-export function getArticleReadData(title: string) {
-  // @todo blocks, 검증 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
-  const document: Wiki.DocumentType | null =
-    title === 'empty' ? null : { ...ExDocument, title };
+export async function getArticleReadData(id: string) {
+  try {
+    const res = await Axios.get(`/wiki/d/${id}`);
+    if (res.status === 200) {
+      const { data } = res.data;
+      const {
+        team,
+        history,
+        category,
+        utility,
+        mintingPriceWl,
+        mintingPricePublic,
+        floorPrice,
+        discordUrl,
+        twitterHandle,
+        websiteUrl,
+        paymentTokens,
+        marketplace,
+      } = data.collection.blocks;
 
-  return {
-    document,
-  };
-}
-
-export function getArticleEditData(title: string) {
-  // @todo blocks 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
-  const document: Wiki.DocumentType = { ...ExDocument, title };
-
-  return {
-    document,
-  };
-}
-
-// called when verdict modal is rendered
-export function getVerifyData() {
-  return ExVerdict;
+      const document: Wiki.DocumentType = {
+        id: Number.parseInt(id, 10),
+        title: data.title,
+        structure: data.structure,
+        blocks: data.blocks,
+        types: data.categories,
+        keyInfo: {
+          name: {
+            id: data.collection.id,
+            textContent: data.collection.name,
+          },
+          thumbnail: {
+            id: data.collection.id,
+            textContent: data.collection.imageUrl,
+          },
+          team,
+          history,
+          category,
+          utility,
+          mintingPriceWl,
+          mintingPricePublic,
+          floorPrice,
+          discordUrl,
+          twitterHandle,
+          websiteUrl,
+          paymentTokens,
+          marketplace,
+        },
+        createdBy: data.createdBy,
+      };
+      return document;
+    }
+    return null;
+  } catch (e: any) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Error while fetching wiki document. ERR: ${(e as AxiosError).status}`
+    );
+    return null;
+  }
 }

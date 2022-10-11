@@ -4,14 +4,13 @@ import {
   getArticleReadData,
 } from 'lib/main/wiki/getWikiData';
 import { WikiArticle } from 'containers/main/wiki/read';
-import { NoArticleYet } from 'components/main/wiki/read';
+import { LargeText } from 'components/global';
 
 export default function WikiPage({
-  title,
   document,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  if (document === null) return <NoArticleYet title={title} />;
-  return <WikiArticle document={document} />;
+  if (document) return <WikiArticle document={document} />;
+  return <LargeText>There's no such document your looking for</LargeText>;
 }
 
 export async function getStaticPaths() {
@@ -32,10 +31,9 @@ export async function getStaticPaths() {
 // direct database queries.
 export async function getStaticProps({ params }: GetStaticPropsContext) {
   // @todo Fetch necessary data for the wiki article using params.title
-  const { document } = getArticleReadData(params?.title as string);
+  const document = await getArticleReadData(params?.id as string);
   return {
     props: {
-      title: params?.title as string,
       document,
     },
     // Next.js will attempt to re-generate the page:

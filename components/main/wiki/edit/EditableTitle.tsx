@@ -20,7 +20,7 @@ type PropsType = {
   onClickSelect: (id: number, tag: string) => void;
 };
 
-export default memo(function Heading({
+export default memo(function EditableTitle({
   title,
   onClickSelect,
   setTitle,
@@ -57,7 +57,7 @@ export default memo(function Heading({
   );
   return (
     <Block id={0} onClickSelect={onClickSelect} isTitle>
-      <Button onClick={onClick} onFocus={onFocus}>
+      <Button name="Title" onClick={onClick} onFocus={onFocus}>
         {showTextarea ? (
           <TitleTextarea
             autoFocus

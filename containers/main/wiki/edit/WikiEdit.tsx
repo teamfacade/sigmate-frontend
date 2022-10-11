@@ -1,12 +1,6 @@
-import {
-  useCallback,
-  SetStateAction,
-  Dispatch,
-  memo,
-  ChangeEventHandler,
-} from 'react';
+import { useCallback, SetStateAction, Dispatch, memo } from 'react';
 import styled from 'styled-components';
-import { InitialDocumentBlock } from 'lib/main/wiki/getWikiData';
+import { createNewBlock } from 'lib/main/wiki/utils';
 import { EditBlock } from 'containers/main/wiki/edit';
 import { SectionWrapper } from 'components/global';
 import { EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
@@ -20,17 +14,8 @@ type PropsType = {
   onChangeTypes?: ReactSelect.MultiSelectChangeEventHandler;
   blocks: Wiki.DocumentBlockType[];
   setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
-  keyInfos?: Wiki.KeyInfoType;
-  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement>;
+  keyInfo?: Wiki.KeyInfoType;
 };
-
-const createNewBlock: (element: string) => Wiki.DocumentBlockType = (
-  element: string
-) => ({
-  ...InitialDocumentBlock,
-  id: -1 * Date.now(),
-  element,
-});
 
 export default memo(function WikiEdit({
   title,
@@ -39,12 +24,10 @@ export default memo(function WikiEdit({
   setTitle,
   blocks,
   setBlocks,
-  keyInfos,
-  onChangeKeyInfos,
+  keyInfo,
 }: PropsType) {
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
-      console.log(`create new${tag}`);
       setBlocks((curState) => {
         const clickedIdx = curState.findIndex((block) => block.id === id);
         return curState
@@ -83,12 +66,7 @@ export default memo(function WikiEdit({
           value={types}
           onChange={onChangeTypes as ReactSelect.MultiSelectChangeEventHandler}
         />
-        {keyInfos && (
-          <EditKeyInfo
-            keyInfos={keyInfos}
-            onChangeKeyInfos={onChangeKeyInfos}
-          />
-        )}
+        {keyInfo && <EditKeyInfo keyInfos={keyInfo} />}
         {blocks.map((block) => {
           return (
             <EditBlock

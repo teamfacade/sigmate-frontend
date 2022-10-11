@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  types: string[];
+  types: Forum.CategoryType[];
 };
 
 export default memo(function Types({ types }: PropsType) {
@@ -14,8 +14,8 @@ export default memo(function Types({ types }: PropsType) {
       <TypesWrapper>
         {types.map((type, idx) => {
           return (
-            <span key={type}>
-              <Type>{type}</Type>
+            <span key={type.id}>
+              <Type>{type.name}</Type>
               {idx < types.length - 1 && <Divider>{' | '}</Divider>}
             </span>
           );

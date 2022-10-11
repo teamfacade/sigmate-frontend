@@ -1,11 +1,6 @@
-import {
-  useCallback,
-  SetStateAction,
-  Dispatch,
-  memo,
-  ChangeEventHandler,
-} from 'react';
+import { useCallback, SetStateAction, Dispatch, memo } from 'react';
 import styled from 'styled-components';
+import { createNewBlock } from 'lib/main/wiki/utils';
 import { EditBlock } from 'containers/main/wiki/edit';
 import { EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
 import { SelectTypes } from 'components/main/wiki/new';
@@ -19,21 +14,7 @@ type PropsType = {
   blocks: Wiki.DocumentBlockType[];
   setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
   keyInfo: Wiki.KeyInfoType;
-  onChangeKeyInfos: ChangeEventHandler<HTMLTextAreaElement>;
 };
-
-const createNewBlock: (element: string) => Wiki.DocumentBlockType = (
-  element: string
-) => ({
-  id: Date.now(),
-  element,
-  textContent: '',
-  verificationCounts: {
-    verifyCount: 0,
-    beAwareCount: 0,
-  },
-  opinionCount: 0,
-});
 
 export default memo(function WriteNew({
   topic,
@@ -43,8 +24,8 @@ export default memo(function WriteNew({
   blocks,
   setBlocks,
   keyInfo,
-  onChangeKeyInfos,
 }: PropsType) {
+  // @todo 언젠가 children 구조가 생기면 setBlocks 로직을 parent id 존재 유무에 따라 바꾸기
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
       setBlocks((curState) => {
@@ -88,10 +69,7 @@ export default memo(function WriteNew({
                 onChangeTypes as ReactSelect.MultiSelectChangeEventHandler
               }
             />
-            <EditKeyInfo
-              keyInfos={keyInfo}
-              onChangeKeyInfos={onChangeKeyInfos}
-            />
+            <EditKeyInfo keyInfos={keyInfo} />
           </>
         )}
         {blocks.map((block) => {

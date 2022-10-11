@@ -261,9 +261,8 @@ declare global {
       id: number;
       title: string;
       blocks?: Wiki.DocumentBlockType[];
-      keyInfos?: Wiki.DocumentBlockType[];
       keyInfo?: Wiki.KeyInfoType;
-      types?: string[];
+      types: string[];
       createdBy: Forum.AuthorType;
     };
   }

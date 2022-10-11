@@ -4,7 +4,7 @@ import {
   getArticleReadData,
 } from 'lib/main/wiki/getWikiData';
 import { WikiArticle } from 'containers/main/wiki/read';
-import styled from 'styled-components';
+import { LargeText } from 'components/global';
 
 export default function WikiPage({
   document,
@@ -42,13 +42,3 @@ export async function getStaticProps({ params }: GetStaticPropsContext) {
     revalidate: 300, // In seconds
   };
 }
-
-const LargeText = styled.p`
-  margin: auto;
-  text-align: center;
-  color: #96b8d7;
-  font-family: 'Claris Sans', sans-serif;
-  font-size: 50px;
-  font-weight: 200;
-  line-height: 150%;
-`;

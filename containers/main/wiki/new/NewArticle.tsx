@@ -76,7 +76,7 @@ export default function NewArticle({ topic }: PropsType) {
                 textContent: imageUrl || '',
               },
               team: keyInfoBlocks.team,
-              rugpool: keyInfoBlocks.history,
+              history: keyInfoBlocks.history,
               category: keyInfoBlocks.category,
               utility: keyInfoBlocks.utility,
               mintingPriceWl: keyInfoBlocks.mintingPriceWl,
@@ -122,7 +122,7 @@ export default function NewArticle({ topic }: PropsType) {
       e.preventDefault();
       const { elements } = e.currentTarget;
       const team = elements.namedItem('Team') as HTMLTextAreaElement;
-      const history = elements.namedItem('Rugpool') as HTMLTextAreaElement;
+      const history = elements.namedItem('History') as HTMLTextAreaElement;
       const category = elements.namedItem('Category') as HTMLSelectElement;
       const utility = elements.namedItem('Utility') as HTMLTextAreaElement;
 
@@ -133,7 +133,6 @@ export default function NewArticle({ topic }: PropsType) {
           return;
         }
       }
-      console.log(blocks);
       if (title === '') {
         alert('A wiki document should have a title.');
         (elements.namedItem('Title') as HTMLButtonElement).focus();

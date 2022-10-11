@@ -49,7 +49,7 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
   const [editableKeyInfos, setEditableKeyInfos] =
     useState<EditableKeyInfosType>({
       team: keyInfos.team.textContent,
-      history: keyInfos.rugpool.textContent,
+      history: keyInfos.history.textContent,
       category: keyInfos.category.textContent,
       utility: keyInfos.utility.textContent,
       marketPlace: keyInfos.marketplace.textContent,
@@ -65,7 +65,7 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
             team: value,
           }));
           break;
-        case 'Rugpool':
+        case 'History':
           setEditableKeyInfos((current) => ({
             ...current,
             history: value,
@@ -111,7 +111,7 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
       }
       if (
         i === KeyInfoIndex.Team ||
-        i === KeyInfoIndex.Rugpool ||
+        i === KeyInfoIndex.History ||
         i === KeyInfoIndex.Utility ||
         i === KeyInfoIndex.Marketplace
       ) {
@@ -163,10 +163,10 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
           <p>Team</p>
         </TableItem>
         {TdBlocks[KeyInfoIndex.Team]}
-        <TableItem gridArea="Tr_Rugpool">
-          <p>Rugpool</p>
+        <TableItem gridArea="History">
+          <p>History</p>
         </TableItem>
-        {TdBlocks[KeyInfoIndex.Rugpool]}
+        {TdBlocks[KeyInfoIndex.History]}
         <TableItem gridArea="Th_Category">
           <p>Category</p>
         </TableItem>
@@ -243,7 +243,7 @@ const Table = styled.div`
     'Name           Name            Name'
     'Thumbnail      Thumbnail       Thumbnail'
     'Th_Team        Tr_Team         Td_Team'
-    'Th_Team        Tr_Rugpool      Td_Rugpool'
+    'Th_Team        Tr_History      Td_History'
     'Th_Category    Tr_Category     Td_Category'
     'Th_Category    Tr_Utility      Td_Utility'
     'Th_Price       Tr_WLPrice      Td_WLPrice'

@@ -256,6 +256,7 @@ export async function getArticleReadData(id: string) {
         id: Number.parseInt(id, 10),
         title: data.title,
         blocks: data.blocks,
+        types: data.categories,
         keyInfo: {
           name: {
             id: data.collection.id,
@@ -289,15 +290,6 @@ export async function getArticleReadData(id: string) {
     );
     return null;
   }
-}
-
-export function getArticleEditData(title: string) {
-  // @todo blocks 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
-  const document: Wiki.DocumentType = { ...ExDocument, title };
-
-  return {
-    document,
-  };
 }
 
 // called when verdict modal is rendered

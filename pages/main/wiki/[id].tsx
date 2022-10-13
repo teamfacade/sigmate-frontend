@@ -36,9 +36,5 @@ export async function getStaticProps({ params }: GetStaticPropsContext) {
     props: {
       document,
     },
-    // Next.js will attempt to re-generate the page:
-    // - When a request comes in
-    // - At most once every 5 minutes
-    revalidate: 300, // In seconds
   };
 }

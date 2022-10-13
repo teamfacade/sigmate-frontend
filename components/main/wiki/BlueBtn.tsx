@@ -22,9 +22,10 @@ const BlueBtn = styled.button<{
   float: right;
   cursor: pointer;
   flex: 0 0 auto;
+  transition: background-color ease-in-out 300ms;
 
   :disabled {
-    background-color: ${styles.colors.verdictModalTextColor};
+    background-color: ${styles.colors.hrColor};
   }
 `;
 

@@ -6,10 +6,15 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   summary: string;
+  pending: boolean;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
-export default memo(function Summary({ summary, onChange }: PropsType) {
+export default memo(function Summary({
+  summary,
+  pending,
+  onChange,
+}: PropsType) {
   return (
     <Wrapper>
       <Heading>Summary</Heading>
@@ -31,7 +36,9 @@ export default memo(function Summary({ summary, onChange }: PropsType) {
           attribution under the Creative Commons license.
         </span>
       </DisclaimWrapper>
-      <BlueBtn type="submit">Save</BlueBtn>
+      <BlueBtn type="submit" disabled={pending}>
+        {pending ? '...' : 'Save'}
+      </BlueBtn>
     </Wrapper>
   );
 });

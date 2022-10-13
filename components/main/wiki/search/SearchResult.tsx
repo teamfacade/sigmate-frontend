@@ -28,10 +28,14 @@ const Wrapper = styled.div`
   h1 {
     margin: 0 0 18px 0;
     color: ${styles.colors.logoColor};
-    font-size: 40px;
+    font-size: 28px;
     font-weight: bold;
     line-height: 110%;
     text-align: left;
+  }
+
+  & + & {
+    margin-top: 24px;
   }
 `;
 
@@ -50,9 +54,11 @@ const FlexWrapper = styled.div`
   }
 
   p {
+    max-height: 40px;
     margin: 0 16px 0 0;
     color: ${styles.colors.logColor};
-    font-size: 18px;
+    font-size: 14px;
+    overflow: hidden;
   }
 
   button {

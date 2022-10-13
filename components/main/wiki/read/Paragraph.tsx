@@ -15,4 +15,5 @@ const P = styled.p`
   color: ${styles.colors.logColor};
   font-size: 14px;
   line-height: 160%;
+  word-break: break-all;
 `;

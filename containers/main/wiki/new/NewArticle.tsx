@@ -15,6 +15,7 @@ type PropsType = {
 export default function NewArticle({ topic }: PropsType) {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [pending, setPending] = useState<boolean>(false);
   const [basicFetched, setBasicFetched] = useState(false);
   const [id, setId] = useState<number>(-1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,6 +38,7 @@ export default function NewArticle({ topic }: PropsType) {
   const onSubmitBasicInfo: FormEventHandler<HTMLFormElement> = useCallback(
     async (e) => {
       e.preventDefault();
+      setPending(true);
       if (topic === 'Collection') {
         const slug = (
           e.currentTarget.elements.namedItem(
@@ -58,6 +60,7 @@ export default function NewArticle({ topic }: PropsType) {
             },
           })
         ).then((action: any) => {
+          setPending(false);
           if (action.payload.status === 201) {
             setId(action.payload.data.document.id);
             setTitle(action.payload.data.document.collection.name);
@@ -99,6 +102,7 @@ export default function NewArticle({ topic }: PropsType) {
           }
         });
       } else if (topic === 'Token') {
+        setPending(false);
         // eslint-disable-next-line no-console
         console.log(
           `Contract Address: ${
@@ -120,6 +124,7 @@ export default function NewArticle({ topic }: PropsType) {
 
   const onSubmitArticle: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
+      setPending(true);
       const collection: any = {};
       e.preventDefault();
       const { elements } = e.currentTarget;
@@ -131,6 +136,7 @@ export default function NewArticle({ topic }: PropsType) {
         const utility = elements.namedItem('Utility') as HTMLTextAreaElement;
 
         if (team.value === '') {
+          setPending(false);
           alert('NFT Collection document must have team information.');
           team.focus();
           return;
@@ -141,11 +147,13 @@ export default function NewArticle({ topic }: PropsType) {
         collection.utility = utility.value;
       }
       if (title === '') {
+        setPending(false);
         alert('A wiki document should have a title.');
         (elements.namedItem('Title') as HTMLButtonElement).focus();
         return;
       }
       if (blocks.length === 0) {
+        setPending(false);
         alert('A wiki document must have contents.');
         return;
       }
@@ -163,22 +171,29 @@ export default function NewArticle({ topic }: PropsType) {
           },
         })
       ).then(async (action: any) => {
+        console.log(action.payload.status);
         if (action.payload.status === 200) {
           alert('Created a new document!');
           await router.push(`/main/wiki/${id}`);
-        } else
+        } else {
+          setPending(false);
           alert(
             `Error while creating new article. ERR: ${action.payload.status}`
           );
+        }
       });
     },
-    [id, title, selectedOption, blocks, keyInfo, router]
+    [id, title, selectedOption, blocks, keyInfo]
   );
 
   return (
     <SectionWrapper header="Start New Article" marginBottom="20px">
       {!basicFetched && (
-        <BasicInfos topic={topic} onSubmit={onSubmitBasicInfo} />
+        <BasicInfos
+          topic={topic}
+          basicPending={pending}
+          onSubmit={onSubmitBasicInfo}
+        />
       )}
       {(basicFetched || topic === 'Others') && (
         <form onSubmit={onSubmitArticle}>
@@ -203,8 +218,13 @@ export default function NewArticle({ topic }: PropsType) {
               sufficient attribution under the Creative Commons license.
             </span>
           </DisclaimWrapper>
-          <BlueBtn width="162px" margin="29px 0 0 0" type="submit">
-            Submit
+          <BlueBtn
+            width="162px"
+            margin="29px 0 0 0"
+            type="submit"
+            disabled={pending}
+          >
+            {pending ? '...' : 'Submit'}
           </BlueBtn>
         </form>
       )}

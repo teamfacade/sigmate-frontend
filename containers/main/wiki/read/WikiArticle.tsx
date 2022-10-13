@@ -13,7 +13,7 @@ import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { ReadBlock } from 'containers/main/wiki/read';
 import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
 import { ReadKeyInfo, Title, Types } from 'components/main/wiki/read';
-import styles from 'styles/styleLib';
+import styles, { BlueBtnStyle } from 'styles/styleLib';
 
 type PropsType = {
   document: Wiki.DocumentType;
@@ -23,10 +23,13 @@ export default function WikiArticle({ document }: PropsType) {
   const router = useRouter();
   const { signedIn } = useAppSelector(({ auth }) => auth);
   const { userName } = useAppSelector(({ account }) => account);
+
   const [showModal, setShowModal] = useState<Wiki.ModalDataType>({
     blockID: '',
   });
+  const [pending, setPending] = useState<boolean>(false);
   const ModalRef = useRef<HTMLDivElement>(null);
+
   const VerificationData: Wiki.VerificationType | undefined = useMemo(() => {
     if (showModal.blockID !== '') {
       const targetID = Number.parseInt(showModal.blockID, 10);
@@ -52,10 +55,18 @@ export default function WikiArticle({ document }: PropsType) {
   }, [document, showModal.blockID]);
 
   const onClickEdit: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    if (signedIn && userName) router.push(`/main/wiki-edit/${document.id}`);
+    setPending(true);
+    if (signedIn && userName)
+      router.push(`/main/wiki-edit/${document.id}`).catch((e) => {
+        alert(`Error while routing to edit page: ERR ${e.name}`);
+        setPending(false);
+      });
     else {
       alert('You have to sign in to edit the document.');
-      router.push('/auth');
+      router.push('/auth').catch((e) => {
+        alert(`Error while routing to edit page: ERR ${e.name}`);
+        setPending(false);
+      });
     }
   }, [signedIn, userName, document]);
 
@@ -93,7 +104,9 @@ export default function WikiArticle({ document }: PropsType) {
             />
           );
         })}
-      <EditBtn onClick={onClickEdit}>Edit</EditBtn>
+      <EditBtn disabled={pending} onClick={onClickEdit}>
+        {pending ? '...' : 'Edit'}
+      </EditBtn>
       <CSSTransition
         in={!!VerificationData}
         timeout={300}
@@ -116,16 +129,10 @@ const Wrapper = memo(styled.div`
 `);
 
 const EditBtn = memo(styled.button`
+  ${BlueBtnStyle};
   position: absolute;
   top: 0;
   right: 0;
   width: 133px;
   height: 45px;
-  border: none;
-  border-radius: 8px;
-  color: #ffffff;
-  background-color: ${styles.colors.emphColor};
-  font-size: 18px;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
 `);

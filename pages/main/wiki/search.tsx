@@ -20,7 +20,8 @@ const fetcher: Fetcher<Wiki.SearchResultType[] | null, string> = async (
     if (res.status === 200) {
       total = res.data.page.total;
       return res.data.data;
-    } alert(`Error while searching the article. ERR: ${res.status}`);
+    }
+    alert(`Error while searching the article. ERR: ${res.status}`);
     return null;
   } catch (e: any) {
     alert(
@@ -83,6 +84,7 @@ export default function SearchResultPage() {
 
   return (
     <div>
+      <H1>{`Search for: ${router.query.title}`}</H1>
       <Wrapper>
         {searchResults?.map((result) => (
           <SearchResult
@@ -92,7 +94,7 @@ export default function SearchResultPage() {
             textContent={result.textContent}
           />
         ))}
-        {searchResults && (
+        {searchResults?.length !== 0 && (
           <PageMoveBtns
             curPage={curPage}
             totalPage={Math.floor(total / limit) + 1}
@@ -110,4 +112,14 @@ const Wrapper = styled.div`
   padding-bottom: 32px;
   margin-bottom: 16px;
   border-bottom: 1px solid ${styles.colors.hrColor};
+`;
+
+const H1 = styled.h1`
+  margin: 0 0 18px 0;
+  color: ${styles.colors.logoColor};
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 110%;
+  text-align: left;
+  padding-bottom: 32px;
 `;

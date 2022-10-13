@@ -45,6 +45,7 @@ export default function WikiEditPage({
     return initBlocks;
   });
   const [summary, setSummary] = useState('');
+  const [pending, setPending] = useState<boolean>(false);
 
   const onChangeTypes: ReactSelect.MultiSelectChangeEventHandler = useCallback(
     (selected) => {
@@ -62,6 +63,7 @@ export default function WikiEditPage({
 
   const onSave: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
+      setPending(true);
       const collection: any = {};
       e.preventDefault();
       const { id } = document;
@@ -74,6 +76,7 @@ export default function WikiEditPage({
         const utility = elements.namedItem('Utility') as HTMLTextAreaElement;
 
         if (team.value === '') {
+          setPending(false);
           alert('NFT Collection document must have team information.');
           team.focus();
           return;
@@ -84,11 +87,13 @@ export default function WikiEditPage({
         collection.utility = utility.value;
       }
       if (title === '') {
+        setPending(false);
         alert('A wiki document should have a title.');
         (elements.namedItem('Title') as HTMLButtonElement).focus();
         return;
       }
       if (blocks.length === 0) {
+        setPending(false);
         alert('A wiki document must have contents.');
         return;
       }
@@ -109,10 +114,12 @@ export default function WikiEditPage({
         if (action.payload.status === 200) {
           alert('Successfully saved the document.');
           await router.push(`/main/wiki/${id}`);
-        } else
+        } else {
+          setPending(false);
           alert(
             `Error while creating new article. ERR: ${action.payload.status}`
           );
+        }
       });
     },
     [selectedOption, blocks, document, title, router]
@@ -129,7 +136,7 @@ export default function WikiEditPage({
         setBlocks={setBlocks}
         keyInfo={document.keyInfo}
       />
-      <Summary summary={summary} onChange={onSummaryChange} />
+      <Summary summary={summary} pending={pending} onChange={onSummaryChange} />
     </form>
   );
 }

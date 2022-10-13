@@ -35,7 +35,7 @@ const Wrapper = styled.div`
   }
 
   & + & {
-    margin-top: 24px;
+    margin-top: 36px;
   }
 `;
 

@@ -270,19 +270,6 @@ const InitialKeyInfos: Wiki.KeyInfoType = {
   },
 };
 
-export function getAllArticleTitles() {
-  // @todo const titles = fetch....
-  const titles = ['hush', 'empty'];
-
-  return titles.map((title) => {
-    return {
-      params: {
-        id: title,
-      },
-    };
-  });
-}
-
 export async function getArticleReadData(id: string) {
   try {
     const res = await Axios.get(`/wiki/d/${id}`);

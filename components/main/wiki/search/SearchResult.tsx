@@ -54,7 +54,7 @@ const FlexWrapper = styled.div`
   }
 
   p {
-    max-height: 40px;
+    max-height: 34px;
     margin: 0 16px 0 0;
     color: ${styles.colors.logColor};
     font-size: 14px;

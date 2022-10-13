@@ -25,12 +25,12 @@ const KeyInfoTitles: string[] = [
   'History',
   'Category',
   'Utility',
-  'Whitelist',
-  'Public',
-  'Current',
+  'Whitelist Price',
+  'Public Price',
+  'Current FP',
   'Discord',
   'Twitter',
-  'Official website',
+  'Official Website',
   'Chain',
   'Marketplace',
 ];
@@ -86,17 +86,17 @@ const SigmateDocument: Wiki.DocumentType = {
     mintingPriceWl: {
       ...ExBlock,
       id: KeyInfoIndex.WLPrice,
-      textContent: '0.01 ETH',
+      textContent: '0.01',
     },
     mintingPricePublic: {
       ...ExBlock,
       id: KeyInfoIndex.PublicPrice,
-      textContent: '0.01 ETH',
+      textContent: '0.01',
     },
     floorPrice: {
       ...ExBlock,
       id: KeyInfoIndex.CurrentPrice,
-      textContent: '100 ETH',
+      textContent: '100',
     },
     discordUrl: {
       ...ExBlock,
@@ -106,7 +106,7 @@ const SigmateDocument: Wiki.DocumentType = {
     twitterHandle: {
       ...ExBlock,
       id: KeyInfoIndex.Twitter,
-      textContent: 'https://twitter.com/OfficialSigmate',
+      textContent: 'OfficialSigmate',
     },
     websiteUrl: {
       ...ExBlock,

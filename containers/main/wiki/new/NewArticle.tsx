@@ -44,7 +44,7 @@ export default function NewArticle({ topic }: PropsType) {
           ) as HTMLInputElement
         )?.value
           .split('/')
-          .at(-1);
+          .at(4);
 
         dispatch(
           AuthRequiredAxios({
@@ -60,6 +60,7 @@ export default function NewArticle({ topic }: PropsType) {
         ).then((action: any) => {
           if (action.payload.status === 201) {
             setId(action.payload.data.document.id);
+            setTitle(action.payload.data.document.collection.name);
             const {
               name,
               imageUrl,

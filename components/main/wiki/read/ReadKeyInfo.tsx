@@ -50,7 +50,29 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
           isKeyInfo={KeyInfoTitles[i]}
         >
           <Td>
-            <p>{_keyInfo.textContent || 'TBA'}</p>
+            {KeyInfoIndex.Discord <= i &&
+            i <= KeyInfoIndex.OfficialSite &&
+            _keyInfo.textContent ? (
+              <a
+                href={`${
+                  i === KeyInfoIndex.Twitter ? 'https://twitter.com/' : ''
+                }${_keyInfo.textContent}`}
+                target="_blank" rel="noreferrer"
+              >
+                <p>{`${i === KeyInfoIndex.Twitter ? '@' : ''}${
+                  _keyInfo.textContent
+                }`}</p>
+              </a>
+            ) : (
+              <p>
+                {_keyInfo.textContent || 'TBA'}
+                {KeyInfoIndex.WLPrice <= i &&
+                i <= KeyInfoIndex.CurrentPrice &&
+                _keyInfo.textContent
+                  ? ' ETH'
+                  : ''}
+              </p>
+            )}
           </Td>
         </VerdictBlock>
       </Tr>
@@ -140,6 +162,10 @@ const Td = styled.div`
   min-height: 35px;
   padding: 8px 14px;
   background-color: #ffffff;
+
+  a > p {
+    color: ${styles.colors.emphColor};
+  }
 
   p {
     font-size: 13px;

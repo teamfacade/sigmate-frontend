@@ -7,30 +7,37 @@ export default memo(function ExternalLinks() {
     <Wrapper>
       <ul>
         <li>User Guide</li>
-        <li>User Guide</li>
-        <li>User Guide</li>
-        <li>User Guide</li>
+        <li>Wiki</li>
+        <li>Verdict</li>
+        <li>Opinion</li>
+        <li>Thread</li>
       </ul>
       <ul>
-        <li>Docs</li>
-        <li>Docs</li>
-        <li>Docs</li>
-        <li>Docs</li>
+        <li>Features</li>
+        <li>What's happening</li>
+        <li>Hype</li>
+        <li>Calendar</li>
+        <li>Draw</li>
+        <li>Index</li>
+        <li>Report</li>
       </ul>
       <ul>
-        <li>Security Adult</li>
-        <li>Security Adult</li>
-        <li>Security Adult</li>
+        <li>Notice</li>
       </ul>
       <ul>
-        <li>Disclaimer</li>
-        <li>Disclaimer</li>
-        <li>Disclaimer</li>
-      </ul>
-      <ul>
+        <li>Support</li>
         <li>FAQ</li>
-        <li>FAQ</li>
-        <li>FAQ</li>
+        <li>Docs</li>
+        <li>Listing Request</li>
+        <li>Advertise</li>
+      </ul>
+      <ul>
+        <li>Company</li>
+        <li>About Sigmate</li>
+        <li>TOS</li>
+        <li>Privacy</li>
+        <li>Contact us</li>
+        <li>Disclaimer</li>
       </ul>
     </Wrapper>
   );

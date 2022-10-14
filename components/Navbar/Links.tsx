@@ -26,6 +26,12 @@ export default memo(function Links({ onClickShowMenu }: PropsType) {
           <a onClick={onClickShowMenu}>Forum</a>
         </Link>
       </li>
+      <li>
+        <a>Stats/Trending</a>
+      </li>
+      <li>
+        <a>Events/Draw</a>
+      </li>
     </LinksWrapper>
   );
 });

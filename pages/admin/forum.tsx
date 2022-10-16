@@ -28,19 +28,18 @@ import { BlueBtnStyle } from 'styles/styleLib';
 let total = 0;
 const limit = 10;
 
-const categoriesFetcher: Fetcher<Forum.CategoryType[], string> = async (
-  url: string
-) => {
-  try {
-    const { status, data } = await Axios.get(url);
-    if (status === 200) {
-      return data.categories;
-    }
-    return [];
-  } catch (e) {
-    alert(`Error while fetching categories: ERR ${e}`);
-    return [];
+export const categoriesFetcher: Fetcher<
+  CollectionCategoryType[],
+  string
+> = async (url: string) => {
+  const { status, data } = await Axios.get(url);
+  if (status === 200) {
+    return data.categories || [];
   }
+  alert(
+    `Error while fetching collection categories: ERR ${status}.\r\nPlease reload the page.`
+  );
+  return [];
 };
 
 const postsFetcher: Fetcher<Forum.PostType[], string> = async (url: string) => {
@@ -63,7 +62,10 @@ export default function ForumManagement() {
   const [curPage, setCurPage] = useState(1);
   const ModalRef = useRef<HTMLDivElement>(null);
 
-  const { data: categories, mutate } = useSWR('/forum/c', categoriesFetcher);
+  const { data: categories, mutate } = useSWR(
+    `/wiki/collection/category`,
+    categoriesFetcher
+  );
   const { data: posts } = useSWR(
     queryCategory
       ? `forum/c/${queryCategory}/p?limit=${limit}&page=${curPage}`
@@ -139,7 +141,7 @@ export default function ForumManagement() {
         <BasicWrapper>
           <SectionWrapper header="Forum articles">
             <div>
-              <span>Category</span>
+              <span>Category (지금은 forum 게시판 종류와 다름)</span>
               <select name="category" onChange={onSelectCategory}>
                 {categories?.map((category) => (
                   <option key={category.id} value={category.id}>
@@ -150,14 +152,6 @@ export default function ForumManagement() {
             </div>
             <span>Tags</span>
             <Search />
-            <ManageBtnsWrapper>
-              <ManageBtn name="Create" onClick={onClick}>
-                Add new
-              </ManageBtn>
-              <ManageBtn name="Edit" onClick={onClick}>
-                Edit Categories
-              </ManageBtn>
-            </ManageBtnsWrapper>
           </SectionWrapper>
         </BasicWrapper>
         <BasicWrapper>
@@ -194,11 +188,7 @@ export default function ForumManagement() {
         nodeRef={ModalRef}
       >
         <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          {showModal === 'Create' ? (
-            <CreateCategory />
-          ) : (
-            <EditForumCategories />
-          )}
+          <EditForumCategories />
         </Modal>
       </CSSTransition>
     </>
@@ -212,20 +202,5 @@ const Wrapper = styled.div`
 
   div + div {
     margin-top: 20px;
-  }
-`;
-
-const ManageBtnsWrapper = styled.div`
-  position: absolute;
-  top: -10px;
-  right: 0;
-  display: flex;
-`;
-
-const ManageBtn = styled.button`
-  ${BlueBtnStyle};
-
-  & + & {
-    margin-left: 8px;
   }
 `;

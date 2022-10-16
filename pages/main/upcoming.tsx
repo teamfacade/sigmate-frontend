@@ -85,8 +85,8 @@ export default function Upcoming() {
     }, []);
 
   const AddToCalendar: (id: string, subscribed: boolean) => void = useCallback(
-    (id: string, subscribed: boolean) => {
-      dispatch(
+    async (id: string, subscribed: boolean) => {
+      const action: any = await dispatch(
         AuthRequiredAxios(
           subscribed
             ? {
@@ -102,20 +102,17 @@ export default function Upcoming() {
                 },
               }
         )
-      ).then((action: any) => {
-        if (action.payload.status === 200)
-          alert(
-            `${
-              subscribed
-                ? 'Unsubscribed the minting schedule.'
-                : 'Added to my calendar.'
-            }`
-          );
-        else
-          alert(
-            'Error while adding event to my calendar.\r\nPlease try again.'
-          );
-      });
+      );
+      if (action.payload.status === 200)
+        alert(
+          `${
+            subscribed
+              ? 'Unsubscribed the minting schedule.'
+              : 'Added to my calendar.'
+          }`
+        );
+      else
+        alert('Error while adding event to my calendar.\r\nPlease try again.');
     },
     []
   );

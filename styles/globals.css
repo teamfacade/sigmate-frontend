@@ -37,9 +37,13 @@ p, span {
   font-family: 'Inter', sans-serif;
 }
 
-button:hover, button:active {
-  filter: brightness(0.7);
+button:hover {
+  filter: brightness(0.8);
   cursor: pointer;
+}
+
+button:active {
+  box-shadow: 0 1px 3px 0 #E4E4E4;
 }
 
 hr {

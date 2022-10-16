@@ -212,7 +212,7 @@ export default function MintingSchedule() {
                   name={schedule.name}
                   mintingTime={new Date(schedule.mintingTime).toISOString()}
                   tier={schedule.tier}
-                  category={schedule.collection.category || ''}
+                  category={schedule.collection.category?.name || ''}
                   onClick={onClick}
                 />
               ))}

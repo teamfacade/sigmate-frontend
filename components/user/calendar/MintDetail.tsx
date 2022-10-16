@@ -58,16 +58,12 @@ export default memo(function MintDetail({ mint }: PropsType) {
             )}
           </InnerBtnWrapper>
           <InnerBtnWrapper>
-            <LinkBtn mintPage={false}>
-              <Link href={`/main/wiki/${mint.name}`}>
-                <a>Wiki Page</a>
-              </Link>
-            </LinkBtn>
-            <LinkBtn mintPage>
-              <Link href={mint.mintingUrl || 'https://opensea.io'}>
-                <a>Minting Page</a>
-              </Link>
-            </LinkBtn>
+            <Link href={`/main/wiki/${mint.collection.document.id}`}>
+              <LinkBtn mintPage={false}>Wiki Page</LinkBtn>
+            </Link>
+            <a href={mint.mintingUrl || 'https://opensea.io'}>
+              <LinkBtn mintPage>Minting Page</LinkBtn>
+            </a>
           </InnerBtnWrapper>
         </BtnWrapper>
       </Descriptions>
@@ -113,7 +109,7 @@ const InnerBtnWrapper = styled.div`
   display: flex;
   align-items: flex-end;
 
-  a + a {
+  a {
     margin-left: 7px;
   }
 `;
@@ -128,11 +124,7 @@ const LinkBtn = styled.button<{ mintPage: boolean }>`
     mintPage ? styles.colors.emphColor : 'transparent'};
   font-size: 15px;
   white-space: nowrap;
-
-  a {
-    color: ${({ mintPage }) =>
-      mintPage ? '#FFFFFF' : styles.colors.emphColor};
-  }
+  color: ${({ mintPage }) => (mintPage ? '#FFFFFF' : styles.colors.emphColor)};
 
   & + & {
     margin-left: 7px;

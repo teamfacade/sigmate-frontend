@@ -26,7 +26,7 @@ export default memo(function Schedules({
           mintingUrl={schedule.mintingUrl}
           mintingPrice={schedule.mintingPrice}
           mintingPriceSymbol={schedule.mintingPriceSymbol}
-          wikiPageUrl={`/main/wiki/${schedule.name}`}
+          wikiPageUrl={`/main/wiki/${schedule.collection.document?.id}`}
           twitterHandle={schedule.collection.twitterHandle}
           telegramUrl={schedule.collection.telegramUrl}
           discordUrl={schedule.collection.discordUrl}

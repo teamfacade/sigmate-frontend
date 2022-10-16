@@ -174,6 +174,7 @@ declare global {
       collection: CollectionType;
       mintingPrice?: string;
       mintingPriceSymbol?: string; // ETH/KLAYTN/SOL/Matic
+      document?: any;
     };
 
     type SchedulesType = StringKeyObj<Minting.ScheduleType[]>;

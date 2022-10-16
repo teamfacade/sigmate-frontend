@@ -61,7 +61,7 @@ const SigmateDocument: Wiki.DocumentType = {
     },
     thumbnail: {
       id: KeyInfoIndex.Thumbnail,
-      textContent: '/Icons/Favicon/SigmateDocumentImg.png',
+      textContent: '/Icons/Favicon/SigmateSquareImg.png',
     },
     team: {
       ...ExBlock,

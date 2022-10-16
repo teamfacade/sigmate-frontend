@@ -30,6 +30,7 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
             width="100%"
             height="100%"
             layout="responsive"
+            priority
           />
         </ImageWrapper>
       );
@@ -57,7 +58,8 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
                 href={`${
                   i === KeyInfoIndex.Twitter ? 'https://twitter.com/' : ''
                 }${_keyInfo.textContent}`}
-                target="_blank" rel="noreferrer"
+                target="_blank"
+                rel="noreferrer"
               >
                 <p>{`${i === KeyInfoIndex.Twitter ? '@' : ''}${
                   _keyInfo.textContent

@@ -7,7 +7,7 @@ import {
 } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from '@react-spring/web';
 import Axios from 'lib/global/axiosInstance';
 import { AxiosError } from 'axios';
 import styles from 'styles/styleLib';
@@ -17,7 +17,8 @@ const waitingFetcher: Fetcher<number, string> = async (url) => {
     const res = await Axios.get(url);
     if (res.status === 200) {
       return res.data.count;
-    } return 0;
+    }
+    return 0;
   } catch {
     return 0;
   }

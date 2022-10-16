@@ -7,14 +7,12 @@ import { WavingHand } from 'public/Icons/landingPage';
 export default function Buttons() {
   return (
     <Wrapper>
-      <Link href="/main/wiki/Sigmate" passHref>
-        <HandShake>
-          <div>
-            <WavingHand />
-            <p>Launch App</p>
-          </div>
-        </HandShake>
-      </Link>
+      <HandShake>
+        <div>
+          <WavingHand />
+          <p>Launch App</p>
+        </div>
+      </HandShake>
       <SocialLinkDiv>
         <SocialLinkWrapper btnWidth="56px" btnHeight="56px" marginLeft="8px">
           <SocialLinkBtn platform="Twitter" />

@@ -142,12 +142,11 @@ const connectToMetaMask = async (dispatch: AppDispatch) => {
         return tryConnection(dispatch, publicAddresss, signedMsg);
       })
       .catch(async (e) => e);
-  } 
-    // MetaMask is not installed on user's browser.
-    // Redirect to metamask install page
-    window.open('https://metamask.io/download/');
-    return handleMetaMaskLoginFail();
-  
+  }
+  // MetaMask is not installed on user's browser.
+  // Redirect to metamask install page
+  window.open('https://metamask.io/download/');
+  return handleMetaMaskLoginFail();
 };
 
 export { connectToMetaMask };

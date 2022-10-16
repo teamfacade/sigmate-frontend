@@ -8,9 +8,7 @@ export default function Title() {
     <Wrapper>
       <WritingHand />
       <Text>
-        <TextHighlight color="#F7E7FF">
-          {'  Write 2 Earn System'}
-        </TextHighlight>
+        <TextHighlight color="#F7E7FF">{'  Write 2 Earn System'}</TextHighlight>
       </Text>
     </Wrapper>
   );

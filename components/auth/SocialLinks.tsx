@@ -5,16 +5,28 @@ export default function SocialLinks() {
   return (
     <Wrapper>
       <LinkWrapper>
-        <a href="https://twitter.com/OfficialSigmate" target="_blank" rel="noreferrer">
+        <a
+          href="https://twitter.com/OfficialSigmate"
+          target="_blank"
+          rel="noreferrer"
+        >
           <SNSBtn platform="Twitter" />
         </a>
         <a href="https://t.me/officialsigmate" target="_blank" rel="noreferrer">
           <SNSBtn platform="Telegram" />
         </a>
-        <a href="https://discord.gg/DaEsBQh3dh" target="_blank" rel="noreferrer">
+        <a
+          href="https://discord.gg/DaEsBQh3dh"
+          target="_blank"
+          rel="noreferrer"
+        >
           <SNSBtn platform="Discord" />
         </a>
-        <a href="https://medium.com/@sigmateofficial" target="_blank" rel="noreferrer">
+        <a
+          href="https://medium.com/@sigmateofficial"
+          target="_blank"
+          rel="noreferrer"
+        >
           <SNSBtn platform="Medium" />
         </a>
       </LinkWrapper>

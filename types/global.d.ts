@@ -155,12 +155,13 @@ declare global {
     type CollectionType = {
       id?: number;
       name?: string;
-      category?: string;
+      category?: CollectionCategoryType;
       twitterHandle?: string;
       discordUrl?: string;
       websiteUrl?: string;
       telegramUrl?: string;
       imageUrl?: string;
+      document?: any;
     };
 
     type ScheduleType = {
@@ -174,7 +175,6 @@ declare global {
       collection: CollectionType;
       mintingPrice?: string;
       mintingPriceSymbol?: string; // ETH/KLAYTN/SOL/Matic
-      document?: any;
     };
 
     type SchedulesType = StringKeyObj<Minting.ScheduleType[]>;

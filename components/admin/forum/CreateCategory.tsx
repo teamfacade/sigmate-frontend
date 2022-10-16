@@ -60,7 +60,8 @@ export default function EditSchedule() {
 
   return (
     <BasicWrapper>
-      <SectionWrapper header="New category">
+      <SectionWrapper header="New Group">
+        <p>여기서 만드는 게 지금은 Forum의 게시판 종류가 됩니다</p>
         <form onSubmit={onSubmit}>
           <Wrapper>
             <NamedInput name="Name" inputElemName="name" type="text" />

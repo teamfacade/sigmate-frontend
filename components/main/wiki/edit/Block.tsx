@@ -1,9 +1,10 @@
 import {
   ReactNode,
   memo,
-  MouseEventHandler,
-  useState,
   useCallback,
+  useEffect,
+  useState,
+  MouseEventHandler,
   FocusEventHandler,
 } from 'react';
 import Select from 'react-select';
@@ -23,6 +24,8 @@ const options: ReactSelect.OptionType[] = [
   { value: 'h', label: 'Heading' },
 ];
 
+let prevHeight = 0;
+
 export default memo(function Block({
   id,
   isTitle = false,
@@ -32,6 +35,18 @@ export default memo(function Block({
 }: PropsType) {
   const [showBtn, setShowBtn] = useState(isTitle);
   const [showSelect, setShowSelect] = useState(false);
+
+  useEffect(() => {
+    if (showSelect) {
+      const ContentWrapper = document.getElementById('content-wrapper');
+      if (ContentWrapper && prevHeight < ContentWrapper.scrollHeight) {
+        ContentWrapper.scrollTo({
+          top: ContentWrapper.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
+    }
+  }, [showSelect]);
 
   const onMouseEnter: MouseEventHandler<HTMLDivElement> = useCallback(
     () => setShowBtn(true),
@@ -43,6 +58,8 @@ export default memo(function Block({
 
   const onClickAdd: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
     setShowBtn(false);
+    const ContentWrapper = document.getElementById('content-wrapper');
+    if (ContentWrapper) prevHeight = ContentWrapper.scrollHeight;
     setShowSelect(true);
   }, []);
 
@@ -83,6 +100,7 @@ export default memo(function Block({
             options={options}
             onChange={onChange}
             autoFocus
+            defaultMenuIsOpen
             onBlur={onBlur}
           />
         </BlockTypeSelectWrapper>

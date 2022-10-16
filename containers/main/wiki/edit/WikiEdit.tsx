@@ -56,7 +56,7 @@ export default memo(function WikiEdit({
 
   return (
     <SectionWrapper header="Edit document">
-      <ContentWrapper>
+      <ContentWrapper id="content-wrapper">
         <EditableTitle
           title={title}
           setTitle={setTitle}

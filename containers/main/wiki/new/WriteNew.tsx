@@ -56,7 +56,7 @@ export default memo(function WriteNew({
 
   return (
     <div>
-      <ContentWrapper>
+      <ContentWrapper id="content-wrapper">
         <EditableTitle
           title={title}
           setTitle={setTitle}

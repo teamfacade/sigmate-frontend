@@ -6,3 +6,4 @@ export { default as BuildYourComm } from './BuildYourComm';
 export { default as CorrelationAlg } from './CorrelationAlg';
 export { default as RoadMap } from './RoadMap';
 export { default as GoUpBtn } from './GoUpBtn';
+export { default as WaitingList } from './WaitingList';

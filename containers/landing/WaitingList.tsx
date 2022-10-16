@@ -7,7 +7,7 @@ import {
 } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from '@react-spring/web';
 import Axios from 'lib/global/axiosInstance';
 import { AxiosError } from 'axios';
 import styles from 'styles/styleLib';

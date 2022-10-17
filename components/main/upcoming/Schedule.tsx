@@ -67,7 +67,7 @@ export default memo(function Schedule({
       <InnerWrapper>
         <Links
           wikiPageUrl={wikiPageUrl}
-          twitterUrl={`https://www.twitter.com/${twitterHandle}`}
+          twitterUrl={twitterHandle}
           telegramUrl={telegramUrl}
           discordUrl={discordUrl}
         />

@@ -12,8 +12,14 @@ type PropsType = {
 export default memo(function ScheduleThumbnail({ name, imageUrl }: PropsType) {
   if (imageUrl)
     return (
-      <ImageWrapper width="100%" height="150px">
-        <Image src={imageUrl} alt={`${name} thumbnail`} layout="fill" />
+      <ImageWrapper width="100%" height="fit-content">
+        <Image
+          src={imageUrl}
+          alt={`${name} thumbnail`}
+          width="100%"
+          height="100%"
+          layout="responsive"
+        />
       </ImageWrapper>
     );
   return <NoImage />;

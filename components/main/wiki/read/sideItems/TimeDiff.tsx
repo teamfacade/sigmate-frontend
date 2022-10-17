@@ -29,12 +29,12 @@ const Wrapper = styled.div<{ platform: string }>`
                 background-color: ${styles.colors.metamaskBackgroundColor};
                 color: ${styles.colors.metamaskNameColor};
               `;
-      case 'Discord':
+      case 'd':
         return `
                 background-color: ${styles.colors.discordBackgroundColor};
                 color: ${styles.colors.discordNameColor};
               `;
-      case 'Twitter':
+      case 't':
         return `
                 background-color: ${styles.colors.twitterBackgroundColor};
                 color: ${styles.colors.twitterNameColor};

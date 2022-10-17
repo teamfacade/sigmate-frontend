@@ -16,7 +16,6 @@ export default memo(function EllipsisText({
   return (
     <Wrapper height={height}>
       <Text height={height}>{content}</Text>
-      <Dots>...</Dots>
       {children}
     </Wrapper>
   );
@@ -34,19 +33,5 @@ const Text = styled.p<{ height: string }>`
   color: ${styles.colors.logColor};
   font-size: 13px;
   font-weight: 300;
-  line-height: 160%;
   overflow: hidden;
-`;
-
-const Dots = styled.p`
-  position: absolute;
-  right: 0;
-  bottom: -4px;
-  padding-left: 5px;
-  margin: 0;
-  background: #ffffff;
-  color: ${styles.colors.logColor};
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 160%;
 `;

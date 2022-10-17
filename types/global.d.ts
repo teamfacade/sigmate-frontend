@@ -138,19 +138,6 @@ declare global {
     [index: string]: T;
   }
 
-  type MintingType = {
-    name: string;
-    publisher: string;
-    thumbnailURL: string;
-    date: number;
-    price: string;
-    wikiPage?: string;
-    mintPage?: string;
-    twitterUrl?: string;
-    telegramUrl?: string;
-    discordUrl?: string;
-  };
-
   namespace Minting {
     type CollectionType = {
       id?: number;
@@ -190,6 +177,13 @@ declare global {
         name: string;
       };
       textContent: string;
+    };
+
+    type HappenedType = {
+      opt: 't' | 'd';
+      content: string;
+      timestamp: string;
+      contentId: string;
     };
 
     type KeyInfoType = {

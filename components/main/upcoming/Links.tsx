@@ -31,7 +31,7 @@ export default memo(function Links({
         </Link>
       )}
       {twitterUrl && (
-        <Link href={twitterUrl}>
+        <Link href={`https://www.twitter.com/${twitterUrl}`}>
           <a onClick={(e) => e.stopPropagation()}>
             <Twitter />
           </a>

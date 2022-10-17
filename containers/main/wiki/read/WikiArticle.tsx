@@ -81,7 +81,7 @@ export default function WikiArticle({ document }: PropsType) {
 
   return (
     <Wrapper>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Title title={document.title} />
         <EditBtn disabled={pending} onClick={onClickEdit}>
           {pending ? '...' : 'Edit'}
@@ -132,6 +132,8 @@ const Wrapper = memo(styled.div`
 
 const EditBtn = memo(styled.button`
   ${BlueBtnStyle};
+  flex: 0 1 auto;
   width: 133px;
   height: 45px;
+  margin: 0 0 0 10px;
 `);

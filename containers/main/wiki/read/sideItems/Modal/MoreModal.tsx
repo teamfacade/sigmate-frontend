@@ -13,12 +13,13 @@ import { Close as CloseIcon } from 'public/Icons/global';
 
 type PropsType = {
   header: string;
+  cid?: number | null;
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(
   forwardRef<HTMLDivElement, PropsType>(function MoreModal(
-    { header, onClick },
+    { header, cid, onClick },
     ref
   ) {
     const { signedIn } = useAppSelector(({ auth }) => auth);
@@ -30,7 +31,7 @@ export default memo(
           <Close onClick={onClick}>
             <CloseIcon />
           </Close>
-          <Contents header={header} />
+          <Contents header={header} cid={cid} />
           {!(signedIn && agreeTos) && <BlurDiv signedIn={signedIn} />}
         </SectionWrapper>
       </Modal>

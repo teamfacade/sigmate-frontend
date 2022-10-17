@@ -10,24 +10,17 @@ import { SideItemWrapper } from 'components/main/wiki/read/sideItems';
 import styles from 'styles/styleLib';
 import { AxiosError } from 'axios';
 
-type HappenedType = {
-  opt: 't' | 'd';
-  content: string;
-  timestamp: string;
-  contentId: string;
-};
-
-const WHFetcher: Fetcher<HappenedType[], string> = async (url) => {
+export const WHFetcher: Fetcher<Wiki.HappenedType[], string> = async (url) => {
   try {
     const res = await Axios.get(url);
-    return res.data.data || [];
+    return res.data.data || null;
   } catch (e) {
     alert(
       `Error fetching what's happening. ERR: ${
         (e as AxiosError).response?.status
       }`
     );
-    return [];
+    return null;
   }
 };
 
@@ -41,7 +34,8 @@ export default memo(function WhatsHappening({ cid }: PropsType) {
 
   const { data: Happens } = useSWR(
     cid ? `/wh/ann?cid=${cid}` : null,
-    cid ? WHFetcher : null
+    cid ? WHFetcher : null,
+    { revalidateOnFocus: false, revalidateOnReconnect: false }
   );
 
   const onClickMore: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -81,6 +75,7 @@ export default memo(function WhatsHappening({ cid }: PropsType) {
       >
         <MoreModal
           header={"What's happening"}
+          cid={cid}
           onClick={onClickClose}
           ref={modalRef}
         />

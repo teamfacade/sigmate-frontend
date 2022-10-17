@@ -4,7 +4,7 @@ import styles from 'styles/styleLib';
 import { Discord, Twitter } from 'public/Icons/main/wiki/read/SideItems';
 
 type PropsType = {
-  platform: 't' | 'd';
+  platform: string;
 };
 
 const PlatformIcons: StringKeyObj<typeof Discord> = {
@@ -22,7 +22,7 @@ export default memo(function Platform({ platform }: PropsType) {
   );
 });
 
-const Wrapper = styled.div<{ platform: 't' | 'd' }>`
+const Wrapper = styled.div<{ platform: string }>`
   width: 42px;
   height: 42px;
   border-radius: 8px;

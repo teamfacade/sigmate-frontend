@@ -9,7 +9,7 @@ type PropsType = {
   showHide: boolean;
 };
 
-export default memo(function EllipsisText({
+export default memo(function FullText({
   content,
   onClick,
   showHide,

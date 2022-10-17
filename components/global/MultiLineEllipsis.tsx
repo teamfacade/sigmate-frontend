@@ -2,6 +2,7 @@ import { memo } from 'react';
 import styled from 'styled-components';
 
 const MultiLineEllipsis = styled.div<{ line: number; lineHeight: string }>`
+  position: relative;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

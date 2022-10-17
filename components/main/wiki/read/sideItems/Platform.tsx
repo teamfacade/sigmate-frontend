@@ -4,12 +4,12 @@ import styles from 'styles/styleLib';
 import { Discord, Twitter } from 'public/Icons/main/wiki/read/SideItems';
 
 type PropsType = {
-  platform: string;
+  platform: 't' | 'd';
 };
 
 const PlatformIcons: StringKeyObj<typeof Discord> = {
-  Discord,
-  Twitter,
+  d: Discord,
+  t: Twitter,
 };
 
 export default memo(function Platform({ platform }: PropsType) {
@@ -22,7 +22,7 @@ export default memo(function Platform({ platform }: PropsType) {
   );
 });
 
-const Wrapper = styled.div<{ platform: string }>`
+const Wrapper = styled.div<{ platform: 't' | 'd' }>`
   width: 42px;
   height: 42px;
   border-radius: 8px;
@@ -30,12 +30,12 @@ const Wrapper = styled.div<{ platform: string }>`
 
   ${({ platform }) => {
     switch (platform) {
-      case 'Discord':
+      case 'd':
         return `
             border-color: ${styles.colors.discordBorderColor};
             background-color: ${styles.colors.discordBackgroundColor};
           `;
-      case 'Twitter':
+      case 't':
         return `
             border-color: ${styles.colors.twitterBorderColor};
             background-color: ${styles.colors.twitterBackgroundColor};

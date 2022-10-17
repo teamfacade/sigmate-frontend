@@ -1,7 +1,8 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
+import Axios from 'lib/global/axiosInstance';
 import { SideRecentEdits } from 'containers/main/layout';
 import { Adsense } from 'components/main/Layout';
 import { SocialLinks } from 'components/auth';
@@ -18,15 +19,29 @@ const Debate = dynamic(
 
 export default memo(function SideContent() {
   const router = useRouter();
+  const [cid, setCid] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (router.query.id && router.query.id !== 'Sigmate') {
+      Axios.get(`/wiki/d/${router.query.id}`)
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) setCid(res.data.data.collection.id);
+        })
+        .catch((e) =>
+          alert(`Error while fetching collection id. ERR ${e.status}`)
+        );
+    }
+  }, [router]);
 
   return (
     <>
       <SideRecentEdits />
       {/* <BuyToken /> */}
       {router.pathname.startsWith('/main/wiki/') &&
-        router.query.title !== 'empty' && (
+        router.query.id !== 'Sigmate' && (
           <>
-            <WhatsHappening title={router.query.title as string} />
+            <WhatsHappening cid={cid} />
             <Debate title={router.query.title as string} />
           </>
         )}

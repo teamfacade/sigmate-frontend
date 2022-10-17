@@ -1,57 +1,48 @@
 import { memo, useState, useCallback, useRef, MouseEventHandler } from 'react';
+import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import { darken } from 'polished';
 import { CSSTransition } from 'react-transition-group';
+import Axios from 'lib/global/axiosInstance';
 import { Happened } from 'containers/main/wiki/read/sideItems';
 import { MoreModal } from 'containers/main/wiki/read/sideItems/Modal';
 import { SideItemWrapper } from 'components/main/wiki/read/sideItems';
 import styles from 'styles/styleLib';
+import { AxiosError } from 'axios';
 
 type HappenedType = {
-  id: number;
-  platform: string;
-  author: string;
-  timestamp: string;
+  opt: 't' | 'd';
   content: string;
+  timestamp: string;
+  contentId: string;
 };
 
-const ExHappen: HappenedType = {
-  id: 1,
-  platform: 'Discord',
-  author: 'Limeahn',
-  timestamp: new Date(Date.now()).toISOString(),
-  content:
-    'ece of classical Latin literature from 45 BC, making  over 2000 years old. \n' +
-    'Richard McClintock, a Latin profes BC, making  over 2000 years  BC, making  over 2000 years  BC,rs old\n' +
-    'ece of classical Latin literature from 45 BC, making  over 200chard McClintock, a Latin profes BC, making  over 2000 years  BC, making  over 2000 years  BC,rs oldece of classical Latin literature from 45 BC, making  over 2000 years old. \n' +
-    '\n' +
-    'Richard McClintock, a Latin profes BC, making  over 2000 years  BC, making  over 2000 years  BC,rs oldece of class00 years  BC,rs oldece of classical Latin literature from 45 BC, making  over 2000 years old. \n' +
-    '\n' +
-    'Richard McClintock, a Latin profes BC, making  over 2000 years  BC, making  over 2000 years  BC,rs oldece of classical Latin literature from 45 BC, making  over 2000 years old. Richard McClintock, a Latin profes BC, making  ovever 2000 years  BC,rs oldece of classical Latin literature from 45 BC, making  over 2000 years old. ichard McClintock, a Latin profes BC, making  over 2000 years  BC, making  over 2000 years  BC,rs old\n' +
-    '\n' +
-    'oldece of classical Latin literature from 45 BC, making  over 2000 years old. Richard McClintock, a Latin profes BC, making  ovever 2000 years  BC,rs oldece of classical Latin literature from 45 BC, making  over 2000 years old. ichard McClintock, a Latin profes BC, making  over 2000 years  BC, ma king  over 2000 years  BC,rs old\n' +
-    '\n' +
-    ' ichard McClintock, a Latin profes BC, making  over 2000 years  BC, making  over 2000 years  BC,rs old',
+const WHFetcher: Fetcher<HappenedType[], string> = async (url) => {
+  try {
+    const res = await Axios.get(url);
+    return res.data.data || [];
+  } catch (e) {
+    alert(
+      `Error fetching what's happening. ERR: ${
+        (e as AxiosError).response?.status
+      }`
+    );
+    return [];
+  }
 };
-
-const ExHappens: HappenedType[] = [
-  ExHappen,
-  { ...ExHappen, id: 2 },
-  { ...ExHappen, platform: 'Twitter', id: 3 },
-  { ...ExHappen, id: 4 },
-  { ...ExHappen, id: 5 },
-];
 
 type PropsType = {
-  title: string;
+  cid: number | null;
 };
 
-export default memo(function WhatsHappening({ title }: PropsType) {
-  // eslint-disable-next-line
-  console.log(`What's happening at ${title}?`);
-
+export default memo(function WhatsHappening({ cid }: PropsType) {
   const [showModal, setShowModal] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
+
+  const { data: Happens } = useSWR(
+    cid ? `/wh/ann?cid=${cid}` : null,
+    cid ? WHFetcher : null
+  );
 
   const onClickMore: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShowModal(true),
@@ -65,18 +56,21 @@ export default memo(function WhatsHappening({ title }: PropsType) {
   return (
     <>
       <SideItemWrapper header={"What's happening"}>
-        {ExHappens.slice(0, 3).map((happen) => (
-          <Happened
-            key={happen.id}
-            platform={happen.platform}
-            author={happen.author}
-            timestamp={happen.timestamp}
-            content={happen.content}
-          />
-        ))}
-        <BtnWrapper>
-          <MoreBtn onClick={onClickMore}>more...</MoreBtn>
-        </BtnWrapper>
+        {Happens && Happens.length > 0 && (
+          <>
+            {Happens.slice(0, 3).map((happen) => (
+              <Happened
+                key={happen.contentId}
+                platform={happen.opt}
+                timestamp={happen.timestamp}
+                content={happen.content}
+              />
+            ))}
+            <BtnWrapper>
+              <MoreBtn onClick={onClickMore}>more...</MoreBtn>
+            </BtnWrapper>
+          </>
+        )}
       </SideItemWrapper>
       <CSSTransition
         in={showModal}

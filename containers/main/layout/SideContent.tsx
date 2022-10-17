@@ -39,7 +39,8 @@ export default memo(function SideContent() {
       <SideRecentEdits />
       {/* <BuyToken /> */}
       {router.pathname.startsWith('/main/wiki/') &&
-        router.query.id !== 'Sigmate' && (
+        router.pathname !== '/main/wiki/Sigmate' &&
+        !router.pathname.startsWith('/main/wiki/search') && (
           <>
             <WhatsHappening cid={cid} />
             <Debate title={router.query.title as string} />

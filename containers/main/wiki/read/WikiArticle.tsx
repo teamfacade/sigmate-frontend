@@ -81,7 +81,12 @@ export default function WikiArticle({ document }: PropsType) {
 
   return (
     <Wrapper>
-      <Title title={document.title} />
+      <div style={{ display: 'flex' }}>
+        <Title title={document.title} />
+        <EditBtn disabled={pending} onClick={onClickEdit}>
+          {pending ? '...' : 'Edit'}
+        </EditBtn>
+      </div>
       <Types types={document.types || []} />
       {document.keyInfo && (
         <ReadKeyInfo setShowModal={setShowModal} keyInfo={document.keyInfo} />
@@ -104,9 +109,6 @@ export default function WikiArticle({ document }: PropsType) {
             />
           );
         })}
-      <EditBtn disabled={pending} onClick={onClickEdit}>
-        {pending ? '...' : 'Edit'}
-      </EditBtn>
       <CSSTransition
         in={!!VerificationData}
         timeout={300}
@@ -130,9 +132,6 @@ const Wrapper = memo(styled.div`
 
 const EditBtn = memo(styled.button`
   ${BlueBtnStyle};
-  position: absolute;
-  top: 0;
-  right: 0;
   width: 133px;
   height: 45px;
 `);

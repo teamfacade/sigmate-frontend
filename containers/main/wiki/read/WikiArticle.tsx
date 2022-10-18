@@ -44,7 +44,7 @@ export default function WikiArticle({ document }: PropsType) {
           };
       } else if (Number.isNaN(targetID) && document.keyInfo) {
         const targetBlock: Wiki.DocumentBlockType =
-          document.keyInfo[showModal.blockID.toLowerCase()];
+          document.keyInfo[showModal.blockID];
         return {
           verificationCounts: targetBlock.verificationCounts,
           myVerification: targetBlock.myVerification,

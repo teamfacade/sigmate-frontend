@@ -1,7 +1,11 @@
 import { Dispatch, memo, SetStateAction } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
-import { KeyInfoIndex, KeyInfoTitles } from 'lib/main/wiki/getWikiData';
+import {
+  KeyInfoBlockIds,
+  KeyInfoIndex,
+  KeyInfoTitles,
+} from 'lib/main/wiki/getWikiData';
 import { ImageWrapper } from 'components/global';
 import { VerdictBlock } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
@@ -54,7 +58,7 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
           setShowModal={
             setShowModal as Dispatch<SetStateAction<Wiki.ModalDataType>>
           }
-          isKeyInfo={KeyInfoTitles[i]}
+          isKeyInfo={KeyInfoBlockIds[i]}
         >
           <Td>
             {KeyInfoIndex.Discord <= i &&

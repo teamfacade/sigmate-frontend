@@ -35,6 +35,23 @@ const KeyInfoTitles: string[] = [
   'Marketplace',
 ];
 
+const KeyInfoBlockIds: string[] = [
+  'name',
+  'thumbnail',
+  'team',
+  'history',
+  'category',
+  'utility',
+  'mintingPriceWl',
+  'mintingPricePublic',
+  'floorPrice',
+  'discordUrl',
+  'twitterHandle',
+  'websiteUrl',
+  'paymentTokens',
+  'marketplace',
+];
+
 const ExBlock: Wiki.DocumentBlockType = {
   id: 0,
   element: 'p',
@@ -275,6 +292,7 @@ export async function getArticleReadData(id: string) {
     const res = await Axios.get(`/wiki/d/${id}`);
     if (res.status === 200) {
       const { data } = res.data;
+      console.log(data);
       const {
         team,
         history,
@@ -334,4 +352,10 @@ export async function getArticleReadData(id: string) {
   }
 }
 
-export { KeyInfoIndex, KeyInfoTitles, InitialKeyInfos, SigmateDocument };
+export {
+  KeyInfoIndex,
+  KeyInfoTitles,
+  KeyInfoBlockIds,
+  InitialKeyInfos,
+  SigmateDocument,
+};

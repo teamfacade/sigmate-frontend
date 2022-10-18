@@ -5,24 +5,10 @@ import {
   useState,
   useCallback,
 } from 'react';
-import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
-import { useSpring, animated } from '@react-spring/web';
 import Axios from 'lib/global/axiosInstance';
 import { AxiosError } from 'axios';
 import styles from 'styles/styleLib';
-
-const waitingFetcher: Fetcher<number, string> = async (url) => {
-  try {
-    const res = await Axios.get(url);
-    if (res.status === 200) {
-      return res.data.count;
-    }
-    return 0;
-  } catch {
-    return 0;
-  }
-};
 
 const ErrorMsg: StringKeyObj<string> = {
   NOT_EMAIL: 'Please submit a correct email address.',
@@ -34,17 +20,6 @@ export default memo(function WaitingList() {
   const [pending, setPending] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
-
-  const { data: waitings } = useSWR('/waiting/email', waitingFetcher);
-  const [springValue] = useSpring(
-    {
-      from: { number: 0 },
-      number: waitings,
-      delay: 200,
-      config: { mass: 1, tension: 20, friction: 10 },
-    },
-    [waitings]
-  );
 
   const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => setEmail(e.currentTarget.value),
@@ -77,13 +52,10 @@ export default memo(function WaitingList() {
   );
 
   return (
-    <Wrapper>
+    <Wrapper id="waiting-list">
       <div>
         <TextWrapper>
-          <animated.div>
-            {springValue.number.to((n) => n.toFixed(0))}
-          </animated.div>
-          <span>{' people are on the waitlist.'}</span>
+          <span>Be the first to join the waitlist.</span>
         </TextWrapper>
         <div style={{ width: '100%' }}>
           <Form onSubmit={onSubmit}>
@@ -92,6 +64,7 @@ export default memo(function WaitingList() {
               value={email}
               disabled={submitted}
               onChange={onChange}
+              placeholder="Email..."
             />
             <Submit disabled={email === '' || pending || submitted}>
               {pending ? '...' : submitted ? 'Registered!' : 'Register'}
@@ -127,11 +100,11 @@ const Wrapper = memo(styled.div`
 
 const TextWrapper = memo(styled.div`
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: 48px;
 
   > div,
   span {
-    font-size: 36px;
+    font-size: 2.75rem;
     font-weight: 700;
     color: ${styles.colors.logoColor};
     white-space: break-spaces;

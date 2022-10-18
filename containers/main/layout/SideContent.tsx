@@ -29,7 +29,7 @@ export default memo(function SideContent() {
           if (res.status === 200) setCid(res.data.data.collection.id);
         })
         .catch((e) =>
-          alert(`Error while fetching collection id. ERR ${e.status}`)
+          alert(`Error while fetching collection id. ERR ${e.response.status}`)
         );
     }
   }, [router]);

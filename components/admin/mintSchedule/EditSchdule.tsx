@@ -113,12 +113,14 @@ export default function EditSchedule({ type, id }: PropsType) {
               };
             });
             break;
+          /*
           case 'Category':
             setSchedule((cur) => ({
               ...cur,
               category: value,
             }));
             break;
+            */
           case 'Price':
             setSchedule((cur) => ({
               ...cur,
@@ -179,7 +181,12 @@ export default function EditSchedule({ type, id }: PropsType) {
             alert('Created/Edited a minting schedule.');
           else
             alert(
-              `Error while creating a minting schedule.\r\nShow this code to youngwoo: ${action.payload.status}`
+              `Error while creating a minting schedule.\r\nShow this code to youngwoo: 
+              ${action.payload.status}${
+                action.payload.status === 400
+                  ? `\r\n${action.payload.data.validationErrors[0].param}: ${action.payload.data.validationErrors[0].msg}`
+                  : ''
+              }`
             );
         });
       } else {
@@ -236,6 +243,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             }
             onChange={onChange}
           />
+          {/*
           <div>
             <span>Category</span>
             <select name="Category" onChange={onChange}>
@@ -246,6 +254,7 @@ export default function EditSchedule({ type, id }: PropsType) {
               ))}
             </select>
           </div>
+          */}
           <div style={{ display: 'flex' }}>
             <NamedInput
               name="Price"

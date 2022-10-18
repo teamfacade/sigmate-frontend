@@ -37,16 +37,20 @@ export default function EditCategory() {
       const { name, dataset } = e.currentTarget;
       switch (name) {
         case 'Delete':
+          /*
           dispatch(
             AuthRequiredAxios({
               method: 'DELETE',
-              url: `/wiki/collection/category/${dataset.id}`,
+              url: `/wiki/collection/category?cid=${dataset.id}`,
             })
-          ).then((action: any) => {
+          ).then(async (action: any) => {
             if (action.payload.status === 200) {
               alert('Deleted');
+              await mutate();
             }
           });
+          */
+          alert('Preparing..');
           break;
         case 'Create':
           dispatch(

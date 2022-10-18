@@ -20,7 +20,7 @@ export default memo(function Schedules({
           key={schedule.id}
           id={schedule.id}
           name={schedule.name}
-          category={schedule.category || 'PFP'}
+          category={schedule.collection.category?.name || 'PFP'}
           tier={schedule.tier}
           mintingTime={schedule.mintingTime}
           mintingUrl={schedule.mintingUrl}

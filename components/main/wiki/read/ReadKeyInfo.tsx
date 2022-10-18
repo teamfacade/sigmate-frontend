@@ -12,6 +12,11 @@ type PropsType = {
   setShowModal?: Dispatch<SetStateAction<Wiki.ModalDataType>>;
 };
 
+// @ts-ignore
+const loaderProp = ({ src }) => {
+  return src;
+};
+
 export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
   const TableRows = Object.values(keyInfo).map((_keyInfo, i) => {
     if (i === KeyInfoIndex.Name) {
@@ -25,6 +30,7 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
       return (
         <ImageWrapper width="100%" height="fit-content" key={KeyInfoTitles[i]}>
           <Image
+            loader={loaderProp}
             src={_keyInfo.textContent || UserImageEx}
             alt="thumbnail image"
             width="100%"

@@ -27,6 +27,11 @@ type PropsType = {
   keyInfos: Wiki.KeyInfoType;
 };
 
+// @ts-ignore
+const loaderProp = ({ src }) => {
+  return src;
+};
+
 const categoriesFetcher: Fetcher<CollectionCategoryType[], string> = async (
   url: string
 ) => {
@@ -111,6 +116,7 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
             key={KeyInfoTitles[i]}
           >
             <Image
+              loader={loaderProp}
               src={keyInfo.textContent || UserImageEx}
               alt="thumbnail image"
               width="100%"

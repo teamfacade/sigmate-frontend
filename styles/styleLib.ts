@@ -67,7 +67,7 @@ export const BlueBtnStyle = `
   cursor: pointer;
   
   :disabled {
-    background-color: ${styles.colors.verdictModalTextColor};
+    background-color: ${styles.colors.hrColor};
   }
   
   a {

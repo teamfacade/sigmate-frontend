@@ -7,12 +7,14 @@ import { WavingHand } from 'public/Icons/landingPage';
 export default function Buttons() {
   return (
     <Wrapper>
-      <HandShake>
-        <div>
-          <WavingHand />
-          <p>Launch App</p>
-        </div>
-      </HandShake>
+      <Link href="/#waiting-list">
+        <HandShake>
+          <div>
+            <WavingHand />
+            <p>Launch App</p>
+          </div>
+        </HandShake>
+      </Link>
       <SocialLinkDiv>
         <SocialLinkWrapper btnWidth="56px" btnHeight="56px" marginLeft="8px">
           <SocialLinkBtn platform="Twitter" />

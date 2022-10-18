@@ -44,6 +44,7 @@ module.exports = {
     'no-console': 'warn',
     'no-alert': 'off',
     'no-undef': 'off',
+    'no-nested-ternary': 'off',
     'prefer-promise-reject-errors': 'off',
     'prettier/prettier': 'off',
     '@typescript-eslint/no-explicit-any': 'off',

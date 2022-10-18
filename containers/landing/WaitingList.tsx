@@ -64,7 +64,7 @@ export default memo(function WaitingList() {
               value={email}
               disabled={submitted}
               onChange={onChange}
-              placeholder="Email..."
+              placeholder="Enter your email"
             />
             <Submit disabled={email === '' || pending || submitted}>
               {pending ? '...' : submitted ? 'Registered!' : 'Register'}

@@ -12,6 +12,11 @@ type PropsType = {
   mint?: Minting.ScheduleType;
 };
 
+// @ts-ignore
+const loaderProp = ({ src }) => {
+  return src;
+};
+
 export default memo(function MintDetail({ mint }: PropsType) {
   if (mint === undefined) {
     return <div>Something went wrong</div>;
@@ -20,6 +25,7 @@ export default memo(function MintDetail({ mint }: PropsType) {
     <Wrapper>
       <ImageWrapper width="680px" height="415px">
         <Image
+          loader={loaderProp}
           src={mint.collection.imageUrl || UserImageEx}
           alt={`${mint.name} Image`}
           layout="fill"

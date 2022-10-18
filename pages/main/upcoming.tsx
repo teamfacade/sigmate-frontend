@@ -57,7 +57,7 @@ export default function Upcoming() {
 
   const { data: schedules } = useSWR(
     `/calendar/minting?start=${todayMidnight}&end=${
-      todayMidnight + 86400000
+      todayMidnight + 86399999
     }&limit=${limit}&page=${curPage}`,
     fetcher
   );

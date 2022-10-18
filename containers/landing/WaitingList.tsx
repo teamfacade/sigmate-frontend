@@ -104,7 +104,7 @@ const TextWrapper = memo(styled.div`
 
   > div,
   span {
-    font-size: 2.75rem;
+    font-size: min(48px, max(28px, 5vw));
     font-weight: 700;
     color: ${styles.colors.logoColor};
     white-space: break-spaces;

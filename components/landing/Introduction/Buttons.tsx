@@ -38,7 +38,7 @@ const Wrapper = styled.div`
 `;
 
 const HandShake = styled.a`
-  width: max(250px, min(365px, calc(100vw - 144px)));
+  width: max(300px, min(365px, calc(100vw - 144px)));
   padding: 13px 0;
   border-radius: 8px;
   border: none;

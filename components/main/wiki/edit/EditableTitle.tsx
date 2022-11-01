@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components';
 import { Block, Button } from 'components/main/wiki/edit';
 import styles from 'styles/styleLib';
-import Textarea from './TextEdit';
+import { Input } from './TextEdit';
 
 type PropsType = {
   title: string;
@@ -36,25 +36,22 @@ export default memo(function EditableTitle({
     () => setShowTextarea(true),
     []
   );
-  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => setValue(e.currentTarget.value),
     []
   );
 
-  const onBlur: FocusEventHandler<HTMLTextAreaElement> = useCallback((e) => {
+  const onBlur: FocusEventHandler<HTMLInputElement> = useCallback((e) => {
     if (setTitle) setTitle(e.target.value);
     setShowTextarea(false);
   }, []);
 
-  const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
-    (e) => {
-      if (e.code === 'Escape') {
-        if (setTitle) setTitle(e.target.value);
-        setShowTextarea(false);
-      }
-    },
-    []
-  );
+  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
+    if (e.code === 'Escape') {
+      if (setTitle) setTitle(e.target.value);
+      setShowTextarea(false);
+    }
+  }, []);
   return (
     <Block id={0} onClickSelect={onClickSelect} isTitle>
       <Button name="Title" onClick={onClick} onFocus={onFocus}>
@@ -85,7 +82,7 @@ const H1 = memo(styled.h1`
   font-family: 'Inter', sans-serif;
 `);
 
-const TitleTextarea = styled(Textarea)`
+const TitleTextarea = styled(Input)`
   height: 48px;
   vertical-align: top;
   font-size: 40px;

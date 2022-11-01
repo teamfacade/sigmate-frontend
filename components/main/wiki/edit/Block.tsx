@@ -6,6 +6,7 @@ import {
   useState,
   MouseEventHandler,
   FocusEventHandler,
+  KeyboardEventHandler,
 } from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
@@ -83,8 +84,31 @@ export default memo(function Block({
     setShowSelect(false);
   }, []);
 
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback((e) => {
+    if (e.code === 'Enter') {
+      e.preventDefault();
+      const ContentWrapper = document.getElementById('content-wrapper');
+      if (ContentWrapper) prevHeight = ContentWrapper.scrollHeight;
+      setShowSelect(true);
+    }
+  }, []);
+
+  const onSelectKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback(
+    (e) => {
+      if (e.code === 'Escape') {
+        setShowSelect(false);
+      }
+    },
+    []
+  );
+
   return (
-    <Wrapper onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} isTitle>
+    <Wrapper
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onKeyDown={onKeyDown}
+      isTitle
+    >
       {children}
       {showBtn && (
         <BlockControlBtnWrapper>
@@ -99,6 +123,7 @@ export default memo(function Block({
           <Select
             options={options}
             onChange={onChange}
+            onKeyDown={onSelectKeyDown}
             autoFocus
             defaultMenuIsOpen
             onBlur={onBlur}

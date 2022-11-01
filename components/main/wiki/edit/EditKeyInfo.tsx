@@ -142,7 +142,7 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
                 name={KeyInfoTitles[i]}
                 rows={1}
                 placeholder={`Type about ${KeyInfoTitles[i].toLowerCase()}`}
-                value={editableKeyInfos[KeyInfoTitles[i].toLowerCase()]}
+                value={editableKeyInfos[KeyInfoTitles[i].toLowerCase()] || ''}
                 onChange={onChange}
               />
             </Td>

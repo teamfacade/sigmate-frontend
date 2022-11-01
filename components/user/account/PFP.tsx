@@ -16,6 +16,7 @@ type PropsType = {
   level: number;
 };
 
+// eslint-disable-next-line no-unused-vars
 export default memo(function PFP({ level }: PropsType) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,10 +51,12 @@ export default memo(function PFP({ level }: PropsType) {
             </div>
           </EditBtn>
         </ImageWrapper>
+        {/*
         <LvWrapper>
           <p>{`Lv ${Math.floor(level)} / ${(level * 100) % 100}%`}</p>
           <progress max="100" value={(level * 100) % 100} />
         </LvWrapper>
+        */}
       </Wrapper>
       <Input type="file" onChange={onChange} ref={inputRef} />
     </>
@@ -100,6 +103,7 @@ const EditBtn = styled.button`
   }
 `;
 
+/*
 const LvWrapper = styled.div`
   p {
     margin: 12px 0 0 0;
@@ -125,3 +129,4 @@ const LvWrapper = styled.div`
     }
   }
 `;
+*/

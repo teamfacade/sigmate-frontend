@@ -93,6 +93,15 @@ export default memo(function Block({
     }
   }, []);
 
+  const onSelectKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback(
+    (e) => {
+      if (e.code === 'Escape') {
+        setShowSelect(false);
+      }
+    },
+    []
+  );
+
   return (
     <Wrapper
       onMouseEnter={onMouseEnter}
@@ -114,6 +123,7 @@ export default memo(function Block({
           <Select
             options={options}
             onChange={onChange}
+            onKeyDown={onSelectKeyDown}
             autoFocus
             defaultMenuIsOpen
             onBlur={onBlur}

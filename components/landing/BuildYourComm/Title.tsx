@@ -31,6 +31,7 @@ const Wrapper = styled.div`
 
 const Text = styled.p`
   margin: 0;
+  transform: translateY(-20px);
   color: ${styles.colors.darkTextColor};
   font-size: 30px;
   font-weight: 700;

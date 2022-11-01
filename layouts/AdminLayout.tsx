@@ -12,6 +12,7 @@ export default function AdminLayout({ children }: PropsType) {
       <SideItemsWrapper>
         <SideItem name="User management" path="user" />
         <SideItem name="Content management" path="content" />
+        <SideItem name="Unconfirmed collections" path="unconfirmed" />
         <SideItem name="Minting schedule" path="minting-schedule" />
         <SideItem name="Forum management" path="forum" />
       </SideItemsWrapper>

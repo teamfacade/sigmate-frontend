@@ -377,6 +377,13 @@ declare global {
       date: string;
       comments: number;
     };
+
+    type UnconfirmedType = {
+      id: number;
+      name: string;
+      discordUrl: string | null;
+      twitterHandle: string | null;
+    };
   }
 }
 

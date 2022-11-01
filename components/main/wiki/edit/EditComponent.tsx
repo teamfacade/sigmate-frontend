@@ -6,7 +6,7 @@ import {
   forwardRef,
 } from 'react';
 import { Heading, Paragraph } from './index';
-import Textarea from './TextEdit';
+import { Textarea } from './TextEdit';
 
 type PropsType = {
   element: string;

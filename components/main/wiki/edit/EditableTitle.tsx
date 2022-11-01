@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components';
 import { Block, Button } from 'components/main/wiki/edit';
 import styles from 'styles/styleLib';
-import Textarea from './TextEdit';
+import { Input } from './TextEdit';
 
 type PropsType = {
   title: string;
@@ -82,7 +82,7 @@ const H1 = memo(styled.h1`
   font-family: 'Inter', sans-serif;
 `);
 
-const TitleTextarea = styled(Textarea)`
+const TitleTextarea = styled(Input)`
   height: 48px;
   vertical-align: top;
   font-size: 40px;

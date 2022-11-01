@@ -85,7 +85,7 @@ export default memo(function Block({
   }, []);
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback((e) => {
-    if (e.code === 'Enter') {
+    if (e.code === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       const ContentWrapper = document.getElementById('content-wrapper');
       if (ContentWrapper) prevHeight = ContentWrapper.scrollHeight;

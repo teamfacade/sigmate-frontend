@@ -52,35 +52,36 @@ export default memo(function ManualConfirm({
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
     e.preventDefault();
     const { elements } = e.currentTarget;
-    const TwitterHandle = elements.namedItem('twitterHandle');
-    const DiscordUrl = elements.namedItem('discordUrl');
-    const DiscordChannelId = elements.namedItem('discordChannelId');
+    const TwitterHandle =
+      (elements.namedItem('twitterHandle') as HTMLInputElement).value || '';
+    const DiscordUrl =
+      (elements.namedItem('discordUrl') as HTMLInputElement).value || '';
+    const DiscordChannelId =
+      (elements.namedItem('discordChannelId') as HTMLInputElement).value || '';
 
-    if (TwitterHandle && DiscordUrl && DiscordChannelId) {
-      dispatch(
-        AuthRequiredAxios({
-          method: 'POST',
-          data: {
-            collectionId: id,
-            discordUrl: DiscordUrl,
-            discordChannel: DiscordChannelId,
-            twitterHandle: TwitterHandle,
-          },
-          url: '/confirm',
-        })
-      ).then((action: any) => {
-        const { status } = action.payload;
-        if (status === 200) {
-          alert('Successfuly confirmed the collection info!');
-        } else if (status === 500) {
-          alert("Can't find twitter ID using given twitter handle.");
-        } else if (status === 409) {
-          alert("There's no collection corresponding to given collection id.");
-        } else {
-          alert(`Error while confirming the collection. ERR: ${status}`);
-        }
-      });
-    }
+    dispatch(
+      AuthRequiredAxios({
+        method: 'POST',
+        data: {
+          collectionId: id,
+          discordUrl: DiscordUrl,
+          discordChannel: DiscordChannelId,
+          twitterHandle: TwitterHandle,
+        },
+        url: '/admin/confirm',
+      })
+    ).then((action: any) => {
+      const { status } = action.payload;
+      if (status === 200) {
+        alert('Successfuly confirmed the collection info!');
+      } else if (status === 500) {
+        alert("Can't find twitter ID using given twitter handle.");
+      } else if (status === 409) {
+        alert("There's no collection corresponding to given collection id.");
+      } else {
+        alert(`Error while confirming the collection. ERR: ${status}`);
+      }
+    });
   }, []);
 
   return (
@@ -94,7 +95,6 @@ export default memo(function ManualConfirm({
           type="text"
           value={twitterHandle}
           onChange={onChange}
-          required
         />
         <NamedInput
           name="Discord URL"
@@ -102,7 +102,6 @@ export default memo(function ManualConfirm({
           type="text"
           value={discordUrl}
           onChange={onChange}
-          required
         />
         <NamedInput
           name="Discord Channel ID"
@@ -110,7 +109,6 @@ export default memo(function ManualConfirm({
           type="text"
           value={discordChannelId}
           onChange={onChange}
-          required
         />
         <ConfirmBtn type="submit">Confirm</ConfirmBtn>
       </form>

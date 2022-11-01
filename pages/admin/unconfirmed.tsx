@@ -33,22 +33,27 @@ export default function Unconfirmed() {
   const ModalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    /*
-        const action: any = dispatch(AuthRequiredAxios({method: 'GET', url: `/uc?limit=10&page=${curPage}`}));
-        const { status, data } = action.payload;
-        if (status === 200) {
-            total = data.page.total;
-            //setUnconfirmedList(data.collections);
-            setUnconfirmedList([{id: 0, name: 'hi', twitterHandle: 'elonMusk', discordUrl: null}])
-        }
-        else {
-            alert(`Error while fetching unconfirmed collections: ERR ${status}`);
+    /** Wait for the auth state restoring */
+    setTimeout(
+      () =>
+        dispatch(
+          AuthRequiredAxios({
+            method: 'GET',
+            url: `/admin/uc?limit=10&page=${curPage}`,
+          })
+        ).then((action: any) => {
+          const { status, data } = action.payload;
+          if (status && status === 200) {
+            setUnconfirmedList(data.collections);
+          } else {
+            alert(
+              `Error while fetching unconfirmed collections: ERR ${status}`
+            );
             setUnconfirmedList([]);
-        }
-        */
-    setUnconfirmedList([
-      { id: 0, name: 'hi', twitterHandle: 'elonMusk', discordUrl: null },
-    ]);
+          }
+        }),
+      500
+    );
   }, [showModal, curPage]);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {

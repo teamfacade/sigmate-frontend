@@ -36,25 +36,22 @@ export default memo(function EditableTitle({
     () => setShowTextarea(true),
     []
   );
-  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => setValue(e.currentTarget.value),
     []
   );
 
-  const onBlur: FocusEventHandler<HTMLTextAreaElement> = useCallback((e) => {
+  const onBlur: FocusEventHandler<HTMLInputElement> = useCallback((e) => {
     if (setTitle) setTitle(e.target.value);
     setShowTextarea(false);
   }, []);
 
-  const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
-    (e) => {
-      if (e.code === 'Escape') {
-        if (setTitle) setTitle(e.target.value);
-        setShowTextarea(false);
-      }
-    },
-    []
-  );
+  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
+    if (e.code === 'Escape') {
+      if (setTitle) setTitle(e.target.value);
+      setShowTextarea(false);
+    }
+  }, []);
   return (
     <Block id={0} onClickSelect={onClickSelect} isTitle>
       <Button name="Title" onClick={onClick} onFocus={onFocus}>

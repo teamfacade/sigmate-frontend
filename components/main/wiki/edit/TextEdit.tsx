@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 
-const Textarea = styled.textarea`
+const Textarea = styled.input`
   width: 100%;
   margin: 0;
   border: none;

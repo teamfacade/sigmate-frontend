@@ -292,7 +292,6 @@ export async function getArticleReadData(id: string) {
     const res = await Axios.get(`/wiki/d/${id}`);
     if (res.status === 200) {
       const { data } = res.data;
-      console.log(data);
       const {
         team,
         history,

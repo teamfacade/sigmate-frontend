@@ -14,7 +14,7 @@ import {
   PageMoveBtns,
   Search,
 } from 'components/global';
-import { MyReferral } from 'components/user/referrals';
+import { MyReferral, RefTotal } from 'components/user/referrals';
 import styled from 'styled-components';
 
 export type RefLogType = {
@@ -110,15 +110,14 @@ export default function Referrals() {
   return (
     <BasicWrapper>
       <SectionWrapper header="Referral" marginBottom="20px">
+        {/** @todo Referral total 가져오기 */}
+        <RefTotal total={1} />
         <MyReferral
           refCode={
             (store.getState() as ReduxState.RootStateType).account.referralCode
           }
         />
         <ReferralLogs refLogs={refLogs} />
-        <UtilWrapper>
-          <Search white placeholder="Search a user..." onSubmit={onSubmit} />
-        </UtilWrapper>
         <PageMoveBtns
           curPage={curPage}
           totalPage={Math.floor(total / 10) + 1}
@@ -129,10 +128,3 @@ export default function Referrals() {
     </BasicWrapper>
   );
 }
-
-const UtilWrapper = memo(styled.div`
-  width: 180px;
-  position: absolute;
-  top: -5px;
-  right: 0;
-`);

@@ -23,6 +23,7 @@ type PropsType = {
 const options: ReactSelect.OptionType[] = [
   { value: 'p', label: 'Paragraph' },
   { value: 'h', label: 'Heading' },
+  { value: 'img', label: 'Image' },
 ];
 
 let prevHeight = 0;

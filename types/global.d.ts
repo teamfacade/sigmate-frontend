@@ -245,6 +245,7 @@ declare global {
       };
       element: string;
       textContent: string;
+      image?: Blob;
       verificationCounts: VerificationCountType;
       opinionCount: number;
       myVerification?: MyVerificationType;

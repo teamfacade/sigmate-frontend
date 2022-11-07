@@ -16,7 +16,7 @@ type PropsType = {
   element: string;
   content: string;
   onClickSelect: (id: number, tag: string) => void;
-  onFinishFix: (id: number, content: string) => void;
+  onFinishFix: (id: number, content: string | File, isImage?: boolean) => void;
   removeBlock: (id: number) => void;
 };
 
@@ -30,6 +30,7 @@ export default memo(function EditBlock({
 }: PropsType) {
   const [showInput, setShowInput] = useState(false);
   const [value, setValue] = useState(content);
+  const [imgBlob, setImgBlob] = useState<File | undefined>(undefined);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -60,6 +61,9 @@ export default memo(function EditBlock({
       [onFinishFix, removeBlock]
     );
 
+  /** Used in img block, when no file was chosen. */
+  const removeThisBlock: () => void = useCallback(() => removeBlock(id), [id]);
+
   const onBlur: FocusEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => updateBlockContent(id, e.target.value),
     [id, updateBlockContent]
@@ -72,10 +76,25 @@ export default memo(function EditBlock({
     [id, updateBlockContent]
   );
 
-  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {
-    e.target.style.height = `${e.target.scrollHeight}px`;
-    setValue(e.currentTarget.value);
-  }, []);
+  const onChange: ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> =
+    useCallback(
+      (e) => {
+        if (e.target instanceof HTMLTextAreaElement) {
+          e.target.style.height = `${e.target.scrollHeight}px`;
+          setValue(e.currentTarget.value);
+        } else if (
+          e.target instanceof HTMLInputElement &&
+          e.target.type === 'file'
+        ) {
+          e.preventDefault();
+          if (e.target.files) {
+            onFinishFix(id, e.target.files[0], true);
+            setImgBlob(e.target.files[0]);
+          }
+        }
+      },
+      [onFinishFix, id]
+    );
 
   return (
     <Block id={id} onClickSelect={onClickSelect} removeBlock={removeBlock}>
@@ -85,9 +104,11 @@ export default memo(function EditBlock({
           content={content}
           showInput={showInput}
           value={value}
+          imgBlob={imgBlob}
           onBlur={onBlur}
           onKeyDown={onKeyDown}
           onChange={onChange}
+          removeThisBlock={removeThisBlock}
           ref={textareaRef}
         />
       </Button>

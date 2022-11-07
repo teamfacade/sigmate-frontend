@@ -61,6 +61,7 @@ export default function WikiEditPage({
     []
   );
 
+  /** Submit the modified document. */
   const onSave: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       setPending(true);

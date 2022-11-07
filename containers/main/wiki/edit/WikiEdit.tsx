@@ -42,17 +42,20 @@ export default memo(function WikiEdit({
     setBlocks((curState) => curState.filter((block) => block.id !== id));
   }, []);
 
-  const onFinishFix: (id: number, content: string) => void = useCallback(
-    (id, content) => {
-      setBlocks((curState) =>
-        curState.map((block) => {
-          if (block.id === id) return { ...block, textContent: content };
-          return block;
-        })
-      );
-    },
-    []
-  );
+  const onFinishFix: (
+    id: number,
+    content: string | File,
+    isImage?: boolean
+  ) => void = useCallback((id, content, isImage = false) => {
+    setBlocks((curState) =>
+      curState.map((block) => {
+        if (block.id === id)
+          if (isImage) return { ...block, image: content as File };
+          else return { ...block, textContent: content as string };
+        return block;
+      })
+    );
+  }, []);
 
   return (
     <SectionWrapper header="Edit document">

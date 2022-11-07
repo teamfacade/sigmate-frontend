@@ -5,7 +5,7 @@ import {
   memo,
   forwardRef,
 } from 'react';
-import { Heading, Paragraph } from './index';
+import { Heading, Paragraph, Img } from './index';
 import { Textarea } from './TextEdit';
 
 type PropsType = {
@@ -13,9 +13,11 @@ type PropsType = {
   content: string;
   showInput: boolean;
   value: string;
+  imgBlob?: File;
   onBlur: FocusEventHandler<HTMLTextAreaElement>;
   onKeyDown: KeyboardEventHandler<HTMLTextAreaElement>;
-  onChange: ChangeEventHandler<HTMLTextAreaElement>;
+  onChange: ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
+  removeThisBlock: () => void;
 };
 
 const Components: StringKeyObj<typeof Paragraph> = {
@@ -25,7 +27,17 @@ const Components: StringKeyObj<typeof Paragraph> = {
 
 export default memo(
   forwardRef<HTMLTextAreaElement, PropsType>(function EditComponent(
-    { element, content, showInput, value, onBlur, onKeyDown, onChange },
+    {
+      element,
+      content,
+      showInput,
+      value,
+      imgBlob,
+      onBlur,
+      onKeyDown,
+      onChange,
+      removeThisBlock,
+    },
     ref
   ) {
     const Component = Components[element];
@@ -48,6 +60,14 @@ export default memo(
           />
         ) : (
           <Component content={content} />
+        );
+      case 'img':
+        return (
+          <Img
+            imageBlob={imgBlob}
+            onChange={onChange}
+            removeThisBlock={removeThisBlock}
+          />
         );
       default:
         return <div>DEFAULT</div>;

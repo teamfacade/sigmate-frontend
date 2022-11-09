@@ -335,7 +335,7 @@ export async function getArticleReadData(id: string) {
           paymentTokens,
           marketplace,
         },
-        createdBy: data.createdBy,
+        createdBy: data.createdBy || null,
       };
       return document;
     }

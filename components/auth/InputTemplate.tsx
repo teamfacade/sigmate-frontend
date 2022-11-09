@@ -92,6 +92,7 @@ const Textarea = styled.textarea<{ isValid: boolean | undefined }>`
   line-height: 160%;
   font-family: 'Inter', sans-serif;
   box-shadow: ${styles.shadows.containerShadow};
+  overflow: hidden;
   resize: none;
 
   &:focus-visible {

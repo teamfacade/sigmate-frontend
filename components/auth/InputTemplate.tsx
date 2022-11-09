@@ -82,12 +82,14 @@ const Textarea = styled.textarea<{ isValid: boolean | undefined }>`
   display: block;
   margin: 0 0 13px 0;
   width: 470px;
-  height: 40px;
-  padding: 9px 10px 7px 10px;
+  height: 55px;
+  padding: 15px 17px;
   border: 1px solid transparent;
   border-radius: 8px;
   background-color: #ffffff;
-  font-size: 17px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 160%;
   font-family: 'Inter', sans-serif;
   box-shadow: ${styles.shadows.containerShadow};
   resize: none;

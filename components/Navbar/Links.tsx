@@ -42,7 +42,7 @@ const LinksWrapper = styled.ul`
   height: 100%;
   padding: 0;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1280px) {
     flex-direction: column;
     align-items: flex-start;
     width: 250px;

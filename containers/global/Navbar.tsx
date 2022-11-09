@@ -26,7 +26,7 @@ export default function Navbar() {
   }, []);
 
   const onClickSideLinks: MouseEventHandler<HTMLAnchorElement> = useCallback(
-    () => setShowMenu(false),
+    () => setTimeout(() => setShowMenu(false), 300),
     []
   );
 
@@ -37,25 +37,17 @@ export default function Navbar() {
           <Link href="/main/wiki/Sigmate">
             <Logo>Sigmate</Logo>
           </Link>
-          <SideHiddensWrapper showMenu={showMenu}>
+          <SideHidingWrapper showMenu={showMenu}>
             <Links onClickShowMenu={onClickSideLinks} />
-            {!signedIn ? (
-              <Profile
-                signedIn={signedIn}
-                PFPUrl=""
-                name="Sign In"
-                description=""
-              />
-            ) : (
-              <Profile
-                signedIn={signedIn}
-                onClickSignOut={onClickSignOut}
-                PFPUrl={primaryProfile?.profileImageUrl || ''}
-                name={primaryProfile?.displayName || userName}
-                description="Level 5"
-              />
-            )}
-          </SideHiddensWrapper>
+            <Profile
+              signedIn={signedIn}
+              onClickSignOut={onClickSignOut}
+              onClickLink={onClickSideLinks}
+              PFPUrl={primaryProfile?.profileImageUrl || ''}
+              name={primaryProfile?.displayName || userName}
+              description="Level 5"
+            />
+          </SideHidingWrapper>
           <MenuBtn onClick={onClickShowMenu}>
             <p>&equiv;</p>
           </MenuBtn>
@@ -80,13 +72,13 @@ const TestBlur = styled.button<{ showMenu: boolean }>`
   cursor: default !important;
 `;
 
-const SideHiddensWrapper = styled.div<{ showMenu: boolean }>`
+const SideHidingWrapper = styled.div<{ showMenu: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1280px) {
     position: fixed;
     top: 0;
     right: ${({ showMenu }) => (showMenu ? '0' : '-200%')};
@@ -149,10 +141,10 @@ const MenuBtn = styled.button`
     line-height: 160%;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     display: none;
   }
-  @media (max-width: 1024px) {
+  @media (max-width: 1280px) {
     display: flex;
   }
 `;

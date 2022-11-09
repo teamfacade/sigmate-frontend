@@ -1,8 +1,15 @@
-import { memo, useState, useRef, useCallback, MouseEventHandler } from 'react';
-import { useRouter } from 'next/router';
+import {
+  memo,
+  useState,
+  useRef,
+  useCallback,
+  MouseEventHandler,
+  SetStateAction,
+  Dispatch,
+} from 'react';
 import styled from 'styled-components';
 import { useAppSelector, useAppDispatch } from 'hooks/reduxStoreHooks';
-import { AuthRequiredAxios, signOut } from 'store/modules/authSlice';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import {
   setUserName,
   setDisplayName,
@@ -37,8 +44,11 @@ const usernameRules: StringKeyObj<string> = {
   DUPLICATE: 'This name is already being used by someone else.',
 };
 
-export default function Infos() {
-  const router = useRouter();
+type PropsType = {
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+};
+
+export default function Infos({ setShowModal }: PropsType) {
   const dispatch = useAppDispatch();
   const { userName, isTwitterHandlePublic, isDiscordAccountPublic } =
     useAppSelector(({ account }) => account);
@@ -154,24 +164,7 @@ export default function Infos() {
             }
           });
         }
-      } else {
-        dispatch(
-          AuthRequiredAxios({
-            method: 'DELETE',
-            url: '/user',
-          })
-        ).then(async (action: any) => {
-          if (action.payload.status === 204) {
-            dispatch(signOut());
-            alert('Deleted your account.');
-            await router.push('/main/wiki/Sigmate');
-          } else {
-            alert(
-              `Error while deleting your account. ERR: ${action.payload.status}`
-            );
-          }
-        });
-      }
+      } else setShowModal(true);
     },
     [edit, twitterPublic, discordPublic]
   );

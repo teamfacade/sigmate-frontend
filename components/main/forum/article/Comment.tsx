@@ -107,10 +107,11 @@ export default memo(function Comment({
   return (
     <Wrapper>
       <FlexWrapper>
-        <CommentPFP PFPUrl={PFPUrl} author={author} />
+        <CommentPFP PFPUrl={PFPUrl} author={authorUserName} />
         <SubWrapper>
           <CommentContent
             author={author}
+            authorUserName={authorUserName}
             text={commentText}
             showCommentEdit={showCommentEdit}
             articleID={articleID}

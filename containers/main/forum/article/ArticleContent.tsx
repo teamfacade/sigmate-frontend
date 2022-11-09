@@ -74,6 +74,6 @@ const Wrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  width: 100%;
+  width: calc(100% - 55px);
   border-left: 1px solid ${styles.colors.dividerColor};
 `;

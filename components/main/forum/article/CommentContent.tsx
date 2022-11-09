@@ -6,6 +6,7 @@ import styles from 'styles/styleLib';
 
 type PropsType = {
   author: string;
+  authorUserName: string;
   text: string;
   showCommentEdit: boolean;
   articleID?: number;
@@ -16,6 +17,7 @@ type PropsType = {
 
 export default memo(function CommentContent({
   author,
+  authorUserName,
   text,
   showCommentEdit,
   articleID = -1,
@@ -25,7 +27,7 @@ export default memo(function CommentContent({
 }: PropsType) {
   return (
     <ContentWrapper>
-      <Link href={`/main/profile/${author}`}>
+      <Link href={`/main/profile/${authorUserName}`}>
         <Author>{author}</Author>
       </Link>
       {!showCommentEdit && <Text>{text}</Text>}

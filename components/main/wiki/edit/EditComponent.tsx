@@ -5,7 +5,7 @@ import {
   memo,
   forwardRef,
 } from 'react';
-import { Heading, Paragraph } from './index';
+import { Heading, Paragraph } from 'components/main/wiki/read';
 import { Textarea } from './TextEdit';
 
 type PropsType = {

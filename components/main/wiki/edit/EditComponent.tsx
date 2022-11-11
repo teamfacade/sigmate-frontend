@@ -5,9 +5,7 @@ import {
   memo,
   forwardRef,
 } from 'react';
-
-import Heading from 'components/main/wiki/read/Heading';
-import Paragraph from 'components/main/wiki/read/Paragraph';
+import { Heading, Paragraph } from 'components/main/wiki/read';
 import { Textarea } from './TextEdit';
 
 type PropsType = {
@@ -20,13 +18,21 @@ type PropsType = {
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
+const Components: StringKeyObj<typeof Paragraph> = {
+  p: Paragraph,
+  h: Heading,
+};
+
 export default memo(
   forwardRef<HTMLTextAreaElement, PropsType>(function EditComponent(
     { element, content, showInput, value, onBlur, onKeyDown, onChange },
     ref
   ) {
+    const Component = Components[element];
+
     switch (element) {
       case 'p':
+      case 'h':
         return content === '' || showInput ? (
           <Textarea
             autoFocus
@@ -41,21 +47,7 @@ export default memo(
             ref={ref}
           />
         ) : (
-          <Paragraph content={content} />
-        );
-      case 'h':
-        return content === '' || showInput ? (
-          <Textarea
-            autoFocus
-            placeholder={content || `Input ${'a subheader'}...`}
-            value={value}
-            onBlur={onBlur}
-            onKeyDown={onKeyDown}
-            onChange={onChange}
-            ref={ref}
-          />
-        ) : (
-          <Heading content={content} />
+          <Component content={content} />
         );
       default:
         return <div>DEFAULT</div>;

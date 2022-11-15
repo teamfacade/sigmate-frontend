@@ -54,6 +54,14 @@ const Input = styled.input`
   ${textStyle};
   border-radius: 8px;
   border: 1px solid ${styles.colors.lightBorderColor};
+
+  ::placeholder {
+    color: ${styles.colors.lighterTextColor};
+  }
+
+  :focus::placeholder {
+    color: transparent;
+  }
 `;
 
 const SubmitBtn = styled(BlueBtn)`

@@ -92,7 +92,7 @@ export default memo(function WriteNew({
 
 const ContentWrapper = styled.div`
   height: 1280px;
-  padding: 39px 49px 39px 60px;
+  padding: 39px 49px 120px 60px;
   border: 1px solid ${styles.colors.darkBorderColor};
   border-radius: 8px;
   background-color: ${styles.colors.tableRowColor};

@@ -171,8 +171,8 @@ export default function EditSchedule({ type, id }: PropsType) {
               mintingTime: new Date(schedule.mintingTimeTimeStamp),
               mintingUrl: schedule.mintingUrl,
               description: schedule.description,
-              collection: schedule.collectionSlug,
-              mintingPrice: schedule.mintingPrice,
+              document: parseInt(schedule.collectionSlug, 10),
+              mintingPrice: schedule.mintingPrice || undefined,
               mintingPriceSymbol: schedule.mintingPriceSymbol,
             },
           })
@@ -279,7 +279,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             onChange={onChange}
           />
           <NamedInput
-            name="Collection slug"
+            name="Document id"
             inputElemName="Slug"
             type="text"
             value={schedule.collectionSlug}

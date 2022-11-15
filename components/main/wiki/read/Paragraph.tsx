@@ -19,10 +19,13 @@ export default memo(function Paragraph({ content }: PropsType) {
 });
 
 const Div = styled.div`
+  color: #222222;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 160%;
+
   p {
     margin: 0;
-    color: #222222;
-    font-size: 14px;
     white-space: pre-wrap;
     word-break: break-word;
   }

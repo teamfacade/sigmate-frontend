@@ -39,7 +39,7 @@ export default memo(function Profile({
         </Link>
         <Link href="/auth" passHref>
           <a>
-            <TextWrapper>
+            <TextWrapper signedIn={signedIn}>
               <Name>Sign in</Name>
               <Description />
             </TextWrapper>
@@ -55,38 +55,38 @@ export default memo(function Profile({
       </Wrapper>
     );
   return (
-      <Wrapper>
-        <Link href="/user" passHref>
-          <a onClick={onClickLink}>
-            <ImageWrapper width="50px" height="50px" borderRadius="50px">
-              <Image
-                src={PFPUrl || DefaultProfile}
-                alt="Profile image"
-                layout="fill"
-              />
-            </ImageWrapper>
-          </a>
-        </Link>
-        <Link href="/user" passHref>
-          <a onClick={onClickLink}>
-            <TextWrapper>
-              <Name>{name}</Name>
-              <Description>{description}</Description>
-            </TextWrapper>
-          </a>
-        </Link>
-        <TransparentBtn onClick={onClickSignOut}>
-          <SignOut />
-        </TransparentBtn>
-        <Link href="/user" passHref>
-          <a onClick={onClickLink}>
-            <TransparentBtn>
-              <SettingsIcon />
-            </TransparentBtn>
-          </a>
-        </Link>
-      </Wrapper>
-    );
+    <Wrapper>
+      <Link href="/user" passHref>
+        <a onClick={onClickLink}>
+          <ImageWrapper width="50px" height="50px" borderRadius="50px">
+            <Image
+              src={PFPUrl || DefaultProfile}
+              alt="Profile image"
+              layout="fill"
+            />
+          </ImageWrapper>
+        </a>
+      </Link>
+      <Link href="/user" passHref>
+        <a onClick={onClickLink}>
+          <TextWrapper signedIn={signedIn}>
+            <Name>{name}</Name>
+            <Description>{description}</Description>
+          </TextWrapper>
+        </a>
+      </Link>
+      <TransparentBtn onClick={onClickSignOut}>
+        <SignOut />
+      </TransparentBtn>
+      <Link href="/user" passHref>
+        <a onClick={onClickLink}>
+          <TransparentBtn>
+            <SettingsIcon />
+          </TransparentBtn>
+        </a>
+      </Link>
+    </Wrapper>
+  );
 });
 
 const Wrapper = styled.div`
@@ -100,8 +100,9 @@ const Wrapper = styled.div`
   }
 `;
 
-const TextWrapper = styled.div`
+const TextWrapper = styled.div<{ signedIn: boolean }>`
   flex: 0 0 auto;
+  min-width: ${({ signedIn }) => (signedIn ? '80px' : '116px')};
   margin: 0 20px 0 20px;
 `;
 

@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
 import { SideRecentEdits } from 'containers/main/layout';
-import { Adsense } from 'components/main/Layout';
 import { SocialLinks } from 'components/auth';
 
 const WhatsHappening = dynamic(
@@ -46,8 +45,6 @@ export default memo(function SideContent() {
             <Debate title={router.query.title as string} />
           </>
         )}
-      <Adsense />
-      <Adsense />
       <SocialLinkWrapper>
         <p>Social Link</p>
         <SocialLinks />

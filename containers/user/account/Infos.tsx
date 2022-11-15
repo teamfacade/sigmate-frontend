@@ -159,7 +159,7 @@ export default function Infos({ setShowModal }: PropsType) {
                   discord: discordPublic,
                 })
               );
-            } else {
+            } else if (action.payload.status !== 401) {
               alert(action.payload.data.validationErrors[0].msg);
             }
           });

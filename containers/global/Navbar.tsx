@@ -9,7 +9,9 @@ import styles from 'styles/styleLib';
 // @todo 프로필 정보 사용자 정보로 변경
 export default function Navbar() {
   const dispatch = useAppDispatch();
-  const { userName, primaryProfile } = useAppSelector(({ account }) => account);
+  const { userName, primaryProfile, group } = useAppSelector(
+    ({ account }) => account
+  );
   const { signedIn } = useAppSelector(({ auth }) => auth);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -45,7 +47,7 @@ export default function Navbar() {
               onClickLink={onClickSideLinks}
               PFPUrl={primaryProfile?.profileImageUrl || ''}
               name={primaryProfile?.displayName || userName}
-              description="Level 5"
+              description={group.groupName}
             />
           </SideHidingWrapper>
           <MenuBtn onClick={onClickShowMenu}>

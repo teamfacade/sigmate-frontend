@@ -31,6 +31,7 @@ export const AuthRequiredAxios = createAsyncThunk<
 >('auth/axios', async ({ method, url, data }, ThunkAPI) => {
   const config = useTokenAuth(ThunkAPI.getState().auth.accessToken);
   let response: any = { status: 200 };
+  console.log('Auth required axios with config:', config);
   try {
     switch (method) {
       case 'GET':

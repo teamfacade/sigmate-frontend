@@ -59,7 +59,6 @@ export default memo(function Schedule({
     else setTimeDiff(diff);
     return () => clearInterval(intervalId);
   }, [mintingTime, intervalId]);
-  console.log(timeDiff);
 
   return (
     <Wrapper data-id={id} onClick={onClickSchedule}>

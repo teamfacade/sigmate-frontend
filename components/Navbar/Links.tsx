@@ -27,10 +27,10 @@ export default memo(function Links({ onClickShowMenu }: PropsType) {
         </Link>
       </li>
       <li>
-        <a>Stats/Trending</a>
+        <a>Statistics</a>
       </li>
       <li>
-        <a>Events/Draw</a>
+        <a>Event</a>
       </li>
     </LinksWrapper>
   );
@@ -59,10 +59,7 @@ const LinksWrapper = styled.ul`
 
   li {
     list-style-type: none;
-
-    :not(:first-child) {
-      margin-left: 60px;
-    }
+    margin-left: 60px;
   }
 
   a {

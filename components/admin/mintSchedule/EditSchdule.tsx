@@ -22,7 +22,7 @@ type PropsType = {
 };
 
 const tiers = Array.from({ length: 5 }, (_, i) => i + 1);
-const units = ['ETH', 'SOL', 'KLAY', 'MATIC'];
+const units = ['ETH', 'KLAY', 'ETC'];
 
 const fetcher = async (id: number) => {
   try {

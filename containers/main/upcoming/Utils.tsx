@@ -65,5 +65,5 @@ const CalendarWrapper = styled.div`
   top: 40px;
   left: 0;
   width: 400px;
-  z-index: 1;
+  z-index: 2;
 `;

@@ -54,7 +54,7 @@ const Wrapper = styled.div`
 const Section = styled.section`
   @media (min-width: 729px) {
     width: calc(100vw - 362px);
-    max-width: 996px;
+    max-width: 1080px;
     margin-right: 40px;
   }
 

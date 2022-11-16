@@ -168,6 +168,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             data: {
               name: schedule.name,
               tier: schedule.tier,
+              // @todo : luxon 써서 timezone utc +0 맞춰서 보내기
               mintingTime: new Date(schedule.mintingTimeTimeStamp),
               mintingUrl: schedule.mintingUrl || undefined,
               description: schedule.description,

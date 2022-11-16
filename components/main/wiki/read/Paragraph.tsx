@@ -29,4 +29,8 @@ const Div = styled.div`
     white-space: pre-wrap;
     word-break: break-word;
   }
+
+  p + p {
+    margin-top: 22px;
+  }
 `;

@@ -32,7 +32,7 @@ export default memo(function ScheduleInfos({
       <PriceWrapper>
         <InfoText>Price: </InfoText>
         {symbol === 'ETC' ? '' : <Symbol />}
-        <InfoText>{price}</InfoText>
+        <InfoText>{price || ' TBA'}</InfoText>
       </PriceWrapper>
       <InfoText>{`Tier: ${tier}`}</InfoText>
     </Wrapper>
@@ -67,6 +67,7 @@ const InfoText = styled.p`
   font-size: 16px;
   font-weight: 900;
   line-height: 140%;
+  white-space: pre;
 `;
 
 const PriceWrapper = styled.div`
@@ -76,7 +77,6 @@ const PriceWrapper = styled.div`
 
   svg {
     position: relative;
-    top: 2px;
-    margin-left: 8px;
+    margin: 0 2px 0 8px;
   }
 `;

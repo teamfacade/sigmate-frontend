@@ -169,7 +169,7 @@ export default function EditSchedule({ type, id }: PropsType) {
               name: schedule.name,
               tier: schedule.tier,
               mintingTime: new Date(schedule.mintingTimeTimeStamp),
-              mintingUrl: schedule.mintingUrl,
+              mintingUrl: schedule.mintingUrl || undefined,
               description: schedule.description,
               document: parseInt(schedule.collectionSlug, 10),
               mintingPrice: schedule.mintingPrice || undefined,

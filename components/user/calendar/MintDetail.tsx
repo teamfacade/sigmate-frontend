@@ -41,8 +41,8 @@ export default memo(function MintDetail({ mint }: PropsType) {
         <FlexWrapper>
           <Name>Minting Price</Name>
           <Content>
-            <span>{mint.mintingPrice}</span>
-            <span>{` ${mint.mintingPriceSymbol}`}</span>
+            <span>{mint.mintingPrice || 'TBA'}</span>
+            {mint.mintingPrice && <span>{` ${mint.mintingPriceSymbol}`}</span>}
           </Content>
         </FlexWrapper>
         <BtnWrapper>

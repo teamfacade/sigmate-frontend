@@ -33,4 +33,8 @@ const Div = styled.div`
   p + p {
     margin-top: 22px;
   }
+
+  img {
+    width: 100%;
+  }
 `;

@@ -64,6 +64,7 @@ export default function UserLayout({ children }: PropsType) {
 
 const Wrapper = styled.div`
   display: flex;
+  justify-content: center;
   padding: 0 40px 90px 40px;
 `;
 
@@ -80,12 +81,12 @@ const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  max-width: 996px;
 `;
 
 const CheckInBtn = styled.button`
   ${BlueBtnStyle};
-  position: absolute;
-  bottom: 0;
-  width: 200px;
+  width: 180px;
   font-weight: 700;
+  margin-top: 40px;
 `;

@@ -92,7 +92,7 @@ export default function WikiArticle({ document }: PropsType) {
         <ReadKeyInfo setShowModal={setShowModal} keyInfo={document.keyInfo} />
       )}
       {document.blocks &&
-        document.structure.map((blockID) => {
+        document.structure?.map((blockID) => {
           const block = (
             document.blocks as StringKeyObj<Wiki.DocumentBlockType>
           )[blockID.toString(10)];

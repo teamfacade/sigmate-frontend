@@ -32,6 +32,7 @@ export default memo(function EditBlock({
   const [value, setValue] = useState(content);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  /** Textarea의 높이가 value에 맞게 늘어나게끔 해줌 */
   useEffect(() => {
     if (showInput && textareaRef.current) {
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
@@ -72,6 +73,7 @@ export default memo(function EditBlock({
     [id, updateBlockContent]
   );
 
+  /** Textarea의 높이가 줄이 늘어나면 똑같이 늘어나도록 해줌 */
   const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     e.target.style.height = `${e.target.scrollHeight}px`;
     setValue(e.currentTarget.value);

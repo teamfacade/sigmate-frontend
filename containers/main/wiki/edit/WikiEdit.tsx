@@ -87,7 +87,7 @@ export default memo(function WikiEdit({
 
 const ContentWrapper = styled.div`
   height: 920px;
-  padding: 39px 49px 120px 60px;
+  padding: 39px 49px 220px 60px;
   border: 1px solid ${styles.colors.darkBorderColor};
   border-radius: 8px;
   background-color: ${styles.colors.tableRowColor};

@@ -37,12 +37,17 @@ export default memo(function Block({
   const [showBtn, setShowBtn] = useState(isTitle);
   const [showSelect, setShowSelect] = useState(false);
 
+  /** 블럭 종류 select가 보이게 스크롤을 내려줌 */
   useEffect(() => {
     if (showSelect) {
       const ContentWrapper = document.getElementById('content-wrapper');
-      if (ContentWrapper && prevHeight < ContentWrapper.scrollHeight) {
+      const selectBottom = document
+        .getElementById('block-type-select')
+        ?.getBoundingClientRect().bottom;
+
+      if (ContentWrapper && selectBottom) {
         ContentWrapper.scrollTo({
-          top: ContentWrapper.scrollHeight,
+          top: ContentWrapper.scrollTop + selectBottom + 40,
           behavior: 'smooth',
         });
       }
@@ -121,6 +126,7 @@ export default memo(function Block({
       {showSelect && (
         <BlockTypeSelectWrapper>
           <Select
+            id="block-type-select"
             options={options}
             onChange={onChange}
             onKeyDown={onSelectKeyDown}
@@ -150,6 +156,7 @@ const BlockControlBtnWrapper = styled.div`
   top: 50%;
   left: 0;
   padding-right: 10px;
+  margin-bottom: 40px;
   transform: translate(-100%, -50%);
   display: flex;
   align-items: center;

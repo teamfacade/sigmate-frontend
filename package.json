@@ -25,6 +25,7 @@
     "dompurify": "^2.4.0",
     "ethers": "^5.7.0",
     "import-fresh": "^3.3.0",
+    "luxon": "^3.1.0",
     "marked": "^4.2.2",
     "next": "12.2.1",
     "next-redux-wrapper": "^7.0.5",
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@svgr/webpack": "^6.2.1",
     "@types/dompurify": "^2.3.4",
+    "@types/luxon": "^3.1.0",
     "@types/marked": "^4.0.7",
     "@types/node": "18.0.3",
     "@types/react": "^18.0.15",

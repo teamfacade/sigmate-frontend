@@ -9,6 +9,7 @@ import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { OnChangeDateCallback } from 'react-calendar';
+import { DateTime } from 'luxon';
 import Axios from 'lib/global/axiosInstance';
 import convertDate from 'lib/global/convertDate';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
@@ -48,16 +49,19 @@ export default function Upcoming() {
     () => Math.floor(Number.parseInt((total / limit).toFixed(), 10)) + 1,
     [total]
   );
-  const todayMidnight = useMemo(
-    () => new Date(`${convertDate(today, 'dateInput', '-')} 00:00`).getTime(),
-    [today]
-  );
+  const todayMidnight = useMemo(() => {
+    let dT = DateTime.fromJSDate(
+      new Date(`${convertDate(today, 'dateInput', '-')} 00:00`)
+    );
+    dT = dT.setZone('utc', { keepLocalTime: true });
+    return dT.toMillis();
+  }, [today]);
 
   const ModalRef = useRef<HTMLDivElement>(null);
 
   const { data: schedules } = useSWR(
     `/calendar/minting?start=${todayMidnight}&end=${
-      todayMidnight + 86399999
+      todayMidnight + 86400000
     }&limit=${limit}&page=${curPage}`,
     fetcher
   );

@@ -206,8 +206,6 @@ declare global {
       discordUrl: DocumentBlockType;
       twitterHandle: DocumentBlockType;
       websiteUrl: DocumentBlockType;
-      paymentTokens: DocumentBlockType;
-      marketplace: DocumentBlockType;
     };
 
     type ModalDataType = {

@@ -89,8 +89,6 @@ export default function NewArticle({ topic }: PropsType) {
               discordUrl: keyInfoBlocks.discordUrl,
               twitterHandle: keyInfoBlocks.twitterHandle,
               websiteUrl: keyInfoBlocks.websiteUrl,
-              paymentTokens: keyInfoBlocks.paymentTokens,
-              marketplace: keyInfoBlocks.marketplace,
             }));
             setBasicFetched(true);
           } else if (action.payload.status === 409) {
@@ -171,15 +169,23 @@ export default function NewArticle({ topic }: PropsType) {
           },
         })
       ).then(async (action: any) => {
-        console.log(action.payload.status);
         if (action.payload.status === 200) {
           alert('Created a new document!');
           await router.push(`/main/wiki/${id}`);
         } else {
           setPending(false);
-          alert(
-            `Error while creating new article. ERR: ${action.payload.status}`
-          );
+          /** Validated errors */
+          if (action.payload.status === 400) {
+            /** Price should be a string */
+            const errorData = action.payload.data.validationErrors[0];
+            if (errorData?.msg === 'NOT_FLOAT')
+              alert(
+                `Price must be a floating number.\r\nError at: ${errorData.value}`
+              );
+          } else
+            alert(
+              `Error while creating new article. ERR: ${action.payload.status}`
+            );
         }
       });
     },

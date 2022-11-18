@@ -74,6 +74,12 @@ export default function WikiEditPage({
         const history = elements.namedItem('History') as HTMLTextAreaElement;
         const category = elements.namedItem('Category') as HTMLSelectElement;
         const utility = elements.namedItem('Utility') as HTMLTextAreaElement;
+        const mintingPriceWl = elements.namedItem(
+          'Whitelist'
+        ) as HTMLTextAreaElement;
+        const mintingPricePublic = elements.namedItem(
+          'Public'
+        ) as HTMLTextAreaElement;
 
         if (team.value === '') {
           setPending(false);
@@ -85,6 +91,10 @@ export default function WikiEditPage({
         collection.history = history.value;
         collection.category = category.value;
         collection.utility = utility.value;
+        if (mintingPriceWl.value !== '')
+          collection.mintingPriceWl = mintingPriceWl.value;
+        if (mintingPricePublic.value !== '')
+          collection.mintingPricePublic = mintingPricePublic.value;
       }
       if (title === '') {
         setPending(false);
@@ -116,9 +126,19 @@ export default function WikiEditPage({
           await router.push(`/main/wiki/${id}`);
         } else {
           setPending(false);
-          alert(
-            `Error while creating new article. ERR: ${action.payload.status}`
-          );
+          /** Validated errors */
+          if (action.payload.status === 400) {
+            /** Price should be a string */
+            const errorData = action.payload.data.validationErrors[0];
+            if (errorData?.msg === 'NOT_FLOAT')
+              alert(
+                `Price must be a floating number.\r\nError at: ${errorData.value}`
+              );
+          } else {
+            alert(
+              `Error while creating new article. ERR: ${action.payload.status}`
+            );
+          }
         }
       });
     },

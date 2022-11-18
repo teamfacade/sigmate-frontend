@@ -61,30 +61,34 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
           isKeyInfo={KeyInfoBlockIds[i]}
         >
           <Td>
-            {KeyInfoIndex.Discord <= i &&
-            i <= KeyInfoIndex.OfficialSite &&
-            _keyInfo.textContent ? (
-              <a
-                href={`${
-                  i === KeyInfoIndex.Twitter ? 'https://twitter.com/' : ''
-                }${_keyInfo.textContent}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <p>{`${i === KeyInfoIndex.Twitter ? '@' : ''}${
-                  _keyInfo.textContent
-                }`}</p>
-              </a>
-            ) : (
-              <p>
-                {_keyInfo.textContent || 'TBA'}
-                {KeyInfoIndex.WLPrice <= i &&
-                i <= KeyInfoIndex.CurrentPrice &&
-                _keyInfo.textContent
-                  ? ' ETH'
-                  : ''}
-              </p>
-            )}
+            {
+              /** URLs (discord, twitter, official site) */
+              KeyInfoIndex.Discord <= i &&
+              i <= KeyInfoIndex.OfficialSite &&
+              _keyInfo.textContent ? (
+                <a
+                  href={`${
+                    i === KeyInfoIndex.Twitter ? 'https://twitter.com/' : ''
+                  }${_keyInfo.textContent}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <p>{`${i === KeyInfoIndex.Twitter ? '@' : ''}${
+                    _keyInfo.textContent
+                  }`}</p>
+                </a>
+              ) : (
+                <p>
+                  {_keyInfo.textContent || 'TBA'}
+                  {
+                    /** Current floor price is always represented with an eth unit */
+                    i === KeyInfoIndex.CurrentPrice && _keyInfo.textContent
+                      ? ' ETH'
+                      : ''
+                  }
+                </p>
+              )
+            }
           </Td>
         </VerdictBlock>
       </Tr>

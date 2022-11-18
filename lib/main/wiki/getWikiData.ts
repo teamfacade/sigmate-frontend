@@ -14,8 +14,6 @@ const KeyInfoIndex: StringKeyObj<number> = {
   Discord: 9,
   Twitter: 10,
   OfficialSite: 11,
-  Chain: 12,
-  Marketplace: 13,
 };
 
 const KeyInfoTitles: string[] = [
@@ -31,8 +29,6 @@ const KeyInfoTitles: string[] = [
   'Discord',
   'Twitter',
   'Official Website',
-  'Chain',
-  'Marketplace',
 ];
 
 const KeyInfoBlockIds: string[] = [
@@ -275,16 +271,6 @@ const InitialKeyInfos: Wiki.KeyInfoType = {
     id: KeyInfoIndex.OfficialSite,
     textContent: 'https://www.sigmate.io',
   },
-  paymentTokens: {
-    ...ExBlock,
-    id: KeyInfoIndex.Chain,
-    textContent: 'ETH',
-  },
-  marketplace: {
-    ...ExBlock,
-    id: KeyInfoIndex.Marketplace,
-    textContent: 'opensea',
-  },
 };
 
 export async function getArticleReadData(id: string) {
@@ -303,8 +289,6 @@ export async function getArticleReadData(id: string) {
         discordUrl,
         twitterHandle,
         websiteUrl,
-        paymentTokens,
-        marketplace,
       } = data.collection.blocks;
 
       const document: Wiki.DocumentType = {
@@ -332,8 +316,6 @@ export async function getArticleReadData(id: string) {
           discordUrl,
           twitterHandle,
           websiteUrl,
-          paymentTokens,
-          marketplace,
         },
         createdBy: data.createdBy || null,
       };

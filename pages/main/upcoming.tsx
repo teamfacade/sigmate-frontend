@@ -11,7 +11,7 @@ import { CSSTransition } from 'react-transition-group';
 import { OnChangeDateCallback } from 'react-calendar';
 import { DateTime } from 'luxon';
 import Axios from 'lib/global/axiosInstance';
-import convertDate from 'lib/global/convertDate';
+import convertDate, { changeToUTCinMilli } from 'lib/global/convertDate';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { Utils, Schedules } from 'containers/main/upcoming';
@@ -49,13 +49,13 @@ export default function Upcoming() {
     () => Math.floor(Number.parseInt((total / limit).toFixed(), 10)) + 1,
     [total]
   );
-  const todayMidnight = useMemo(() => {
-    let dT = DateTime.fromJSDate(
-      new Date(`${convertDate(today, 'dateInput', '-')} 00:00`)
-    );
-    dT = dT.setZone('utc', { keepLocalTime: true });
-    return dT.toMillis();
-  }, [today]);
+  const todayMidnight = useMemo(
+    () =>
+      changeToUTCinMilli(
+        new Date(`${convertDate(today, 'dateInput', '-')} 00:00`)
+      ),
+    [today]
+  );
 
   const ModalRef = useRef<HTMLDivElement>(null);
 

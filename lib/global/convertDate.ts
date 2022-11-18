@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 const logFormatter = new Intl.DateTimeFormat('en', {
   month: 'short',
   day: '2-digit',
@@ -80,3 +82,11 @@ export default function convertDate(
   }
   return converted;
 }
+
+function changeToUTCinMilli(date: Date) {
+  let dT = DateTime.fromJSDate(date);
+  dT = dT.setZone('utc', { keepLocalTime: true });
+  return dT.toMillis();
+}
+
+export { changeToUTCinMilli };

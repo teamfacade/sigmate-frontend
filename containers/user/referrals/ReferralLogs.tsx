@@ -13,10 +13,11 @@ export default function ReferralLogs({ refLogs }: PropsType) {
       {refLogs.map((refLog) => {
         return (
           <LogItem
-            key={refLog.timestamp}
-            timestamp={refLog.timestamp}
-            username={refLog.username}
-            amount={refLog.amount}
+            key={refLog.id}
+            id={refLog.id}
+            username={refLog.userName}
+            displayName={refLog.primaryProfile.displayName}
+            createdAt={refLog.createdAt}
           />
         );
       })}

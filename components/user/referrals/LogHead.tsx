@@ -4,9 +4,9 @@ export default memo(function LogHead() {
   return (
     <thead>
       <tr>
-        <th>Time(UTC)</th>
+        <th>id</th>
         <th>Username</th>
-        <th>Amount</th>
+        <th>time (UTC)</th>
       </tr>
     </thead>
   );

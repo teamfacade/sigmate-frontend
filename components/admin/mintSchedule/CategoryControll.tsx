@@ -3,6 +3,8 @@ import {
   useCallback,
   MouseEventHandler,
   ChangeEventHandler,
+  SetStateAction,
+  Dispatch,
 } from 'react';
 import styled from 'styled-components';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
@@ -10,10 +12,17 @@ import { AuthRequiredAxios } from 'store/modules/authSlice';
 
 type PropsType = {
   option: CollectionCategoryType;
+  pending: boolean;
+  setPending: Dispatch<SetStateAction<boolean>>;
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function CategoryControll({ option, onClick }: PropsType) {
+export default function CategoryControll({
+  pending,
+  setPending,
+  option,
+  onClick,
+}: PropsType) {
   const dispatch = useAppDispatch();
   const [newName, setNewName] = useState<string>(option.name);
   const [editting, setEditting] = useState<boolean>(false);
@@ -25,6 +34,7 @@ export default function CategoryControll({ option, onClick }: PropsType) {
 
   const onClickEdit: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
     if (editting) {
+      setPending(true);
       dispatch(
         AuthRequiredAxios({
           method: 'PATCH',
@@ -42,6 +52,7 @@ export default function CategoryControll({ option, onClick }: PropsType) {
             `Error while updating category name. ERR: ${action.payload.status}`
           );
         }
+        setPending(false);
       });
     } else setEditting(true);
   }, [editting, newName]);
@@ -54,13 +65,14 @@ export default function CategoryControll({ option, onClick }: PropsType) {
         <p>{newName}</p>
       )}
       <div>
-        <button type="button" onClick={onClickEdit}>
+        <button type="button" disabled={pending} onClick={onClickEdit}>
           {editting ? 'Save' : 'Edit'}
         </button>
         <button
           type="button"
           name="Delete"
           data-id={option.id}
+          disabled={pending}
           onClick={onClick}
         >
           Delete

@@ -17,6 +17,13 @@ declare global {
     profileImageUrl: string | null;
   }
 
+  type PrimaryProfileType = {
+    id: number;
+    displayName: string;
+    bio: string | null;
+    profileImageUrl: string;
+  };
+
   namespace ReduxState {
     interface AuthStateType {
       signedIn: boolean;
@@ -123,12 +130,6 @@ declare global {
     name: string;
   };
 
-  type EditType = {
-    name: string;
-    editor: string;
-    timestamp: number;
-  };
-
   type RecentEditType = {
     timestamp: number;
     title: string;
@@ -168,6 +169,20 @@ declare global {
   }
 
   namespace Wiki {
+    type EditLogType = {
+      id: number;
+      document: {
+        id: number;
+        title: string;
+      };
+      createdBy: {
+        id: number;
+        userName: string;
+        primaryProfile: PrimaryProfileType;
+      };
+      approvedAt: string;
+    };
+
     type SearchResultType = {
       id: number;
       title: string;

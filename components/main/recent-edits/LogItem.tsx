@@ -4,27 +4,32 @@ import convertDate from 'lib/global/convertDate';
 
 type PropsType = {
   name: string;
-  editor: string;
-  timestamp: number;
+  documentId: number;
+  editorUsername: string;
+  editorDisplayName: string;
+  timelog: string;
 };
 
-export default memo(function LogItem({ name, editor, timestamp }: PropsType) {
-  const time = useMemo(
-    () => convertDate(new Date(timestamp), 'time', undefined),
-    [timestamp]
-  );
+export default memo(function LogItem({
+  name,
+  documentId,
+  editorUsername,
+  editorDisplayName,
+  timelog,
+}: PropsType) {
+  const time = useMemo(() => convertDate(new Date(timelog), 'time', ' '), []);
 
   return (
     <tbody>
       <tr>
         <td>
-          <Link href={`/main/wiki/${name}`}>
+          <Link href={`/main/wiki/${documentId}`}>
             <a>{name}</a>
           </Link>
         </td>
         <td>
-          <Link href={`/main/profile/${editor}`}>
-            <a>{editor}</a>
+          <Link href={`/main/profile/${editorUsername}`}>
+            <a>{editorDisplayName || editorUsername}</a>
           </Link>
         </td>
         <td>{time}</td>

@@ -33,7 +33,7 @@ export default memo(function MintDetail({ mint }: PropsType) {
       </ImageWrapper>
       <Descriptions>
         <FlexWrapper>
-          <Name>Minting Time / Date</Name>
+          <Name>Minting Time / Date (UTC)</Name>
           <Content>
             {convertDate(new Date(mint.mintingTime), 'time', ' ')}
           </Content>

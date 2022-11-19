@@ -6,8 +6,9 @@ const logFormatter = new Intl.DateTimeFormat('en', {
   year: 'numeric',
   hour: '2-digit',
   minute: '2-digit',
+  timeZone: 'UTC',
   timeZoneName: 'short',
-  hourCycle: 'h24',
+  hourCycle: 'h23',
 });
 
 const MDYFormatter = new Intl.DateTimeFormat('en', {

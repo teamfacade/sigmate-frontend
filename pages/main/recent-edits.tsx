@@ -1,5 +1,4 @@
 import { memo, MouseEventHandler, useCallback, useState } from 'react';
-import styled from 'styled-components';
 import useSWR, { Fetcher } from 'swr';
 import Axios from 'lib/global/axiosInstance';
 import { EditLogs } from 'containers/main/recent-edits';
@@ -16,10 +15,9 @@ const editlogFetcher: Fetcher<Wiki.EditLogType[], string> = async (
     if (status === 200) {
       total = data.page.total;
       return data.data;
-    } 
-      alert(`Error while fetching edit logs: ${status}`);
-      return [];
-    
+    }
+    alert(`Error while fetching edit logs: ${status}`);
+    return [];
   } catch (e) {
     alert(`Error while fetching edit logs: ${e}`);
     return [];

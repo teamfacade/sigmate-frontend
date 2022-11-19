@@ -35,7 +35,7 @@ export default memo(function SideContent() {
 
   return (
     <>
-      <SideRecentEdits />
+      <SideRecentEdits documentId={router.query.id as string | undefined} />
       {/* <BuyToken /> */}
       {router.pathname.startsWith('/main/wiki/') &&
         router.pathname !== '/main/wiki/Sigmate' &&

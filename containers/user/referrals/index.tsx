@@ -1,68 +1,55 @@
-import {
-  FormEventHandler,
-  MouseEventHandler,
-  useCallback,
-  useEffect,
-  useState,
-  memo,
-} from 'react';
+import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { store } from 'store/store';
+import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import ReferralLogs from 'containers/user/referrals/ReferralLogs';
 import {
   BasicWrapper,
   SectionWrapper,
   PageMoveBtns,
-  Search,
+  LargeText,
 } from 'components/global';
 import { MyReferral, RefTotal } from 'components/user/referrals';
-import styled from 'styled-components';
 
 export type RefLogType = {
-  timestamp: number;
-  username: string;
-  amount: string;
+  id: number;
+  userName: string;
+  createdAt: string;
+  primaryProfile: {
+    displayName: string;
+  };
 };
 
-// @todo total값 역시 데이터로 받아온 것을 쓰기
-const total = 482;
+let total = 1;
 
 export default function Referrals() {
+  const dispatch = useAppDispatch();
+  const [refTotal, setRefTotal] = useState<number>(0);
   const [refLogs, setRefLogs] = useState<RefLogType[]>([]);
   const [curPage, setCurPage] = useState(1);
 
-  useEffect(
-    () =>
-      // @todo 초기 데이터 긁어오기
-      setRefLogs([
-        {
-          timestamp: 1658389880695,
-          username: 'Limeahn',
-          amount: '10',
-        },
-        {
-          timestamp: 1658389880696,
-          username: 'Sigmate',
-          amount: '10',
-        },
-        {
-          timestamp: 1658389880697,
-          username: 'jmyung',
-          amount: '100',
-        },
-        {
-          timestamp: 1658389880698,
-          username: 'wk seo',
-          amount: '10',
-        },
-      ]),
-    []
-  );
-
-  const onSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
-    e.preventDefault();
-    // eslint-disable-next-line no-alert
-    alert('Search!');
-  }, []);
+  useEffect(() => {
+    /** Wait for the auth state restoring */
+    setTimeout(
+      () =>
+        dispatch(
+          AuthRequiredAxios({
+            method: 'GET',
+            url: `/user/referrals?page=${curPage}`,
+          })
+        ).then((action: any) => {
+          const { status, data } = action.payload;
+          if (status && status === 200) {
+            total = data.page.total;
+            setRefTotal(data.count);
+            setRefLogs(data.data);
+          } else {
+            alert(`Error while fetching referral logs: ERR ${status}`);
+          }
+        }),
+      500
+    );
+  }, [curPage]);
 
   const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -111,13 +98,14 @@ export default function Referrals() {
     <BasicWrapper>
       <SectionWrapper header="Referral" marginBottom="20px">
         {/** @todo Referral total 가져오기 */}
-        <RefTotal total={1} />
+        <RefTotal total={refTotal} />
         <MyReferral
           refCode={
             (store.getState() as ReduxState.RootStateType).account.referralCode
           }
         />
         <ReferralLogs refLogs={refLogs} />
+        {refTotal === 0 && <LargeText>No one ;(</LargeText>}
         <PageMoveBtns
           curPage={curPage}
           totalPage={Math.floor(total / 10) + 1}

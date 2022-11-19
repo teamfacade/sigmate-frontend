@@ -18,16 +18,11 @@ export default memo(function LogItem({
   category,
   onClick,
 }: PropsType) {
-  const time = useMemo(
-    () => convertDate(new Date(mintingTime), 'time', undefined),
-    [mintingTime]
-  );
-
   return (
     <tbody>
       <tr>
         <td>{name}</td>
-        <td>{time}</td>
+        <td>{mintingTime}</td>
         <td>{category}</td>
         <td>
           <div style={{ display: 'flex' }}>

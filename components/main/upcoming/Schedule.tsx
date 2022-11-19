@@ -98,11 +98,6 @@ const Wrapper = styled.div`
   overflow: hidden;
   box-shadow: ${styles.shadows.containerShadow};
   cursor: pointer;
-
-  :hover,
-  :active {
-    filter: brightness(0.7);
-  }
 `;
 
 const TimeLeft = styled.div`

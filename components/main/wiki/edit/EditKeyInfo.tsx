@@ -20,7 +20,8 @@ type EditableKeyInfosType = {
   history: string;
   category: string;
   utility: string;
-  marketPlace: string;
+  whitelist: string;
+  public: string;
 };
 
 type PropsType = {
@@ -57,7 +58,8 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
       history: keyInfos.history.textContent,
       category: keyInfos.category.textContent,
       utility: keyInfos.utility.textContent,
-      marketPlace: keyInfos.marketplace.textContent,
+      whitelist: keyInfos.mintingPriceWl.textContent,
+      public: keyInfos.mintingPricePublic.textContent,
     });
 
   const onChange: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement> =
@@ -88,10 +90,16 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
             utility: value,
           }));
           break;
-        case 'Marketplace':
+        case 'Whitelist':
           setEditableKeyInfos((current) => ({
             ...current,
-            marketPlace: value,
+            whitelist: value,
+          }));
+          break;
+        case 'Public':
+          setEditableKeyInfos((current) => ({
+            ...current,
+            public: value,
           }));
           break;
         default:
@@ -130,8 +138,10 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
         i === KeyInfoIndex.Team ||
         i === KeyInfoIndex.History ||
         i === KeyInfoIndex.Utility ||
-        i === KeyInfoIndex.Marketplace
+        i === KeyInfoIndex.WLPrice ||
+        i === KeyInfoIndex.PublicPrice
       ) {
+        const componentName = KeyInfoTitles[i].split(' ')[0];
         return (
           <Tr key={KeyInfoTitles[i]}>
             <Th>
@@ -139,10 +149,10 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
             </Th>
             <Td>
               <textarea
-                name={KeyInfoTitles[i]}
+                name={componentName}
                 rows={1}
                 placeholder={`Type about ${KeyInfoTitles[i].toLowerCase()}`}
-                value={editableKeyInfos[KeyInfoTitles[i].toLowerCase()] || ''}
+                value={editableKeyInfos[componentName.toLowerCase()] || ''}
                 onChange={onChange}
               />
             </Td>
@@ -173,7 +183,11 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
             <p>{KeyInfoTitles[i]}</p>
           </Th>
           <Td>
-            <p>{keyInfo.textContent || 'TBA'}</p>
+            <p>{`${keyInfo.textContent || 'TBA'}${
+              keyInfo.textContent && i === KeyInfoIndex.CurrentPrice
+                ? ' ETH'
+                : ''
+            }`}</p>
           </Td>
         </Tr>
       );

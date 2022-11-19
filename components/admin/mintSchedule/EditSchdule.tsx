@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
-import convertDate from 'lib/global/convertDate';
+import convertDate, { changeToUTCinMilli } from 'lib/global/convertDate';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { categoriesFetcher } from 'pages/admin/minting-schedule';
@@ -169,7 +169,10 @@ export default function EditSchedule({ type, id }: PropsType) {
               name: schedule.name,
               tier: schedule.tier,
               // @todo : luxon 써서 timezone utc +0 맞춰서 보내기
-              mintingTime: new Date(schedule.mintingTimeTimeStamp),
+              mintingTime: new Date(
+                changeToUTCinMilli(new Date(schedule.mintingTimeTimeStamp))
+              ),
+              // mintingTime: new Date(schedule.mintingTimeTimeStamp),
               mintingUrl: schedule.mintingUrl || undefined,
               description: schedule.description,
               document: parseInt(schedule.collectionSlug, 10),
@@ -219,7 +222,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             ))}
           </select>
           <NamedInput
-            name="Date"
+            name="Date (UTC)"
             inputElemName="Date"
             type="date"
             value={
@@ -232,7 +235,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             onChange={onChange}
           />
           <NamedInput
-            name="Time"
+            name="Time (UTC)"
             inputElemName="Time"
             type="time"
             value={

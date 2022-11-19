@@ -9,8 +9,9 @@ import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { OnChangeDateCallback } from 'react-calendar';
+import { DateTime } from 'luxon';
 import Axios from 'lib/global/axiosInstance';
-import convertDate from 'lib/global/convertDate';
+import convertDate, { changeToUTCinMilli } from 'lib/global/convertDate';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { Utils, Schedules } from 'containers/main/upcoming';
@@ -49,7 +50,10 @@ export default function Upcoming() {
     [total]
   );
   const todayMidnight = useMemo(
-    () => new Date(`${convertDate(today, 'dateInput', '-')} 00:00`).getTime(),
+    () =>
+      changeToUTCinMilli(
+        new Date(`${convertDate(today, 'dateInput', '-')} 00:00`)
+      ),
     [today]
   );
 
@@ -57,7 +61,7 @@ export default function Upcoming() {
 
   const { data: schedules } = useSWR(
     `/calendar/minting?start=${todayMidnight}&end=${
-      todayMidnight + 86399999
+      todayMidnight + 86400000
     }&limit=${limit}&page=${curPage}`,
     fetcher
   );

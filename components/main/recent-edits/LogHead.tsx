@@ -6,7 +6,7 @@ export default memo(function LogHead() {
       <tr>
         <th>Name</th>
         <th>Editor</th>
-        <th>Edited Time</th>
+        <th>Edited Time(UTC)</th>
       </tr>
     </thead>
   );

@@ -1,36 +1,37 @@
-import { memo, useState, useEffect } from 'react';
+import { memo } from 'react';
+import useSWR, { Fetcher } from 'swr';
+import Axios from 'lib/global/axiosInstance';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import { RecentEdit } from 'components/main/Layout';
 
-export default memo(function RecentEdits() {
-  const [recentEdits, setRecentEdits] = useState<RecentEditType[]>([]);
+type PropsType = {
+  documentId?: string;
+};
 
-  useEffect(() => {
-    /* @todo 서버에서 x초마다 N개 받아오기 */
-    setRecentEdits([
-      {
-        timestamp: 1660702797917,
-        title: 'Example1',
-      },
-      {
-        timestamp: 1660702797918,
-        title: 'Example2',
-      },
-      {
-        timestamp: 1660702797919,
-        title: 'Example3',
-      },
-      {
-        timestamp: 1660702797916,
-        title: 'Example4',
-      },
-      {
-        timestamp: 1660702797915,
-        title: 'Example5',
-      },
-    ]);
-  }, []);
+const editlogFetcher: Fetcher<Wiki.EditLogType[], string> = async (
+  url: string
+) => {
+  try {
+    const { status, data } = await Axios.get(url);
+    if (status === 200) {
+      return data.data;
+    }
+    alert(`Error while fetching edit logs: ${status}`);
+    return [];
+  } catch (e) {
+    alert(`Error while fetching edit logs: ${e}`);
+    return [];
+  }
+};
+
+export default memo(function SideRecentEdits({ documentId }: PropsType) {
+  const { data: recentEdits = [] } = useSWR(
+    `/wiki/activity/edits?${
+      documentId ? `document=${documentId}&` : ''
+    }limit=5`,
+    editlogFetcher
+  );
 
   return (
     <Wrapper>
@@ -39,9 +40,13 @@ export default memo(function RecentEdits() {
         {recentEdits.map((edit) => {
           return (
             <RecentEdit
-              key={edit.timestamp}
-              timestamp={edit.timestamp}
-              title={edit.title}
+              key={edit.id}
+              specificDocument={documentId !== undefined}
+              documentId={edit.document.id}
+              title={edit.document.title}
+              timestamp={edit.approvedAt}
+              editorUsername={edit.createdBy.userName}
+              editorDisplayName={edit.createdBy.primaryProfile.displayName}
             />
           );
         })}

@@ -73,6 +73,7 @@ const BtnWrapper = styled.div`
 `;
 
 const AddCalenderBtn = styled.button`
+  flex: 0 0 176px;
   padding: 7px 30px;
   margin: 0;
   background-color: #e9f0ff;

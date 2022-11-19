@@ -222,7 +222,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             ))}
           </select>
           <NamedInput
-            name="Date"
+            name="Date (UTC)"
             inputElemName="Date"
             type="date"
             value={
@@ -235,7 +235,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             onChange={onChange}
           />
           <NamedInput
-            name="Time"
+            name="Time (UTC)"
             inputElemName="Time"
             type="time"
             value={

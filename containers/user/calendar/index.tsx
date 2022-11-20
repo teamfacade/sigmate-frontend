@@ -18,6 +18,9 @@ const fetcher: Fetcher<
   const action: any = await dispatch(AuthRequiredAxios({ method: 'GET', url }));
   if (action.payload.status === 200) {
     return action.payload.data.data;
+  } if (action.payload.status === 500) {
+    alert(action.payload.data.msg);
+    return {};
   }
   return null;
 };

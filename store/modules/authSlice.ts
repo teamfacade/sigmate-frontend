@@ -81,7 +81,7 @@ export const AuthRequiredAxios = createAsyncThunk<
         if (result === 'Success' && accessToken) {
           await ThunkAPI.dispatch(setAccessToken({ accessToken }));
           const action: any = await ThunkAPI.dispatch(
-            AuthRequiredAxios({ method, url, data, retryCount: 1 })
+            AuthRequiredAxios({ method, url, data, retryCount: retryCount + 1 })
           );
           return {
             status: action.payload.status,

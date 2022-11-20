@@ -83,10 +83,11 @@ export default function Upcoming() {
     []
   );
 
-  const onClickBackground: MouseEventHandler<HTMLDivElement> =
-    useCallback(() => {
-      setShowModal(-1);
-    }, []);
+  const onClickBackground: MouseEventHandler<
+    HTMLDivElement | HTMLButtonElement
+  > = useCallback(() => {
+    setShowModal(-1);
+  }, []);
 
   const AddToCalendar: (id: string, subscribed: boolean) => void = useCallback(
     async (id: string, subscribed: boolean) => {
@@ -192,8 +193,10 @@ export default function Upcoming() {
                   schedules.findIndex((schedule) => schedule.id === showModal)
                 ]
               }
+              onClickClose={onClickBackground}
             />
           )}
+          {showModal === -1 && <div style={{ height: '537px' }} />}
         </Modal>
       </CSSTransition>
     </>

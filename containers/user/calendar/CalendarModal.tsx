@@ -5,10 +5,8 @@ import {
   useCallback,
   forwardRef,
 } from 'react';
-import styled from 'styled-components';
-import { SectionWrapper, Modal } from 'components/global';
+import { SectionWrapper, Modal, ModalClose } from 'components/global';
 import { Mintings, MintDetail } from 'components/user/calendar';
-import { Close as CloseIcon } from 'public/Icons/global';
 
 type PropsType = {
   date?: string;
@@ -47,9 +45,7 @@ export default memo(
           header={showDetail || date || 'MM.DD.YYYY'}
           marginBottom="16px"
         >
-          <Close onClick={onClick}>
-            <CloseIcon />
-          </Close>
+          <ModalClose onClick={onClick} />
           {showDetail ? (
             <MintDetail
               mint={mintings.find((minting) => minting.name === showDetail)}
@@ -62,20 +58,3 @@ export default memo(
     );
   })
 );
-
-const Close = styled.button`
-  position: absolute;
-  top: -3px;
-  right: 0;
-  margin: 0;
-  border: none;
-  background-color: transparent;
-  color: #c7cdd6;
-  cursor: pointer;
-
-  &:hover {
-    svg {
-      transform: scale(1.1);
-    }
-  }
-`;

@@ -14,7 +14,7 @@ type PropsType = {
 
 // @ts-ignore
 const loaderProp = ({ src }) => {
-  return src;
+  return `${src}&q=100`;
 };
 
 export default memo(function MintDetail({ mint }: PropsType) {
@@ -23,11 +23,16 @@ export default memo(function MintDetail({ mint }: PropsType) {
   }
   return (
     <Wrapper>
-      <ImageWrapper width="680px" height="415px">
+      <ImageWrapper width="680px" height="300px">
         <Image
           loader={loaderProp}
-          src={mint.collection.imageUrl || UserImageEx}
+          src={
+            mint.collection.bannerImageUrl ||
+            mint.collection.imageUrl ||
+            UserImageEx
+          }
           alt={`${mint.name} Image`}
+          objectFit="cover"
           layout="fill"
         />
       </ImageWrapper>

@@ -149,6 +149,7 @@ declare global {
       websiteUrl?: string;
       telegramUrl?: string;
       imageUrl?: string;
+      bannerImageUrl?: string;
       document?: any;
     };
 

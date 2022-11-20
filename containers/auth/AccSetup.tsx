@@ -113,7 +113,8 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
               setUsernameCheckResult(
                 usernameRules[data.validationErrors[0].msg || 'default']
               );
-          }
+          } else if (action.payload.status === 500)
+            alert(action.payload.data.msg);
         });
       } else if (refCode !== '') {
         dispatch(
@@ -128,7 +129,8 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
             setRefCodeCheckResult('');
           } else if (status === 400) {
             setRefCodeCheckResult(referralRules.REFERRED_USER_NOT_FOUND);
-          }
+          } else if (action.payload.status === 500)
+            alert(action.payload.data.msg);
         });
       }
     },
@@ -177,7 +179,10 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
             await router.push('/main/wiki/Sigmate');
           } else
             alert(
-              `Error while creating a user.\r\nERR: ${action.payload.status}-${action.payload.data.validationErrors[0].msg}`
+              `Error while creating a user.\r\nERR: ${action.payload.status}-${
+                (action.payload.data.validationErrors[0] || action.payload.data)
+                  .msg
+              }`
             );
         });
       } else if (!isValidUsername) usernameTextareaRef.current?.focus();

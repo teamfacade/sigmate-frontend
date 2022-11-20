@@ -38,7 +38,8 @@ export default function EditForumCategories() {
                   category.id !== Number.parseInt(dataset.id || '0', 10)
               )
             );
-          }
+          } else if (action.payload.status === 500)
+            alert(action.payload.data.msg);
         });
     },
     [categories, mutate]

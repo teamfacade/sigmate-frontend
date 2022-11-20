@@ -110,7 +110,8 @@ export default function Infos({ setShowModal }: PropsType) {
                 setUsernameEditResult(
                   usernameRules[action.payload.data.validationErrors[0].msg]
                 );
-              }
+              } else if (action.payload.status === 500)
+                alert(action.payload.data.msg);
             });
           }
 
@@ -136,7 +137,12 @@ export default function Infos({ setShowModal }: PropsType) {
                 if (profileUpdate.displayName)
                   dispatch(setDisplayName(profileUpdate.displayName));
               } else {
-                alert(action.payload.data.validationErrors[0].msg);
+                alert(
+                  (
+                    action.payload.data.validationErrors[0] ||
+                    action.payload.data
+                  ).msg
+                );
               }
             });
           }
@@ -159,7 +165,9 @@ export default function Infos({ setShowModal }: PropsType) {
                   discord: discordPublic,
                 })
               );
-            } else if (action.payload.status !== 401) {
+            } else if (action.payload.status === 500)
+              alert(action.payload.data.msg);
+            else if (action.payload.status !== 401) {
               alert(action.payload.data.validationErrors[0].msg);
             }
           });

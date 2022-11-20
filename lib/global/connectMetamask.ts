@@ -57,6 +57,7 @@ const getNonce: (
       else if (data.msg === 'ERR_METAMASK_ALREADY_EXISTS')
         alert('Someone already connected this wallet to his/her account.');
     }
+    if (status === 500) alert(data.msg);
     return Promise.reject(action);
   });
 };
@@ -124,7 +125,7 @@ const tryConnection = async (
       action.payload.data.msg === 'ERR_METAMASK_SIGNATURE_INVALID'
     ) {
       alert('Invalid signature.\r\nPlease try again.');
-    }
+    } else if (action.payload.status === 500) alert(action.payload.data.msg);
     return Promise.reject(action);
   });
 };

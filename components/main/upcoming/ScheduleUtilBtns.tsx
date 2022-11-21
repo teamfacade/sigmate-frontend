@@ -38,7 +38,7 @@ export default memo(function ScheduleUtilBtns({
         disabled={pending}
         onClick={onClickAddToCalendar}
       >
-        {pending ? '...' : subscribed ? 'Subscribed' : 'Add to Calendar'}
+        {pending ? '...' : subscribed ? 'Added' : 'Add to Calendar'}
       </AddCalenderBtn>
       <a href={mintPageUrl} target="_blank" rel="noreferrer">
         <MintBtn

@@ -216,8 +216,8 @@ export default function NewArticle({ topic }: PropsType) {
             keyInfo={keyInfo}
           />
           <DisclaimWrapper>
-            <input type="checkbox" required />
-            <span>
+            <input id="TOS" type="checkbox" required />
+            <label htmlFor="TOS">
               {'By publishing new article, you agree to the '}
               <a href="https://www.naver.com" target="_blank" rel="noreferrer">
                 Terms of Use
@@ -225,7 +225,7 @@ export default function NewArticle({ topic }: PropsType) {
               , and you irrevocably agree to release your contribution under the
               CC BY-SA 3.0 License. You agree that a hyperlink or URL is
               sufficient attribution under the Creative Commons license.
-            </span>
+            </label>
           </DisclaimWrapper>
           <BlueBtn
             width="162px"

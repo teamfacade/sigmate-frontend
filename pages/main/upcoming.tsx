@@ -9,14 +9,14 @@ import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { OnChangeDateCallback } from 'react-calendar';
-import { DateTime } from 'luxon';
+// import { DateTime } from 'luxon';
 import Axios from 'lib/global/axiosInstance';
 import convertDate, { changeToUTCinMilli } from 'lib/global/convertDate';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { Utils, Schedules } from 'containers/main/upcoming';
 import { PageMoveBtns, Modal, BasicWrapper } from 'components/global';
-import { RegisterBtn } from 'components/main/forum/main';
+// import { RegisterBtn } from 'components/main/forum/main';
 import { ScheduleDetail } from 'components/main/upcoming';
 
 const limit = 15;
@@ -111,9 +111,7 @@ export default function Upcoming() {
       if (action.payload.status === 200)
         alert(
           `${
-            subscribed
-              ? 'Unsubscribed the minting schedule.'
-              : 'Added to my calendar.'
+            subscribed ? 'Removed from my calendar.' : 'Added to my calendar.'
           }`
         );
       else
@@ -176,7 +174,7 @@ export default function Upcoming() {
           onClickPageMoveBtn={onClickPageMoveBtn}
           onClickPageNumBtn={onClickPageNumBtn}
         />
-        <RegisterBtn />
+        {/* <RegisterBtn /> */}
       </Wrapper>
       <CSSTransition
         in={showModal !== -1}

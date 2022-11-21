@@ -70,7 +70,7 @@ export default function ArticleLists() {
   return (
     <>
       <UtilWrapper>
-        <Search white placeholder="Search..." />
+        {/* <Search white placeholder="Search..." /> */}
         {router.query.category !== 'Best' && (
           <PostBtn onClickNew={onClickNew} />
         )}
@@ -109,7 +109,8 @@ export default function ArticleLists() {
 const UtilWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  margin-bottom: 40px;
 `;
 
 const LargeText = styled.p`

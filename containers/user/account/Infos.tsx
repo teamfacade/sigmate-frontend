@@ -181,7 +181,7 @@ export default function Infos({ setShowModal }: PropsType) {
     <BasicWrapper style={{ marginTop: '20px' }}>
       <SectionWrapper header="Account Setup" marginBottom="25px">
         <Wrapper>
-          <PFP level={12.3} />
+          {/* <PFP level={12.3} /> */}
           <InfoWrapper>
             <InfoItem
               edit={edit}
@@ -208,12 +208,14 @@ export default function Infos({ setShowModal }: PropsType) {
               description="Your bio will be publicly available in your profile page."
               ref={bioRef}
             />
+            {/* }
             <SocialsPublicityToggles
               edit={edit}
               twitterPublic={twitterPublic}
               discordPublic={discordPublic}
               onToggle={onToggle}
             />
+            */}
             <BtnWrapper>
               <EditBtn name="edit" onClick={onClick}>
                 {edit ? 'Save' : 'Edit'}
@@ -230,7 +232,8 @@ export default function Infos({ setShowModal }: PropsType) {
 }
 
 const Wrapper = styled.div`
-  display: flex;
+  // display: flex;
+  display: block;
 
   img {
     border-radius: 50%;
@@ -238,7 +241,8 @@ const Wrapper = styled.div`
 `;
 
 const InfoWrapper = memo(styled.div`
-  margin-left: 60px;
+  // margin-left: 60px;
+  margin-left: 0;
 `);
 
 const BtnWrapper = styled.div`

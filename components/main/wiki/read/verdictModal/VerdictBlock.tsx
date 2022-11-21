@@ -159,6 +159,7 @@ export default memo(function VerdictBlock({
             content={vote.verificationCounts.beAwareCount.toString(10)}
             isUpvote={vote.myVerification}
           />
+          {/*
           <VerdictBtn
             onClick={onClick}
             name="Comment"
@@ -166,6 +167,7 @@ export default memo(function VerdictBlock({
             isUpvote={null}
             commented={commented}
           />
+          */}
           <VerdictBtn onClick={onClick} name="More" isUpvote={null} />
         </BtnWrapper>
       )}

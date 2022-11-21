@@ -11,7 +11,7 @@ const Icons: StringKeyObj<typeof Twitter> = {
 type PropsType = {
   name: string;
   connected: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 export default memo(function SocialBtn({
@@ -26,7 +26,10 @@ export default memo(function SocialBtn({
       <div>
         <Icon />
         <p>
-          {connected ? 'Disconnect' : 'Connect'} <strong>{name}</strong>
+          {connected ? 'Disconnect' : 'Connect'}{' '}
+          <strong>{`${name}${
+            name !== 'Metamask' && name !== 'CommingSoon' ? ' (TBU)' : ''
+          }`}</strong>
         </p>
       </div>
     </LongBtn>

@@ -58,6 +58,7 @@ export default memo(function UtilBtns({
           <span>{copied ? 'URL Copied!' : 'Share'}</span>
         </div>
       </Btn>
+      {/*
       <Btn
         name="article"
         data-category={router.query.category}
@@ -68,6 +69,7 @@ export default memo(function UtilBtns({
           <span>Report</span>
         </div>
       </Btn>
+      */}
     </Wrapper>
   );
 });

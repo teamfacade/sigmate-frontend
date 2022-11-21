@@ -134,12 +134,14 @@ export default function Logs() {
         >
           <TokensLog />
         </CSSTransition>
+        {/*
         <UtilsWrapper>
           <div style={{ width: '180px' }}>
             <Search white placeholder="Search..." onSubmit={onSubmit} />
           </div>
           <LogSelect selected={selected} onClick={onClick} />
         </UtilsWrapper>
+        */}
       </SectionWrapper>
       {selected === 'Point' && (
         <OtherUtilsWrapper>

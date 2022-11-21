@@ -11,9 +11,9 @@ type PropsType = {
 export default function SearchResult({ id, title, textContent }: PropsType) {
   return (
     <Wrapper>
-      <h1>{title}</h1>
       <FlexWrapper>
-        <p>{textContent}</p>
+        <h1>{title}</h1>
+        {/* <p>{textContent}</p> */}
         <Link href={`/main/wiki/${id}`}>
           <a>
             <button type="button">Go to document</button>
@@ -35,7 +35,15 @@ const Wrapper = styled.div`
   }
 
   & + & {
+    border-top: 1px solid rgb(222, 222, 222);
+    padding-top: 36px;
     margin-top: 36px;
+  }
+
+  //@todo 왜안돼
+  :last-child {
+    padding-bottom: 36px;
+    border-bottom: 1px solid rgb(222, 222, 222);
   }
 `;
 

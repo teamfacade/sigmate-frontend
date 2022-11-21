@@ -33,27 +33,31 @@ export default function UserLayout({ children }: PropsType) {
               Content="Points"
               Active={current === 'points'}
             />
+            {/*
             <SideItem
               IconName="Edits"
               Content="Edits"
               Active={current === 'edits'}
             />
+            */}
             <SideItem
               IconName="Referrals"
               Content="Referrals"
               Active={current === 'referrals'}
             />
+            {/*
             <SideItem
               IconName="Staking"
               Content="Staking"
               Active={current === 'staking'}
             />
+            */}
             <SideItem
               IconName="Calendar"
               Content="Calendar"
               Active={current === 'calendar'}
             />
-            <CheckInBtn>Daily Check-In</CheckInBtn>
+            {/* <CheckInBtn>Daily Check-In</CheckInBtn> */}
           </SideItemsWrapper>
           <ContentWrapper>{children}</ContentWrapper>
         </Wrapper>

@@ -33,7 +33,7 @@ a:hover, a:active > svg path {
   box-sizing: border-box;
 }
 
-p, span {
+p, span, label {
   font-family: 'Inter', sans-serif;
 }
 

@@ -22,7 +22,9 @@ const limit = 10;
 
 const fetcher: Fetcher<Forum.CommentType[], string> = (url: string) =>
   Axios.get(url).then((res) => {
-    if (res.status === 200) return res.data.forumPost.comments.reverse();
+    if (res.status === 200) {
+      return res.data.forumPost.comments.reverse();
+    }
 
     alert(`Error while fetching comments: ERR ${res.status}`);
     return [];
@@ -202,7 +204,7 @@ export default function Article({
         >
           {comments ? (
             <PageMoveBtns
-              totalPage={comments.length / 10}
+              totalPage={comments.length / 10 + 1}
               curPage={curPage}
               onClickPageMoveBtn={onClickPageMoveBtn}
               onClickPageNumBtn={onClickPageNumBtn}

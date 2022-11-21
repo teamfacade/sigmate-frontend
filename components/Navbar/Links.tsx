@@ -17,21 +17,23 @@ export default memo(function Links({ onClickShowMenu }: PropsType) {
         </Link>
       </li>
       <li>
-        <Link href="/main/upcoming">
-          <a onClick={onClickShowMenu}>Upcoming</a>
-        </Link>
-      </li>
-      <li>
         <Link href="/main/forum">
           <a onClick={onClickShowMenu}>Forum</a>
         </Link>
       </li>
       <li>
-        <a>Statistics</a>
+        <Link href="/main/upcoming">
+          <a onClick={onClickShowMenu}>Upcoming</a>
+        </Link>
       </li>
+      <li>
+        <a>Leaderboard</a>
+      </li>
+      {/*
       <li>
         <a>Event</a>
       </li>
+      */}
     </LinksWrapper>
   );
 });

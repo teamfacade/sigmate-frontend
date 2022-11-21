@@ -35,7 +35,7 @@ export default memo(function Utils({
           />
         </CalendarWrapper>
       )}
-      <Search white />
+      {/* <Search white /> */}
     </Wrapper>
   );
 });

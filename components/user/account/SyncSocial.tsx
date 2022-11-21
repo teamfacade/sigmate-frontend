@@ -32,21 +32,9 @@ export default function SyncSocial() {
           }
         </Description>
         <ButtonWrapper>
-          <SocialBtn
-            name="Twitter"
-            connected={!!twitterHandle}
-            onClick={onClick}
-          />
-          <SocialBtn
-            name="Discord"
-            connected={!!discordAccount}
-            onClick={onClick}
-          />
-          <SocialBtn
-            name="Google"
-            connected={!!googleAccount}
-            onClick={onClick}
-          />
+          <SocialBtn name="Twitter" connected={!!twitterHandle} />
+          <SocialBtn name="Discord" connected={!!discordAccount} />
+          <SocialBtn name="Google" connected={!!googleAccount} />
         </ButtonWrapper>
       </SectionWrapper>
     </BasicWrapper>

@@ -46,8 +46,7 @@ export default memo(function ExternalLinks() {
 const Wrapper = styled.div`
   @media (min-width: 729px) {
     display: flex;
-    justify-content: center;
-    margin: auto;
+    justify-content: start;
 
     ul:not(:first-child) {
       margin-left: 40px;

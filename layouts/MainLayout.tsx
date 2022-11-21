@@ -27,7 +27,7 @@ export default function MainLayout({
             </MainContentWrapper>
           </Section>
           <Aside>
-            <CheckInBtn>Daily Check-In</CheckInBtn>
+            {/* <CheckInBtn>Daily Check-In</CheckInBtn> */}
             <Search placeholder="Search content..." onSubmit={onSearch} />
             <SideContentWrapper>
               <SideContent />

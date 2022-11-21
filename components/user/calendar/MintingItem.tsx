@@ -30,6 +30,7 @@ export default memo(function MintingItem({
           loader={loaderProp}
           src={thumbnailURL || UserImageEx}
           alt={`${name} Project Thumbnail`}
+          objectFit="cover"
           layout="fill"
         />
       </ImageWrapper>

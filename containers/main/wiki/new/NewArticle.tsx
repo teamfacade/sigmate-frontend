@@ -60,6 +60,7 @@ export default function NewArticle({ topic }: PropsType) {
             },
           })
         ).then((action: any) => {
+          const { status, data } = action.payload;
           setPending(false);
           if (action.payload.status === 201) {
             setId(action.payload.data.document.id);
@@ -92,7 +93,9 @@ export default function NewArticle({ topic }: PropsType) {
             }));
             setBasicFetched(true);
           } else if (action.payload.status === 409) {
-            alert('A document about this collection already exists.');
+            if (data.msg === 'ERR_DOCUMENT_ALREADY_EXISTS') {
+              router.push(`/main/wiki-edit/${data.document.id}`);
+            }
           } else {
             alert(
               `Error while fetching collection info. ERR:${action.payload.status}.\r\nPlease try again.`

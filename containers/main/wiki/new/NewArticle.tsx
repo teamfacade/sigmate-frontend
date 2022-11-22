@@ -220,11 +220,11 @@ export default function NewArticle({ topic }: PropsType) {
             <label htmlFor="TOS">
               {'By publishing new article, you agree to the '}
               <a
-                href="https://sigmate.gitbook.io/sigmate/support/disclaimer"
+                href="https://sigmate.gitbook.io/sigmate/support/terms-of-use"
                 target="_blank"
                 rel="noreferrer"
               >
-                Terms of Use
+                Terms of Service
               </a>
               , and you irrevocably agree to release your contribution under the
               CC BY-SA 3.0 License. You agree that a hyperlink or URL is

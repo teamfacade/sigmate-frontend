@@ -35,6 +35,7 @@ const Div = styled.div`
   }
 
   img {
+    display: block;
     width: 100%;
   }
 `;

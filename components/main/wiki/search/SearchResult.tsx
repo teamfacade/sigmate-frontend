@@ -39,12 +39,6 @@ const Wrapper = styled.div`
     padding-top: 36px;
     margin-top: 36px;
   }
-
-  //@todo 왜안돼
-  :last-child {
-    padding-bottom: 36px;
-    border-bottom: 1px solid rgb(222, 222, 222);
-  }
 `;
 
 const FlexWrapper = styled.div`

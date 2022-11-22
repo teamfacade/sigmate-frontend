@@ -40,7 +40,13 @@ export default memo(function SideContent() {
 
   return (
     <>
-      <SideRecentEdits documentId={router.query.id as string | undefined} />
+      <SideRecentEdits
+        documentId={
+          router.pathname.startsWith('/main/wiki/')
+            ? (router.query.id as string | undefined)
+            : undefined
+        }
+      />
       {/* <BuyToken /> */}
       {router.pathname.startsWith('/main/wiki/') &&
         router.pathname !== '/main/wiki/Sigmate' &&

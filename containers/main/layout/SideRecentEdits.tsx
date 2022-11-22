@@ -35,7 +35,7 @@ export default memo(function SideRecentEdits({ documentId }: PropsType) {
 
   return (
     <Wrapper>
-      <Header>Recent Edits</Header>
+      <Header>{documentId ? 'Edit Logs' : 'Recent Edits'}</Header>
       <EditsWrapper>
         {recentEdits.map((edit) => {
           return (

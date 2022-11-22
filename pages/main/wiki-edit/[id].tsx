@@ -37,7 +37,7 @@ export default function WikiEditPage({
     const initBlocks: Wiki.DocumentBlockType[] = [];
     if (document.blocks) {
       const flattenBlocks = Object.values(document.blocks);
-      document.structure.forEach((blockID) => {
+      document.structure?.forEach((blockID) => {
         const curBlock = flattenBlocks.find((block) => block.id === blockID);
         if (curBlock) initBlocks.push(curBlock);
       });

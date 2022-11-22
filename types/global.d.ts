@@ -142,11 +142,18 @@ declare global {
   namespace Leaderboad {
     type ItemType = {
       rank: number;
-      userName: string;
-      primaryProfile?: UserProfileAttributes;
+      user: {
+        userName: string;
+        primaryProfile?: UserProfileAttributes;
+      };
       referral: number;
-      forum: number;
-      editCount: number;
+      forum: {
+        postCreate: string;
+        commentCreate: string;
+      };
+      wiki: {
+        documentEdit: number;
+      };
       total: number;
     };
   }

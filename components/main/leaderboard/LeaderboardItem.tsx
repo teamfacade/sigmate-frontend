@@ -6,7 +6,7 @@ import styles from 'styles/styleLib';
 type PropsType = {
   rank: number;
   userName: string;
-  displayName?: string;
+  displayName?: string | null;
   referral: number;
   forum: number;
   editCount: number;

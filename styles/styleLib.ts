@@ -12,6 +12,8 @@ const colors = {
   dimTextColor: '#606C80' as const,
   darkTextColor: '#3B3B3B' as const,
   blueTextColor: '#1676CE' as const,
+  yellowTextColor: '#ED8626' as const,
+  darkerTextColor: '#222222' as const,
   headerColor: '#323C4D' as const,
   linkColor: '#98A2B2' as const,
   tableRowColor: '#FAFBFC' as const,

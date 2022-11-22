@@ -10,7 +10,7 @@ import {
 } from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
-import styles from 'styles/styleLib';
+import styles, { BlueBtnStyle } from 'styles/styleLib';
 
 type PropsType = {
   id: number;
@@ -45,7 +45,7 @@ export default memo(function Block({
         .getElementById('block-type-select')
         ?.getBoundingClientRect().bottom;
 
-      if (ContentWrapper && selectBottom) {
+      if (ContentWrapper && ContentWrapper.scrollTop > 80 && selectBottom) {
         ContentWrapper.scrollTo({
           top: ContentWrapper.scrollTop + selectBottom + 40,
           behavior: 'smooth',
@@ -62,7 +62,8 @@ export default memo(function Block({
     setShowBtn(false);
   }, []);
 
-  const onClickAdd: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+  const onClickAdd: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    e.preventDefault();
     setShowBtn(false);
     const ContentWrapper = document.getElementById('content-wrapper');
     if (ContentWrapper) prevHeight = ContentWrapper.scrollHeight;
@@ -114,7 +115,12 @@ export default memo(function Block({
       onKeyDown={onKeyDown}
       isTitle
     >
-      {children}
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {children}
+        {isTitle === true && (
+          <BlockAddBtn onClick={onClickAdd}>New block</BlockAddBtn>
+        )}
+      </div>
       {showBtn && (
         <BlockControlBtnWrapper>
           <BlockControlBtn onClick={onClickAdd}>+</BlockControlBtn>
@@ -187,3 +193,13 @@ const BlockControlBtn = styled.button`
     scale: 1.2;
   }
 `;
+
+const BlockAddBtn = memo(styled.button`
+  ${BlueBtnStyle};
+  flex: 0 1 auto;
+  position: relative;
+  width: 133px;
+  height: 45px;
+  margin: 0 0 0 10px;
+  font-size: min(20px, max(14px, 1.5vw));
+`);

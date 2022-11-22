@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components';
 import { Block, Button } from 'components/main/wiki/edit';
 import styles from 'styles/styleLib';
-import { Input } from './TextEdit';
+import { Textarea } from './TextEdit';
 
 type PropsType = {
   title: string;
@@ -36,28 +36,31 @@ export default memo(function EditableTitle({
     () => setShowTextarea(true),
     []
   );
-  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     (e) => setValue(e.currentTarget.value),
     []
   );
 
-  const onBlur: FocusEventHandler<HTMLInputElement> = useCallback((e) => {
+  const onBlur: FocusEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     if (setTitle) setTitle(e.target.value);
     setShowTextarea(false);
   }, []);
 
-  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
-    if (e.code === 'Escape') {
-      if (setTitle) setTitle(e.target.value);
-      setShowTextarea(false);
-    }
-  }, []);
+  const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
+    (e) => {
+      if (e.code === 'Escape') {
+        if (setTitle) setTitle(e.target.value);
+        setShowTextarea(false);
+      }
+    },
+    []
+  );
   return (
     <Block id={0} onClickSelect={onClickSelect} isTitle>
       <Button name="Title" onClick={onClick} onFocus={onFocus}>
         {showTextarea ? (
-          <TitleTextarea
-            autoFocus
+          <Textarea
+            isTitle
             placeholder={title || `Input the title...`}
             value={value}
             onChange={onChange}
@@ -73,19 +76,14 @@ export default memo(function EditableTitle({
 });
 
 const H1 = memo(styled.h1`
-  height: 48px;
+  display: block;
+  width: 100%;
+  padding-right: 13px;
   margin: 0;
   color: ${styles.colors.headerColor};
   font-size: 40px;
   font-weight: 700;
   line-height: 110%;
   font-family: 'Inter', sans-serif;
+  overflow-wrap: anywhere;
 `);
-
-const TitleTextarea = styled(Input)`
-  height: 48px;
-  vertical-align: top;
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 110%;
-`;

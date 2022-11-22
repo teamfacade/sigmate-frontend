@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
 } from 'react';
+import { text } from 'stream/consumers';
 
 type PropsType = {
   isTitle?: boolean;
@@ -31,8 +32,13 @@ function Textarea({
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+
+      /** 맨 처음에만 autofocus */
+      if (value === '') {
+        textareaRef.current.focus();
+      }
     }
-  }, [textareaRef]);
+  }, [textareaRef, value]);
 
   if (isTitle) {
     return (

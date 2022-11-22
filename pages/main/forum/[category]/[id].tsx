@@ -74,16 +74,12 @@ export default function Article({
             );
           }
         });
-      } else if (commentId) {
-        alert(
-          `Add comment to article ${articleId}'s comment ${commentId}: ${value}`
-        );
       } else {
         dispatch(
           AuthRequiredAxios({
             method: 'POST',
             url: `/forum/p/${articleId}/cm`,
-            data: { content: value },
+            data: { content: value, parentId: commentId || undefined },
           })
         ).then(async (action: any) => {
           if (action.payload.status !== 201) {
@@ -91,7 +87,8 @@ export default function Article({
               `Error while posting new comment. ERR: ${action.payload.status}`
             );
           } else {
-            await router.reload();
+            console.log(action.payload);
+            // await router.reload();
           }
         });
       }

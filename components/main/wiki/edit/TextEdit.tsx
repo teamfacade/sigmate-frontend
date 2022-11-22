@@ -37,7 +37,6 @@ function Textarea({
   if (isTitle) {
     return (
       <TitleTextarea
-        autoFocus
         placeholder={placeholder}
         value={value}
         onChange={onChange}
@@ -46,16 +45,17 @@ function Textarea({
         ref={textareaRef}
       />
     );
-  } return (
-      <StyledTextarea
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        onKeyDown={onKeyDown}
-        ref={textareaRef}
-      />
-    );
+  }
+  return (
+    <StyledTextarea
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      onKeyDown={onKeyDown}
+      ref={textareaRef}
+    />
+  );
 }
 
 const StyledTextarea = styled.textarea`

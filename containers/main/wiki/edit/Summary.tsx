@@ -25,16 +25,20 @@ export default memo(function Summary({
       />
 
       <DisclaimWrapper>
-        <input type="checkbox" required />
-        <span>
+        <input id="TOS" type="checkbox" required />
+        <label htmlFor="TOS">
           {'By publishing new article, you agree to the '}
-          <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+          <a
+            href="https://sigmate.gitbook.io/sigmate/support/disclaimer"
+            target="_blank"
+            rel="noreferrer"
+          >
             Terms of Use
           </a>
           , and you irrevocably agree to release your contribution under the CC
           BY-SA 3.0 License. You agree that a hyperlink or URL is sufficient
           attribution under the Creative Commons license.
-        </span>
+        </label>
       </DisclaimWrapper>
       <BlueBtn type="submit" disabled={pending}>
         {pending ? '...' : 'Save'}

@@ -236,7 +236,11 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
           <input type="checkbox" required />
           <span>
             {'I am 18 years of age or older and agree to the '}
-            <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+            <a
+              href="https://sigmate.gitbook.io/sigmate/support/terms-of-use"
+              target="_blank"
+              rel="noreferrer"
+            >
               Sigmate terms of service.
             </a>
           </span>
@@ -245,7 +249,11 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
           <input type="checkbox" required />
           <span>
             {'I agree to the '}
-            <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+            <a
+              href="https://sigmate.gitbook.io/sigmate/support/privacy-policy"
+              target="_blank"
+              rel="noreferrer"
+            >
               Sigmate Privacy Policy.
             </a>
           </span>

@@ -15,20 +15,39 @@ import { getForumArticleData } from 'lib/main/forum/getForumDatas';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { ArticleContent, Comments } from 'containers/main/forum/article';
-import { BasicWrapper, Modal, PageMoveBtns } from 'components/global';
+import {
+  BasicWrapper,
+  Modal,
+  PageMoveBtns,
+  initialSWRData,
+} from 'components/global';
 import styles from 'styles/styleLib';
+import { AxiosError } from 'axios';
 
 const limit = 10;
 
-const fetcher: Fetcher<Forum.CommentType[], string> = (url: string) =>
-  Axios.get(url).then((res) => {
-    if (res.status === 200) {
-      return res.data.forumPost.comments.reverse();
-    }
+const fetcher: Fetcher<PagedSWRDataType<Forum.CommentType[]>, string> = async (
+  url: string
+) => {
+  try {
+    const { data, status } = await Axios.get(url);
 
-    alert(`Error while fetching comments: ERR ${res.status}`);
-    return [];
-  });
+    if (status === 200) {
+      return {
+        data: data.forumPost.comments.reverse(),
+        total: data.page.total,
+      };
+    } 
+      alert(`Error while fetching comments: ERR ${status}`);
+      return initialSWRData;
+    
+  } catch (e) {
+    alert(
+      `Error while fetching comments: ERR ${(e as AxiosError).response?.status}`
+    );
+    return initialSWRData;
+  }
+};
 
 export default function Article({
   forumPost,
@@ -46,7 +65,7 @@ export default function Article({
   });
   const ModalRef = useRef<HTMLDivElement>(null);
 
-  const { data: comments } = useSWR(
+  const { data: comments = initialSWRData } = useSWR(
     forumPost
       ? `/forum/p/${forumPost?.id}/cm?limit=${limit}&page=${curPage}`
       : null,
@@ -87,8 +106,7 @@ export default function Article({
               `Error while posting new comment. ERR: ${action.payload.status}`
             );
           } else {
-            console.log(action.payload);
-            // await router.reload();
+            await router.reload();
           }
         });
       }
@@ -140,39 +158,6 @@ export default function Article({
       });
     }, [forumPost, category]);
 
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-    },
-    []
-  );
-
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          setCurPage(1);
-          break;
-        case 'Prev':
-          setCurPage((cur) => cur - 1);
-          break;
-        case 'Next':
-          setCurPage((cur) => cur + 1);
-          break;
-        case 'ToLast':
-          setCurPage(
-            Math.floor(
-              Number.parseInt(((comments?.length || 0) / limit).toFixed(), 10)
-            ) + 1
-          );
-          break;
-        default:
-          break;
-      }
-    },
-    [comments]
-  );
-
   if (forumPost === null)
     return (
       <BasicWrapper>
@@ -185,7 +170,7 @@ export default function Article({
         <ArticleContent
           category={category}
           post={forumPost as Forum.PostType}
-          commentCount={comments?.length || 0}
+          commentCount={comments.data.length || 0}
           onClickDelete={onClickDelete}
           onSubmitComment={onSubmitComment}
           onClickReport={onClickReport}
@@ -195,16 +180,15 @@ export default function Article({
         <Comments
           category={category}
           articleID={forumPost.id}
-          comments={comments || []}
+          comments={comments.data}
           onClickReport={onClickReport}
           onSubmitComment={onSubmitComment}
         >
-          {comments ? (
+          {comments.total > 0 ? (
             <PageMoveBtns
-              totalPage={comments.length / 10 + 1}
+              totalPage={comments.total}
               curPage={curPage}
-              onClickPageMoveBtn={onClickPageMoveBtn}
-              onClickPageNumBtn={onClickPageNumBtn}
+              setCurPage={setCurPage}
             />
           ) : (
             <BasicWrapper>

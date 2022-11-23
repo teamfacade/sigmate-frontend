@@ -11,3 +11,5 @@ export { default as TextHighlight } from './TextHighlight';
 export { default as LargeText } from './LargeText';
 export { default as MultiLineEllipsis } from './MultiLineEllipsis';
 export { default as ModalClose } from './ModalClose';
+
+export const initialSWRData = { data: [], total: 0 };

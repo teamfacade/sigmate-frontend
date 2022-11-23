@@ -20,22 +20,21 @@ import { PageMoveBtns, Modal, BasicWrapper } from 'components/global';
 import { ScheduleDetail } from 'components/main/upcoming';
 
 const limit = 15;
-let total = 0;
 
-const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
-  url: string
-) => {
+const fetcher: Fetcher<
+  PagedSWRDataType<Minting.ScheduleType[]>,
+  string
+> = async (url: string) => {
   const { status, data } = await Axios.get(url);
   if (status === 200) {
-    total = data.page.total;
     const values: Minting.ScheduleType[][] = Object.values(data.data);
     let schedules: Minting.ScheduleType[] = [];
     values.forEach((value) => {
       schedules = schedules.concat(value);
     });
-    return schedules;
+    return { data: schedules, total: data.page.total };
   }
-  return [];
+  return { data: [], total: 0 };
 };
 
 export default function Upcoming() {
@@ -45,10 +44,6 @@ export default function Upcoming() {
   const [curPage, setCurPage] = useState(1);
   const [showModal, setShowModal] = useState(-1);
 
-  const lastPage = useMemo(
-    () => Math.floor(Number.parseInt((total / limit).toFixed(), 10)) + 1,
-    [total]
-  );
   const todayMidnight = useMemo(
     () =>
       changeToUTCinMilli(
@@ -120,34 +115,6 @@ export default function Upcoming() {
     []
   );
 
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-    },
-    []
-  );
-
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          setCurPage(1);
-          break;
-        case 'Prev':
-          setCurPage((cur) => Math.max(1, cur - 1));
-          break;
-        case 'Next':
-          setCurPage((cur) => Math.min(lastPage, cur + 1));
-          break;
-        case 'ToLast':
-          setCurPage(lastPage);
-          break;
-        default:
-          break;
-      }
-    },
-    [curPage, lastPage]
-  );
   return (
     <>
       <Wrapper>
@@ -157,9 +124,9 @@ export default function Upcoming() {
           onClick={onClickDateBtn}
           onChange={onChangeDate}
         />
-        {schedules && schedules.length > 0 ? (
+        {schedules?.data && schedules?.data.length > 0 ? (
           <Schedules
-            schedules={schedules}
+            schedules={schedules.data}
             onClickSchedule={onClickSchedule}
             AddToCalendar={AddToCalendar}
           />
@@ -168,12 +135,13 @@ export default function Upcoming() {
             <LargeText>No mintings today ;(</LargeText>
           </BasicWrapper>
         )}
-        <PageMoveBtns
-          totalPage={total}
-          curPage={curPage}
-          onClickPageMoveBtn={onClickPageMoveBtn}
-          onClickPageNumBtn={onClickPageNumBtn}
-        />
+        {(schedules?.total && schedules.total > 0) === true && (
+          <PageMoveBtns
+            totalPage={schedules?.total as number}
+            curPage={curPage}
+            setCurPage={setCurPage}
+          />
+        )}
         {/* <RegisterBtn /> */}
       </Wrapper>
       <CSSTransition
@@ -184,11 +152,13 @@ export default function Upcoming() {
         nodeRef={ModalRef}
       >
         <Modal ref={ModalRef} onMouseDown={onClickBackground}>
-          {showModal !== -1 && schedules && (
+          {showModal !== -1 && schedules?.data && (
             <ScheduleDetail
               schedule={
-                schedules[
-                  schedules.findIndex((schedule) => schedule.id === showModal)
+                schedules.data[
+                  schedules.data.findIndex(
+                    (schedule) => schedule.id === showModal
+                  )
                 ]
               }
               onClickClose={onClickBackground}

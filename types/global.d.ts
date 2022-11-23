@@ -94,6 +94,11 @@ declare global {
     Component: NextPageWithLayout;
   };
 
+  type PagedSWRDataType<T> = {
+    total: number;
+    data: T;
+  };
+
   namespace MetamaskAuth {
     interface MetaMaskAuthResponse {
       metamaskWallet: string;

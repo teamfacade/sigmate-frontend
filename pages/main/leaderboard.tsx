@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import { AxiosError } from 'axios';
 import Axios from 'lib/global/axiosInstance';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { SectionWrapper } from 'components/global';
 import { Board } from 'containers/main/leaderboard';
 
@@ -28,13 +30,29 @@ const leaderboardFetcher: Fetcher<Leaderboad.ItemType[], string> = async (
 };
 
 export default function Leaderboard() {
+  const dispatch = useAppDispatch();
+  const { userName } = useAppSelector(({ account }) => account);
   const [curPage, setCurPage] = useState(1);
+  const [myData, setMyData] = useState<Leaderboad.ItemType | null>(null);
   const [items, setItems] = useState<Leaderboad.ItemType[]>([]);
 
   const { data: leaderboardItems = [] } = useSWR(
     `/leaderboard?page=${curPage}&limit=10`,
     leaderboardFetcher
   );
+
+  useEffect(() => {
+    if (userName) {
+      dispatch(
+        AuthRequiredAxios({ method: 'GET', url: '/leaderboard/my' })
+      ).then((action: any) => {
+        const { status, data } = action.payload;
+        if (status === 200) {
+          setMyData(data.leaderboard);
+        } else alert(`Error while fetching my data: ERR ${status}`);
+      });
+    }
+  }, [userName]);
 
   const onScroll = useCallback(() => {
     const { scrollHeight, scrollTop } = document.documentElement;
@@ -55,7 +73,12 @@ export default function Leaderboard() {
   useEffect(() => {
     if (leaderboardItems && leaderboardItems.length > 0) {
       setItems((current) => {
-        return current.concat(leaderboardItems);
+        return current.concat(
+          leaderboardItems.filter(
+            (item) =>
+              current.find((cur) => cur.user.id === item.user.id) === undefined
+          )
+        );
       });
     }
   }, [leaderboardItems]);
@@ -71,7 +94,7 @@ export default function Leaderboard() {
 
   return (
     <SectionWrapper header="Leaderboard" marginBottom="20px">
-      <Board leaderboardItems={items} />
+      <Board myData={myData} leaderboardItems={items} />
     </SectionWrapper>
   );
 }

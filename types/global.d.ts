@@ -148,6 +148,7 @@ declare global {
     type ItemType = {
       rank: number;
       user: {
+        id: number;
         userName: string;
         primaryProfile?: UserProfileAttributes;
       };

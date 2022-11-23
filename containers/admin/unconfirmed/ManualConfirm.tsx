@@ -55,7 +55,6 @@ export default memo(function ManualConfirm({
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
     e.preventDefault();
     setPending(true);
-    console.log('SETPENDING');
 
     const { elements } = e.currentTarget;
     const TwitterHandle =

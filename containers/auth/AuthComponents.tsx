@@ -79,8 +79,6 @@ export default function AuthComponents({ signedIn }: PropsType) {
   // 메타마스크 로그인 최종 성공시 실행되는 callback
   const handleMetaMaskLoginSuccess = useCallback(
     (metamaskResponse: MetamaskAuth.MetaMaskVerifyResponse) => {
-      // eslint-disable-next-line no-console
-      console.log(metamaskResponse); // @todo 유저정보랑 토큰 여깄음!
       dispatch(signIn(metamaskResponse.user)).then(() =>
         dispatch(
           setAuthTokens({

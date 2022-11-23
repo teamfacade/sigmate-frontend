@@ -37,7 +37,7 @@ export default function Leaderboard() {
   const [items, setItems] = useState<Leaderboad.ItemType[]>([]);
 
   const { data: leaderboardItems = [] } = useSWR(
-    `/leaderboard?page=${curPage}&limit=10`,
+    `/leaderboard?page=${curPage}&limit=20`,
     leaderboardFetcher
   );
 

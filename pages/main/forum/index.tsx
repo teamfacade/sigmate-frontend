@@ -14,13 +14,13 @@ const fetcher: Fetcher<PagedSWRDataType<Forum.CategoryType[]>, string> = async (
     const { data, status } = await Axios.get(url);
     if (status === 200) {
       let categories: Forum.CategoryType[] = [];
-      const noticeIdx = categories.findIndex(
+      const noticeIdx = (data.categories as Forum.CategoryType[]).findIndex(
         (block) => block.name === 'Notice'
       );
       if (noticeIdx === -1) return { data: data.categories, total: 0 };
 
       /** Make notice forum to go at first */
-      categories.push(categories.at(noticeIdx) as Forum.CategoryType);
+      categories.push(data.categories.at(noticeIdx) as Forum.CategoryType);
       categories = categories.concat(
         data.categories
           .slice(0, noticeIdx)

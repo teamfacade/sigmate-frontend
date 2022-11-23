@@ -144,6 +144,26 @@ declare global {
     [index: string]: T;
   }
 
+  namespace Leaderboad {
+    type ItemType = {
+      rank: number;
+      user: {
+        id: number;
+        userName: string;
+        primaryProfile?: UserProfileAttributes;
+      };
+      referral: number;
+      forum: {
+        postCreate: string;
+        commentCreate: string;
+      };
+      wiki: {
+        documentEdit: number;
+      };
+      total: number;
+    };
+  }
+
   namespace Minting {
     type CollectionType = {
       id?: number;
@@ -181,7 +201,7 @@ declare global {
         id: number;
         title: string;
       };
-      createdBy: {
+      createdBy?: {
         id: number;
         userName: string;
         primaryProfile: PrimaryProfileType;
@@ -276,7 +296,7 @@ declare global {
       blocks?: StringKeyObj<Wiki.DocumentBlockType>;
       keyInfo?: Wiki.KeyInfoType;
       types: Forum.CategoryType[];
-      createdBy: Forum.AuthorType;
+      createdBy?: Forum.AuthorType;
     };
   }
 
@@ -335,7 +355,7 @@ declare global {
     type CommentType = {
       id: number;
       content: string;
-      createdBy: Forum.AuthorType;
+      createdBy?: Forum.AuthorType;
       voteCount: number;
       replies: Forum.CommentType[] | null;
     };
@@ -345,7 +365,7 @@ declare global {
       id: number;
       title: string;
       content: string;
-      createdBy: Forum.AuthorType;
+      createdBy?: Forum.AuthorType;
       votes?: Forum.VoteType;
       voteCount?: number;
       comments?: Forum.CommentType[];

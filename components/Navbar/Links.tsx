@@ -27,7 +27,9 @@ export default memo(function Links({ onClickShowMenu }: PropsType) {
         </Link>
       </li>
       <li>
-        <a>Leaderboard</a>
+        <Link href="/main/leaderboard">
+          <a onClick={onClickShowMenu}>Leaderboard</a>
+        </Link>
       </li>
       {/*
       <li>

@@ -16,8 +16,10 @@ export default memo(function EditLogs({ editLogs }: PropsType) {
             key={edit.id}
             name={edit.document.title}
             documentId={edit.document.id}
-            editorUsername={edit.createdBy.userName}
-            editorDisplayName={edit.createdBy.primaryProfile.displayName}
+            editorUsername={
+              edit.createdBy ? edit.createdBy.userName : 'Deleted user'
+            }
+            editorDisplayName={edit.createdBy?.primaryProfile.displayName || ''}
             timelog={edit.approvedAt}
           />
         );

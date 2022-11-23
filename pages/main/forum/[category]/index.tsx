@@ -83,7 +83,7 @@ export default function ArticleLists() {
         ))
       ) : (
         <BasicWrapper>
-          <LargeText>There's no article : (</LargeText>
+          <LargeText>There's no post : (</LargeText>
         </BasicWrapper>
       )}
       {articles.total > 0 && (

@@ -71,6 +71,6 @@ const OuterWrapper = styled.div`
 
 const InnerWrapper = styled.div<{ show: boolean }>`
   padding: ${({ show }) => (show ? '20px 0 0 0' : '0')};
-  margin-top: ${({ show }) => (show ? '0' : '-200%')};
+  margin-top: ${({ show }) => (show ? '0' : '-10000%')};
   transition: all 300ms ease-in-out;
 `;

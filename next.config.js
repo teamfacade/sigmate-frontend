@@ -6,7 +6,11 @@ module.exports = {
     styledComponents: true,
   },
   images: {
-    domains: ['lh3.googleusercontent.com', 'i.seadn.io'],
+    domains: [
+      'lh3.googleusercontent.com',
+      'i.seadn.io',
+      'sigmate-user.s3.ap-northeast-2.amazonaws.com',
+    ],
   },
   webpack(config) {
     config.module.rules.push({

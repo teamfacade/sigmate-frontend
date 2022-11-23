@@ -138,7 +138,7 @@ const SigmateDocument: Wiki.DocumentType = {
     },
   },
   structure: [1, 2, 3, 4, 5],
-  types: [{ id: 1, name: 'Platform', description: '', imageURL: '' }],
+  types: [{ id: 1, name: 'Platform', description: '', thumbnail: '' }],
   blocks: {
     1: {
       id: 1,

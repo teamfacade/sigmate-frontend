@@ -1,22 +1,25 @@
+/*
 import {
   FormEventHandler,
   MouseEventHandler,
   useCallback,
   useState,
-  useEffect,
+  // useEffect,
 } from 'react';
-import styled from 'styled-components';
+
 import { CSSTransition } from 'react-transition-group';
 import PointsLog from 'containers/user/points/PointsLog';
 import TokensLog from 'containers/user/points/TokensLog';
 import {
   BasicWrapper,
   SectionWrapper,
-  Search,
-  PageMoveBtns,
+  //  Search,
+  // PageMoveBtns,
 } from 'components/global';
-import { LogSelect } from 'components/user/points';
+// import { LogSelect } from 'components/user/points';
+import styled from 'styled-components';
 import styles from 'styles/styleLib';
+ */
 
 export type LogType = {
   timestamp: number;
@@ -24,96 +27,28 @@ export type LogType = {
   amount: string;
 };
 
-// @todo total값 역시 데이터로 받아온 것을 쓰기
-const total = 482;
-const ExLogs = [
-  {
-    timestamp: 1658389880695,
-    source: 'Daily login',
-    amount: '10',
-  },
-  {
-    timestamp: 1658389880696,
-    source: 'Daily login',
-    amount: '10',
-  },
-  {
-    timestamp: 1658389880697,
-    source: 'Token buy',
-    amount: '-10',
-  },
-  {
-    timestamp: 1658389880698,
-    source: 'Daily login',
-    amount: '10',
-  },
-];
-
 export default function Logs() {
+  /*
   const [selected, setSelected] = useState('Point');
   const [logs, setLogs] = useState<LogType[]>(ExLogs);
+
   const [curPage, setCurPage] = useState(1);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     setSelected(e.currentTarget.name);
   }, []);
 
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-      // eslint-disable-next-line no-alert
-      alert(
-        `Fetch 10 ${selected} logs from ${
-          (parseInt(e.currentTarget.value, 10) - 1) * 10
-        }th log`
-      );
-    },
-    [selected]
-  );
-
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 10 ${selected} logs from 0th log`);
-          setCurPage(1);
-          break;
-        case 'Prev':
-          // eslint-disable-next-line no-alert
-          alert(
-            `Fetch 10 ${selected} logs from ${(curPage - 1 - 1) * 10}th log`
-          );
-          setCurPage((cur) => cur - 1);
-          break;
-        case 'Next':
-          // eslint-disable-next-line
-          alert(`Fetch 10 ${selected} logs from ${curPage * 10}th log`);
-          setCurPage((cur) => cur + 1);
-          break;
-        case 'ToLast':
-          // eslint-disable-next-line
-          alert(`Fetch 10 ${selected} logs from ((total / 10) * 10)th log`);
-          setCurPage(Math.floor(total / 10) + 1);
-          break;
-        default:
-          break;
-      }
-    },
-    [selected, curPage]
-  );
-
-  const onClickConvert: MouseEventHandler<HTMLButtonElement> =
-    useCallback(() => {
-      // eslint-disable-next-line no-alert
-      alert('Coming soon');
-    }, []);
-
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
     e.preventDefault();
     // eslint-disable-next-line no-alert
     alert('Search!');
   }, []);
+
+  const onClickConvert: MouseEventHandler<HTMLButtonElement> =
+      useCallback(() => {
+        // eslint-disable-next-line no-alert
+        alert('Coming soon');
+      }, []);
 
   return (
     <BasicWrapper>
@@ -134,14 +69,12 @@ export default function Logs() {
         >
           <TokensLog />
         </CSSTransition>
-        {/*
         <UtilsWrapper>
           <div style={{ width: '180px' }}>
             <Search white placeholder="Search..." onSubmit={onSubmit} />
           </div>
           <LogSelect selected={selected} onClick={onClick} />
         </UtilsWrapper>
-        */}
       </SectionWrapper>
       {selected === 'Point' && (
         <OtherUtilsWrapper>
@@ -160,14 +93,18 @@ export default function Logs() {
       )}
     </BasicWrapper>
   );
+*/
+  return <div>Preparing</div>;
 }
 
+/*
 const UtilsWrapper = styled.div`
   display: flex;
   position: absolute;
   top: -5px;
   right: 0;
 `;
+
 
 const OtherUtilsWrapper = styled.div`
   position: relative;
@@ -193,3 +130,4 @@ const ConvertBtn = styled.button`
     margin: 0;
   }
 `;
+*/

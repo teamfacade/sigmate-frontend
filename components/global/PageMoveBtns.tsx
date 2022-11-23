@@ -1,4 +1,11 @@
-import { memo, MouseEventHandler, useMemo } from 'react';
+import {
+  Dispatch,
+  memo,
+  MouseEventHandler,
+  SetStateAction,
+  useMemo,
+  useCallback,
+} from 'react';
 import styled from 'styled-components';
 import { ToFirst, Prev, Next, ToLast } from 'public/Icons/global';
 import styles from 'styles/styleLib';
@@ -6,25 +13,59 @@ import styles from 'styles/styleLib';
 type PropsType = {
   curPage: number;
   totalPage: number;
-  onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement>;
-  onClickPageNumBtn: MouseEventHandler<HTMLButtonElement>;
+  setCurPage: Dispatch<SetStateAction<number>>;
 };
 
 export default memo(function PageMoveBtns({
   curPage,
   totalPage,
-  onClickPageMoveBtn,
-  onClickPageNumBtn,
+  setCurPage,
 }: PropsType) {
-  const start = useMemo(() => (curPage <= 6 ? 1 : curPage - 5), [curPage]);
+  /** 현재 페이지 왼쪽에 페이지 5개. 1 ~ 5페이지 까지는 무조건 1에서 시작 */
+  const start = useMemo(() => (curPage < 6 ? 1 : curPage - 5), [curPage]);
   const nums = useMemo(() => {
     let len;
+    /** 전체 페이지 5개 이하: 전부 다 렌더링 */
     if (totalPage <= 5) len = totalPage;
-    else if (totalPage - curPage >= 5) len = 10;
-    else len = totalPage - curPage + 6;
+    /** 전체 페이지 5개 이상 && 남은 페이지 5개 이상: 10개 렌더링 */ else if (
+      totalPage - curPage >=
+      5
+    )
+      len = 10;
+    /** 전체 페이지 5개 이상 && 남은 페이지 5개 미만: 5(왼쪽) + 1(지금) + 남은 거 렌더링 */ else
+      len = totalPage - curPage + 6;
 
     return Array.from({ length: len }, (_, i) => start + i);
   }, [curPage, totalPage, start]);
+
+  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      switch (e.currentTarget.name) {
+        case 'ToFirst':
+          setCurPage(1);
+          break;
+        case 'Prev':
+          setCurPage((cur) => Math.max(1, cur - 1));
+          break;
+        case 'Next':
+          setCurPage((cur) => Math.min(totalPage, cur + 1));
+          break;
+        case 'ToLast':
+          setCurPage(totalPage);
+          break;
+        default:
+          break;
+      }
+    },
+    [totalPage]
+  );
+
+  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      setCurPage(parseInt(e.currentTarget.value, 10));
+    },
+    []
+  );
 
   return (
     <Wrapper>

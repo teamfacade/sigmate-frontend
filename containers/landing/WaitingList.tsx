@@ -52,7 +52,7 @@ export default memo(function WaitingList() {
   );
 
   return (
-    <Wrapper>
+    <Wrapper id="waiting-list">
       <div>
         <TextWrapper>
           <span>Be the first to join the waitlist.</span>
@@ -64,6 +64,7 @@ export default memo(function WaitingList() {
               value={email}
               disabled={submitted}
               onChange={onChange}
+              placeholder="Enter your email"
             />
             <Submit disabled={email === '' || pending || submitted}>
               {pending ? '...' : submitted ? 'Registered!' : 'Register'}
@@ -99,7 +100,7 @@ const Wrapper = memo(styled.div`
 
 const TextWrapper = memo(styled.div`
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: 48px;
 
   > div,
   span {

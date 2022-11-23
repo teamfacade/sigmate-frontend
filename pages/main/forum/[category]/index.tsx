@@ -19,8 +19,8 @@ const fetcher: Fetcher<PagedSWRDataType<Forum.PostType[]>, string> = async (
     const { data, status } = await Axios.get(url);
     if (status === 200)
       return {
-        total: data.forumPosts.length,
-        data: data.forumPosts,
+        total: data.page.total,
+        data: data.data,
       };
     return initialSWRData;
   } catch (e) {

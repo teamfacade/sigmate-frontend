@@ -20,7 +20,7 @@ export default memo(function Categories({ categories }: PropsType) {
               imageURL={category.thumbnail || ''}
             />
           );
-        return <div />;
+        return <div key={category.id} />;
       })}
     </GriddyWrapper>
   );

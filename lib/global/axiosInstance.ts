@@ -18,7 +18,6 @@ const Axios = axios.create({
 });
 
 let renewingAccess = false;
-const renewingRefresh = false;
 
 export const RenewAccessToken: (
   refreshToken: string,

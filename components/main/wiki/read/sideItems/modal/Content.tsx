@@ -5,6 +5,7 @@ import styles from 'styles/styleLib';
 import { MultiLineEllipsis } from 'components/global';
 import { PFP, Platform, TimeDiff } from 'components/main/wiki/read/sideItems';
 import { FullText } from 'components/main/wiki/read/sideItems/modal';
+import dynamic from 'next/dynamic';
 
 type PropsType = {
   header: string;
@@ -16,6 +17,13 @@ type PropsType = {
 };
 
 const maxWord = 190;
+
+const DynamicMarkdown = dynamic(
+  () => import('components/main/wiki/read/MarkdownRendered'),
+  {
+    ssr: false,
+  }
+);
 
 export default memo(function Content({
   header,
@@ -62,7 +70,7 @@ export default memo(function Content({
       ) : (
         <>
           <EllipsisText line={2} lineHeight="21px">
-            {content}
+            <DynamicMarkdown content={content} />
           </EllipsisText>
           <BtnWrapper>
             <UnfoldBtn onClick={onClick}>

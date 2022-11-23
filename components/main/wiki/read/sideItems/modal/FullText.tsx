@@ -2,12 +2,20 @@ import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
 import styles from 'styles/styleLib';
+import dynamic from 'next/dynamic';
 
 type PropsType = {
   content: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
   showHide: boolean;
 };
+
+const DynamicMarkdown = dynamic(
+  () => import('components/main/wiki/read/MarkdownRendered'),
+  {
+    ssr: false,
+  }
+);
 
 export default memo(function FullText({
   content,
@@ -16,7 +24,9 @@ export default memo(function FullText({
 }: PropsType) {
   return (
     <div>
-      <Text>{content}</Text>
+      <Text>
+        <DynamicMarkdown content={content} />
+      </Text>
       {showHide && (
         <BtnWrapper>
           <HideBtn onClick={onClick}>Hide</HideBtn>
@@ -26,14 +36,22 @@ export default memo(function FullText({
   );
 });
 
-const Text = styled.p`
-  width: 100%;
-  margin: 5px 0 0 0;
-  color: ${styles.colors.logColor};
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 160%;
-  line-break: anywhere;
+const Text = styled.div`
+  p {
+    width: 100%;
+    margin: 5px 0 0 0;
+    color: ${styles.colors.logColor};
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 160%;
+    white-space: pre-line;
+    line-break: anywhere;
+  }
+
+  li {
+    font-size: 14px;
+    line-height: 160%;
+  }
 `;
 
 const BtnWrapper = styled.div`

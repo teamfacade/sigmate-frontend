@@ -15,7 +15,7 @@ export default memo(function Categories({ categories }: PropsType) {
           id={category.id}
           name={category.name}
           description={category.description}
-          imageURL={category.imageURL}
+          imageURL={category.thumbnail || ''}
         />
       ))}
     </GriddyWrapper>

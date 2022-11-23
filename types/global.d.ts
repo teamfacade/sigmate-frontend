@@ -318,7 +318,7 @@ declare global {
       id: number;
       name: string;
       description: string;
-      imageURL: string;
+      thumbnail?: string;
     };
 
     type InfoType = {

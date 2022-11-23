@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { SideItem } from 'components/admin';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '../hooks/reduxStoreHooks';
+import { store } from '../store/store';
 
 type PropsType = {
   children: ReactNode;
@@ -13,9 +14,12 @@ export default function AdminLayout({ children }: PropsType) {
   const { isAdmin } = useAppSelector(({ account }) => account);
 
   useEffect(() => {
-    if (!isAdmin) {
-      router.back();
-    }
+    setTimeout(() => {
+      if (
+        (store.getState() as ReduxState.RootStateType).account.isAdmin === false
+      )
+        router.back();
+    }, 700);
   }, []);
 
   if (isAdmin)

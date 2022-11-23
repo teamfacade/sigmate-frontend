@@ -15,6 +15,7 @@ import {
   SectionWrapper,
   LogTable,
   Modal,
+  PageMoveBtns,
 } from 'components/global';
 import { LogHead, LogItem } from 'components/admin/unconfirmed';
 import { useRouter } from 'next/router';
@@ -29,6 +30,8 @@ export default function Unconfirmed() {
   const [unconfirmedList, setUnconfirmedList] = useState<
     Admin.UnconfirmedType[]
   >([]);
+  const [curPage, setCurPage] = useState<number>(1);
+  const [totalPage, setTotalPage] = useState<number>(0);
   const ModalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -44,11 +47,12 @@ export default function Unconfirmed() {
         dispatch(
           AuthRequiredAxios({
             method: 'GET',
-            url: `/admin/collection/unconfirmed`,
+            url: `/admin/collection/unconfirmed?page=${curPage}&limit=30`,
           })
         ).then((action: any) => {
           const { status, data } = action.payload;
           if (status && status === 200) {
+            setTotalPage(data.page.total);
             setUnconfirmedList(data.data);
           } else {
             alert(
@@ -59,16 +63,20 @@ export default function Unconfirmed() {
         }),
       500
     );
-  }, [showModal]);
+  }, [curPage, showModal]);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
-    const { id, name, discordUrl, twitterHandle } = e.currentTarget.dataset;
+    const { id, name, discordUrl, twitterHandle, discordChannel } =
+      e.currentTarget.dataset;
     if (id && name)
       setShowModal({
         id: parseInt(id, 10),
         name,
         discordUrl: discordUrl || null,
         twitterHandle: twitterHandle || null,
+        channel: {
+          discordChannel: discordChannel || '',
+        },
       });
   }, []);
 
@@ -91,11 +99,19 @@ export default function Unconfirmed() {
                     id={collection.id}
                     name={collection.name}
                     discordUrl={collection.discordUrl}
+                    discordChannel={collection.channel?.discordChannel || null}
                     twitterHandle={collection.twitterHandle}
                     onClickManageBtn={onClick}
                   />
                 ))}
               </LogTable>
+              {totalPage > 0 && (
+                <PageMoveBtns
+                  totalPage={totalPage}
+                  curPage={curPage}
+                  setCurPage={setCurPage}
+                />
+              )}
             </SectionWrapper>
           </BasicWrapper>
         </Wrapper>
@@ -113,6 +129,7 @@ export default function Unconfirmed() {
                 name={showModal.name}
                 discordUrl={showModal.discordUrl}
                 twitterHandle={showModal.twitterHandle}
+                discordChannel={showModal.channel?.discordChannel || null}
                 alreadyConfirmed={false}
               />
             )}

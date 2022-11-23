@@ -15,6 +15,7 @@ import {
   SectionWrapper,
   LogTable,
   Modal,
+  PageMoveBtns,
 } from 'components/global';
 import { LogHead, LogItem } from 'components/admin/unconfirmed';
 import { useRouter } from 'next/router';
@@ -28,6 +29,8 @@ export default function Unconfirmed() {
   const [unconfirmedList, setUnconfirmedList] = useState<
     Admin.UnconfirmedType[]
   >([]);
+  const [curPage, setCurPage] = useState<number>(1);
+  const [totalPage, setTotalPage] = useState<number>(0);
   const ModalRef = useRef<HTMLDivElement>(null);
   const { isAdmin } = useAppSelector(({ account }) => account);
 
@@ -44,11 +47,12 @@ export default function Unconfirmed() {
         dispatch(
           AuthRequiredAxios({
             method: 'GET',
-            url: `/admin/collection/confirmed`,
+            url: `/admin/collection/confirmed?page=${curPage}&limit=30`,
           })
         ).then((action: any) => {
           const { status, data } = action.payload;
           if (status && status === 200) {
+            setTotalPage(data.page.total);
             setUnconfirmedList(data.data);
           } else {
             alert(`Error while fetching confirmed collections: ERR ${status}`);
@@ -57,7 +61,7 @@ export default function Unconfirmed() {
         }),
       500
     );
-  }, [showModal]);
+  }, [curPage, showModal]);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     const { id, name, discordUrl, twitterHandle, discordChannel } =
@@ -99,6 +103,13 @@ export default function Unconfirmed() {
                   />
                 ))}
               </LogTable>
+              {totalPage > 0 && (
+                <PageMoveBtns
+                  totalPage={totalPage}
+                  curPage={curPage}
+                  setCurPage={setCurPage}
+                />
+              )}
             </SectionWrapper>
           </BasicWrapper>
         </Wrapper>

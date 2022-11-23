@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
-import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { ManualConfirm } from 'containers/admin/unconfirmed';
 import {
@@ -17,9 +17,12 @@ import {
   Modal,
 } from 'components/global';
 import { LogHead, LogItem } from 'components/admin/unconfirmed';
+import { useRouter } from 'next/router';
 
 export default function Unconfirmed() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
+  const { isAdmin } = useAppSelector(({ account }) => account);
   const [showModal, setShowModal] = useState<Admin.UnconfirmedType | null>(
     null
   );
@@ -27,6 +30,12 @@ export default function Unconfirmed() {
     Admin.UnconfirmedType[]
   >([]);
   const ModalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isAdmin) {
+      router.back();
+    }
+  }, []);
 
   useEffect(() => {
     /** Wait for the auth state restoring */
@@ -68,48 +77,50 @@ export default function Unconfirmed() {
       setShowModal(null);
     }, []);
 
-  return (
-    <>
-      <Wrapper>
-        <BasicWrapper>
-          <SectionWrapper header="Unconfirmed collections">
-            <LogTable gap="5vw">
-              <LogHead />
-              {unconfirmedList?.map((collection) => (
-                <LogItem
-                  key={collection.id}
-                  id={collection.id}
-                  name={collection.name}
-                  discordUrl={collection.discordUrl}
-                  twitterHandle={collection.twitterHandle}
-                  onClickManageBtn={onClick}
-                />
-              ))}
-            </LogTable>
-          </SectionWrapper>
-        </BasicWrapper>
-      </Wrapper>
-      <CSSTransition
-        in={showModal !== null}
-        timeout={300}
-        classNames="show-modal"
-        unmountOnExit
-        nodeRef={ModalRef}
-      >
-        <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          {showModal !== null && (
-            <ManualConfirm
-              id={showModal.id}
-              name={showModal.name}
-              discordUrl={showModal.discordUrl}
-              twitterHandle={showModal.twitterHandle}
-              alreadyConfirmed={false}
-            />
-          )}
-        </Modal>
-      </CSSTransition>
-    </>
-  );
+  if (isAdmin)
+    return (
+      <>
+        <Wrapper>
+          <BasicWrapper>
+            <SectionWrapper header="Unconfirmed collections">
+              <LogTable gap="5vw">
+                <LogHead />
+                {unconfirmedList?.map((collection) => (
+                  <LogItem
+                    key={collection.id}
+                    id={collection.id}
+                    name={collection.name}
+                    discordUrl={collection.discordUrl}
+                    twitterHandle={collection.twitterHandle}
+                    onClickManageBtn={onClick}
+                  />
+                ))}
+              </LogTable>
+            </SectionWrapper>
+          </BasicWrapper>
+        </Wrapper>
+        <CSSTransition
+          in={showModal !== null}
+          timeout={300}
+          classNames="show-modal"
+          unmountOnExit
+          nodeRef={ModalRef}
+        >
+          <Modal onMouseDown={onMouseDown} ref={ModalRef}>
+            {showModal !== null && (
+              <ManualConfirm
+                id={showModal.id}
+                name={showModal.name}
+                discordUrl={showModal.discordUrl}
+                twitterHandle={showModal.twitterHandle}
+                alreadyConfirmed={false}
+              />
+            )}
+          </Modal>
+        </CSSTransition>
+      </>
+    );
+  return <div>: P</div>;
 }
 
 const Wrapper = styled.div`

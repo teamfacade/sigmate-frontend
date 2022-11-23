@@ -1,4 +1,10 @@
-import { MouseEventHandler, useCallback, useRef, useState } from 'react';
+import {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
@@ -12,11 +18,13 @@ import {
 } from 'components/global';
 import { LogHead, LogItem } from 'components/admin/content';
 import { CSSTransition } from 'react-transition-group';
+import { useRouter } from 'next/router';
 import {
   CreateCategory,
   EditForumCategories,
 } from '../../components/admin/forum';
 import { BlueBtnStyle } from '../../styles/styleLib';
+import { useAppSelector } from '../../hooks/reduxStoreHooks';
 
 const ExArticle: Admin.ArticleDataType = {
   id: 1,
@@ -55,8 +63,16 @@ const categoriesFetcher: Fetcher<Forum.CategoryType[], string> = async (
 };
 
 export default function ContentManagement() {
+  const router = useRouter();
   const [showModal, setShowModal] = useState<string | null>(null);
   const ModalRef = useRef<HTMLDivElement>(null);
+  const { isAdmin } = useAppSelector(({ account }) => account);
+
+  useEffect(() => {
+    if (!isAdmin) {
+      router.back();
+    }
+  }, []);
 
   const { data: groups, mutate } = useSWR('/forum/c', categoriesFetcher);
 
@@ -71,44 +87,45 @@ export default function ContentManagement() {
       setShowModal(null);
     }, [mutate]);
 
-  return (
-    <>
-      <Wrapper>
-        <BasicWrapper>
-          <SectionWrapper header="Article list">
-            <div style={{ display: 'flex', marginBottom: '8px' }}>
-              <span style={{ marginRight: '4px' }}>Group</span>
-              <select name="group">
-                {groups?.map((group) => (
-                  <option key={group.id} value={group.id}>
-                    {group.name}
-                  </option>
+  if (isAdmin)
+    return (
+      <>
+        <Wrapper>
+          <BasicWrapper>
+            <SectionWrapper header="Article list">
+              <div style={{ display: 'flex', marginBottom: '8px' }}>
+                <span style={{ marginRight: '4px' }}>Group</span>
+                <select name="group">
+                  {groups?.map((group) => (
+                    <option key={group.id} value={group.id}>
+                      {group.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <span>Title</span>
+              <Search />
+              <ManageBtnsWrapper>
+                <ManageBtn name="Create" onClick={onClick}>
+                  Add new group
+                </ManageBtn>
+                <ManageBtn name="Edit" onClick={onClick}>
+                  Edit groups
+                </ManageBtn>
+              </ManageBtnsWrapper>
+              <LogTable gap="5vw">
+                <LogHead />
+                {ExArticles.map((article) => (
+                  <LogItem
+                    key={article.id}
+                    name={article.name}
+                    views={article.views}
+                    editedUsers={article.editedUsers}
+                    lastEdit={article.lastEdit}
+                  />
                 ))}
-              </select>
-            </div>
-            <span>Title</span>
-            <Search />
-            <ManageBtnsWrapper>
-              <ManageBtn name="Create" onClick={onClick}>
-                Add new group
-              </ManageBtn>
-              <ManageBtn name="Edit" onClick={onClick}>
-                Edit groups
-              </ManageBtn>
-            </ManageBtnsWrapper>
-            <LogTable gap="5vw">
-              <LogHead />
-              {ExArticles.map((article) => (
-                <LogItem
-                  key={article.id}
-                  name={article.name}
-                  views={article.views}
-                  editedUsers={article.editedUsers}
-                  lastEdit={article.lastEdit}
-                />
-              ))}
-            </LogTable>
-            {/*
+              </LogTable>
+              {/*
             <PageMoveBtns
               onClickPageNumBtn={onClickPageNumBtn}
               onClickPageMoveBtn={onClickPageMoveBtn}
@@ -116,26 +133,27 @@ export default function ContentManagement() {
               curPage={curPage}
             />
             */}
-          </SectionWrapper>
-        </BasicWrapper>
-      </Wrapper>
-      <CSSTransition
-        in={showModal !== null}
-        timeout={300}
-        classNames="show-modal"
-        unmountOnExit
-        nodeRef={ModalRef}
-      >
-        <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          {showModal === 'Create' ? (
-            <CreateCategory />
-          ) : (
-            <EditForumCategories />
-          )}
-        </Modal>
-      </CSSTransition>
-    </>
-  );
+            </SectionWrapper>
+          </BasicWrapper>
+        </Wrapper>
+        <CSSTransition
+          in={showModal !== null}
+          timeout={300}
+          classNames="show-modal"
+          unmountOnExit
+          nodeRef={ModalRef}
+        >
+          <Modal onMouseDown={onMouseDown} ref={ModalRef}>
+            {showModal === 'Create' ? (
+              <CreateCategory />
+            ) : (
+              <EditForumCategories />
+            )}
+          </Modal>
+        </CSSTransition>
+      </>
+    );
+  return <div>: P</div>;
 }
 
 const Wrapper = styled.div`

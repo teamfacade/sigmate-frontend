@@ -1,9 +1,15 @@
-import { MouseEventHandler, useCallback, useRef, useState } from 'react';
+import {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import useSWR, { Fetcher } from 'swr';
 import Axios from 'lib/global/axiosInstance';
-import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import {
   BasicWrapper,
@@ -22,6 +28,7 @@ import {
 } from 'components/admin/mintSchedule';
 import { BlueBtnStyle } from 'styles/styleLib';
 import { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
 
 type ModalDataType = {
   type: 'New' | 'Edit' | 'Category';
@@ -73,6 +80,7 @@ export const categoriesFetcher: Fetcher<
 };
 
 export default function MintingSchedule() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState<ModalDataType>({
     type: 'New',
@@ -80,6 +88,13 @@ export default function MintingSchedule() {
   });
   const [curPage, setCurPage] = useState(1);
   const ModalRef = useRef<HTMLDivElement>(null);
+  const { isAdmin } = useAppSelector(({ account }) => account);
+
+  useEffect(() => {
+    if (!isAdmin) {
+      router.back();
+    }
+  }, []);
 
   const { data: schedules = initialSWRData, mutate } = useSWR(
     `/calendar/minting?start=${startDay}&end=${endDay}&limit=${limit}&page=${curPage}`,
@@ -141,76 +156,78 @@ export default function MintingSchedule() {
       setShowModal({ type: 'New', id: -1 });
     }, [mutate]);
 
-  return (
-    <>
-      <Wrapper>
-        <BasicWrapper>
-          <SectionWrapper header="Minting schedule">
-            <div>
-              <input type="date" />
-              <span>Category</span>
-              <select name="category">
-                {categories?.map((category) => (
-                  <option key={category.id} value={category.name}>
-                    {category.name}
-                  </option>
+  if (isAdmin)
+    return (
+      <>
+        <Wrapper>
+          <BasicWrapper>
+            <SectionWrapper header="Minting schedule">
+              <div>
+                <input type="date" />
+                <span>Category</span>
+                <select name="category">
+                  {categories?.map((category) => (
+                    <option key={category.id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <Search />
+              <CreateBtnsWrapper>
+                <CreateNewBtn name="new" onClick={onClick}>
+                  Add new
+                </CreateNewBtn>
+                <CreateNewBtn name="categories" onClick={onClick}>
+                  Edit Categories
+                </CreateNewBtn>
+              </CreateBtnsWrapper>
+            </SectionWrapper>
+          </BasicWrapper>
+          <BasicWrapper>
+            <SectionWrapper header="Search result">
+              <LogTable gap="8vw">
+                <LogHead />
+                {schedules.data.map((schedule) => (
+                  <LogItem
+                    key={schedule.id}
+                    id={schedule.id}
+                    name={schedule.name}
+                    mintingTime={new Date(schedule.mintingTime).toISOString()}
+                    tier={schedule.tier}
+                    category={schedule.collection.category?.name || ''}
+                    onClick={onClick}
+                  />
                 ))}
-              </select>
-            </div>
-            <Search />
-            <CreateBtnsWrapper>
-              <CreateNewBtn name="new" onClick={onClick}>
-                Add new
-              </CreateNewBtn>
-              <CreateNewBtn name="categories" onClick={onClick}>
-                Edit Categories
-              </CreateNewBtn>
-            </CreateBtnsWrapper>
-          </SectionWrapper>
-        </BasicWrapper>
-        <BasicWrapper>
-          <SectionWrapper header="Search result">
-            <LogTable gap="8vw">
-              <LogHead />
-              {schedules.data.map((schedule) => (
-                <LogItem
-                  key={schedule.id}
-                  id={schedule.id}
-                  name={schedule.name}
-                  mintingTime={new Date(schedule.mintingTime).toISOString()}
-                  tier={schedule.tier}
-                  category={schedule.collection.category?.name || ''}
-                  onClick={onClick}
+              </LogTable>
+              {schedules.total > 0 && (
+                <PageMoveBtns
+                  setCurPage={setCurPage}
+                  totalPage={schedules.total}
+                  curPage={curPage}
                 />
-              ))}
-            </LogTable>
-            {schedules.total > 0 && (
-              <PageMoveBtns
-                setCurPage={setCurPage}
-                totalPage={schedules.total}
-                curPage={curPage}
-              />
+              )}
+            </SectionWrapper>
+          </BasicWrapper>
+        </Wrapper>
+        <CSSTransition
+          in={showModal.id >= 0}
+          timeout={300}
+          classNames="show-modal"
+          unmountOnExit
+          nodeRef={ModalRef}
+        >
+          <Modal onMouseDown={onMouseDown} ref={ModalRef}>
+            {showModal.type !== 'Category' ? (
+              <EditSchedule type={showModal.type} id={showModal.id} />
+            ) : (
+              <EditCategory />
             )}
-          </SectionWrapper>
-        </BasicWrapper>
-      </Wrapper>
-      <CSSTransition
-        in={showModal.id >= 0}
-        timeout={300}
-        classNames="show-modal"
-        unmountOnExit
-        nodeRef={ModalRef}
-      >
-        <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          {showModal.type !== 'Category' ? (
-            <EditSchedule type={showModal.type} id={showModal.id} />
-          ) : (
-            <EditCategory />
-          )}
-        </Modal>
-      </CSSTransition>
-    </>
-  );
+          </Modal>
+        </CSSTransition>
+      </>
+    );
+  return <div>: P</div>;
 }
 
 const Wrapper = styled.div`

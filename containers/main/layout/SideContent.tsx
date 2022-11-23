@@ -29,7 +29,6 @@ export default memo(function SideContent() {
     ) {
       Axios.get(`/wiki/d/${router.query.id}`)
         .then((res) => {
-          console.log(res);
           if (res.status === 200) setCid(res.data.data.collection.id);
         })
         .catch((e) =>

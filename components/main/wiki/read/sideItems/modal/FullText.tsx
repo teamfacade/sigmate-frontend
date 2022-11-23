@@ -2,12 +2,20 @@ import { memo, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
 import styles from 'styles/styleLib';
+import dynamic from 'next/dynamic';
 
 type PropsType = {
   content: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
   showHide: boolean;
 };
+
+const DynamicMarkdown = dynamic(
+  () => import('components/main/wiki/read/MarkdownRendered'),
+  {
+    ssr: false,
+  }
+);
 
 export default memo(function FullText({
   content,

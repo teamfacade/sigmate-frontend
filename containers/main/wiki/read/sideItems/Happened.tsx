@@ -3,12 +3,20 @@ import styled from 'styled-components';
 import { MultiLineEllipsis } from 'components/global';
 import { Platform, TimeDiff } from 'components/main/wiki/read/sideItems';
 import styles from 'styles/styleLib';
+import dynamic from 'next/dynamic';
 
 type PropsType = {
   platform: 't' | 'd';
   timestamp: string;
   content: string;
 };
+
+const DynamicMarkdown = dynamic(
+  () => import('components/main/wiki/read/MarkdownRendered'),
+  {
+    ssr: false,
+  }
+);
 
 export default memo(function Happened({
   platform,
@@ -25,7 +33,7 @@ export default memo(function Happened({
         </InfoInnerWrapper>
       </InfoWrapper>
       <EllipsisText line={4} lineHeight="17px">
-        {content}
+        <DynamicMarkdown content={content} />
       </EllipsisText>
     </Wrapper>
   );

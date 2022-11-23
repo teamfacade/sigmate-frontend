@@ -80,7 +80,9 @@ const Text = styled.div`
   }
 
   li {
+    color: ${styles.colors.logColor};
     font-size: 14px;
+    font-weight: 300;
     line-height: 160%;
   }
 `;

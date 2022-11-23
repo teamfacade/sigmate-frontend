@@ -32,9 +32,9 @@ export default memo(function Happened({
           <TimeDiff platform={platform} timestamp={timestamp} />
         </InfoInnerWrapper>
       </InfoWrapper>
-      <EllipsisText line={4} lineHeight="17px">
+      <Text>
         <DynamicMarkdown content={content} />
-      </EllipsisText>
+      </Text>
     </Wrapper>
   );
 });
@@ -69,10 +69,18 @@ const Author = styled.p`
   line-height: 160%;
 `;
 
-const EllipsisText = styled(MultiLineEllipsis)`
-  width: 100%;
-  margin: 5px 0 0 0;
-  color: ${styles.colors.logColor};
-  font-size: 13px;
-  font-weight: 300;
+const Text = styled.div`
+  p {
+    width: 100%;
+    margin: 5px 0 0 0;
+    color: ${styles.colors.logColor};
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 17px;
+  }
+
+  li {
+    font-size: 14px;
+    line-height: 160%;
+  }
 `;

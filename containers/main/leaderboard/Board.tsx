@@ -13,7 +13,7 @@ export default function Board({ myData, leaderboardItems }: PropsType) {
   return (
     <LeaderboardTable>
       <LeaderboardHead />
-      {myData !== null && (
+      {myData && (
         <LeaderboardItem
           rank={myData.rank}
           userName="YOU"

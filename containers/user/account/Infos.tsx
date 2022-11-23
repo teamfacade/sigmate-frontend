@@ -31,6 +31,7 @@ const usernameRules: StringKeyObj<string> = {
   REQUIRED: "Username can't be empty",
   TOO_SHORT: 'Username should be more than 2 characters',
   TOO_LONG: 'Username should be less than 17 characters',
+  NOT_ALPHA: 'We only allow alphabet characters and whitespaces',
   ERR_USERNAME_ILLEGAL_CHARS:
     'We only allow alphanumeric characters, underscores, dashes, and periods',
   ERR_USERNAME_CONSECUTIVE_SPECIAL_CHARS:

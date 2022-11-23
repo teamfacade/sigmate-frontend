@@ -1,26 +1,28 @@
-import { memo, MouseEventHandler, useCallback, useState } from 'react';
+import { memo, useState } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import Axios from 'lib/global/axiosInstance';
 import { EditLogs } from 'containers/main/recent-edits';
-import { SectionWrapper, PageMoveBtns } from 'components/global';
+import {
+  SectionWrapper,
+  PageMoveBtns,
+  initialSWRData,
+} from 'components/global';
 // import { LogSelect } from 'components/main/recent-edits';
 
-let total = 1;
-
-const editlogFetcher: Fetcher<Wiki.EditLogType[], string> = async (
-  url: string
-) => {
+const editlogFetcher: Fetcher<
+  PagedSWRDataType<Wiki.EditLogType[]>,
+  string
+> = async (url: string) => {
   try {
     const { status, data } = await Axios.get(url);
     if (status === 200) {
-      total = data.page.total;
-      return data.data;
+      return { data: data.data, total: data.page.total };
     }
     alert(`Error while fetching edit logs: ${status}`);
-    return [];
+    return initialSWRData;
   } catch (e) {
     alert(`Error while fetching edit logs: ${e}`);
-    return [];
+    return initialSWRData;
   }
 };
 
@@ -28,54 +30,23 @@ export default memo(function RecentEdits() {
   // const [selected, setSelected] = useState('All');
   const [curPage, setCurPage] = useState(1);
 
-  const { data: editLogs = [] } = useSWR(
+  const { data: editLogs = initialSWRData } = useSWR(
     `/wiki/activity/edits?page=${curPage}&limit=10`,
     editlogFetcher
   );
-
   /*
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     setSelected(e.currentTarget.name);
   }, []);
    */
 
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-    },
-    []
-  );
-
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          setCurPage(1);
-          break;
-        case 'Prev':
-          setCurPage((cur) => cur - 1);
-          break;
-        case 'Next':
-          setCurPage((cur) => cur + 1);
-          break;
-        case 'ToLast':
-          setCurPage(Math.floor(total / 10) + 1);
-          break;
-        default:
-          break;
-      }
-    },
-    [curPage]
-  );
-
   return (
     <SectionWrapper header="Recent edits">
-      <EditLogs editLogs={editLogs} />
+      <EditLogs editLogs={editLogs.data} />
       <PageMoveBtns
         curPage={curPage}
-        totalPage={total}
-        onClickPageMoveBtn={onClickPageMoveBtn}
-        onClickPageNumBtn={onClickPageNumBtn}
+        totalPage={editLogs.total}
+        setCurPage={setCurPage}
       />
       {/*
       <UtilWrapper>

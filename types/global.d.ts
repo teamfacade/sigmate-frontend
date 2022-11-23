@@ -94,6 +94,11 @@ declare global {
     Component: NextPageWithLayout;
   };
 
+  type PagedSWRDataType<T> = {
+    total: number;
+    data: T;
+  };
+
   namespace MetamaskAuth {
     interface MetaMaskAuthResponse {
       metamaskWallet: string;
@@ -195,7 +200,7 @@ declare global {
         id: number;
         title: string;
       };
-      createdBy: {
+      createdBy?: {
         id: number;
         userName: string;
         primaryProfile: PrimaryProfileType;
@@ -290,7 +295,7 @@ declare global {
       blocks?: StringKeyObj<Wiki.DocumentBlockType>;
       keyInfo?: Wiki.KeyInfoType;
       types: Forum.CategoryType[];
-      createdBy: Forum.AuthorType;
+      createdBy?: Forum.AuthorType;
     };
   }
 
@@ -349,7 +354,7 @@ declare global {
     type CommentType = {
       id: number;
       content: string;
-      createdBy: Forum.AuthorType;
+      createdBy?: Forum.AuthorType;
       voteCount: number;
       replies: Forum.CommentType[] | null;
     };
@@ -359,7 +364,7 @@ declare global {
       id: number;
       title: string;
       content: string;
-      createdBy: Forum.AuthorType;
+      createdBy?: Forum.AuthorType;
       votes?: Forum.VoteType;
       voteCount?: number;
       comments?: Forum.CommentType[];

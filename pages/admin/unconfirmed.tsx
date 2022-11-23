@@ -14,19 +14,15 @@ import {
   BasicWrapper,
   SectionWrapper,
   LogTable,
-  PageMoveBtns,
   Modal,
 } from 'components/global';
 import { LogHead, LogItem } from 'components/admin/unconfirmed';
-
-const total = 0;
 
 export default function Unconfirmed() {
   const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState<Admin.UnconfirmedType | null>(
     null
   );
-  const [curPage, setCurPage] = useState(1);
   const [unconfirmedList, setUnconfirmedList] = useState<
     Admin.UnconfirmedType[]
   >([]);
@@ -39,7 +35,7 @@ export default function Unconfirmed() {
         dispatch(
           AuthRequiredAxios({
             method: 'GET',
-            url: `/admin/uc?limit=10&page=${curPage}`,
+            url: `/admin/uc`,
           })
         ).then((action: any) => {
           const { status, data } = action.payload;
@@ -54,7 +50,7 @@ export default function Unconfirmed() {
         }),
       500
     );
-  }, [showModal, curPage]);
+  }, [showModal]);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     const { id, name, discordUrl, twitterHandle } = e.currentTarget.dataset;
@@ -71,49 +67,6 @@ export default function Unconfirmed() {
     useCallback(async () => {
       setShowModal(null);
     }, []);
-
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-      // eslint-disable-next-line no-alert
-      alert(
-        `Fetch 10 referral logs from ${
-          (parseInt(e.currentTarget.value, 10) - 1) * 10
-        }th log`
-      );
-    },
-    []
-  );
-
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 10 referral logs from 0th log`);
-          setCurPage(1);
-          break;
-        case 'Prev':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 10 referral logs from ${(curPage - 1 - 1) * 10}th log`);
-          setCurPage((cur) => cur - 1);
-          break;
-        case 'Next':
-          // eslint-disable-next-line
-          alert(`Fetch 10 referral logs from ${curPage * 10}th log`);
-          setCurPage((cur) => cur + 1);
-          break;
-        case 'ToLast':
-          // eslint-disable-next-line
-          alert(`Fetch 10 referral logs from ((total / 10) * 10)th log`);
-          setCurPage(Math.floor(total / 10) + 1);
-          break;
-        default:
-          break;
-      }
-    },
-    [curPage]
-  );
 
   return (
     <>
@@ -133,12 +86,6 @@ export default function Unconfirmed() {
                 />
               ))}
             </LogTable>
-            <PageMoveBtns
-              onClickPageNumBtn={onClickPageNumBtn}
-              onClickPageMoveBtn={onClickPageMoveBtn}
-              totalPage={total}
-              curPage={curPage}
-            />
           </SectionWrapper>
         </BasicWrapper>
       </Wrapper>

@@ -1,29 +1,44 @@
 import { MouseEventHandler, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { AxiosError } from 'axios';
 import { getAuthorName } from 'lib/main/forum/getForumDatas';
-import { Search, PageMoveBtns, BasicWrapper } from 'components/global';
+import { initialSWRData, PageMoveBtns, BasicWrapper } from 'components/global';
 import { ArticleThumbnail } from 'containers/main/forum/articleList';
 import { PostBtn } from 'components/main/forum/articleList';
 import useSWR, { Fetcher } from 'swr';
 import Axios from 'lib/global/axiosInstance';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
 
-let total = 42;
 const limit = 10;
 
-const fetcher: Fetcher<Forum.PostType[], string> = (url: string) =>
-  Axios.get(url).then((res) => {
-    total = res.data.forumPosts.length;
-    return res.data.forumPosts;
-  });
+const fetcher: Fetcher<PagedSWRDataType<Forum.PostType[]>, string> = async (
+  url: string
+) => {
+  try {
+    const { data, status } = await Axios.get(url);
+    if (status === 200)
+      return {
+        total: data.forumPosts.length,
+        data: data.forumPosts,
+      };
+    return initialSWRData;
+  } catch (e) {
+    alert(
+      `Error while fetching forum posts. ERR ${
+        (e as AxiosError).response?.status
+      }`
+    );
+    return initialSWRData;
+  }
+};
 
 export default function ArticleLists() {
   const router = useRouter();
   const [curPage, setCurPage] = useState(1);
-  const { userName } = useAppSelector(({ account }) => account);
+  const { userName, isAdmin } = useAppSelector(({ account }) => account);
 
-  const { data: articles } = useSWR(
+  const { data: articles = initialSWRData } = useSWR(
     router.query.category
       ? `/forum/c/${router.query.category}/p?limit=${limit}&page=${curPage}`
       : null,
@@ -35,55 +50,30 @@ export default function ArticleLists() {
         await router.push('/auth');
         return;
       }
-      await router.push(`/main/forum/${router.query.category}/new-post`);
+      await router.push(
+        `/main/forum/${router.query.category}/new-post${
+          router.query.notice === 'true' ? '?notice=true' : ''
+        }`
+      );
     }, [userName]);
-
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-    },
-    []
-  );
-
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          setCurPage(1);
-          break;
-        case 'Prev':
-          setCurPage((cur) => cur - 1);
-          break;
-        case 'Next':
-          setCurPage((cur) => cur + 1);
-          break;
-        case 'ToLast':
-          setCurPage(Math.floor(total / limit) + 1);
-          break;
-        default:
-          break;
-      }
-    },
-    [curPage]
-  );
 
   return (
     <>
       <UtilWrapper>
         {/* <Search white placeholder="Search..." /> */}
-        {router.query.category !== 'Best' && (
+        {(router.query.category !== '24' || isAdmin) && (
           <PostBtn onClickNew={onClickNew} />
         )}
       </UtilWrapper>
-      {articles ? (
-        articles.map((article) => (
+      {articles.total > 0 ? (
+        articles.data.map((article) => (
           <ArticleThumbnail
             key={article.id}
             id={article.id}
             category={router.query.category as string}
             votes={{ voteCount: article.voteCount || 0 }}
             author={getAuthorName(article.createdBy)}
-            username={article.createdBy.userName as string}
+            username={article.createdBy?.userName || 'Deleted user'}
             tags={article.tags?.map((tag) => tag.name) || []}
             timestamp={article.createdAt as string}
             title={article.title}
@@ -96,12 +86,13 @@ export default function ArticleLists() {
           <LargeText>There's no article : (</LargeText>
         </BasicWrapper>
       )}
-      <PageMoveBtns
-        totalPage={Math.floor(total / limit) + 1}
-        curPage={curPage}
-        onClickPageNumBtn={onClickPageNumBtn}
-        onClickPageMoveBtn={onClickPageMoveBtn}
-      />
+      {articles.total > 0 && (
+        <PageMoveBtns
+          totalPage={articles.total}
+          curPage={curPage}
+          setCurPage={setCurPage}
+        />
+      )}
     </>
   );
 }

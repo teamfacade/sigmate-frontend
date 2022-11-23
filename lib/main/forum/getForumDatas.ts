@@ -138,6 +138,8 @@ export async function getPrevArticleContent(
   }
 }
 
-export function getAuthorName(createdBy: Forum.AuthorType): string {
-  return createdBy.primaryProfile.displayName || createdBy.userName || '';
+export function getAuthorName(createdBy?: Forum.AuthorType): string {
+  if (createdBy)
+    return createdBy.primaryProfile.displayName || createdBy.userName || '';
+  return 'Deleted user';
 }

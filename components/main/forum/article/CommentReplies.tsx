@@ -32,13 +32,17 @@ export default memo(function CommentReplies({
             commentID={commentID}
             replyID={reply.id}
             voteCount={reply.voteCount}
-            PFPUrl={reply.createdBy.primaryProfile.profileImageUrl || ''}
+            PFPUrl={reply.createdBy?.primaryProfile.profileImageUrl || ''}
             author={
-              reply.createdBy.primaryProfile.displayName ||
-              reply.createdBy.userName ||
-              ''
+              reply.createdBy
+                ? reply.createdBy.primaryProfile.displayName ||
+                  reply.createdBy.userName ||
+                  ''
+                : 'Deleted user'
             }
-            authorUserName={reply.createdBy.userName || ''}
+            authorUserName={
+              reply.createdBy ? reply.createdBy.userName || '' : 'Deleted user'
+            }
             text={reply.content}
             replies={[]}
             isReply

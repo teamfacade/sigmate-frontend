@@ -1,11 +1,11 @@
-import { MouseEventHandler, useCallback, useState } from 'react';
+// import { MouseEventHandler, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import {
   BasicWrapper,
   SectionWrapper,
   Search,
   LogTable,
-  PageMoveBtns,
+  // PageMoveBtns,
 } from 'components/global';
 import { LogHead, LogItem } from 'components/admin/user';
 
@@ -32,53 +32,9 @@ const ExUsers = [
   { ...ExUser, id: '9' },
   { ...ExUser, id: '0' },
 ];
-const total = 4242;
 
 export default function UserManagement() {
-  const [curPage, setCurPage] = useState(1);
-
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-      // eslint-disable-next-line no-alert
-      alert(
-        `Fetch 10 referral logs from ${
-          (parseInt(e.currentTarget.value, 10) - 1) * 10
-        }th log`
-      );
-    },
-    []
-  );
-
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 10 referral logs from 0th log`);
-          setCurPage(1);
-          break;
-        case 'Prev':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 10 referral logs from ${(curPage - 1 - 1) * 10}th log`);
-          setCurPage((cur) => cur - 1);
-          break;
-        case 'Next':
-          // eslint-disable-next-line
-          alert(`Fetch 10 referral logs from ${curPage * 10}th log`);
-          setCurPage((cur) => cur + 1);
-          break;
-        case 'ToLast':
-          // eslint-disable-next-line
-          alert(`Fetch 10 referral logs from ((total / 10) * 10)th log`);
-          setCurPage(Math.floor(total / 10) + 1);
-          break;
-        default:
-          break;
-      }
-    },
-    [curPage]
-  );
+  // const [curPage, setCurPage] = useState(1);
 
   return (
     <Wrapper>
@@ -112,12 +68,14 @@ export default function UserManagement() {
               />
             ))}
           </LogTable>
+          {/*
           <PageMoveBtns
             onClickPageNumBtn={onClickPageNumBtn}
             onClickPageMoveBtn={onClickPageMoveBtn}
             totalPage={total}
             curPage={curPage}
           />
+          */}
         </SectionWrapper>
       </BasicWrapper>
     </Wrapper>

@@ -45,8 +45,12 @@ export default memo(function SideRecentEdits({ documentId }: PropsType) {
               documentId={edit.document.id}
               title={edit.document.title}
               timestamp={edit.approvedAt}
-              editorUsername={edit.createdBy.userName}
-              editorDisplayName={edit.createdBy.primaryProfile.displayName}
+              editorUsername={
+                edit.createdBy ? edit.createdBy.userName || '' : 'Deleted user'
+              }
+              editorDisplayName={
+                edit.createdBy ? edit.createdBy.primaryProfile.displayName : ''
+              }
             />
           );
         })}

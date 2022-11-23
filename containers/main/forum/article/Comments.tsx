@@ -29,13 +29,19 @@ export default memo(function Comments({
           articleID={articleID}
           commentID={comment.id}
           voteCount={comment.voteCount}
-          PFPUrl={comment.createdBy.primaryProfile.profileImageUrl || ''}
+          PFPUrl={comment.createdBy?.primaryProfile.profileImageUrl || ''}
           author={
-            comment.createdBy.primaryProfile.displayName ||
-            comment.createdBy.userName ||
-            ''
+            comment.createdBy
+              ? comment.createdBy.primaryProfile.displayName ||
+                comment.createdBy.userName ||
+                ''
+              : 'Deleted User'
           }
-          authorUserName={comment.createdBy.userName || ''}
+          authorUserName={
+            comment.createdBy
+              ? comment.createdBy.userName || ''
+              : 'Deleted User'
+          }
           text={comment.content}
           replies={comment.replies || []}
           isReply={false}

@@ -5,6 +5,7 @@ import { Categories } from 'containers/main/forum/main';
 import { BasicWrapper, PageMoveBtns, initialSWRData } from 'components/global';
 import useSWR, { Fetcher } from 'swr';
 import { AxiosError } from 'axios';
+import { createNewBlock } from '../../../lib/main/wiki/utils';
 
 const fetcher: Fetcher<PagedSWRDataType<Forum.CategoryType[]>, string> = async (
   url: string
@@ -12,8 +13,23 @@ const fetcher: Fetcher<PagedSWRDataType<Forum.CategoryType[]>, string> = async (
   try {
     const { data, status } = await Axios.get(url);
     if (status === 200) {
-      return { data: data.categories, total: 0 };
-    } return initialSWRData;
+      let categories: Forum.CategoryType[] = [];
+      const noticeIdx = categories.findIndex(
+        (block) => block.name === 'Notice'
+      );
+      if (noticeIdx === -1) return { data: data.categories, total: 0 };
+      
+        /** Make notice forum to go at first */
+        categories.push(categories.at(noticeIdx) as Forum.CategoryType);
+        categories = categories.concat(
+          data.categories
+            .slice(0, noticeIdx)
+            .concat(data.categories.slice(noticeIdx + 1))
+        );
+        return { data: categories, total: 0 };
+      
+    }
+    return initialSWRData;
   } catch (e) {
     alert(
       `Error white fetching forum categories. ERR: ${

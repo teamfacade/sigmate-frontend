@@ -36,7 +36,7 @@ const fetcher: Fetcher<PagedSWRDataType<Forum.PostType[]>, string> = async (
 export default function ArticleLists() {
   const router = useRouter();
   const [curPage, setCurPage] = useState(1);
-  const { userName } = useAppSelector(({ account }) => account);
+  const { userName, isAdmin } = useAppSelector(({ account }) => account);
 
   const { data: articles = initialSWRData } = useSWR(
     router.query.category
@@ -50,14 +50,18 @@ export default function ArticleLists() {
         await router.push('/auth');
         return;
       }
-      await router.push(`/main/forum/${router.query.category}/new-post`);
+      await router.push(
+        `/main/forum/${router.query.category}/new-post${
+          router.query.notice === 'true' ? '?notice=true' : ''
+        }`
+      );
     }, [userName]);
 
   return (
     <>
       <UtilWrapper>
         {/* <Search white placeholder="Search..." /> */}
-        {router.query.category !== 'Best' && (
+        {(router.query.category !== '24' || isAdmin) && (
           <PostBtn onClickNew={onClickNew} />
         )}
       </UtilWrapper>

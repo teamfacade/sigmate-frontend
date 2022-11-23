@@ -22,7 +22,7 @@ export default memo(function ArticleContent({
   onSubmitComment,
   onClickReport,
 }: PropsType) {
-  const { userName } = useAppSelector(({ account }) => account);
+  const { userName, isAdmin } = useAppSelector(({ account }) => account);
 
   return (
     <Wrapper>
@@ -42,7 +42,7 @@ export default memo(function ArticleContent({
           timestamp={post.createdAt || new Date(Date.now()).toISOString()}
           isAuthor={userName === post.createdBy.userName}
         >
-          {userName === post.createdBy.userName && (
+          {(userName === post.createdBy.userName || isAdmin) && (
             <ArticleManageBtns
               category={category}
               articleID={post.id.toString()}

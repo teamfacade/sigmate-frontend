@@ -22,7 +22,6 @@ import {
   initialSWRData,
 } from 'components/global';
 import styles from 'styles/styleLib';
-import { AxiosError } from 'axios';
 
 const limit = 10;
 
@@ -34,17 +33,14 @@ const fetcher: Fetcher<PagedSWRDataType<Forum.CommentType[]>, string> = async (
 
     if (status === 200) {
       return {
-        data: data.forumPost.comments.reverse(),
+        data: data.data.comments,
         total: data.page.total,
       };
-    } 
-      alert(`Error while fetching comments: ERR ${status}`);
-      return initialSWRData;
-    
+    }
+    alert(`Error while fetching comments: ERR ${status}`);
+    return initialSWRData;
   } catch (e) {
-    alert(
-      `Error while fetching comments: ERR ${(e as AxiosError).response?.status}`
-    );
+    alert(`Error while fetching comments: ERR ${e}`);
     return initialSWRData;
   }
 };
@@ -98,7 +94,9 @@ export default function Article({
           AuthRequiredAxios({
             method: 'POST',
             url: `/forum/p/${articleId}/cm`,
-            data: { content: value, parentId: commentId || undefined },
+            data: commentId
+              ? { content: value, parentId: commentId }
+              : { content: value },
           })
         ).then(async (action: any) => {
           if (action.payload.status !== 201) {

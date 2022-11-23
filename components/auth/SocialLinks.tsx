@@ -23,7 +23,7 @@ export default function SocialLinks() {
           <SNSBtn platform="Discord" />
         </a>
         <a
-          href="https://medium.com/@sigmateofficial"
+          href="https://medium.com/@officialsigmate"
           target="_blank"
           rel="noreferrer"
         >

@@ -22,7 +22,6 @@ import { useRouter } from 'next/router';
 export default function Unconfirmed() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { isAdmin } = useAppSelector(({ account }) => account);
   const [showModal, setShowModal] = useState<Admin.UnconfirmedType | null>(
     null
   );
@@ -30,6 +29,7 @@ export default function Unconfirmed() {
     Admin.UnconfirmedType[]
   >([]);
   const ModalRef = useRef<HTMLDivElement>(null);
+  const { isAdmin } = useAppSelector(({ account }) => account);
 
   useEffect(() => {
     if (!isAdmin) {
@@ -44,16 +44,14 @@ export default function Unconfirmed() {
         dispatch(
           AuthRequiredAxios({
             method: 'GET',
-            url: `/admin/collection/unconfirmed`,
+            url: `/admin/collection/confirmed`,
           })
         ).then((action: any) => {
           const { status, data } = action.payload;
           if (status && status === 200) {
             setUnconfirmedList(data.data);
           } else {
-            alert(
-              `Error while fetching unconfirmed collections: ERR ${status}`
-            );
+            alert(`Error while fetching confirmed collections: ERR ${status}`);
             setUnconfirmedList([]);
           }
         }),
@@ -82,7 +80,7 @@ export default function Unconfirmed() {
       <>
         <Wrapper>
           <BasicWrapper>
-            <SectionWrapper header="Unconfirmed collections">
+            <SectionWrapper header="Confirmed collections">
               <LogTable gap="5vw">
                 <LogHead />
                 {unconfirmedList?.map((collection) => (
@@ -113,7 +111,7 @@ export default function Unconfirmed() {
                 name={showModal.name}
                 discordUrl={showModal.discordUrl}
                 twitterHandle={showModal.twitterHandle}
-                alreadyConfirmed={false}
+                alreadyConfirmed
               />
             )}
           </Modal>

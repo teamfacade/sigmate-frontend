@@ -8,6 +8,9 @@ import {
   // PageMoveBtns,
 } from 'components/global';
 import { LogHead, LogItem } from 'components/admin/user';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useAppSelector } from '../../hooks/reduxStoreHooks';
 
 const levels = Array.from({ length: 31 }, (_, i) => i + 1);
 
@@ -36,39 +39,49 @@ const ExUsers = [
 export default function UserManagement() {
   // const [curPage, setCurPage] = useState(1);
 
-  return (
-    <Wrapper>
-      <BasicWrapper>
-        <SectionWrapper header="User level">
-          <div>
-            <span>User level</span>
-            <select name="level">
-              {levels.map((level) => (
-                <option key={level} value={level}>
-                  {level}
-                </option>
+  const router = useRouter();
+  const { isAdmin } = useAppSelector(({ account }) => account);
+
+  useEffect(() => {
+    if (!isAdmin) {
+      router.back();
+    }
+  }, []);
+
+  if (isAdmin)
+    return (
+      <Wrapper>
+        <BasicWrapper>
+          <SectionWrapper header="User level">
+            <div>
+              <span>User level</span>
+              <select name="level">
+                {levels.map((level) => (
+                  <option key={level} value={level}>
+                    {level}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <Search />
+          </SectionWrapper>
+        </BasicWrapper>
+        <BasicWrapper>
+          <SectionWrapper header="User list">
+            <LogTable gap="3vw">
+              <LogHead />
+              {ExUsers.map((user) => (
+                <LogItem
+                  key={user.id}
+                  name={user.name}
+                  level={user.level}
+                  status={user.status}
+                  walletID={user.walletID}
+                  signupDate={user.signupDate}
+                />
               ))}
-            </select>
-          </div>
-          <Search />
-        </SectionWrapper>
-      </BasicWrapper>
-      <BasicWrapper>
-        <SectionWrapper header="User list">
-          <LogTable gap="3vw">
-            <LogHead />
-            {ExUsers.map((user) => (
-              <LogItem
-                key={user.id}
-                name={user.name}
-                level={user.level}
-                status={user.status}
-                walletID={user.walletID}
-                signupDate={user.signupDate}
-              />
-            ))}
-          </LogTable>
-          {/*
+            </LogTable>
+            {/*
           <PageMoveBtns
             onClickPageNumBtn={onClickPageNumBtn}
             onClickPageMoveBtn={onClickPageMoveBtn}
@@ -76,10 +89,11 @@ export default function UserManagement() {
             curPage={curPage}
           />
           */}
-        </SectionWrapper>
-      </BasicWrapper>
-    </Wrapper>
-  );
+          </SectionWrapper>
+        </BasicWrapper>
+      </Wrapper>
+    );
+  return <div>: P</div>;
 }
 
 const Wrapper = styled.div`

@@ -40,7 +40,6 @@ export const AuthRequiredAxios = createAsyncThunk<
 
   const config = useTokenAuth(ThunkAPI.getState().auth.accessToken);
   let response: any = { status: 200 };
-  console.log('Auth required axios with config:', config);
   try {
     switch (method) {
       case 'GET':
@@ -54,6 +53,9 @@ export const AuthRequiredAxios = createAsyncThunk<
         break;
       case 'DELETE':
         response = await Axios.delete(url, config);
+        break;
+      case 'PUT':
+        response = await Axios.put(url, data, config);
         break;
       default:
         break;

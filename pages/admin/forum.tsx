@@ -124,7 +124,11 @@ export default function ForumManagement() {
                   id={article.id}
                   title={article.title}
                   category={queryCategory as string}
-                  author={article.createdBy.userName as string}
+                  author={
+                    article.createdBy
+                      ? article.createdBy.userName || ''
+                      : 'Deleted user'
+                  }
                   tags={article.tags?.map((tag) => tag.name) || []}
                   date={article.createdAt as string}
                   comments={article.commentCount || 0}

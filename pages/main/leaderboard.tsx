@@ -36,8 +36,8 @@ export default function Leaderboard() {
   const [myData, setMyData] = useState<Leaderboad.ItemType | null>(null);
   const [items, setItems] = useState<Leaderboad.ItemType[]>([]);
 
-  const { data: leaderboardItems = [] } = useSWR(
-    `/leaderboard?page=${curPage}&limit=10`,
+  const { data: leaderboardItems } = useSWR(
+    `/leaderboard?page=${curPage}&limit=20`,
     leaderboardFetcher
   );
 
@@ -65,9 +65,9 @@ export default function Leaderboard() {
       setCurPage((cur) => cur + 1);
       timeoutID = setTimeout(() => {
         debouncing = false;
-      }, 500);
+      }, 800);
     }
-  }, []);
+  }, [leaderboardItems, debouncing]);
 
   /** SWR로 받아온 데이터 concat */
   useEffect(() => {
@@ -90,6 +90,10 @@ export default function Leaderboard() {
       clearTimeout(timeoutID);
       window.removeEventListener('scroll', onScroll);
     };
+  }, [onScroll]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, []);
 
   return (

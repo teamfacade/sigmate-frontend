@@ -17,6 +17,7 @@ type PropsType = {
   name: string;
   discordUrl: string | null;
   twitterHandle: string | null;
+  alreadyConfirmed: boolean;
 };
 
 export default memo(function ManualConfirm({
@@ -24,8 +25,10 @@ export default memo(function ManualConfirm({
   name: collectionName,
   discordUrl: initDiscordUrl,
   twitterHandle: initTwitterHandle,
+  alreadyConfirmed,
 }: PropsType) {
   const dispatch = useAppDispatch();
+  const [pending, setPending] = useState<boolean>(false);
   const [twitterHandle, setTwitterHandle] = useState<string>(
     initTwitterHandle || ''
   );
@@ -51,6 +54,9 @@ export default memo(function ManualConfirm({
 
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
     e.preventDefault();
+    setPending(true);
+    console.log('SETPENDING');
+
     const { elements } = e.currentTarget;
     const TwitterHandle =
       (elements.namedItem('twitterHandle') as HTMLInputElement).value || '';
@@ -61,14 +67,16 @@ export default memo(function ManualConfirm({
 
     dispatch(
       AuthRequiredAxios({
-        method: 'POST',
+        method: alreadyConfirmed ? 'PUT' : 'POST',
         data: {
           collectionId: id,
           discordUrl: DiscordUrl,
           discordChannel: DiscordChannelId,
           twitterHandle: TwitterHandle,
         },
-        url: '/admin/confirm',
+        url: alreadyConfirmed
+          ? '/admin/collection/confirmed'
+          : '/admin/collection/unconfirmed',
       })
     ).then((action: any) => {
       const { status } = action.payload;
@@ -81,6 +89,7 @@ export default memo(function ManualConfirm({
       } else {
         alert(`Error while confirming the collection. ERR: ${status}`);
       }
+      setPending(false);
     });
   }, []);
 
@@ -110,7 +119,9 @@ export default memo(function ManualConfirm({
           value={discordChannelId}
           onChange={onChange}
         />
-        <ConfirmBtn type="submit">Confirm</ConfirmBtn>
+        <ConfirmBtn type="submit" disabled={pending}>
+          {pending ? 'This takes some time...' : 'Confirm'}
+        </ConfirmBtn>
       </form>
     </SectionWrapper>
   );

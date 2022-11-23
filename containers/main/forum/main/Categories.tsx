@@ -9,15 +9,19 @@ type PropsType = {
 export default memo(function Categories({ categories }: PropsType) {
   return (
     <GriddyWrapper>
-      {categories.map((category) => (
-        <Category
-          key={category.id}
-          id={category.id}
-          name={category.name}
-          description={category.description}
-          imageURL={category.thumbnail || ''}
-        />
-      ))}
+      {categories.map((category) => {
+        if (category.thumbnail)
+          return (
+            <Category
+              key={category.id}
+              id={category.id}
+              name={category.name}
+              description={category.description}
+              imageURL={category.thumbnail || ''}
+            />
+          );
+        return <div />;
+      })}
     </GriddyWrapper>
   );
 });

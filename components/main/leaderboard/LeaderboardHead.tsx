@@ -8,7 +8,7 @@ export default memo(function LeaderboardHead() {
         <th>Name</th>
         <th>Referral</th>
         <th>Forum</th>
-        <th>Edit Count</th>
+        <th>Edit</th>
         <th>Total Point</th>
       </tr>
     </thead>

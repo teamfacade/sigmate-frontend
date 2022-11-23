@@ -57,17 +57,17 @@ export default memo(function LeaderboardItem({
 const ColoredText = styled.p<{ rank: number; isMine?: boolean }>`
   margin: 0;
   color: ${({ rank, isMine }) => {
-    if (isMine) return styles.colors.positiveTextColor;
-    return rank < 3
-        ? styles.colors.yellowTextColor
-        : styles.colors.blueTextColor;
+    if (isMine) return styles.colors.pinkTextColor;
+    return rank <= 3
+      ? styles.colors.yellowTextColor
+      : styles.colors.blueTextColor;
   }};
 `;
 
 const ColorBgText = styled(ColoredText)`
   background-color: ${({ rank, isMine }) => {
-    if (isMine) return styles.colors.positiveBgColor;
-    return rank < 3 ? styles.colors.metamaskBackgroundColor : '#EDF1FB';
+    if (isMine) return styles.colors.pinkBgColor;
+    return rank <= 3 ? styles.colors.metamaskBackgroundColor : '#EDF1FB';
   }};
   width: 42px;
   border-radius: 12.5px;

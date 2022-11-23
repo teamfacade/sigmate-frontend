@@ -16,8 +16,8 @@ export default function Board({ myData, leaderboardItems }: PropsType) {
       {myData && (
         <LeaderboardItem
           rank={myData.rank}
-          userName="YOU"
-          displayName="You"
+          userName="Me"
+          displayName="Me"
           referral={myData.referral}
           forum={
             Number.parseInt(myData.forum.commentCreate, 10) +

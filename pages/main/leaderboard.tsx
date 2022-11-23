@@ -36,8 +36,8 @@ export default function Leaderboard() {
   const [myData, setMyData] = useState<Leaderboad.ItemType | null>(null);
   const [items, setItems] = useState<Leaderboad.ItemType[]>([]);
 
-  const { data: leaderboardItems } = useSWR(
-    `/leaderboard?page=${curPage}&limit=20`,
+  const { data: leaderboardItems = [] } = useSWR(
+    `/leaderboard?page=${curPage}&limit=10`,
     leaderboardFetcher
   );
 
@@ -56,9 +56,10 @@ export default function Leaderboard() {
 
   const onScroll = useCallback(() => {
     const { scrollHeight, scrollTop } = document.documentElement;
+
     if (
       scrollHeight - scrollTop < 1500 &&
-      (leaderboardItems === undefined || leaderboardItems.length > 0) &&
+      leaderboardItems.length > 0 &&
       !debouncing
     ) {
       debouncing = true;
@@ -71,7 +72,7 @@ export default function Leaderboard() {
 
   /** SWR로 받아온 데이터 concat */
   useEffect(() => {
-    if (leaderboardItems && leaderboardItems.length > 0) {
+    if (leaderboardItems.length > 0) {
       setItems((current) => {
         return current.concat(
           leaderboardItems.filter(
@@ -84,12 +85,8 @@ export default function Leaderboard() {
   }, [leaderboardItems]);
 
   useEffect(() => {
-    window.addEventListener('scroll', onScroll);
-
-    return () => {
-      clearTimeout(timeoutID);
-      window.removeEventListener('scroll', onScroll);
-    };
+    document.removeEventListener('scroll', onScroll);
+    document.onscroll = onScroll;
   }, [onScroll]);
 
   useEffect(() => {

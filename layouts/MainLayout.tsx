@@ -62,6 +62,8 @@ const Section = styled.section`
     padding: 0 20px;
     margin: auto;
   }
+
+  min-height: calc(100vh - 100px);
 `;
 
 const Aside = styled.aside`

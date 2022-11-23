@@ -3,6 +3,7 @@ import {
   useState,
   useRef,
   useCallback,
+  useEffect,
   MouseEventHandler,
   SetStateAction,
   Dispatch,
@@ -59,6 +60,7 @@ export default function Infos({ setShowModal }: PropsType) {
 
   const [edit, setEdit] = useState(false);
   const [usernameEditResult, setUsernameEditResult] = useState('');
+  const [displayNameEditResult, setDisplayNameEditResult] = useState('');
   const [twitterPublic, setTwitterPublic] = useState<boolean>(
     isTwitterHandlePublic
   );
@@ -91,8 +93,8 @@ export default function Infos({ setShowModal }: PropsType) {
         if (!edit) {
           setEdit(true);
         } else {
-          setEdit(false);
           // update user name
+          setUsernameEditResult('');
           if (nameRef && nameRef.current && nameRef.current.value) {
             const newUserName = nameRef.current.value;
             dispatch(
@@ -109,7 +111,9 @@ export default function Infos({ setShowModal }: PropsType) {
                 setUsernameEditResult('');
               } else if (action.payload.data.validationErrors[0]) {
                 setUsernameEditResult(
-                  usernameRules[action.payload.data.validationErrors[0].msg]
+                  `${
+                    usernameRules[action.payload.data.validationErrors[0].msg]
+                  }. Not saved.`
                 );
               } else if (action.payload.status === 500)
                 alert(action.payload.data.msg);
@@ -117,6 +121,7 @@ export default function Infos({ setShowModal }: PropsType) {
           }
 
           // update display name and bio
+          setDisplayNameEditResult('');
           if (displayNameRef?.current?.value || bioRef?.current?.value) {
             const profileUpdate: any = {};
 
@@ -137,13 +142,14 @@ export default function Infos({ setShowModal }: PropsType) {
                 if (profileUpdate.bio) dispatch(setBio(profileUpdate.bio));
                 if (profileUpdate.displayName)
                   dispatch(setDisplayName(profileUpdate.displayName));
-              } else {
-                alert(
-                  (
-                    action.payload.data.validationErrors[0] ||
-                    action.payload.data
-                  ).msg
+              } else if (action.payload.data.validationErrors[0]) {
+                setDisplayNameEditResult(
+                  `${
+                    usernameRules[action.payload.data.validationErrors[0].msg]
+                  }. Not saved.`
                 );
+              } else {
+                alert(action.payload.data.msg);
               }
             });
           }
@@ -166,6 +172,7 @@ export default function Infos({ setShowModal }: PropsType) {
                   discord: discordPublic,
                 })
               );
+              setEdit(false);
             } else if (action.payload.status === 500)
               alert(action.payload.data.msg);
             else if (action.payload.status !== 401) {
@@ -196,7 +203,9 @@ export default function Infos({ setShowModal }: PropsType) {
               edit={edit}
               header="Display Name"
               content={displayName}
+              isValid={displayNameEditResult === ''}
               description={
+                displayNameEditResult ||
                 'Your display name will be used in places where your profile needs to be displayed. If left blank, your username will be used instead.\r\nOther users will still be able to see your username in your profile page.'
               }
               ref={displayNameRef}

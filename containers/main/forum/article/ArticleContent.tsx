@@ -49,7 +49,7 @@ export default memo(function ArticleContent({
             post.createdBy ? userName === post.createdBy.userName : false
           }
         >
-          {(userName === post.createdBy.userName || isAdmin) && (
+          {(userName === post.createdBy?.userName || isAdmin) && (
             <ArticleManageBtns
               category={category}
               articleID={post.id.toString()}

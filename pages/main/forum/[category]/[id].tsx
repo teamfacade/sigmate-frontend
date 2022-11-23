@@ -99,7 +99,7 @@ export default function Article({
               : { content: value },
           })
         ).then(async (action: any) => {
-          if (action.payload.status !== 201) {
+          if (action.payload.status !== 201 && action.payload.status !== 200) {
             alert(
               `Error while posting new comment. ERR: ${action.payload.status}`
             );

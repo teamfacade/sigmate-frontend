@@ -42,7 +42,8 @@ export default memo(function MainContentTextArea({
   return (
     <Wrapper>
       <TextArea name={name} rows={22} value={value} onChange={onChange} />
-      <div>
+      {/*
+        <div>
         <EditBtn onClick={onClick}>Upload Images</EditBtn>
         <span>{imgName}</span>
       </div>
@@ -52,6 +53,7 @@ export default memo(function MainContentTextArea({
         ref={inputRef}
         accept="image/*"
       />
+      */}
     </Wrapper>
   );
 });

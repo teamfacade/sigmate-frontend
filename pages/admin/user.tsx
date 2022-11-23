@@ -1,13 +1,16 @@
-import { MouseEventHandler, useCallback, useState } from 'react';
+// import { MouseEventHandler, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import {
   BasicWrapper,
   SectionWrapper,
   Search,
   LogTable,
-  PageMoveBtns,
+  // PageMoveBtns,
 } from 'components/global';
 import { LogHead, LogItem } from 'components/admin/user';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useAppSelector } from '../../hooks/reduxStoreHooks';
 
 const levels = Array.from({ length: 31 }, (_, i) => i + 1);
 
@@ -32,96 +35,65 @@ const ExUsers = [
   { ...ExUser, id: '9' },
   { ...ExUser, id: '0' },
 ];
-const total = 4242;
 
 export default function UserManagement() {
-  const [curPage, setCurPage] = useState(1);
+  // const [curPage, setCurPage] = useState(1);
 
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-      // eslint-disable-next-line no-alert
-      alert(
-        `Fetch 10 referral logs from ${
-          (parseInt(e.currentTarget.value, 10) - 1) * 10
-        }th log`
-      );
-    },
-    []
-  );
+  const router = useRouter();
+  const { isAdmin } = useAppSelector(({ account }) => account);
 
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 10 referral logs from 0th log`);
-          setCurPage(1);
-          break;
-        case 'Prev':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 10 referral logs from ${(curPage - 1 - 1) * 10}th log`);
-          setCurPage((cur) => cur - 1);
-          break;
-        case 'Next':
-          // eslint-disable-next-line
-          alert(`Fetch 10 referral logs from ${curPage * 10}th log`);
-          setCurPage((cur) => cur + 1);
-          break;
-        case 'ToLast':
-          // eslint-disable-next-line
-          alert(`Fetch 10 referral logs from ((total / 10) * 10)th log`);
-          setCurPage(Math.floor(total / 10) + 1);
-          break;
-        default:
-          break;
-      }
-    },
-    [curPage]
-  );
+  useEffect(() => {
+    if (!isAdmin) {
+      router.back();
+    }
+  }, []);
 
-  return (
-    <Wrapper>
-      <BasicWrapper>
-        <SectionWrapper header="User level">
-          <div>
-            <span>User level</span>
-            <select name="level">
-              {levels.map((level) => (
-                <option key={level} value={level}>
-                  {level}
-                </option>
+  if (isAdmin)
+    return (
+      <Wrapper>
+        <BasicWrapper>
+          <SectionWrapper header="User level">
+            <div>
+              <span>User level</span>
+              <select name="level">
+                {levels.map((level) => (
+                  <option key={level} value={level}>
+                    {level}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <Search />
+          </SectionWrapper>
+        </BasicWrapper>
+        <BasicWrapper>
+          <SectionWrapper header="User list">
+            <LogTable gap="3vw">
+              <LogHead />
+              {ExUsers.map((user) => (
+                <LogItem
+                  key={user.id}
+                  name={user.name}
+                  level={user.level}
+                  status={user.status}
+                  walletID={user.walletID}
+                  signupDate={user.signupDate}
+                />
               ))}
-            </select>
-          </div>
-          <Search />
-        </SectionWrapper>
-      </BasicWrapper>
-      <BasicWrapper>
-        <SectionWrapper header="User list">
-          <LogTable gap="3vw">
-            <LogHead />
-            {ExUsers.map((user) => (
-              <LogItem
-                key={user.id}
-                name={user.name}
-                level={user.level}
-                status={user.status}
-                walletID={user.walletID}
-                signupDate={user.signupDate}
-              />
-            ))}
-          </LogTable>
+            </LogTable>
+            {/*
           <PageMoveBtns
             onClickPageNumBtn={onClickPageNumBtn}
             onClickPageMoveBtn={onClickPageMoveBtn}
             totalPage={total}
             curPage={curPage}
           />
-        </SectionWrapper>
-      </BasicWrapper>
-    </Wrapper>
-  );
+          */}
+          </SectionWrapper>
+        </BasicWrapper>
+      </Wrapper>
+    );
+  return <div>: P</div>;
 }
 
 const Wrapper = styled.div`

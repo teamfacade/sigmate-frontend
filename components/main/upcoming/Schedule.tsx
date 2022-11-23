@@ -56,8 +56,10 @@ export default memo(function Schedule({
         () => setTimeDiff(getTimeDiff(mintingTime)),
         1000
       );
+    else setTimeDiff(diff);
     return () => clearInterval(intervalId);
   }, [mintingTime, intervalId]);
+
   return (
     <Wrapper data-id={id} onClick={onClickSchedule}>
       <TimeLeft>
@@ -67,7 +69,7 @@ export default memo(function Schedule({
       <InnerWrapper>
         <Links
           wikiPageUrl={wikiPageUrl}
-          twitterUrl={`https://www.twitter.com/${twitterHandle}`}
+          twitterUrl={twitterHandle}
           telegramUrl={telegramUrl}
           discordUrl={discordUrl}
         />
@@ -96,11 +98,6 @@ const Wrapper = styled.div`
   overflow: hidden;
   box-shadow: ${styles.shadows.containerShadow};
   cursor: pointer;
-
-  :hover,
-  :active {
-    filter: brightness(0.7);
-  }
 `;
 
 const TimeLeft = styled.div`

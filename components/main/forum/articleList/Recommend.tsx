@@ -34,7 +34,7 @@ export default memo(function Recommend({ id, category, voteCount }: PropsType) {
         setUserLikes(
           payload.data.myVote === null ? null : payload.data.myVote.like
         );
-      }
+      } else if (payload.status === 500) alert(payload.data.msg);
     }
   }, [id, userName]);
 

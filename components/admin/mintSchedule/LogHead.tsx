@@ -5,7 +5,7 @@ export default memo(function LogHead() {
     <thead>
       <tr>
         <th>name</th>
-        <th>date</th>
+        <th>date (UTC)</th>
         <th>category</th>
         <th>manage</th>
       </tr>

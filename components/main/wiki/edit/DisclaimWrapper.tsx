@@ -9,7 +9,7 @@ const DisclaimWrapper = styled.div`
     margin: 0 8px 0 0;
   }
 
-  span {
+  label {
     position: relative;
     top: -2.5px;
     color: ${styles.colors.headerColor};

@@ -22,7 +22,7 @@ export default memo(function ArticleContent({
   onSubmitComment,
   onClickReport,
 }: PropsType) {
-  const { userName } = useAppSelector(({ account }) => account);
+  const { userName, isAdmin } = useAppSelector(({ account }) => account);
 
   return (
     <Wrapper>
@@ -34,15 +34,22 @@ export default memo(function ArticleContent({
       <ContentWrapper>
         <Infos
           author={
-            post.createdBy.primaryProfile.displayName ||
-            (post.createdBy.userName as string)
+            post.createdBy
+              ? post.createdBy.primaryProfile.displayName ||
+                post.createdBy.userName ||
+                ''
+              : 'Deleted User'
           }
-          username={post.createdBy.userName as string}
+          username={
+            post.createdBy ? post.createdBy.userName || '' : 'Deleted User'
+          }
           tags={post.tags || []}
           timestamp={post.createdAt || new Date(Date.now()).toISOString()}
-          isAuthor={userName === post.createdBy.userName}
+          isAuthor={
+            post.createdBy ? userName === post.createdBy.userName : false
+          }
         >
-          {userName === post.createdBy.userName && (
+          {(userName === post.createdBy?.userName || isAdmin) && (
             <ArticleManageBtns
               category={category}
               articleID={post.id.toString()}
@@ -74,6 +81,6 @@ const Wrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  width: 100%;
+  width: calc(100% - 55px);
   border-left: 1px solid ${styles.colors.dividerColor};
 `;

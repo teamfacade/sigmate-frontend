@@ -26,8 +26,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       e.preventDefault();
 
       const title = (e.target as HTMLFormElement).bar.value;
-      (e.target as HTMLFormElement).bar.value = '';
-      router.push(`/main/wiki/${title}`);
+      if (title.length < 3) alert('Query should be longer than 2 characters.');
+      else {
+        (e.target as HTMLFormElement).bar.value = '';
+        router.push(`/main/wiki/search?title=${title}`);
+      }
     },
     [router]
   );

@@ -9,32 +9,32 @@ import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { OnChangeDateCallback } from 'react-calendar';
+// import { DateTime } from 'luxon';
 import Axios from 'lib/global/axiosInstance';
-import convertDate from 'lib/global/convertDate';
+import convertDate, { changeToUTCinMilli } from 'lib/global/convertDate';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { Utils, Schedules } from 'containers/main/upcoming';
 import { PageMoveBtns, Modal, BasicWrapper } from 'components/global';
-import { RegisterBtn } from 'components/main/forum/main';
+// import { RegisterBtn } from 'components/main/forum/main';
 import { ScheduleDetail } from 'components/main/upcoming';
 
 const limit = 15;
-let total = 0;
 
-const fetcher: Fetcher<Minting.ScheduleType[], string> = async (
-  url: string
-) => {
+const fetcher: Fetcher<
+  PagedSWRDataType<Minting.ScheduleType[]>,
+  string
+> = async (url: string) => {
   const { status, data } = await Axios.get(url);
   if (status === 200) {
-    total = data.page.total;
     const values: Minting.ScheduleType[][] = Object.values(data.data);
     let schedules: Minting.ScheduleType[] = [];
     values.forEach((value) => {
       schedules = schedules.concat(value);
     });
-    return schedules;
+    return { data: schedules, total: data.page.total };
   }
-  return [];
+  return { data: [], total: 0 };
 };
 
 export default function Upcoming() {
@@ -44,12 +44,11 @@ export default function Upcoming() {
   const [curPage, setCurPage] = useState(1);
   const [showModal, setShowModal] = useState(-1);
 
-  const lastPage = useMemo(
-    () => Math.floor(Number.parseInt((total / limit).toFixed(), 10)) + 1,
-    [total]
-  );
   const todayMidnight = useMemo(
-    () => new Date(`${convertDate(today, 'dateInput', '-')} 00:00`).getTime(),
+    () =>
+      changeToUTCinMilli(
+        new Date(`${convertDate(today, 'dateInput', '-')} 00:00`)
+      ),
     [today]
   );
 
@@ -79,14 +78,15 @@ export default function Upcoming() {
     []
   );
 
-  const onClickBackground: MouseEventHandler<HTMLDivElement> =
-    useCallback(() => {
-      setShowModal(-1);
-    }, []);
+  const onClickBackground: MouseEventHandler<
+    HTMLDivElement | HTMLButtonElement
+  > = useCallback(() => {
+    setShowModal(-1);
+  }, []);
 
   const AddToCalendar: (id: string, subscribed: boolean) => void = useCallback(
-    (id: string, subscribed: boolean) => {
-      dispatch(
+    async (id: string, subscribed: boolean) => {
+      const action: any = await dispatch(
         AuthRequiredAxios(
           subscribed
             ? {
@@ -102,52 +102,19 @@ export default function Upcoming() {
                 },
               }
         )
-      ).then((action: any) => {
-        if (action.payload.status === 200)
-          alert(
-            `${
-              subscribed
-                ? 'Unsubscribed the minting schedule.'
-                : 'Added to my calendar.'
-            }`
-          );
-        else
-          alert(
-            'Error while adding event to my calendar.\r\nPlease try again.'
-          );
-      });
+      );
+      if (action.payload.status === 200)
+        alert(
+          `${
+            subscribed ? 'Removed from my calendar.' : 'Added to my calendar.'
+          }`
+        );
+      else
+        alert('Error while adding event to my calendar.\r\nPlease try again.');
     },
     []
   );
 
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-    },
-    []
-  );
-
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          setCurPage(1);
-          break;
-        case 'Prev':
-          setCurPage((cur) => Math.max(1, cur - 1));
-          break;
-        case 'Next':
-          setCurPage((cur) => Math.min(lastPage, cur + 1));
-          break;
-        case 'ToLast':
-          setCurPage(lastPage);
-          break;
-        default:
-          break;
-      }
-    },
-    [curPage, lastPage]
-  );
   return (
     <>
       <Wrapper>
@@ -157,9 +124,9 @@ export default function Upcoming() {
           onClick={onClickDateBtn}
           onChange={onChangeDate}
         />
-        {schedules && schedules.length > 0 ? (
+        {schedules?.data && schedules?.data.length > 0 ? (
           <Schedules
-            schedules={schedules}
+            schedules={schedules.data}
             onClickSchedule={onClickSchedule}
             AddToCalendar={AddToCalendar}
           />
@@ -168,13 +135,14 @@ export default function Upcoming() {
             <LargeText>No mintings today ;(</LargeText>
           </BasicWrapper>
         )}
-        <PageMoveBtns
-          totalPage={total}
-          curPage={curPage}
-          onClickPageMoveBtn={onClickPageMoveBtn}
-          onClickPageNumBtn={onClickPageNumBtn}
-        />
-        <RegisterBtn />
+        {(schedules?.total && schedules.total > 0) === true && (
+          <PageMoveBtns
+            totalPage={schedules?.total as number}
+            curPage={curPage}
+            setCurPage={setCurPage}
+          />
+        )}
+        {/* <RegisterBtn /> */}
       </Wrapper>
       <CSSTransition
         in={showModal !== -1}
@@ -184,15 +152,19 @@ export default function Upcoming() {
         nodeRef={ModalRef}
       >
         <Modal ref={ModalRef} onMouseDown={onClickBackground}>
-          {showModal !== -1 && schedules && (
+          {showModal !== -1 && schedules?.data && (
             <ScheduleDetail
               schedule={
-                schedules[
-                  schedules.findIndex((schedule) => schedule.id === showModal)
+                schedules.data[
+                  schedules.data.findIndex(
+                    (schedule) => schedule.id === showModal
+                  )
                 ]
               }
+              onClickClose={onClickBackground}
             />
           )}
+          {showModal === -1 && <div style={{ height: '537px' }} />}
         </Modal>
       </CSSTransition>
     </>

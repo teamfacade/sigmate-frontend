@@ -18,12 +18,12 @@ const Axios = axios.create({
 });
 
 let renewingAccess = false;
-let renewingRefresh = false;
 
 export const RenewAccessToken: (
   refreshToken: string,
   config: any
 ) => Promise<RenewResultType> = async (refreshToken: string, config: any) => {
+  console.log('Try renewing access token. Config:', config);
   if (renewingAccess) {
     return { result: 'Renewing' as RenewResultResultsType };
   }
@@ -36,17 +36,21 @@ export const RenewAccessToken: (
       accessToken: res.data.accessToken,
     }))
     .catch((err) => {
-      if (err.response.status === 401) return RenewRefreshToken(config);
-      throw new Error(err.response.status);
+      console.log(err);
+      return {
+        result: 'SignOutNeeded' as RenewResultResultsType,
+      };
     })
     .finally(() => {
       renewingAccess = false;
     });
 };
 
+/*
 const RenewRefreshToken: (config: any) => Promise<RenewResultType> = async (
   config
 ) => {
+  console.log('Try renewing refresh token. Config:', config);
   if (renewingRefresh) return { result: 'Renewing' as RenewResultResultsType };
 
   renewingRefresh = true;
@@ -57,13 +61,12 @@ const RenewRefreshToken: (config: any) => Promise<RenewResultType> = async (
       refreshToken: res.data.refreshToken,
     }))
     .catch(() => {
-      return {
-        result: 'SignOutNeeded' as RenewResultResultsType,
-      };
+
     })
     .finally(() => {
       renewingRefresh = false;
     });
 };
+*/
 
 export default Axios;

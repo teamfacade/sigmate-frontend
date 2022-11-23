@@ -8,8 +8,8 @@ type PropsType = {
 };
 
 const PlatformIcons: StringKeyObj<typeof Discord> = {
-  Discord,
-  Twitter,
+  d: Discord,
+  t: Twitter,
 };
 
 export default memo(function Platform({ platform }: PropsType) {
@@ -30,12 +30,12 @@ const Wrapper = styled.div<{ platform: string }>`
 
   ${({ platform }) => {
     switch (platform) {
-      case 'Discord':
+      case 'd':
         return `
             border-color: ${styles.colors.discordBorderColor};
             background-color: ${styles.colors.discordBackgroundColor};
           `;
-      case 'Twitter':
+      case 't':
         return `
             border-color: ${styles.colors.twitterBorderColor};
             background-color: ${styles.colors.twitterBackgroundColor};

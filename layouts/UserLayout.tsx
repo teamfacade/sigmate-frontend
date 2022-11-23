@@ -33,27 +33,31 @@ export default function UserLayout({ children }: PropsType) {
               Content="Points"
               Active={current === 'points'}
             />
+            {/*
             <SideItem
               IconName="Edits"
               Content="Edits"
               Active={current === 'edits'}
             />
+            */}
             <SideItem
               IconName="Referrals"
               Content="Referrals"
               Active={current === 'referrals'}
             />
+            {/*
             <SideItem
               IconName="Staking"
               Content="Staking"
               Active={current === 'staking'}
             />
+            */}
             <SideItem
               IconName="Calendar"
               Content="Calendar"
               Active={current === 'calendar'}
             />
-            <CheckInBtn>Daily Check-In</CheckInBtn>
+            {/* <CheckInBtn>Daily Check-In</CheckInBtn> */}
           </SideItemsWrapper>
           <ContentWrapper>{children}</ContentWrapper>
         </Wrapper>
@@ -64,6 +68,7 @@ export default function UserLayout({ children }: PropsType) {
 
 const Wrapper = styled.div`
   display: flex;
+  justify-content: center;
   padding: 0 40px 90px 40px;
 `;
 
@@ -80,12 +85,12 @@ const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  max-width: 996px;
 `;
 
 const CheckInBtn = styled.button`
   ${BlueBtnStyle};
-  position: absolute;
-  bottom: 0;
-  width: 200px;
+  width: 180px;
   font-weight: 700;
+  margin-top: 40px;
 `;

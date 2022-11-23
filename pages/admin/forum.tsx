@@ -2,6 +2,7 @@ import {
   ChangeEventHandler,
   MouseEventHandler,
   useCallback,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -16,65 +17,80 @@ import {
   LogTable,
   PageMoveBtns,
   Modal,
+  initialSWRData,
 } from 'components/global';
 import {
   LogHead,
   LogItem,
-  CreateCategory,
+  // CreateCategory,
   EditForumCategories,
 } from 'components/admin/forum';
-import { BlueBtnStyle } from 'styles/styleLib';
+import { useRouter } from 'next/router';
+import { useAppSelector } from '../../hooks/reduxStoreHooks';
 
-let total = 0;
 const limit = 10;
 
-const categoriesFetcher: Fetcher<Forum.CategoryType[], string> = async (
-  url: string
-) => {
-  try {
-    const { status, data } = await Axios.get(url);
-    if (status === 200) {
-      return data.categories;
-    }
-    return [];
-  } catch (e) {
-    alert(`Error while fetching categories: ERR ${e}`);
-    return [];
+export const categoriesFetcher: Fetcher<
+  CollectionCategoryType[],
+  string
+> = async (url: string) => {
+  const { status, data } = await Axios.get(url);
+  if (status === 200) {
+    return data.categories || [];
   }
+  alert(
+    `Error while fetching collection categories: ERR ${status}.\r\nPlease reload the page.`
+  );
+  return [];
 };
 
-const postsFetcher: Fetcher<Forum.PostType[], string> = async (url: string) => {
+const postsFetcher: Fetcher<
+  PagedSWRDataType<Forum.PostType[]>,
+  string
+> = async (url: string) => {
   try {
     const { status, data } = await Axios.get(url);
     if (status === 200) {
-      total = data.forumPosts.length;
-      return data.forumPosts;
+      return { data: data.forumPosts, total: data.forumPosts.length };
     }
-    return [];
+    return initialSWRData;
   } catch (e) {
     alert(`Error while fetching posts: ERR ${e}`);
-    return [];
+    return initialSWRData;
   }
 };
 
 export default function ForumManagement() {
+  const router = useRouter();
   const [showModal, setShowModal] = useState<string | null>(null);
   const [queryCategory, setQueryCategory] = useState<string | null>(null);
   const [curPage, setCurPage] = useState(1);
   const ModalRef = useRef<HTMLDivElement>(null);
+  const { isAdmin } = useAppSelector(({ account }) => account);
 
-  const { data: categories, mutate } = useSWR('/forum/c', categoriesFetcher);
-  const { data: posts } = useSWR(
+  useEffect(() => {
+    if (!isAdmin) {
+      router.back();
+    }
+  }, []);
+
+  const { data: categories, mutate } = useSWR(
+    `/wiki/collection/category`,
+    categoriesFetcher
+  );
+  const { data: posts = initialSWRData } = useSWR(
     queryCategory
       ? `forum/c/${queryCategory}/p?limit=${limit}&page=${curPage}`
       : null,
     queryCategory ? postsFetcher : null
   );
 
+  /*
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => setShowModal(e.currentTarget.name),
     []
   );
+   */
 
   const onMouseDown: MouseEventHandler<HTMLDivElement> =
     useCallback(async () => {
@@ -90,119 +106,71 @@ export default function ForumManagement() {
     []
   );
 
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-      // eslint-disable-next-line no-alert
-      alert(
-        `Fetch 10 referral logs from ${
-          (parseInt(e.currentTarget.value, 10) - 1) * 10
-        }th log`
-      );
-    },
-    []
-  );
-
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 10 referral logs from 0th log`);
-          setCurPage(1);
-          break;
-        case 'Prev':
-          // eslint-disable-next-line no-alert
-          alert(`Fetch 10 referral logs from ${(curPage - 1 - 1) * 10}th log`);
-          setCurPage((cur) => cur - 1);
-          break;
-        case 'Next':
-          // eslint-disable-next-line
-          alert(`Fetch 10 referral logs from ${curPage * 10}th log`);
-          setCurPage((cur) => cur + 1);
-          break;
-        case 'ToLast':
-          // eslint-disable-next-line
-          alert(`Fetch 10 referral logs from ((total / 10) * 10)th log`);
-          setCurPage(Math.floor(total / 10) + 1);
-          break;
-        default:
-          break;
-      }
-    },
-    [curPage]
-  );
-
-  return (
-    <>
-      <Wrapper>
-        <BasicWrapper>
-          <SectionWrapper header="Forum articles">
-            <div>
-              <span>Category</span>
-              <select name="category" onChange={onSelectCategory}>
-                {categories?.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
+  if (isAdmin)
+    return (
+      <>
+        <Wrapper>
+          <BasicWrapper>
+            <SectionWrapper header="Forum articles">
+              <div>
+                <span>Category (지금은 forum 게시판 종류와 다름)</span>
+                <select name="category" onChange={onSelectCategory}>
+                  {categories?.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <span>Tags</span>
+              <Search />
+            </SectionWrapper>
+          </BasicWrapper>
+          <BasicWrapper>
+            <SectionWrapper header="Search result">
+              <LogTable gap="3vw">
+                <LogHead />
+                {posts.data.map((article) => (
+                  <LogItem
+                    key={article.id}
+                    id={article.id}
+                    title={article.title}
+                    category={queryCategory as string}
+                    author={
+                      article.createdBy
+                        ? article.createdBy.userName || ''
+                        : 'Deleted user'
+                    }
+                    tags={article.tags?.map((tag) => tag.name) || []}
+                    date={article.createdAt as string}
+                    comments={article.commentCount || 0}
+                  />
                 ))}
-              </select>
-            </div>
-            <span>Tags</span>
-            <Search />
-            <ManageBtnsWrapper>
-              <ManageBtn name="Create" onClick={onClick}>
-                Add new
-              </ManageBtn>
-              <ManageBtn name="Edit" onClick={onClick}>
-                Edit Categories
-              </ManageBtn>
-            </ManageBtnsWrapper>
-          </SectionWrapper>
-        </BasicWrapper>
-        <BasicWrapper>
-          <SectionWrapper header="Search result">
-            <LogTable gap="3vw">
-              <LogHead />
-              {posts?.map((article) => (
-                <LogItem
-                  key={article.id}
-                  id={article.id}
-                  title={article.title}
-                  category={queryCategory as string}
-                  author={article.createdBy.userName as string}
-                  tags={article.tags?.map((tag) => tag.name) || []}
-                  date={article.createdAt as string}
-                  comments={article.commentCount || 0}
+              </LogTable>
+              {posts.total > 0 && (
+                <PageMoveBtns
+                  setCurPage={setCurPage}
+                  totalPage={posts.total}
+                  curPage={curPage}
                 />
-              ))}
-            </LogTable>
-            <PageMoveBtns
-              onClickPageNumBtn={onClickPageNumBtn}
-              onClickPageMoveBtn={onClickPageMoveBtn}
-              totalPage={Math.floor(total / limit) + 1}
-              curPage={curPage}
-            />
-          </SectionWrapper>
-        </BasicWrapper>
-      </Wrapper>
-      <CSSTransition
-        in={showModal !== null}
-        timeout={300}
-        classNames="show-modal"
-        unmountOnExit
-        nodeRef={ModalRef}
-      >
-        <Modal onMouseDown={onMouseDown} ref={ModalRef}>
-          {showModal === 'Create' ? (
-            <CreateCategory />
-          ) : (
+              )}
+            </SectionWrapper>
+          </BasicWrapper>
+        </Wrapper>
+        <CSSTransition
+          in={showModal !== null}
+          timeout={300}
+          classNames="show-modal"
+          unmountOnExit
+          nodeRef={ModalRef}
+        >
+          <Modal onMouseDown={onMouseDown} ref={ModalRef}>
             <EditForumCategories />
-          )}
-        </Modal>
-      </CSSTransition>
-    </>
-  );
+          </Modal>
+        </CSSTransition>
+      </>
+    );
+  return <div>: P</div>;
 }
 
 const Wrapper = styled.div`
@@ -212,20 +180,5 @@ const Wrapper = styled.div`
 
   div + div {
     margin-top: 20px;
-  }
-`;
-
-const ManageBtnsWrapper = styled.div`
-  position: absolute;
-  top: -10px;
-  right: 0;
-  display: flex;
-`;
-
-const ManageBtn = styled.button`
-  ${BlueBtnStyle};
-
-  & + & {
-    margin-left: 8px;
   }
 `;

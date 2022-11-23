@@ -8,7 +8,7 @@ import {
   CorrelationAlg,
   RoadMap,
   GoUpBtn,
-  WaitingList,
+  // WaitingList,
 } from 'containers/landing';
 
 export default function MyApp() {
@@ -22,7 +22,7 @@ export default function MyApp() {
       <CorrelationAlg />
       <RoadMap />
       <GoUpBtn />
-      <WaitingList />
+      {/* <WaitingList /> */}
     </Wrapper>
   );
 }

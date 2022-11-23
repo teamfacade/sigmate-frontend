@@ -20,13 +20,13 @@ export default memo(function Schedules({
           key={schedule.id}
           id={schedule.id}
           name={schedule.name}
-          category={schedule.category || 'PFP'}
+          category={schedule.collection.category?.name || 'TBA'}
           tier={schedule.tier}
           mintingTime={schedule.mintingTime}
           mintingUrl={schedule.mintingUrl}
           mintingPrice={schedule.mintingPrice}
           mintingPriceSymbol={schedule.mintingPriceSymbol}
-          wikiPageUrl={`/main/wiki/${schedule.name}`}
+          wikiPageUrl={`/main/wiki/${schedule.collection.document?.id}`}
           twitterHandle={schedule.collection.twitterHandle}
           telegramUrl={schedule.collection.telegramUrl}
           discordUrl={schedule.collection.discordUrl}

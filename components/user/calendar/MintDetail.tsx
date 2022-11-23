@@ -12,22 +12,33 @@ type PropsType = {
   mint?: Minting.ScheduleType;
 };
 
+// @ts-ignore
+const loaderProp = ({ src }) => {
+  return `${src}&q=100`;
+};
+
 export default memo(function MintDetail({ mint }: PropsType) {
   if (mint === undefined) {
     return <div>Something went wrong</div>;
   }
   return (
     <Wrapper>
-      <ImageWrapper width="680px" height="415px">
+      <ImageWrapper width="680px" height="300px">
         <Image
-          src={mint.collection.imageUrl || UserImageEx}
+          loader={loaderProp}
+          src={
+            mint.collection.bannerImageUrl ||
+            mint.collection.imageUrl ||
+            UserImageEx
+          }
           alt={`${mint.name} Image`}
+          objectFit="cover"
           layout="fill"
         />
       </ImageWrapper>
       <Descriptions>
         <FlexWrapper>
-          <Name>Minting Time / Date</Name>
+          <Name>Minting Time / Date (UTC)</Name>
           <Content>
             {convertDate(new Date(mint.mintingTime), 'time', ' ')}
           </Content>
@@ -35,8 +46,8 @@ export default memo(function MintDetail({ mint }: PropsType) {
         <FlexWrapper>
           <Name>Minting Price</Name>
           <Content>
-            <span>{mint.mintingPrice}</span>
-            <span>{` ${mint.mintingPriceSymbol}`}</span>
+            <span>{mint.mintingPrice || 'TBA'}</span>
+            {mint.mintingPrice && <span>{` ${mint.mintingPriceSymbol}`}</span>}
           </Content>
         </FlexWrapper>
         <BtnWrapper>
@@ -58,16 +69,12 @@ export default memo(function MintDetail({ mint }: PropsType) {
             )}
           </InnerBtnWrapper>
           <InnerBtnWrapper>
-            <LinkBtn mintPage={false}>
-              <Link href={`/main/wiki/${mint.name}`}>
-                <a>Wiki Page</a>
-              </Link>
-            </LinkBtn>
-            <LinkBtn mintPage>
-              <Link href={mint.mintingUrl || 'https://opensea.io'}>
-                <a>Minting Page</a>
-              </Link>
-            </LinkBtn>
+            <Link href={`/main/wiki/${mint.collection.document.id}`}>
+              <LinkBtn mintPage={false}>Wiki Page</LinkBtn>
+            </Link>
+            <a href={mint.mintingUrl || 'https://opensea.io'}>
+              <LinkBtn mintPage>Minting Page</LinkBtn>
+            </a>
           </InnerBtnWrapper>
         </BtnWrapper>
       </Descriptions>
@@ -113,7 +120,7 @@ const InnerBtnWrapper = styled.div`
   display: flex;
   align-items: flex-end;
 
-  a + a {
+  a {
     margin-left: 7px;
   }
 `;
@@ -128,11 +135,7 @@ const LinkBtn = styled.button<{ mintPage: boolean }>`
     mintPage ? styles.colors.emphColor : 'transparent'};
   font-size: 15px;
   white-space: nowrap;
-
-  a {
-    color: ${({ mintPage }) =>
-      mintPage ? '#FFFFFF' : styles.colors.emphColor};
-  }
+  color: ${({ mintPage }) => (mintPage ? '#FFFFFF' : styles.colors.emphColor)};
 
   & + & {
     margin-left: 7px;

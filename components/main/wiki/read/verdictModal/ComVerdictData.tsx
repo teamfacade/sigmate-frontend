@@ -9,8 +9,10 @@ type PropsType = {
 };
 
 export default memo(function ComVerdictData({ show, votes }: PropsType) {
+  const { verifyCount, beAwareCount } = votes.verificationCounts;
+
   const result = useMemo(() => {
-    if (votes) return votes.verify - votes.warning;
+    if (votes) return verifyCount - beAwareCount;
     return 0;
   }, [votes]);
 
@@ -22,16 +24,8 @@ export default memo(function ComVerdictData({ show, votes }: PropsType) {
           <VerdictResult result={result} />
         </div>
         <FlexWrapper>
-          <Details
-            name="Verify"
-            verify={votes.verify}
-            warning={votes.warning}
-          />
-          <Details
-            name="Warning"
-            verify={votes.verify}
-            warning={votes.warning}
-          />
+          <Details name="Verify" verify={verifyCount} warning={beAwareCount} />
+          <Details name="Warning" verify={verifyCount} warning={beAwareCount} />
         </FlexWrapper>
       </Wrapper>
     );

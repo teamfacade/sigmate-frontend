@@ -1,14 +1,16 @@
 import {
   ReactNode,
   memo,
-  MouseEventHandler,
-  useState,
   useCallback,
+  useEffect,
+  useState,
+  MouseEventHandler,
   FocusEventHandler,
+  KeyboardEventHandler,
 } from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
-import styles from 'styles/styleLib';
+import styles, { BlueBtnStyle } from 'styles/styleLib';
 
 type PropsType = {
   id: number;
@@ -23,6 +25,8 @@ const options: ReactSelect.OptionType[] = [
   { value: 'h', label: 'Heading' },
 ];
 
+let prevHeight = 0;
+
 export default memo(function Block({
   id,
   isTitle = false,
@@ -33,6 +37,23 @@ export default memo(function Block({
   const [showBtn, setShowBtn] = useState(isTitle);
   const [showSelect, setShowSelect] = useState(false);
 
+  /** 블럭 종류 select가 보이게 스크롤을 내려줌 */
+  useEffect(() => {
+    if (showSelect) {
+      const ContentWrapper = document.getElementById('content-wrapper');
+      const selectBottom = document
+        .getElementById('block-type-select')
+        ?.getBoundingClientRect().bottom;
+
+      if (ContentWrapper && ContentWrapper.scrollTop > 80 && selectBottom) {
+        ContentWrapper.scrollTo({
+          top: ContentWrapper.scrollTop + selectBottom + 40,
+          behavior: 'smooth',
+        });
+      }
+    }
+  }, [showSelect]);
+
   const onMouseEnter: MouseEventHandler<HTMLDivElement> = useCallback(
     () => setShowBtn(true),
     []
@@ -41,8 +62,11 @@ export default memo(function Block({
     setShowBtn(false);
   }, []);
 
-  const onClickAdd: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+  const onClickAdd: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
+    e.preventDefault();
     setShowBtn(false);
+    const ContentWrapper = document.getElementById('content-wrapper');
+    if (ContentWrapper) prevHeight = ContentWrapper.scrollHeight;
     setShowSelect(true);
   }, []);
 
@@ -66,9 +90,37 @@ export default memo(function Block({
     setShowSelect(false);
   }, []);
 
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback((e) => {
+    if (e.code === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      const ContentWrapper = document.getElementById('content-wrapper');
+      if (ContentWrapper) prevHeight = ContentWrapper.scrollHeight;
+      setShowSelect(true);
+    }
+  }, []);
+
+  const onSelectKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback(
+    (e) => {
+      if (e.code === 'Escape') {
+        setShowSelect(false);
+      }
+    },
+    []
+  );
+
   return (
-    <Wrapper onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} isTitle>
-      {children}
+    <Wrapper
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onKeyDown={onKeyDown}
+      isTitle
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {children}
+        {isTitle === true && (
+          <BlockAddBtn onClick={onClickAdd}>New block</BlockAddBtn>
+        )}
+      </div>
       {showBtn && (
         <BlockControlBtnWrapper>
           <BlockControlBtn onClick={onClickAdd}>+</BlockControlBtn>
@@ -80,9 +132,12 @@ export default memo(function Block({
       {showSelect && (
         <BlockTypeSelectWrapper>
           <Select
+            id="block-type-select"
             options={options}
             onChange={onChange}
+            onKeyDown={onSelectKeyDown}
             autoFocus
+            defaultMenuIsOpen
             onBlur={onBlur}
           />
         </BlockTypeSelectWrapper>
@@ -107,6 +162,7 @@ const BlockControlBtnWrapper = styled.div`
   top: 50%;
   left: 0;
   padding-right: 10px;
+  margin-bottom: 40px;
   transform: translate(-100%, -50%);
   display: flex;
   align-items: center;
@@ -137,3 +193,13 @@ const BlockControlBtn = styled.button`
     scale: 1.2;
   }
 `;
+
+const BlockAddBtn = memo(styled.button`
+  ${BlueBtnStyle};
+  flex: 0 1 auto;
+  position: relative;
+  width: 133px;
+  height: 45px;
+  margin: 0 0 0 10px;
+  font-size: min(20px, max(14px, 1.5vw));
+`);

@@ -26,6 +26,7 @@ const fetcher: Fetcher<CollectionCategoryType[], string> = async (
 
 export default function EditCategory() {
   const dispatch = useAppDispatch();
+  const [pending, setPending] = useState<boolean>(false);
   const [newName, setNewName] = useState<string>('');
   const { data: options, mutate } = useSWR(
     '/wiki/collection/category',
@@ -34,6 +35,7 @@ export default function EditCategory() {
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
+      setPending(true);
       const { name, dataset } = e.currentTarget;
       switch (name) {
         case 'Delete':
@@ -42,10 +44,17 @@ export default function EditCategory() {
               method: 'DELETE',
               url: `/wiki/collection/category/${dataset.id}`,
             })
-          ).then((action: any) => {
+          ).then(async (action: any) => {
             if (action.payload.status === 200) {
               alert('Deleted');
-            }
+              await mutate();
+            } else if (action.payload.status === 409) {
+              alert('Category has descendant utilities.');
+            } else
+              alert(
+                `Error while creating new category: ${action.payload.status}`
+              );
+            setPending(false);
           });
           break;
         case 'Create':
@@ -62,7 +71,11 @@ export default function EditCategory() {
               mutate(options?.concat(action.payload.data.category)).then(() =>
                 alert('Created new category')
               );
-            }
+            } else
+              alert(
+                `Error while creating new category: ${action.payload.status}`
+              );
+            setPending(false);
           });
           break;
         default:
@@ -86,6 +99,8 @@ export default function EditCategory() {
               <CategoryControll
                 key={option.id}
                 option={option}
+                pending={pending}
+                setPending={setPending}
                 onClick={onClick}
               />
             );
@@ -93,7 +108,7 @@ export default function EditCategory() {
         </Wrapper>
         <FlexWrapper>
           <input type="text" value={newName} onChange={onChange} />
-          <CreateNewBtn name="Create" onClick={onClick}>
+          <CreateNewBtn name="Create" disabled={pending} onClick={onClick}>
             Add new category
           </CreateNewBtn>
         </FlexWrapper>

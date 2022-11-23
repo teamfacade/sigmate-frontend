@@ -13,6 +13,7 @@ export default memo(function ScheduleUtilBtns({
   mintPageUrl,
   AddToCalendar,
 }: PropsType) {
+  const [pending, setPending] = useState<boolean>(false);
   const [subscribed, setSubscribed] = useState<boolean>(false);
 
   const onClickAddToCalendar: MouseEventHandler<HTMLButtonElement> =
@@ -21,8 +22,10 @@ export default memo(function ScheduleUtilBtns({
         e.stopPropagation();
         const { mintingId } = e.currentTarget.dataset;
         if (mintingId) {
+          setPending(true);
           AddToCalendar(mintingId, subscribed);
           setSubscribed((cur) => !cur);
+          setPending(false);
         }
       },
       [AddToCalendar, subscribed]
@@ -30,8 +33,12 @@ export default memo(function ScheduleUtilBtns({
 
   return (
     <BtnWrapper>
-      <AddCalenderBtn data-minting-id={id} onClick={onClickAddToCalendar}>
-        {subscribed ? 'Subscribed' : 'Add to calender'}
+      <AddCalenderBtn
+        data-minting-id={id}
+        disabled={pending}
+        onClick={onClickAddToCalendar}
+      >
+        {pending ? '...' : subscribed ? 'Added' : 'Add to Calendar'}
       </AddCalenderBtn>
       <a href={mintPageUrl} target="_blank" rel="noreferrer">
         <MintBtn
@@ -47,6 +54,7 @@ export default memo(function ScheduleUtilBtns({
 
 const BtnWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   margin-top: 13px;
 
   button {
@@ -65,11 +73,17 @@ const BtnWrapper = styled.div`
 `;
 
 const AddCalenderBtn = styled.button`
+  flex: 0 0 176px;
   padding: 7px 30px;
   margin: 0;
   background-color: #e9f0ff;
   color: ${styles.colors.emphColor};
   white-space: nowrap;
+  transition: background-color ease-in-out 300ms;
+
+  :disabled {
+    background-color: ${styles.colors.verdictModalTextColor};
+  }
 `;
 
 const MintBtn = styled.button`
@@ -77,4 +91,8 @@ const MintBtn = styled.button`
   margin: 0 0 0 10px;
   background-color: ${styles.colors.emphColor};
   color: #ffffff;
+
+  :disabled {
+    background-color: ${styles.colors.verdictModalTextColor};
+  }
 `;

@@ -23,13 +23,14 @@ import {
 } from 'store/modules/accountSlice';
 import { InputTemplate, Divider, OAuthBtn } from 'components/auth';
 import { DisclaimWrapper } from 'components/main/wiki/edit';
-import styles from 'styles/styleLib';
+import styles, { BlueBtnStyle } from 'styles/styleLib';
 
 const usernameRules: StringKeyObj<string> = {
   default: 'Username should be more than 2, less than 17 characters',
   REQUIRED: "Username can't be empty",
   TOO_SHORT: 'Username should be more than 2 characters',
   TOO_LONG: 'Username should be less than 17 characters',
+  NOT_ALPHA: 'We only allow alphabet characters and whitespaces',
   ERR_USERNAME_ILLEGAL_CHARS:
     'We only allow alphanumeric characters, underscores, dashes, and periods',
   ERR_USERNAME_CONSECUTIVE_SPECIAL_CHARS:
@@ -47,6 +48,8 @@ const referralRules: StringKeyObj<string> = {
   REFERRED_USER_NOT_FOUND: "User with given referral code doesn't exist",
 };
 
+let timeoutId: ReturnType<typeof setTimeout>;
+
 type PropsType = {
   signedWithMetamask: boolean;
 };
@@ -57,6 +60,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
   const { googleAccount, metamaskWallet } = useAppSelector(
     ({ account }) => account
   );
+  const [pending, setPending] = useState<boolean>(false);
   const [username, setUsername] = useState('');
   const [isValidUsername, setIsValidUsername] = useState<boolean | undefined>(
     undefined
@@ -113,7 +117,8 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
               setUsernameCheckResult(
                 usernameRules[data.validationErrors[0].msg || 'default']
               );
-          }
+          } else if (action.payload.status === 500)
+            alert(action.payload.data.msg);
         });
       } else if (refCode !== '') {
         dispatch(
@@ -128,7 +133,8 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
             setRefCodeCheckResult('');
           } else if (status === 400) {
             setRefCodeCheckResult(referralRules.REFERRED_USER_NOT_FOUND);
-          }
+          } else if (action.payload.status === 500)
+            alert(action.payload.data.msg);
         });
       }
     },
@@ -154,40 +160,55 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       e.preventDefault();
-      if ((isValidRefCode || refCode === '') && isValidUsername) {
-        const now = new Date(Date.now()).toISOString();
-        const data: any = {
-          userName: username,
-          agreeTos: now,
-          agreePrivacy: now,
-        };
-        if (refCode !== '') data.referredBy = refCode;
-        dispatch(
-          AuthRequiredAxios({
-            method: 'PATCH',
-            url: '/user',
-            data,
-          })
-        ).then(async (action: any) => {
-          if (action.payload.status === 200) {
-            console.log(action.payload);
-            dispatch(setAgreeTerms(now));
-            dispatch(setReferredBy(refCode));
-            dispatch(setUserName(username));
-            await router.push('/main/wiki/Sigmate');
-          } else
-            alert(
-              `Error while creating a user.\r\nERR: ${action.payload.status}-${action.payload.data.validationErrors[0].msg}`
-            );
-        });
-      } else if (!isValidUsername) usernameTextareaRef.current?.focus();
-      else {
-        refCodeTextareaRef.current?.focus();
-        if (refCodeTextareaRef.current?.value !== '')
-          refCodeTextareaRef.current?.blur();
-      }
+
+      setPending(true);
+      if (timeoutId) clearTimeout(timeoutId);
+      usernameTextareaRef.current?.blur();
+      refCodeTextareaRef.current?.blur();
+
+      timeoutId = setTimeout(() => {
+        if ((isValidRefCode || refCode === '') && isValidUsername) {
+          const now = new Date(Date.now()).toISOString();
+          const data: any = {
+            userName: username,
+            agreeTos: now,
+            agreePrivacy: now,
+          };
+          if (refCode !== '') data.referredBy = refCode;
+          dispatch(
+            AuthRequiredAxios({
+              method: 'PATCH',
+              url: '/user',
+              data,
+            })
+          ).then(async (action: any) => {
+            if (action.payload.status === 200) {
+              dispatch(setAgreeTerms(now));
+              dispatch(setReferredBy(refCode));
+              dispatch(setUserName(username));
+              await router.push('/main/recent-edits');
+            } else
+              alert(
+                `Error while creating a user.\r\nERR: ${
+                  action.payload.status
+                }-${
+                  (
+                    action.payload.data.validationErrors[0] ||
+                    action.payload.data
+                  ).msg
+                }`
+              );
+          });
+        } else if (!isValidUsername) usernameTextareaRef.current?.focus();
+        else {
+          refCodeTextareaRef.current?.focus();
+          if (refCodeTextareaRef.current?.value !== '')
+            refCodeTextareaRef.current?.blur();
+        }
+        setPending(false);
+      }, 300);
     },
-    [isValidUsername, isValidRefCode, refCode]
+    [isValidUsername, username, isValidRefCode, refCode, timeoutId]
   );
 
   return (
@@ -221,31 +242,39 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
       {!signedWithMetamask && (
         <WalletDescription>
           Connect to receive rewards based on your activity.{' '}
-          <Link href="https://naver.com">
+          <Link href="https://sigmate.gitbook.io/sigmate/sigmate/token-utility">
             <a>Learn more</a>
           </Link>
         </WalletDescription>
       )}
       <form onSubmit={onSubmit} style={{ paddingTop: '16px' }}>
         <DisclaimWrapper>
-          <input type="checkbox" required />
-          <span>
+          <input id="TOS" type="checkbox" required />
+          <label htmlFor="TOS">
             {'I am 18 years of age or older and agree to the '}
-            <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+            <a
+              href="https://sigmate.gitbook.io/sigmate/support/terms-of-use"
+              target="_blank"
+              rel="noreferrer"
+            >
               Sigmate terms of service.
             </a>
-          </span>
+          </label>
         </DisclaimWrapper>
         <DisclaimWrapper>
-          <input type="checkbox" required />
-          <span>
+          <input id="Privacy" type="checkbox" required />
+          <label htmlFor="Privacy">
             {'I agree to the '}
-            <a href="https://www.naver.com" target="_blank" rel="noreferrer">
+            <a
+              href="https://sigmate.gitbook.io/sigmate/support/privacy-policy"
+              target="_blank"
+              rel="noreferrer"
+            >
               Sigmate Privacy Policy.
             </a>
-          </span>
+          </label>
         </DisclaimWrapper>
-        <SignUp name="SignUp" type="submit">
+        <SignUp name="SignUp" type="submit" disabled={pending}>
           Sign Up
         </SignUp>
       </form>
@@ -274,6 +303,7 @@ const WalletDescription = styled.p`
 `;
 
 const SignUp = styled.button`
+  ${BlueBtnStyle};
   width: 470px;
   height: 61px;
   padding: 19px 200px;

@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
-import convertDate from 'lib/global/convertDate';
+import convertDate, { changeToUTCinMilli } from 'lib/global/convertDate';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { categoriesFetcher } from 'pages/admin/minting-schedule';
@@ -22,7 +22,7 @@ type PropsType = {
 };
 
 const tiers = Array.from({ length: 5 }, (_, i) => i + 1);
-const units = ['ETH', 'SOL', 'KLAY', 'MATIC'];
+const units = ['ETH', 'KLAY', 'ETC'];
 
 const fetcher = async (id: number) => {
   try {
@@ -113,12 +113,14 @@ export default function EditSchedule({ type, id }: PropsType) {
               };
             });
             break;
+          /*
           case 'Category':
             setSchedule((cur) => ({
               ...cur,
               category: value,
             }));
             break;
+            */
           case 'Price':
             setSchedule((cur) => ({
               ...cur,
@@ -166,11 +168,15 @@ export default function EditSchedule({ type, id }: PropsType) {
             data: {
               name: schedule.name,
               tier: schedule.tier,
-              mintingTime: new Date(schedule.mintingTimeTimeStamp),
-              mintingUrl: schedule.mintingUrl,
+              // @todo : luxon 써서 timezone utc +0 맞춰서 보내기
+              mintingTime: new Date(
+                changeToUTCinMilli(new Date(schedule.mintingTimeTimeStamp))
+              ),
+              // mintingTime: new Date(schedule.mintingTimeTimeStamp),
+              mintingUrl: schedule.mintingUrl || undefined,
               description: schedule.description,
-              collection: schedule.collectionSlug,
-              mintingPrice: schedule.mintingPrice,
+              document: parseInt(schedule.collectionSlug, 10),
+              mintingPrice: schedule.mintingPrice || undefined,
               mintingPriceSymbol: schedule.mintingPriceSymbol,
             },
           })
@@ -179,7 +185,12 @@ export default function EditSchedule({ type, id }: PropsType) {
             alert('Created/Edited a minting schedule.');
           else
             alert(
-              `Error while creating a minting schedule.\r\nShow this code to youngwoo: ${action.payload.status}`
+              `Error while creating a minting schedule.\r\nShow this code to youngwoo: 
+              ${action.payload.status}${
+                action.payload.status === 400
+                  ? `\r\n${action.payload.data.validationErrors[0].param}: ${action.payload.data.validationErrors[0].msg}`
+                  : ''
+              }`
             );
         });
       } else {
@@ -211,7 +222,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             ))}
           </select>
           <NamedInput
-            name="Date"
+            name="Date (UTC)"
             inputElemName="Date"
             type="date"
             value={
@@ -224,7 +235,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             onChange={onChange}
           />
           <NamedInput
-            name="Time"
+            name="Time (UTC)"
             inputElemName="Time"
             type="time"
             value={
@@ -236,6 +247,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             }
             onChange={onChange}
           />
+          {/*
           <div>
             <span>Category</span>
             <select name="Category" onChange={onChange}>
@@ -246,6 +258,7 @@ export default function EditSchedule({ type, id }: PropsType) {
               ))}
             </select>
           </div>
+          */}
           <div style={{ display: 'flex' }}>
             <NamedInput
               name="Price"
@@ -270,7 +283,7 @@ export default function EditSchedule({ type, id }: PropsType) {
             onChange={onChange}
           />
           <NamedInput
-            name="Collection slug"
+            name="Document id"
             inputElemName="Slug"
             type="text"
             value={schedule.collectionSlug}

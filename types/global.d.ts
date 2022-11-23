@@ -17,6 +17,13 @@ declare global {
     profileImageUrl: string | null;
   }
 
+  type PrimaryProfileType = {
+    id: number;
+    displayName: string;
+    bio: string | null;
+    profileImageUrl: string;
+  };
+
   namespace ReduxState {
     interface AuthStateType {
       signedIn: boolean;
@@ -87,6 +94,11 @@ declare global {
     Component: NextPageWithLayout;
   };
 
+  type PagedSWRDataType<T> = {
+    total: number;
+    data: T;
+  };
+
   namespace MetamaskAuth {
     interface MetaMaskAuthResponse {
       metamaskWallet: string;
@@ -123,12 +135,6 @@ declare global {
     name: string;
   };
 
-  type EditType = {
-    name: string;
-    editor: string;
-    timestamp: number;
-  };
-
   type RecentEditType = {
     timestamp: number;
     title: string;
@@ -138,29 +144,38 @@ declare global {
     [index: string]: T;
   }
 
-  type MintingType = {
-    name: string;
-    publisher: string;
-    thumbnailURL: string;
-    date: number;
-    price: string;
-    wikiPage?: string;
-    mintPage?: string;
-    twitterUrl?: string;
-    telegramUrl?: string;
-    discordUrl?: string;
-  };
+  namespace Leaderboad {
+    type ItemType = {
+      rank: number;
+      user: {
+        id: number;
+        userName: string;
+        primaryProfile?: UserProfileAttributes;
+      };
+      referral: number;
+      forum: {
+        postCreate: string;
+        commentCreate: string;
+      };
+      wiki: {
+        documentEdit: number;
+      };
+      total: number;
+    };
+  }
 
   namespace Minting {
     type CollectionType = {
       id?: number;
       name?: string;
-      category?: string;
+      category?: CollectionCategoryType;
       twitterHandle?: string;
       discordUrl?: string;
       websiteUrl?: string;
       telegramUrl?: string;
       imageUrl?: string;
+      bannerImageUrl?: string;
+      document?: any;
     };
 
     type ScheduleType = {
@@ -180,6 +195,38 @@ declare global {
   }
 
   namespace Wiki {
+    type EditLogType = {
+      id: number;
+      document: {
+        id: number;
+        title: string;
+      };
+      createdBy?: {
+        id: number;
+        userName: string;
+        primaryProfile: PrimaryProfileType;
+      };
+      approvedAt: string;
+    };
+
+    type SearchResultType = {
+      id: number;
+      title: string;
+      collection: {
+        id: number;
+        slug: string;
+        name: string;
+      };
+      textContent: string;
+    };
+
+    type HappenedType = {
+      opt: 't' | 'd';
+      content: string;
+      timestamp: string;
+      contentId: string;
+    };
+
     type KeyInfoType = {
       [index: string];
       name: {
@@ -191,7 +238,7 @@ declare global {
         textContent: string;
       };
       team: DocumentBlockType;
-      rugpool: DocumentBlockType;
+      history: DocumentBlockType;
       category: DocumentBlockType;
       utility: DocumentBlockType;
       mintingPriceWl: DocumentBlockType;
@@ -200,22 +247,10 @@ declare global {
       discordUrl: DocumentBlockType;
       twitterHandle: DocumentBlockType;
       websiteUrl: DocumentBlockType;
-      paymentTokens: DocumentBlockType;
-      marketplace: DocumentBlockType;
     };
 
     type ModalDataType = {
-      documentID: number;
-      isKeyInfo: boolean;
-      blockID: number;
-    };
-
-    type VerificationType = {
-      id: number;
-      isUpvote: boolean | null;
-      verify: number;
-      warning: number;
-      timestamp: string;
+      blockID: string;
     };
 
     type VerificationCountType = {
@@ -223,17 +258,9 @@ declare global {
       beAwareCount: number;
     };
 
-    type MyVerificationType = {
-      id: number;
-      verificationType: {
-        id: number;
-        name: string; // verify, be aware, ...
-        isUpvote: boolean | null;
-      };
-      verificationOpinion?: {
-        id: number;
-        createdAt: Date;
-      };
+    type VerificationType = {
+      verificationCounts: VerificationCountType;
+      myVerification: boolean | null;
     };
 
     type OpinionType = {
@@ -248,12 +275,6 @@ declare global {
       comment: string;
     };
 
-    type BlockVerificationType = {
-      id: number;
-      verification: VerificationType;
-      comments: DocumentCommentType[];
-    };
-
     type DocumentBlockType = {
       id: number;
       opinions?: OpinionType[];
@@ -266,18 +287,16 @@ declare global {
       verificationCounts: VerificationCountType;
       opinionCount: number;
       myVerification?: MyVerificationType;
-      // temporary data
-      verifications?: BlockVerificationType;
     };
 
     type DocumentType = {
       id: number;
       title: string;
-      blocks?: Wiki.DocumentBlockType[];
-      keyInfos?: Wiki.DocumentBlockType[];
+      structure: number[];
+      blocks?: StringKeyObj<Wiki.DocumentBlockType>;
       keyInfo?: Wiki.KeyInfoType;
-      types?: string[];
-      createdBy: Forum.AuthorType;
+      types: Forum.CategoryType[];
+      createdBy?: Forum.AuthorType;
     };
   }
 
@@ -299,7 +318,7 @@ declare global {
       id: number;
       name: string;
       description: string;
-      imageURL: string;
+      thumbnail?: string;
     };
 
     type InfoType = {
@@ -336,7 +355,7 @@ declare global {
     type CommentType = {
       id: number;
       content: string;
-      createdBy: Forum.AuthorType;
+      createdBy?: Forum.AuthorType;
       voteCount: number;
       replies: Forum.CommentType[] | null;
     };
@@ -346,7 +365,7 @@ declare global {
       id: number;
       title: string;
       content: string;
-      createdBy: Forum.AuthorType;
+      createdBy?: Forum.AuthorType;
       votes?: Forum.VoteType;
       voteCount?: number;
       comments?: Forum.CommentType[];
@@ -396,6 +415,16 @@ declare global {
       tags: string[];
       date: string;
       comments: number;
+    };
+
+    type UnconfirmedType = {
+      id: number;
+      name: string;
+      discordUrl: string | null;
+      twitterHandle: string | null;
+      channel: {
+        discordChannel: string;
+      } | null;
     };
   }
 }

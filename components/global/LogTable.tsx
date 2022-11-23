@@ -34,7 +34,7 @@ const LogTable = memo(styled.table<{ gap: string | undefined }>`
       color: ${styles.colors.logColor};
       font-size: 15px;
       text-align: start;
-      white-space: nowrap;
+      word-break: break-all;
 
       :first-child {
         padding-left: 40px;

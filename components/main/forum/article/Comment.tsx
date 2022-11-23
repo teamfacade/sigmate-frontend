@@ -17,6 +17,30 @@ import {
   MoreOptions,
 } from 'components/main/forum/article';
 import styles from 'styles/styleLib';
+import { Fetcher } from 'swr';
+import useSWRImmutable from 'swr/immutable';
+import { initialSWRData } from '../../../global';
+import Axios from '../../../../lib/global/axiosInstance';
+
+const fetcher: Fetcher<PagedSWRDataType<Forum.CommentType[]>, string> = async (
+  url: string
+) => {
+  try {
+    const { data, status } = await Axios.get(url);
+
+    if (status === 200) {
+      return {
+        data: data.data,
+        total: data.count,
+      };
+    }
+    alert(`Error while fetching replies: ERR ${status}`);
+    return initialSWRData;
+  } catch (e) {
+    alert(`Error while fetching replies: ERR ${e}`);
+    return initialSWRData;
+  }
+};
 
 type PropsType = {
   category: string;
@@ -44,7 +68,6 @@ export default memo(function Comment({
   author,
   authorUserName,
   text,
-  replies,
   isReply,
   onSubmitComment,
   onClickReport,
@@ -56,11 +79,17 @@ export default memo(function Comment({
   const [showReplies, setShowReplies] = useState(false);
   const [commentText, setCommentText] = useState(text);
 
+  const { data: fetchedReplies = initialSWRData } = useSWRImmutable(
+    !isReply ? `/forum/cm/${commentID}/replies` : null,
+    !isReply ? fetcher : null
+  );
+
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShowReplies((curShow) => !curShow),
     []
   );
 
+  // @todo reply 추가
   const onClickSubmit: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       const { value } = e.currentTarget.dataset;
@@ -107,10 +136,11 @@ export default memo(function Comment({
   return (
     <Wrapper>
       <FlexWrapper>
-        <CommentPFP PFPUrl={PFPUrl} author={author} />
+        <CommentPFP PFPUrl={PFPUrl} author={authorUserName} />
         <SubWrapper>
           <CommentContent
             author={author}
+            authorUserName={authorUserName}
             text={commentText}
             showCommentEdit={showCommentEdit}
             articleID={articleID}
@@ -125,7 +155,7 @@ export default memo(function Comment({
             category={category}
             voteCount={voteCount}
             like={null}
-            length={replies.length}
+            length={fetchedReplies.total}
             onClick={onClick}
             isReply={isReply}
           />
@@ -144,7 +174,7 @@ export default memo(function Comment({
         category={category}
         articleID={articleID}
         commentID={commentID}
-        replies={replies}
+        replies={fetchedReplies.data}
         show={showReplies}
         onClickReport={onClickReport}
         onSubmitComment={onSubmitComment}

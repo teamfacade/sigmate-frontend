@@ -1,8 +1,11 @@
-export const KeyInfoIndex: StringKeyObj<number> = {
+import Axios from 'lib/global/axiosInstance';
+import { AxiosError } from 'axios';
+
+const KeyInfoIndex: StringKeyObj<number> = {
   Name: 0,
   Thumbnail: 1,
   Team: 2,
-  Rugpool: 3,
+  History: 3,
   Category: 4,
   Utility: 5,
   WLPrice: 6,
@@ -11,53 +14,39 @@ export const KeyInfoIndex: StringKeyObj<number> = {
   Discord: 9,
   Twitter: 10,
   OfficialSite: 11,
-  Chain: 12,
-  Marketplace: 13,
 };
 
-const ExProfile: UserProfileAttributes = {
-  id: 1,
-  displayName: 'Berry',
-  bio: null,
-  profileImage: null,
-  profileImageUrl: null,
-};
+const KeyInfoTitles: string[] = [
+  'Name',
+  'Thumbnail',
+  'Team',
+  'History',
+  'Category',
+  'Utility',
+  'Whitelist Price',
+  'Public Price',
+  'Current FP',
+  'Discord',
+  'Twitter',
+  'Official Website',
+];
 
-const ExAuthor: Forum.AuthorType = {
-  id: 1,
-  userName: 'jmyoung',
-  primaryProfile: ExProfile,
-};
-
-const ExVerification: Wiki.VerificationType = {
-  id: 1,
-  verify: 2400,
-  warning: 351,
-  isUpvote: null,
-  timestamp: '0',
-};
-
-const ExVerdict: Wiki.BlockVerificationType = {
-  id: 1,
-  verification: ExVerification,
-  comments: [
-    {
-      id: 1,
-      username: 'jmyung0803',
-      comment: 'This is not a fraud!',
-    },
-    {
-      id: 2,
-      username: 'limeAhn',
-      comment: 'This is not a fraud!',
-    },
-    {
-      id: 3,
-      username: 'kwang jin',
-      comment: 'This is a fraud!',
-    },
-  ],
-};
+const KeyInfoBlockIds: string[] = [
+  'name',
+  'thumbnail',
+  'team',
+  'history',
+  'category',
+  'utility',
+  'mintingPriceWl',
+  'mintingPricePublic',
+  'floorPrice',
+  'discordUrl',
+  'twitterHandle',
+  'websiteUrl',
+  'paymentTokens',
+  'marketplace',
+];
 
 const ExBlock: Wiki.DocumentBlockType = {
   id: 0,
@@ -71,28 +60,159 @@ const ExBlock: Wiki.DocumentBlockType = {
     verifyCount: 0,
     beAwareCount: 0,
   },
+  myVerification: null,
   opinionCount: 0,
-  // temporary data for wiki-read verification data
-  verifications: ExVerdict,
 };
 
-const ExBlocks: Wiki.DocumentBlockType[] = [
-  ExBlock,
-  {
-    ...ExBlock,
-    id: 2,
+const SigmateDocument: Wiki.DocumentType = {
+  id: -1,
+  title: 'Sigmate',
+  keyInfo: {
+    name: {
+      id: -1,
+      textContent: 'Sigmate',
+    },
+    thumbnail: {
+      id: KeyInfoIndex.Thumbnail,
+      textContent: '/Icons/Favicon/sigmate-square-img.png',
+    },
+    team: {
+      ...ExBlock,
+      id: KeyInfoIndex.Team,
+      textContent: 'Sigmate',
+    },
+    history: {
+      ...ExBlock,
+      id: KeyInfoIndex.History,
+      textContent: 'Launched on mid october',
+    },
+    category: {
+      ...ExBlock,
+      id: KeyInfoIndex.Category,
+      textContent: 'NFT information platform',
+    },
+    utility: {
+      ...ExBlock,
+      id: KeyInfoIndex.Utility,
+      textContent: 'Write 2 Earn system',
+    },
+    mintingPriceWl: {
+      ...ExBlock,
+      id: KeyInfoIndex.WLPrice,
+      textContent: '0.01',
+    },
+    mintingPricePublic: {
+      ...ExBlock,
+      id: KeyInfoIndex.PublicPrice,
+      textContent: '0.01',
+    },
+    floorPrice: {
+      ...ExBlock,
+      id: KeyInfoIndex.CurrentPrice,
+      textContent: '100',
+    },
+    discordUrl: {
+      ...ExBlock,
+      id: KeyInfoIndex.Discord,
+      textContent: 'https://discord.gg/jzwrEkbmwZ',
+    },
+    twitterHandle: {
+      ...ExBlock,
+      id: KeyInfoIndex.Twitter,
+      textContent: 'OfficialSigmate',
+    },
+    websiteUrl: {
+      ...ExBlock,
+      id: KeyInfoIndex.OfficialSite,
+      textContent: 'https://www.sigmate.io',
+    },
+    paymentTokens: {
+      ...ExBlock,
+      id: KeyInfoIndex.Chain,
+      textContent: 'SIGMA',
+    },
+    marketplace: {
+      ...ExBlock,
+      id: KeyInfoIndex.Marketplace,
+      textContent: 'Sigmate',
+    },
   },
-  {
-    ...ExBlock,
-    id: 3,
+  structure: [1, 2, 3, 4, 5],
+  types: [{ id: 1, name: 'Platform', description: '', thumbnail: '' }],
+  blocks: {
+    1: {
+      id: 1,
+      element: 'h',
+      textContent: 'About sigmate',
+      verificationCounts: {
+        verifyCount: 0,
+        beAwareCount: 0,
+      },
+      myVerification: null,
+      opinionCount: 0,
+    },
+    2: {
+      id: 2,
+      element: 'p',
+      textContent:
+        'NFT market has grown rapidly over the past three years with inconvenience. The biggest point is the lack of extensive NFT information service. Investors have to snoop around multiple sites and SNS communities such as Discord, Twitter, and Telegram to find scattered information.',
+      verificationCounts: {
+        verifyCount: 0,
+        beAwareCount: 0,
+      },
+      myVerification: null,
+      opinionCount: 0,
+    },
+    3: {
+      id: 3,
+      element: 'p',
+      textContent:
+        'NFT market is notorious for low reliability market, so most investors have to take care of verifying the information they get and always have to keep their eyes on fraud risk.',
+      verificationCounts: {
+        verifyCount: 0,
+        beAwareCount: 0,
+      },
+      myVerification: null,
+      opinionCount: 0,
+    },
+    4: {
+      id: 4,
+      element: 'h',
+      textContent: "𝚺 That's why Sigmate is needed.",
+      verificationCounts: {
+        verifyCount: 0,
+        beAwareCount: 0,
+      },
+      myVerification: null,
+      opinionCount: 0,
+    },
+    5: {
+      id: 5,
+      element: 'p',
+      textContent:
+        'Sigmate is developed to overcome those pain-points and create the NFT market where anyone can participate with ease. Ultimately, Sigmate will lower the entry barriers for new inflow.',
+      verificationCounts: {
+        verifyCount: 0,
+        beAwareCount: 0,
+      },
+      myVerification: null,
+      opinionCount: 0,
+    },
   },
-  {
-    ...ExBlock,
-    id: 4,
+  createdBy: {
+    id: 1,
+    userName: 'Admin',
+    primaryProfile: {
+      id: 1,
+      displayName: 'Sigmate',
+      bio: null,
+      profileImage: null,
+      profileImageUrl: null,
+    },
   },
-];
+};
 
-export const InitialKeyInfos: Wiki.KeyInfoType = {
+const InitialKeyInfos: Wiki.KeyInfoType = {
   name: {
     textContent: '',
     id: KeyInfoIndex.Name,
@@ -106,9 +226,9 @@ export const InitialKeyInfos: Wiki.KeyInfoType = {
     id: KeyInfoIndex.Team,
     textContent: '',
   },
-  rugpool: {
+  history: {
     ...ExBlock,
-    id: KeyInfoIndex.Rugpool,
+    id: KeyInfoIndex.History,
     textContent: '',
   },
   category: {
@@ -151,88 +271,72 @@ export const InitialKeyInfos: Wiki.KeyInfoType = {
     id: KeyInfoIndex.OfficialSite,
     textContent: 'https://www.sigmate.io',
   },
-  paymentTokens: {
-    ...ExBlock,
-    id: KeyInfoIndex.Chain,
-    textContent: 'ETH',
-  },
-  marketplace: {
-    ...ExBlock,
-    id: KeyInfoIndex.Marketplace,
-    textContent: '',
-  },
 };
 
-const ExDocument: Wiki.DocumentType = {
-  id: 1,
-  title: '',
-  blocks: ExBlocks,
-  types: ['Game', 'PFP'],
-  keyInfo: InitialKeyInfos,
-  createdBy: ExAuthor,
+export async function getArticleReadData(id: string) {
+  try {
+    const res = await Axios.get(`/wiki/d/${id}`);
+    if (res.status === 200) {
+      const { data } = res.data;
+      const {
+        team,
+        history,
+        category,
+        utility,
+        mintingPriceWl,
+        mintingPricePublic,
+        floorPrice,
+        discordUrl,
+        twitterHandle,
+        websiteUrl,
+      } = data.collection.blocks;
+
+      const document: Wiki.DocumentType = {
+        id: Number.parseInt(id, 10),
+        title: data.title,
+        structure: data.structure,
+        blocks: data.blocks,
+        types: data.categories,
+        keyInfo: {
+          name: {
+            id: data.collection.id,
+            textContent: data.collection.name,
+          },
+          thumbnail: {
+            id: data.collection.id,
+            textContent: data.collection.imageUrl,
+          },
+          team,
+          history,
+          category,
+          utility,
+          mintingPriceWl,
+          mintingPricePublic,
+          floorPrice,
+          discordUrl,
+          twitterHandle,
+          websiteUrl,
+        },
+        createdBy: data.createdBy || null,
+      };
+      return document;
+    }
+    return null;
+  } catch (e: any) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Error while fetching wiki document. ERR: ${
+        (e as AxiosError).response?.status
+      }`
+    );
+    return null;
+  }
+}
+
+export {
+  KeyInfoIndex,
+  KeyInfoTitles,
+  KeyInfoBlockIds,
+  InitialKeyInfos,
+  SigmateDocument,
 };
-
-export const gridAreas = [
-  'Name',
-  'Thumbnail',
-  'Td_Team',
-  'Td_Rugpool',
-  'Td_Category',
-  'Td_Utility',
-  'Td_WLPrice',
-  'Td_PublicPrice',
-  'Td_CurrentPrice',
-  'Td_Discord',
-  'Td_Twitter',
-  'Td_OfficialSite',
-  'Td_Chain',
-  'Td_Marketplace',
-];
-
-export const InitialDocumentBlock: Wiki.DocumentBlockType = {
-  id: Date.now(),
-  element: '',
-  textContent: '',
-  verificationCounts: {
-    verifyCount: 0,
-    beAwareCount: 0,
-  },
-  opinionCount: 0,
-};
-
-export function getAllArticleTitles() {
-  // @todo const titles = fetch....
-  const titles = ['hush', 'empty'];
-
-  return titles.map((title) => {
-    return {
-      params: {
-        title,
-      },
-    };
-  });
-}
-
-export function getArticleReadData(title: string) {
-  // @todo blocks, 검증 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
-  const document: Wiki.DocumentType | null =
-    title === 'empty' ? null : { ...ExDocument, title };
-
-  return {
-    document,
-  };
-}
-
-export function getArticleEditData(title: string) {
-  // @todo blocks 데이터 받아오기 --> blocks: fetch(.../title/...). 없는 글이면 빈 배열 반환.
-  const document: Wiki.DocumentType = { ...ExDocument, title };
-
-  return {
-    document,
-  };
-}
-
-// called when verdict modal is rendered
-export function getVerifyData() {
-  return ExVerdict;
-}

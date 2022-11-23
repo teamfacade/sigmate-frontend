@@ -1,29 +1,56 @@
-import {
-  FormEventHandler,
-  MouseEventHandler,
-  useCallback,
-  useState,
-} from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
-import { SearchUtils, Categories } from 'containers/main/forum/main';
-import { BasicWrapper, PageMoveBtns } from 'components/global';
+import { Categories } from 'containers/main/forum/main';
+import { BasicWrapper, PageMoveBtns, initialSWRData } from 'components/global';
 import useSWR, { Fetcher } from 'swr';
+import { AxiosError } from 'axios';
+import { createNewBlock } from '../../../lib/main/wiki/utils';
 
-const fetcher: Fetcher<Forum.CategoryType[], string> = (url: string) =>
-  Axios.get(url).then((res) => res.data.categories);
+const fetcher: Fetcher<PagedSWRDataType<Forum.CategoryType[]>, string> = async (
+  url: string
+) => {
+  try {
+    const { data, status } = await Axios.get(url);
+    if (status === 200) {
+      let categories: Forum.CategoryType[] = [];
+      const noticeIdx = (data.categories as Forum.CategoryType[]).findIndex(
+        (block) => block.name === 'Notice'
+      );
+      if (noticeIdx === -1) return { data: data.categories, total: 0 };
 
-const limit = 15;
+      /** Make notice forum to go at first */
+      categories.push(data.categories.at(noticeIdx) as Forum.CategoryType);
+      categories = categories.concat(
+        data.categories
+          .slice(0, noticeIdx)
+          .concat(data.categories.slice(noticeIdx + 1))
+      );
+      return { data: categories, total: 0 };
+    }
+    return initialSWRData;
+  } catch (e) {
+    alert(
+      `Error white fetching forum categories. ERR: ${
+        (e as AxiosError).response?.status
+      }`
+    );
+    return initialSWRData;
+  }
+};
+
+const limit = 100;
 
 export default function ForumMain() {
-  const [filter, setFilter] = useState<ForumSearchFilter>('Category');
+  // const [filter, setFilter] = useState<ForumSearchFilter>('Category');
   const [curPage, setCurPage] = useState(1);
 
-  const { data: categories } = useSWR(
+  const { data: categories = initialSWRData } = useSWR(
     `/forum/c?limit=${limit}&page=${curPage}`,
     fetcher
   );
 
+  /*
   const onSearch: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       e.preventDefault();
@@ -36,55 +63,25 @@ export default function ForumMain() {
     },
     [filter]
   );
+  */
 
-  const onClickPageNumBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      setCurPage(parseInt(e.currentTarget.value, 10));
-    },
-    []
-  );
-
-  const onClickPageMoveBtn: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      switch (e.currentTarget.name) {
-        case 'ToFirst':
-          setCurPage(1);
-          break;
-        case 'Prev':
-          setCurPage((cur) => cur - 1);
-          break;
-        case 'Next':
-          setCurPage((cur) => cur + 1);
-          break;
-        case 'ToLast':
-          setCurPage(
-            Math.floor(
-              Number.parseInt(((categories?.length || 0) / limit).toFixed(), 10)
-            ) + 1
-          );
-          break;
-        default:
-          break;
-      }
-    },
-    [categories]
-  );
   return (
     <Wrapper>
-      <SearchUtils setFilter={setFilter} onSearch={onSearch} />
-      {categories && categories.length > 0 ? (
-        <Categories categories={categories || []} />
+      {/* <SearchUtils setFilter={setFilter} onSearch={onSearch} /> */}
+      {categories.data && categories.data.length > 0 ? (
+        <Categories categories={categories.data} />
       ) : (
         <BasicWrapper>
           <LargeText>There's no categories yet : (</LargeText>
         </BasicWrapper>
       )}
-      <PageMoveBtns
-        totalPage={(categories?.length || 0) / limit}
-        curPage={curPage}
-        onClickPageMoveBtn={onClickPageMoveBtn}
-        onClickPageNumBtn={onClickPageNumBtn}
-      />
+      {categories.total > 0 && (
+        <PageMoveBtns
+          totalPage={categories.total}
+          curPage={curPage}
+          setCurPage={setCurPage}
+        />
+      )}
     </Wrapper>
   );
 }

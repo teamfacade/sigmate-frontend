@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components';
 import { Block, Button } from 'components/main/wiki/edit';
 import styles from 'styles/styleLib';
-import Textarea from './TextEdit';
+import { Textarea } from './TextEdit';
 
 type PropsType = {
   title: string;
@@ -20,7 +20,7 @@ type PropsType = {
   onClickSelect: (id: number, tag: string) => void;
 };
 
-export default memo(function Heading({
+export default memo(function EditableTitle({
   title,
   onClickSelect,
   setTitle,
@@ -57,10 +57,10 @@ export default memo(function Heading({
   );
   return (
     <Block id={0} onClickSelect={onClickSelect} isTitle>
-      <Button onClick={onClick} onFocus={onFocus}>
+      <Button name="Title" onClick={onClick} onFocus={onFocus}>
         {showTextarea ? (
-          <TitleTextarea
-            autoFocus
+          <Textarea
+            isTitle
             placeholder={title || `Input the title...`}
             value={value}
             onChange={onChange}
@@ -76,19 +76,14 @@ export default memo(function Heading({
 });
 
 const H1 = memo(styled.h1`
-  height: 45px;
+  display: block;
+  width: 100%;
+  padding-right: 13px;
   margin: 0;
   color: ${styles.colors.headerColor};
   font-size: 40px;
   font-weight: 700;
   line-height: 110%;
   font-family: 'Inter', sans-serif;
+  overflow-wrap: anywhere;
 `);
-
-const TitleTextarea = styled(Textarea)`
-  height: 45px;
-  vertical-align: top;
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 110%;
-`;

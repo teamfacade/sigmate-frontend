@@ -2,28 +2,30 @@ import { memo, MouseEventHandler, useCallback, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
-import {
-  EllipsisText,
-  PFP,
-  Platform,
-  TimeDiff,
-} from 'components/main/wiki/read/sideItems';
+import { MultiLineEllipsis } from 'components/global';
+import { PFP, Platform, TimeDiff } from 'components/main/wiki/read/sideItems';
 import { FullText } from 'components/main/wiki/read/sideItems/modal';
+import dynamic from 'next/dynamic';
 
 type PropsType = {
-  index?: number;
   header: string;
   platform: string;
-  PFPUrl: string;
-  author: string;
+  PFPUrl: string | null;
+  author: string | null;
   timestamp: string;
   content: string;
 };
 
 const maxWord = 190;
 
+const DynamicMarkdown = dynamic(
+  () => import('components/main/wiki/read/MarkdownRendered'),
+  {
+    ssr: false,
+  }
+);
+
 export default memo(function Content({
-  index = -1,
   header,
   platform,
   PFPUrl,
@@ -42,7 +44,7 @@ export default memo(function Content({
     <Wrapper>
       <InfoWrapper>
         {header === 'Debate' ? (
-          <PFP PFPUrl={PFPUrl} />
+          <PFP PFPUrl={PFPUrl || ''} />
         ) : (
           <Platform platform={platform} />
         )}
@@ -52,7 +54,9 @@ export default memo(function Content({
               <Author>{author}</Author>
             </Link>
           ) : (
-            <NoLinkAuthor>{author}</NoLinkAuthor>
+            <NoLinkAuthor>
+              {platform === 't' ? 'Twitter' : 'Discord'}
+            </NoLinkAuthor>
           )}
           <TimeDiff platform={platform} timestamp={timestamp} />
         </InfoInnerWrapper>
@@ -64,12 +68,16 @@ export default memo(function Content({
           showHide={maxWord < content.length}
         />
       ) : (
-        <EllipsisText height="42px" content={content}>
-          <UnfoldBtn onClick={onClick}>
-            {' ... '}
-            <strong>See more</strong>
-          </UnfoldBtn>
-        </EllipsisText>
+        <>
+          <EllipsisText line={2} lineHeight="21px">
+            <DynamicMarkdown content={content} />
+          </EllipsisText>
+          <BtnWrapper>
+            <UnfoldBtn onClick={onClick}>
+              <strong>See more</strong>
+            </UnfoldBtn>
+          </BtnWrapper>
+        </>
       )}
     </Wrapper>
   );
@@ -118,10 +126,16 @@ const NoLinkAuthor = styled(Author)`
   }
 `;
 
+const BtnWrapper = styled.div`
+  position: relative;
+  height: 17px;
+`;
+
 const UnfoldBtn = styled.button`
   position: absolute;
   right: 0;
-  bottom: -2px;
+  bottom: 0;
+  width: fit-content;
   padding: 0;
   margin: 0;
   border: none;
@@ -147,4 +161,12 @@ const UnfoldBtn = styled.button`
       filter: brightness(0.7);
     }
   }
+`;
+
+const EllipsisText = styled(MultiLineEllipsis)`
+  width: 100%;
+  margin: 5px 0 0 0;
+  color: ${styles.colors.logColor};
+  font-size: 13px;
+  font-weight: 300;
 `;

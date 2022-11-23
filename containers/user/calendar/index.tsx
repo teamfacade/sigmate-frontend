@@ -3,7 +3,7 @@ import useSWR, { Fetcher } from 'swr';
 // eslint-disable-next-line import/no-named-default
 import { default as MyCalendar, OnChangeDateCallback } from 'react-calendar';
 import { CSSTransition } from 'react-transition-group';
-import convertDate from 'lib/global/convertDate';
+import convertDate, { changeToUTCinMilli } from 'lib/global/convertDate';
 import { AppDispatch } from 'store/store';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
@@ -18,6 +18,9 @@ const fetcher: Fetcher<
   const action: any = await dispatch(AuthRequiredAxios({ method: 'GET', url }));
   if (action.payload.status === 200) {
     return action.payload.data.data;
+  } if (action.payload.status === 500) {
+    alert(action.payload.data.msg);
+    return {};
   }
   return null;
 };
@@ -33,9 +36,9 @@ export default function Calendar() {
 
   const { data: schedules } = useSWR(
     {
-      url: `/calendar/my/minting?start=${new Date(
-        convertDate(new Date(calDate), 'MonthYear', '.')
-      ).getTime()}`,
+      url: `/calendar/my/minting?start=${changeToUTCinMilli(
+        new Date(convertDate(new Date(calDate), 'MonthYear', '.'))
+      )}`,
       dispatch,
     },
     fetcher

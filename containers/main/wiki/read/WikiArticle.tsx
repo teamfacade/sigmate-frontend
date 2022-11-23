@@ -1,4 +1,11 @@
-import { useState, useCallback, useRef, MouseEventHandler, memo } from 'react';
+import {
+  useState,
+  useCallback,
+  useRef,
+  useMemo,
+  MouseEventHandler,
+  memo,
+} from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
@@ -6,7 +13,7 @@ import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { ReadBlock } from 'containers/main/wiki/read';
 import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
 import { ReadKeyInfo, Title, Types } from 'components/main/wiki/read';
-import styles from 'styles/styleLib';
+import styles, { BlueBtnStyle } from 'styles/styleLib';
 
 type PropsType = {
   document: Wiki.DocumentType;
@@ -16,18 +23,50 @@ export default function WikiArticle({ document }: PropsType) {
   const router = useRouter();
   const { signedIn } = useAppSelector(({ auth }) => auth);
   const { userName } = useAppSelector(({ account }) => account);
+
   const [showModal, setShowModal] = useState<Wiki.ModalDataType>({
-    documentID: document.id,
-    isKeyInfo: false,
-    blockID: -1,
+    blockID: '',
   });
+  const [pending, setPending] = useState<boolean>(false);
   const ModalRef = useRef<HTMLDivElement>(null);
 
+  const VerificationData: Wiki.VerificationType | undefined = useMemo(() => {
+    if (showModal.blockID !== '') {
+      const targetID = Number.parseInt(showModal.blockID, 10);
+      if (Number.isInteger(targetID) && document.blocks) {
+        const targetBlock = Object.values(document.blocks).find(
+          (block) => block.id === Number.parseInt(showModal.blockID, 10)
+        );
+        if (targetBlock)
+          return {
+            verificationCounts: targetBlock.verificationCounts,
+            myVerification: targetBlock.myVerification,
+          };
+      } else if (Number.isNaN(targetID) && document.keyInfo) {
+        const targetBlock: Wiki.DocumentBlockType =
+          document.keyInfo[showModal.blockID];
+        return {
+          verificationCounts: targetBlock.verificationCounts,
+          myVerification: targetBlock.myVerification,
+        };
+      }
+    }
+    return undefined;
+  }, [document, showModal.blockID]);
+
   const onClickEdit: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    if (signedIn && userName) router.push(`/main/wiki-edit/${document.title}`);
+    setPending(true);
+    if (signedIn && userName)
+      router.push(`/main/wiki-edit/${document.id}`).catch((e) => {
+        alert(`Error while routing to edit page: ERR ${e.name}`);
+        setPending(false);
+      });
     else {
       alert('You have to sign in to edit the document.');
-      router.push('/auth');
+      router.push('/auth').catch((e) => {
+        alert(`Error while routing to edit page: ERR ${e.name}`);
+        setPending(false);
+      });
     }
   }, [signedIn, userName, document]);
 
@@ -35,42 +74,50 @@ export default function WikiArticle({ document }: PropsType) {
     () =>
       setShowModal((current) => ({
         ...current,
-        blockID: -1,
+        blockID: '',
       })),
     []
   );
 
   return (
     <Wrapper>
-      <Title title={document.title} />
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Title title={document.title} />
+        <EditBtn disabled={pending} onClick={onClickEdit}>
+          {pending ? '...' : 'Edit'}
+        </EditBtn>
+      </div>
       <Types types={document.types || []} />
       {document.keyInfo && (
         <ReadKeyInfo setShowModal={setShowModal} keyInfo={document.keyInfo} />
       )}
-      {document.blocks?.map((block) => {
-        return (
-          <ReadBlock
-            key={block.id}
-            id={block.id}
-            element={block.element}
-            content={block.textContent}
-            setShowModal={setShowModal}
-            verifications={block.verifications}
-          />
-        );
-      })}
-      <EditBtn onClick={onClickEdit}>Edit</EditBtn>
+      {document.blocks &&
+        document.structure?.map((blockID) => {
+          const block = (
+            document.blocks as StringKeyObj<Wiki.DocumentBlockType>
+          )[blockID.toString(10)];
+          return (
+            <ReadBlock
+              key={block.id}
+              id={block.id}
+              element={block.element}
+              content={block.textContent}
+              setShowModal={setShowModal}
+              verificationCounts={block.verificationCounts}
+              myVerification={block.myVerification}
+              opinionCount={block.opinionCount}
+            />
+          );
+        })}
       <CSSTransition
-        in={showModal.blockID !== -1}
+        in={!!VerificationData}
         timeout={300}
         classNames="show-modal"
         unmountOnExit
         nodeRef={ModalRef}
       >
         <VerdictModal
-          documentID={showModal.documentID}
-          isKeyInfo={showModal.isKeyInfo}
-          blockID={showModal.blockID}
+          verificationData={VerificationData}
           onMouseDown={onMouseDown}
           ref={ModalRef}
         />
@@ -84,16 +131,9 @@ const Wrapper = memo(styled.div`
 `);
 
 const EditBtn = memo(styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
+  ${BlueBtnStyle};
+  flex: 0 1 auto;
   width: 133px;
   height: 45px;
-  border: none;
-  border-radius: 8px;
-  color: #ffffff;
-  background-color: ${styles.colors.emphColor};
-  font-size: 18px;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
+  margin: 0 0 0 10px;
 `);

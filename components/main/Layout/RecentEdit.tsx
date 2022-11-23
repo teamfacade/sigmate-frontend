@@ -5,19 +5,39 @@ import { EditDate } from 'components/main/Layout';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  timestamp: number;
+  timestamp: string;
+  specificDocument: boolean;
+  documentId: number;
   title: string;
+  editorUsername: string;
+  editorDisplayName: string;
 };
 
-export default memo(function RecentEdit({ timestamp, title }: PropsType) {
+export default memo(function RecentEdit({
+  timestamp,
+  specificDocument,
+  documentId,
+  title,
+  editorUsername,
+  editorDisplayName,
+}: PropsType) {
   return (
     <Edit>
+      {specificDocument ? (
+        <Link href={`/main/profile/${editorUsername}`}>
+          <a>
+            <p>{editorDisplayName || editorUsername}</p>
+          </a>
+        </Link>
+      ) : (
+        <Link href={`/main/wiki/${documentId}`}>
+          <a>
+            <p>{title}</p>
+          </a>
+        </Link>
+      )}
+
       <EditDate timestamp={timestamp} />
-      <Link href={`/main/wiki/${title}`}>
-        <a>
-          <p>{title}</p>
-        </a>
-      </Link>
     </Edit>
   );
 });
@@ -42,7 +62,11 @@ const Edit = styled.div`
   }
 
   a p {
-    margin-left: 35px;
+    width: 64px;
+    margin-right: 35px;
     color: ${styles.colors.emphColor};
+    white-space: pre;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;

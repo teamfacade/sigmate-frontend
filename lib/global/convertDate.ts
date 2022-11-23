@@ -1,11 +1,14 @@
+import { DateTime } from 'luxon';
+
 const logFormatter = new Intl.DateTimeFormat('en', {
   month: 'short',
   day: '2-digit',
   year: 'numeric',
   hour: '2-digit',
   minute: '2-digit',
+  timeZone: 'UTC',
   timeZoneName: 'short',
-  hourCycle: 'h24',
+  hourCycle: 'h23',
 });
 
 const MDYFormatter = new Intl.DateTimeFormat('en', {
@@ -80,3 +83,11 @@ export default function convertDate(
   }
   return converted;
 }
+
+function changeToUTCinMilli(date: Date) {
+  let dT = DateTime.fromJSDate(date);
+  dT = dT.setZone('utc', { keepLocalTime: true });
+  return dT.toMillis();
+}
+
+export { changeToUTCinMilli };

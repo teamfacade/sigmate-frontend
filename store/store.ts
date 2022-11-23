@@ -16,8 +16,11 @@ const localSyncMiddleware: Middleware = (store) => (next) => (action) => {
 
 const store: ReturnType<typeof configureStore> = configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(logger, localSyncMiddleware),
+  middleware: (getDefaultMiddleware) => {
+    if (process.env.NODE_ENV !== 'production')
+      return getDefaultMiddleware().concat(logger, localSyncMiddleware);
+    return getDefaultMiddleware().concat(localSyncMiddleware);
+  },
   devTools: process.env.NODE_ENV !== 'production',
 });
 const makeStore: MakeStore<any> = () => store;

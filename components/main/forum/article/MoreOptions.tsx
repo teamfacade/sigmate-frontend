@@ -59,6 +59,7 @@ export default function MoreOptions({
               </OptionBtn>
             </>
           )}
+          {/*
           <OptionBtn
             name={btnName}
             data-article-id={articleID}
@@ -68,6 +69,7 @@ export default function MoreOptions({
           >
             Report
           </OptionBtn>
+          */}
         </>
       )}
     </Wrapper>

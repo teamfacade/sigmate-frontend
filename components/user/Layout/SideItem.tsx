@@ -55,7 +55,8 @@ export default memo(function SideItem({
     >
       <Wrapper name={IconName} Active={Active}>
         <Icon fill={Active ? '#2563EB' : '#DADEE5'} />
-        <p>{`${Content}${Content === 'Points' ? ' / Tokens' : ''}`}</p>
+        {/* <p>{`${Content}${Content === 'Points' ? ' / Tokens' : ''}`}</p> */}
+        <p>{`${Content}`}</p>
       </Wrapper>
     </ClientLink>
   );

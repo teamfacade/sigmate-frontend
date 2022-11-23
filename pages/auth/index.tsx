@@ -21,7 +21,7 @@ export default function AuthPage() {
   }, [router]);
 
   if (signedIn && userName) {
-    router.push('/main/wiki/Sigmate');
+    router.push('/main/recent-edits');
   }
 
   return (

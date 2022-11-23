@@ -12,6 +12,11 @@ type PropsType = {
   onClick: MouseEventHandler<HTMLDivElement>;
 };
 
+// @ts-ignore
+const loaderProp = ({ src }) => {
+  return src;
+};
+
 export default memo(function MintingItem({
   name,
   category,
@@ -22,8 +27,10 @@ export default memo(function MintingItem({
     <Wrapper data-name={name} onClick={onClick}>
       <ImageWrapper width="327px" height="115px">
         <Image
+          loader={loaderProp}
           src={thumbnailURL || UserImageEx}
           alt={`${name} Project Thumbnail`}
+          objectFit="cover"
           layout="fill"
         />
       </ImageWrapper>

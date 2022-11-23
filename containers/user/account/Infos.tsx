@@ -1,8 +1,16 @@
-import { memo, useState, useRef, useCallback, MouseEventHandler } from 'react';
-import { useRouter } from 'next/router';
+import {
+  memo,
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  MouseEventHandler,
+  SetStateAction,
+  Dispatch,
+} from 'react';
 import styled from 'styled-components';
 import { useAppSelector, useAppDispatch } from 'hooks/reduxStoreHooks';
-import { AuthRequiredAxios, signOut } from 'store/modules/authSlice';
+import { AuthRequiredAxios } from 'store/modules/authSlice';
 import {
   setUserName,
   setDisplayName,
@@ -24,6 +32,7 @@ const usernameRules: StringKeyObj<string> = {
   REQUIRED: "Username can't be empty",
   TOO_SHORT: 'Username should be more than 2 characters',
   TOO_LONG: 'Username should be less than 17 characters',
+  NOT_ALPHA: 'We only allow alphabet characters and whitespaces',
   ERR_USERNAME_ILLEGAL_CHARS:
     'We only allow alphanumeric characters, underscores, dashes, and periods',
   ERR_USERNAME_CONSECUTIVE_SPECIAL_CHARS:
@@ -37,8 +46,11 @@ const usernameRules: StringKeyObj<string> = {
   DUPLICATE: 'This name is already being used by someone else.',
 };
 
-export default function Infos() {
-  const router = useRouter();
+type PropsType = {
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+};
+
+export default function Infos({ setShowModal }: PropsType) {
   const dispatch = useAppDispatch();
   const { userName, isTwitterHandlePublic, isDiscordAccountPublic } =
     useAppSelector(({ account }) => account);
@@ -48,6 +60,7 @@ export default function Infos() {
 
   const [edit, setEdit] = useState(false);
   const [usernameEditResult, setUsernameEditResult] = useState('');
+  const [displayNameEditResult, setDisplayNameEditResult] = useState('');
   const [twitterPublic, setTwitterPublic] = useState<boolean>(
     isTwitterHandlePublic
   );
@@ -80,8 +93,8 @@ export default function Infos() {
         if (!edit) {
           setEdit(true);
         } else {
-          setEdit(false);
           // update user name
+          setUsernameEditResult('');
           if (nameRef && nameRef.current && nameRef.current.value) {
             const newUserName = nameRef.current.value;
             dispatch(
@@ -98,13 +111,17 @@ export default function Infos() {
                 setUsernameEditResult('');
               } else if (action.payload.data.validationErrors[0]) {
                 setUsernameEditResult(
-                  usernameRules[action.payload.data.validationErrors[0].msg]
+                  `${
+                    usernameRules[action.payload.data.validationErrors[0].msg]
+                  }. Not saved.`
                 );
-              }
+              } else if (action.payload.status === 500)
+                alert(action.payload.data.msg);
             });
           }
 
           // update display name and bio
+          setDisplayNameEditResult('');
           if (displayNameRef?.current?.value || bioRef?.current?.value) {
             const profileUpdate: any = {};
 
@@ -125,8 +142,14 @@ export default function Infos() {
                 if (profileUpdate.bio) dispatch(setBio(profileUpdate.bio));
                 if (profileUpdate.displayName)
                   dispatch(setDisplayName(profileUpdate.displayName));
+              } else if (action.payload.data.validationErrors[0]) {
+                setDisplayNameEditResult(
+                  `${
+                    usernameRules[action.payload.data.validationErrors[0].msg]
+                  }. Not saved.`
+                );
               } else {
-                alert(action.payload.data.validationErrors[0].msg);
+                alert(action.payload.data.msg);
               }
             });
           }
@@ -149,29 +172,15 @@ export default function Infos() {
                   discord: discordPublic,
                 })
               );
-            } else {
+              setEdit(false);
+            } else if (action.payload.status === 500)
+              alert(action.payload.data.msg);
+            else if (action.payload.status !== 401) {
               alert(action.payload.data.validationErrors[0].msg);
             }
           });
         }
-      } else {
-        dispatch(
-          AuthRequiredAxios({
-            method: 'DELETE',
-            url: '/user',
-          })
-        ).then(async (action: any) => {
-          if (action.payload.status === 204) {
-            dispatch(signOut());
-            alert('Deleted your account.');
-            await router.push('/main/wiki/Sigmate');
-          } else {
-            alert(
-              `Error while deleting your account. ERR: ${action.payload.status}`
-            );
-          }
-        });
-      }
+      } else setShowModal(true);
     },
     [edit, twitterPublic, discordPublic]
   );
@@ -180,7 +189,7 @@ export default function Infos() {
     <BasicWrapper style={{ marginTop: '20px' }}>
       <SectionWrapper header="Account Setup" marginBottom="25px">
         <Wrapper>
-          <PFP level={12.3} />
+          {/* <PFP level={12.3} /> */}
           <InfoWrapper>
             <InfoItem
               edit={edit}
@@ -194,7 +203,9 @@ export default function Infos() {
               edit={edit}
               header="Display Name"
               content={displayName}
+              isValid={displayNameEditResult === ''}
               description={
+                displayNameEditResult ||
                 'Your display name will be used in places where your profile needs to be displayed. If left blank, your username will be used instead.\r\nOther users will still be able to see your username in your profile page.'
               }
               ref={displayNameRef}
@@ -207,12 +218,14 @@ export default function Infos() {
               description="Your bio will be publicly available in your profile page."
               ref={bioRef}
             />
+            {/* }
             <SocialsPublicityToggles
               edit={edit}
               twitterPublic={twitterPublic}
               discordPublic={discordPublic}
               onToggle={onToggle}
             />
+            */}
             <BtnWrapper>
               <EditBtn name="edit" onClick={onClick}>
                 {edit ? 'Save' : 'Edit'}
@@ -229,7 +242,8 @@ export default function Infos() {
 }
 
 const Wrapper = styled.div`
-  display: flex;
+  // display: flex;
+  display: block;
 
   img {
     border-radius: 50%;
@@ -237,7 +251,8 @@ const Wrapper = styled.div`
 `;
 
 const InfoWrapper = memo(styled.div`
-  margin-left: 60px;
+  // margin-left: 60px;
+  margin-left: 0;
 `);
 
 const BtnWrapper = styled.div`

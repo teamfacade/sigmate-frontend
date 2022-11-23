@@ -1,13 +1,17 @@
-import { memo, FormEventHandler } from 'react';
+import { memo, FormEventHandler, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 import BlueBtn from 'components/main/wiki/BlueBtn';
 
 type PropsType = {
+  basicPending: boolean;
   onSubmit: FormEventHandler<HTMLFormElement>;
 };
 
-export default memo(function MarketPlaceUrlInput({ onSubmit }: PropsType) {
+export default memo(function MarketPlaceUrlInput({
+  basicPending,
+  onSubmit,
+}: PropsType) {
   return (
     <form onSubmit={onSubmit}>
       <Wrapper>
@@ -18,7 +22,9 @@ export default memo(function MarketPlaceUrlInput({ onSubmit }: PropsType) {
           placeholder="https://opensea.io/collection/..."
           required
         />
-        <SubmitBtn width="135px">Submit</SubmitBtn>
+        <SubmitBtn width="135px" disabled={basicPending}>
+          {basicPending ? '...' : 'Submit'}
+        </SubmitBtn>
       </Wrapper>
     </form>
   );
@@ -48,6 +54,14 @@ const Input = styled.input`
   ${textStyle};
   border-radius: 8px;
   border: 1px solid ${styles.colors.lightBorderColor};
+
+  ::placeholder {
+    color: ${styles.colors.lighterTextColor};
+  }
+
+  :focus::placeholder {
+    color: transparent;
+  }
 `;
 
 const SubmitBtn = styled(BlueBtn)`

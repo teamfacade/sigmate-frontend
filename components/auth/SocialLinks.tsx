@@ -12,7 +12,7 @@ export default function SocialLinks() {
         >
           <SNSBtn platform="Twitter" />
         </a>
-        <a href="https://t.me/officialsigmate" target="_blank" rel="noreferrer">
+        <a href="https://t.me/sigmateproject" target="_blank" rel="noreferrer">
           <SNSBtn platform="Telegram" />
         </a>
         <a

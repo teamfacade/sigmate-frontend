@@ -6,38 +6,207 @@ export default memo(function ExternalLinks() {
   return (
     <Wrapper>
       <ul>
-        <li>User Guide</li>
-        <li>Wiki</li>
-        <li>Verdict</li>
-        <li>Opinion</li>
-        <li>Thread</li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/user-guide"
+            target="_blank"
+            rel="noreferrer"
+          >
+            User Guide
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features/wiki"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Wiki
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features/community-verdict"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Verdict
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features/opinion-and-debate"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Opinion
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features/threads"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Thread
+          </a>
+        </li>
       </ul>
       <ul>
-        <li>Features</li>
-        <li>What's happening</li>
-        <li>Hype</li>
-        <li>Calendar</li>
-        <li>Draw</li>
-        <li>Index</li>
-        <li>Report</li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Features
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features/whats-happening"
+            target="_blank"
+            rel="noreferrer"
+          >
+            What's happening
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features/hype"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Hype
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features/calendar"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Calendar
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features/draw"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Draw
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features/index"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Index
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/features/research-reports"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Report
+          </a>
+        </li>
       </ul>
       <ul>
+        {/* <li><a href={""} target={"_blank"}>Notice</a></li> */}
         <li>Notice</li>
       </ul>
       <ul>
         <li>Support</li>
-        <li>FAQ</li>
-        <li>Docs</li>
-        <li>Listing Request</li>
-        <li>Advertise</li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/sigmate/faq"
+            target="_blank"
+            rel="noreferrer"
+          >
+            FAQ
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Docs
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/support/contact"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Listing Request
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://forms.gle/DabTc76x9M48m7YF6"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Advertise
+          </a>
+        </li>
       </ul>
       <ul>
         <li>Company</li>
-        <li>About Sigmate</li>
-        <li>TOS</li>
-        <li>Privacy</li>
-        <li>Contact us</li>
-        <li>Disclaimer</li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/introduction/why-sigmate"
+            target="_blank"
+            rel="noreferrer"
+          >
+            About Sigmate
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/support/terms-of-use"
+            target="_blank"
+            rel="noreferrer"
+          >
+            TOS
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/support/privacy-policy"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Privacy
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/support/contact"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Contact us
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://sigmate.gitbook.io/sigmate/support/disclaimer"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Disclaimer
+          </a>
+        </li>
       </ul>
     </Wrapper>
   );
@@ -46,8 +215,7 @@ export default memo(function ExternalLinks() {
 const Wrapper = styled.div`
   @media (min-width: 729px) {
     display: flex;
-    justify-content: center;
-    margin: auto;
+    justify-content: start;
 
     ul:not(:first-child) {
       margin-left: 40px;
@@ -75,5 +243,9 @@ const Wrapper = styled.div`
     color: ${styles.colors.lightTextColor};
     font-size: 13px;
     font-family: 'Inter', sans-serif;
+
+    a {
+      color: inherit;
+    }
   }
 `;

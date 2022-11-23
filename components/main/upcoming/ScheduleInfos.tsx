@@ -1,10 +1,11 @@
 import { memo } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
-import { Etherium } from 'public/Icons/main/upcoming';
+import { Etherium, Klay } from 'public/Icons/Symbol';
 
 const SymbolIcons: StringKeyObj<typeof Etherium> = {
   ETH: Etherium,
+  KLAY: Klay,
 };
 
 type PropsType = {
@@ -22,7 +23,7 @@ export default memo(function ScheduleInfos({
   symbol = 'ETH',
   tier,
 }: PropsType) {
-  const Symbol = SymbolIcons[symbol];
+  const Symbol = symbol === 'ETC' ? '' : SymbolIcons[symbol];
 
   return (
     <Wrapper>
@@ -30,8 +31,8 @@ export default memo(function ScheduleInfos({
       <Collection>{category}</Collection>
       <PriceWrapper>
         <InfoText>Price: </InfoText>
-        <Symbol />
-        <InfoText>{price}</InfoText>
+        {symbol === 'ETC' ? '' : <Symbol />}
+        <InfoText>{price || ' TBA'}</InfoText>
       </PriceWrapper>
       <InfoText>{`Tier: ${tier}`}</InfoText>
     </Wrapper>
@@ -66,6 +67,7 @@ const InfoText = styled.p`
   font-size: 16px;
   font-weight: 900;
   line-height: 140%;
+  white-space: pre;
 `;
 
 const PriceWrapper = styled.div`
@@ -75,7 +77,6 @@ const PriceWrapper = styled.div`
 
   svg {
     position: relative;
-    top: 2px;
-    margin-left: 8px;
+    margin: 0 2px 0 8px;
   }
 `;

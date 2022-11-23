@@ -5,32 +5,29 @@ import convertDate from 'lib/global/convertDate';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  timestamp: number;
+  id: number;
   username: string;
-  amount: string;
+  displayName: string;
+  createdAt: string;
 };
 
 // @todo username에서 프로필 페이지로의 링크 필요
 export default memo(function LogItem({
-  timestamp,
+  id,
   username,
-  amount,
+  displayName,
+  createdAt,
 }: PropsType) {
-  const time = useMemo(
-    () => convertDate(new Date(timestamp), 'time', undefined),
-    [timestamp]
-  );
-
   return (
     <tbody>
       <tr>
-        <td>{time}</td>
+        <td>{id}</td>
         <ProfileLink>
           <Link href={`/main/profile/${username}`}>
-            <a>{username}</a>
+            <a>{displayName}</a>
           </Link>
         </ProfileLink>
-        <td>{`${amount} points`}</td>
+        <td>{createdAt}</td>
       </tr>
     </tbody>
   );

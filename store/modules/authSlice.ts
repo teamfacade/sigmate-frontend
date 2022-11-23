@@ -26,9 +26,18 @@ export const signOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
 
 export const AuthRequiredAxios = createAsyncThunk<
   Promise<any>,
-  { method: string; url: string; data?: any },
+  { method: string; url: string; data?: any; retryCount?: number },
   { dispatch: AppDispatch; state: ReduxState.RootStateType }
->('auth/axios', async ({ method, url, data }, ThunkAPI) => {
+>('auth/axios', async ({ method, url, data, retryCount = 0 }, ThunkAPI) => {
+  if (retryCount > 1) {
+    return {
+      status: 500,
+      data: {
+        msg: 'Unexpected error occurred.\r\nPlease report this bug to out dev team.',
+      },
+    };
+  }
+
   const config = useTokenAuth(ThunkAPI.getState().auth.accessToken);
   let response: any = { status: 200 };
   try {
@@ -45,6 +54,9 @@ export const AuthRequiredAxios = createAsyncThunk<
       case 'DELETE':
         response = await Axios.delete(url, config);
         break;
+      case 'PUT':
+        response = await Axios.put(url, data, config);
+        break;
       default:
         break;
     }
@@ -55,7 +67,7 @@ export const AuthRequiredAxios = createAsyncThunk<
   } catch (e: any) {
     if (e.response.status === 401) {
       try {
-        const { result, accessToken, refreshToken } = await RenewAccessToken(
+        const { result, accessToken } = await RenewAccessToken(
           ThunkAPI.getState().auth.refreshToken,
           config
         );
@@ -69,13 +81,9 @@ export const AuthRequiredAxios = createAsyncThunk<
           };
         }
         if (result === 'Success' && accessToken) {
-          if (refreshToken)
-            await ThunkAPI.dispatch(
-              setAuthTokens({ accessToken, refreshToken })
-            );
-          else await ThunkAPI.dispatch(setAccessToken({ accessToken }));
+          await ThunkAPI.dispatch(setAccessToken({ accessToken }));
           const action: any = await ThunkAPI.dispatch(
-            AuthRequiredAxios({ method, url, data })
+            AuthRequiredAxios({ method, url, data, retryCount: retryCount + 1 })
           );
           return {
             status: action.payload.status,

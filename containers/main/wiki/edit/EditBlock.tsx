@@ -30,14 +30,6 @@ export default memo(function EditBlock({
 }: PropsType) {
   const [showInput, setShowInput] = useState(false);
   const [value, setValue] = useState(content);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (showInput && textareaRef.current) {
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-      setValue(textareaRef.current.value);
-    }
-  }, [textareaRef, showInput]);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     e.preventDefault();
@@ -72,6 +64,7 @@ export default memo(function EditBlock({
     [id, updateBlockContent]
   );
 
+  /** Textarea의 높이가 줄이 늘어나면 똑같이 늘어나도록 해줌 */
   const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {
     e.target.style.height = `${e.target.scrollHeight}px`;
     setValue(e.currentTarget.value);
@@ -88,7 +81,6 @@ export default memo(function EditBlock({
           onBlur={onBlur}
           onKeyDown={onKeyDown}
           onChange={onChange}
-          ref={textareaRef}
         />
       </Button>
     </Block>

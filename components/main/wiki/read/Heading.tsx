@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
 

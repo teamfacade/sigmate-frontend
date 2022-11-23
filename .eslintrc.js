@@ -48,6 +48,7 @@ module.exports = {
     'prefer-promise-reject-errors': 'off',
     'prettier/prettier': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   globals: {
     JSX: true,

@@ -60,14 +60,15 @@ const FlexWrapper = styled.div`
   }
 
   p {
-    margin: 0;
+    margin: 0 16px 0 0;
     color: ${styles.colors.logColor};
     font-size: 18px;
   }
 
   button {
-    width: 255px;
-    height: 41px;
+    flex: 0 0 auto;
+    width: 200px;
+    height: 40px;
     border: none;
     border-radius: 8px;
     background-color: ${styles.colors.emphColor};

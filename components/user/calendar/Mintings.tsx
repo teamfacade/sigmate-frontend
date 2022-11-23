@@ -19,7 +19,11 @@ export default function Mintings({ mintings, onClickMintItem }: PropsType) {
               key={minting.id}
               name={minting.name}
               category={minting.category || ''}
-              thumbnailURL={minting.collection.imageUrl || ''}
+              thumbnailURL={
+                minting.collection.bannerImageUrl ||
+                minting.collection.imageUrl ||
+                ''
+              }
               onClick={onClickMintItem}
             />
           );

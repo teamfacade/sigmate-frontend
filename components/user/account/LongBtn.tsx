@@ -8,6 +8,7 @@ type ButtonStylesType = {
   color: string;
 };
 
+/*
 const Colors: StringKeyObj<ButtonStylesType> = {
   Twitter: {
     border: '#D3E8FB',
@@ -35,9 +36,38 @@ const Colors: StringKeyObj<ButtonStylesType> = {
     color: '#98a2b2',
   },
 };
+ */
+
+const Colors: StringKeyObj<ButtonStylesType> = {
+  Twitter: {
+    border: styles.colors.lightBorderColor,
+    bgColor: styles.colors.globalBackgroundColor,
+    color: '#98a2b2',
+  },
+  Discord: {
+    border: styles.colors.lightBorderColor,
+    bgColor: styles.colors.globalBackgroundColor,
+    color: '#98a2b2',
+  },
+  Google: {
+    border: styles.colors.lightBorderColor,
+    bgColor: styles.colors.globalBackgroundColor,
+    color: '#98a2b2',
+  },
+  Metamask: {
+    border: '#F19C4A',
+    bgColor: '#FFF6D8',
+    color: '#F6851B',
+  },
+  ComingSoon: {
+    border: styles.colors.lightBorderColor,
+    bgColor: styles.colors.globalBackgroundColor,
+    color: '#98a2b2',
+  },
+};
 
 const LongBtn = styled.button<{ name: string; width?: string }>`
-  width: ${({ width }) => (width || '465px')};
+  width: ${({ width }) => width || '465px'};
   height: 40px;
   padding: 7px 0 5px;
   border-radius: 8px;
@@ -45,6 +75,10 @@ const LongBtn = styled.button<{ name: string; width?: string }>`
   background-color: ${({ name }) => Colors[name].bgColor};
   color: ${({ name }) => Colors[name].color};
   font-size: 15px;
+
+  :hover {
+    cursor: ${({ name }) => (name !== 'Metamask' ? 'not-allowed' : 'pointer')};
+  }
 
   & + & {
     margin-top: 9px;

@@ -27,7 +27,7 @@ export default function MainLayout({
             </MainContentWrapper>
           </Section>
           <Aside>
-            <CheckInBtn>Daily Check-In</CheckInBtn>
+            {/* <CheckInBtn>Daily Check-In</CheckInBtn> */}
             <Search placeholder="Search content..." onSubmit={onSearch} />
             <SideContentWrapper>
               <SideContent />
@@ -41,7 +41,7 @@ export default function MainLayout({
 
 const Wrapper = styled.div`
   display: inline-flex;
-  justify-content: space-evenly;
+  justify-content: center;
   width: 100%;
   margin: 0 auto 30px auto;
   flex-wrap: wrap;
@@ -52,13 +52,18 @@ const Wrapper = styled.div`
 `;
 
 const Section = styled.section`
-  width: calc(100vw - 362px);
+  @media (min-width: 729px) {
+    width: calc(100vw - 362px);
+    max-width: 1080px;
+    margin-right: 40px;
+  }
 
   @media (max-width: 728px) {
-    width: unset;
     padding: 0 20px;
     margin: auto;
   }
+
+  min-height: calc(100vh - 100px);
 `;
 
 const Aside = styled.aside`

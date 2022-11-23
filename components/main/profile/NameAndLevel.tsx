@@ -7,19 +7,17 @@ type PropsType = {
   level: number;
 };
 
-export default function NameAndLevel({
-  username,
-  displayName,
-  level,
-}: PropsType) {
+export default function NameAndLevel({ username, displayName }: PropsType) {
   return (
     <Wrapper>
       <Username>{username}</Username>
       <DisplayName>{displayName}</DisplayName>
+      {/*
       <LvWrapper>
         <p>{`Lv ${Math.floor(level)} / ${(level * 100) % 100}%`}</p>
         <progress max="100" value={(level * 100) % 100} />
       </LvWrapper>
+      */}
     </Wrapper>
   );
 }
@@ -48,6 +46,7 @@ const DisplayName = styled.p`
   line-height: 160%;
 `;
 
+/*
 const LvWrapper = styled.div`
   p {
     margin: 15px 0 0 0;
@@ -73,3 +72,4 @@ const LvWrapper = styled.div`
     }
   }
 `;
+*/

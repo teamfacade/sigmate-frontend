@@ -1,24 +1,19 @@
-import {
-  memo,
-  ChangeEventHandler,
-  MouseEventHandler,
-  FormEventHandler,
-} from 'react';
+import { memo, ChangeEventHandler } from 'react';
 import styled from 'styled-components';
-import { DisclaimWrapper, Disclaimer } from 'components/main/wiki/edit';
+import { DisclaimWrapper } from 'components/main/wiki/edit';
 import BlueBtn from 'components/main/wiki/BlueBtn';
 import styles from 'styles/styleLib';
 
 type PropsType = {
   summary: string;
+  pending: boolean;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
-  onSubmit: FormEventHandler<HTMLFormElement>;
 };
 
 export default memo(function Summary({
   summary,
+  pending,
   onChange,
-  onSubmit,
 }: PropsType) {
   return (
     <Wrapper>
@@ -28,21 +23,26 @@ export default memo(function Summary({
         value={summary}
         onChange={onChange}
       />
-      <form onSubmit={onSubmit}>
-        <DisclaimWrapper>
-          <input type="checkbox" required />
-          <span>
-            {'By publishing new article, you agree to the '}
-            <a href="https://www.naver.com" target="_blank" rel="noreferrer">
-              Terms of Use
-            </a>
-            , and you irrevocably agree to release your contribution under the
-            CC BY-SA 3.0 License. You agree that a hyperlink or URL is
-            sufficient attribution under the Creative Commons license.
-          </span>
-        </DisclaimWrapper>
-        <BlueBtn type="submit">Save</BlueBtn>
-      </form>
+
+      <DisclaimWrapper>
+        <input id="TOS" type="checkbox" required />
+        <label htmlFor="TOS">
+          {'By publishing new article, you agree to the '}
+          <a
+            href="https://sigmate.gitbook.io/sigmate/support/terms-of-use"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Terms of Service
+          </a>
+          , and you irrevocably agree to release your contribution under the CC
+          BY-SA 3.0 License. You agree that a hyperlink or URL is sufficient
+          attribution under the Creative Commons license.
+        </label>
+      </DisclaimWrapper>
+      <BlueBtn type="submit" disabled={pending}>
+        {pending ? '...' : 'Save'}
+      </BlueBtn>
     </Wrapper>
   );
 });

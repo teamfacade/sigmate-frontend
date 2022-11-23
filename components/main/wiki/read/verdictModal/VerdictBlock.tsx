@@ -15,74 +15,84 @@ import styles from 'styles/styleLib';
 type PropsType = {
   id: number;
   setShowModal: Dispatch<SetStateAction<Wiki.ModalDataType>>;
-  verifications?: Wiki.BlockVerificationType;
-  padding?: boolean;
+  verificationCounts: Wiki.VerificationCountType;
+  myVerification: boolean | null;
+  opinionCount: number;
+  isKeyInfo?: string;
   children: ReactNode;
 };
 
 export default memo(function VerdictBlock({
   id,
   setShowModal,
-  verifications,
-  padding = true,
+  verificationCounts,
+  myVerification,
+  opinionCount,
+  isKeyInfo = undefined,
   children,
 }: PropsType) {
   const [showBtn, setShowBtn] = useState(false);
   const [commented, setCommented] = useState(false);
-  const [vote, setVote] = useState<Wiki.VerificationType>(
-    verifications?.verification as Wiki.VerificationType
-  );
+  const [vote, setVote] = useState<Wiki.VerificationType>({
+    verificationCounts,
+    myVerification,
+  });
 
   const onClickVerdict: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       const { name } = e.currentTarget;
       setVote((current) => {
-        const timestamp = new Date(Date.now()).toISOString();
-
         // user voted first time
-        if (current.isUpvote === null) {
+        if (current.myVerification === null) {
           return {
-            ...current,
-            verify: current.verify + (name === 'Verify' ? 1 : 0),
-            warning: current.warning + (name === 'Warning' ? 1 : 0),
-            isUpvote: name === 'Verify',
-            timestamp,
+            verificationCounts: {
+              verifyCount:
+                current.verificationCounts.verifyCount +
+                (name === 'Verify' ? 1 : 0),
+              beAwareCount:
+                current.verificationCounts.beAwareCount +
+                (name === 'Warning' ? 1 : 0),
+            },
+            myVerification: name === 'Verify',
           };
         }
         if (name === 'Verify') {
           // canceled verify
-          if (current.isUpvote) {
+          if (current.myVerification) {
             return {
               ...current,
-              verify: current.verify - 1,
-              isUpvote: null,
-              timestamp,
+              verificationCounts: {
+                ...current.verificationCounts,
+                verifyCount: current.verificationCounts.verifyCount - 1,
+              },
+              myVerification: null,
             };
           }
           return {
-            ...current,
-            verify: current.verify + 1,
-            warning: current.warning - 1,
-            isUpvote: true,
-            timestamp,
+            verificationCounts: {
+              verifyCount: current.verificationCounts.verifyCount + 1,
+              beAwareCount: current.verificationCounts.beAwareCount - 1,
+            },
+            myVerification: true,
           };
         }
-        if (current.isUpvote) {
+        // name === 'BeAware'
+        if (current.myVerification) {
           return {
-            ...current,
-            verify: current.verify - 1,
-            warning: current.warning + 1,
-            isUpvote: false,
-            timestamp,
+            verificationCounts: {
+              verifyCount: current.verificationCounts.verifyCount - 1,
+              beAwareCount: current.verificationCounts.beAwareCount + 1,
+            },
+            myVerification: false,
           };
         }
         // canceled warning
-
         return {
-          ...current,
-          warning: current.warning - 1,
-          isUpvote: null,
-          timestamp,
+          verificationCounts: {
+            ...current.verificationCounts,
+            beAwareCount: current.verificationCounts.beAwareCount - 1,
+          },
+          myVerification: null,
         };
       });
     },
@@ -108,8 +118,8 @@ export default memo(function VerdictBlock({
           setShowBtn(false);
           setShowModal((current) => ({
             ...current,
-            isKeyInfo: !padding,
-            blockID: id,
+            isKeyInfo: !!isKeyInfo,
+            blockID: isKeyInfo || id.toString(10),
           }));
           break;
         default:
@@ -121,8 +131,8 @@ export default memo(function VerdictBlock({
 
   const percentage = useMemo(() => {
     if (vote) {
-      const { verify, warning } = vote;
-      return ((verify / (verify + warning)) * 100).toFixed(1);
+      const { verifyCount, beAwareCount } = vote.verificationCounts;
+      return ((verifyCount / (verifyCount + beAwareCount)) * 100).toFixed(1);
     }
     return '0';
   }, [vote]);
@@ -131,7 +141,7 @@ export default memo(function VerdictBlock({
     <Wrapper
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      padding={padding}
+      isKeyInfo={!!isKeyInfo}
       percentage={Number.parseInt(percentage, 10)}
     >
       {children}
@@ -140,22 +150,24 @@ export default memo(function VerdictBlock({
           <VerdictBtn
             onClick={onClickVerdict}
             name="Verify"
-            content={vote.verify.toString(10)}
-            isUpvote={vote.isUpvote}
+            content={vote.verificationCounts.verifyCount.toString(10)}
+            isUpvote={vote.myVerification}
           />
           <VerdictBtn
             onClick={onClickVerdict}
             name="Warning"
-            content={vote.warning.toString(10)}
-            isUpvote={vote.isUpvote}
+            content={vote.verificationCounts.beAwareCount.toString(10)}
+            isUpvote={vote.myVerification}
           />
+          {/*
           <VerdictBtn
             onClick={onClick}
             name="Comment"
-            content={verifications?.comments.length.toString(10)}
-            isUpvote={vote.isUpvote}
+            content={opinionCount.toString(10)}
+            isUpvote={null}
             commented={commented}
           />
+          */}
           <VerdictBtn onClick={onClick} name="More" isUpvote={null} />
         </BtnWrapper>
       )}
@@ -163,9 +175,13 @@ export default memo(function VerdictBlock({
   );
 });
 
-const Wrapper = styled.div<{ padding: boolean; percentage: number }>`
+const Wrapper = styled.div<{ isKeyInfo: boolean; percentage: number }>`
   position: relative;
-  padding: ${({ padding }) => (padding ? '20px' : '0')};
+  ${({ isKeyInfo }) => {
+    if (isKeyInfo)
+      return `width: 100%; height: 100%; display: flex; align-items: center;`;
+    return `padding: 20px;`;
+  }};
   border-left: 4px solid
     ${({ percentage }) => {
       if (percentage > 50)

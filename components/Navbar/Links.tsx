@@ -17,15 +17,25 @@ export default memo(function Links({ onClickShowMenu }: PropsType) {
         </Link>
       </li>
       <li>
+        <Link href="/main/forum">
+          <a onClick={onClickShowMenu}>Forum</a>
+        </Link>
+      </li>
+      <li>
         <Link href="/main/upcoming">
           <a onClick={onClickShowMenu}>Upcoming</a>
         </Link>
       </li>
       <li>
-        <Link href="/main/forum">
-          <a onClick={onClickShowMenu}>Forum</a>
+        <Link href="/main/leaderboard">
+          <a onClick={onClickShowMenu}>Leaderboard</a>
         </Link>
       </li>
+      {/*
+      <li>
+        <a>Event</a>
+      </li>
+      */}
     </LinksWrapper>
   );
 });
@@ -36,7 +46,7 @@ const LinksWrapper = styled.ul`
   height: 100%;
   padding: 0;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1280px) {
     flex-direction: column;
     align-items: flex-start;
     width: 250px;
@@ -53,10 +63,7 @@ const LinksWrapper = styled.ul`
 
   li {
     list-style-type: none;
-
-    :not(:first-child) {
-      margin-left: 60px;
-    }
+    margin-left: 60px;
   }
 
   a {

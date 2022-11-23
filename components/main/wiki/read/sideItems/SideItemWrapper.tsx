@@ -15,7 +15,7 @@ type PropsType = {
 };
 
 export default memo(function SideItemWrapper({ header, children }: PropsType) {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(header === "What's happening");
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(
     () => setShow((current) => !current),
     []

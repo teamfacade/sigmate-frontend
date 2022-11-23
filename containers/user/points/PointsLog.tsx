@@ -8,7 +8,7 @@ type PropsType = {
 
 export default function PointsLog({ logs }: PropsType) {
   return (
-    <LogTable>
+    <LogTable gap="11.5vw">
       <LogHead />
       {logs.map((log) => {
         return (

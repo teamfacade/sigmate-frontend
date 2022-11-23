@@ -9,7 +9,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/user-guide"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             User Guide
           </a>
@@ -17,7 +18,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features/wiki"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Wiki
           </a>
@@ -25,7 +27,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features/community-verdict"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Verdict
           </a>
@@ -33,7 +36,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features/opinion-and-debate"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Opinion
           </a>
@@ -41,7 +45,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features/threads"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Thread
           </a>
@@ -51,7 +56,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Features
           </a>
@@ -59,7 +65,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features/whats-happening"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             What's happening
           </a>
@@ -67,7 +74,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features/hype"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Hype
           </a>
@@ -75,7 +83,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features/calendar"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Calendar
           </a>
@@ -83,7 +92,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features/draw"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Draw
           </a>
@@ -91,7 +101,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features/index"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Index
           </a>
@@ -99,7 +110,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/features/research-reports"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Report
           </a>
@@ -114,26 +126,36 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/sigmate/faq"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             FAQ
           </a>
         </li>
         <li>
-          <a href="https://sigmate.gitbook.io/sigmate" target="_blank" rel="noreferrer">
+          <a
+            href="https://sigmate.gitbook.io/sigmate"
+            target="_blank"
+            rel="noreferrer"
+          >
             Docs
           </a>
         </li>
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/support/contact"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Listing Request
           </a>
         </li>
         <li>
-          <a href="https://forms.gle/DabTc76x9M48m7YF6" target="_blank" rel="noreferrer">
+          <a
+            href="https://forms.gle/DabTc76x9M48m7YF6"
+            target="_blank"
+            rel="noreferrer"
+          >
             Advertise
           </a>
         </li>
@@ -143,7 +165,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/introduction/why-sigmate"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             About Sigmate
           </a>
@@ -151,7 +174,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/support/terms-of-use"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             TOS
           </a>
@@ -159,7 +183,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/support/privacy-policy"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Privacy
           </a>
@@ -167,7 +192,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/support/contact"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Contact us
           </a>
@@ -175,7 +201,8 @@ export default memo(function ExternalLinks() {
         <li>
           <a
             href="https://sigmate.gitbook.io/sigmate/support/disclaimer"
-            target="_blank" rel="noreferrer"
+            target="_blank"
+            rel="noreferrer"
           >
             Disclaimer
           </a>
@@ -219,7 +246,6 @@ const Wrapper = styled.div`
 
     a {
       color: inherit;
-      text-decoration: underline;
     }
   }
 `;

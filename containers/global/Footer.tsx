@@ -11,11 +11,11 @@ export default memo(function Footer() {
         <Wrapper>
           <Logo>Sigmate</Logo>
           <OuterWrapper>
-            <ExternalLinks />
             <SocialLinkWrapper>
               <p>Social Link</p>
               <SocialLinks />
             </SocialLinkWrapper>
+            <ExternalLinks />
           </OuterWrapper>
         </Wrapper>
         <Copyright>
@@ -37,6 +37,10 @@ const OuterWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  @media (max-width: 728px) {
+    display: block;
+  }
 `;
 
 const Logo = styled.p`

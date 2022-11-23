@@ -18,16 +18,15 @@ const fetcher: Fetcher<PagedSWRDataType<Forum.CategoryType[]>, string> = async (
         (block) => block.name === 'Notice'
       );
       if (noticeIdx === -1) return { data: data.categories, total: 0 };
-      
-        /** Make notice forum to go at first */
-        categories.push(categories.at(noticeIdx) as Forum.CategoryType);
-        categories = categories.concat(
-          data.categories
-            .slice(0, noticeIdx)
-            .concat(data.categories.slice(noticeIdx + 1))
-        );
-        return { data: categories, total: 0 };
-      
+
+      /** Make notice forum to go at first */
+      categories.push(categories.at(noticeIdx) as Forum.CategoryType);
+      categories = categories.concat(
+        data.categories
+          .slice(0, noticeIdx)
+          .concat(data.categories.slice(noticeIdx + 1))
+      );
+      return { data: categories, total: 0 };
     }
     return initialSWRData;
   } catch (e) {
@@ -40,7 +39,7 @@ const fetcher: Fetcher<PagedSWRDataType<Forum.CategoryType[]>, string> = async (
   }
 };
 
-const limit = 15;
+const limit = 100;
 
 export default function ForumMain() {
   // const [filter, setFilter] = useState<ForumSearchFilter>('Category');

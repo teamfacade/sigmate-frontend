@@ -31,7 +31,7 @@ export default function UserPage() {
           {
             'Connect your wallet to receive tokens as a reward for\r\nyour contribution to our community. '
           }
-          <Link href="https://naver.com">
+          <Link href="https://sigmate.gitbook.io/sigmate/sigmate/token-utility">
             <a>Learn more</a>
           </Link>
         </Description>

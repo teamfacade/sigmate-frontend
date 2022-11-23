@@ -241,7 +241,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
       {!signedWithMetamask && (
         <WalletDescription>
           Connect to receive rewards based on your activity.{' '}
-          <Link href="https://naver.com">
+          <Link href="https://sigmate.gitbook.io/sigmate/sigmate/token-utility">
             <a>Learn more</a>
           </Link>
         </WalletDescription>

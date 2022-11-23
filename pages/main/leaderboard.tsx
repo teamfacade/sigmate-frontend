@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import useSWR, { Fetcher } from 'swr';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import Axios from 'lib/global/axiosInstance';
 import { SectionWrapper } from 'components/global';
 import { Board } from 'containers/main/leaderboard';
 
@@ -11,10 +12,11 @@ const leaderboardFetcher: Fetcher<Leaderboad.ItemType[], string> = async (
   url
 ) => {
   try {
-    const { status, data } = await axios.get(url);
+    const { status, data } = await Axios.get(url);
     if (status === 200) {
       return data.data;
-    } return [];
+    }
+    return [];
   } catch (e) {
     alert(
       `Error while fetching leaderboard data. ERR: ${

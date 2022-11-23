@@ -345,7 +345,7 @@ declare global {
       id: number;
       title: string;
       content: string;
-      createdBy: Forum.AuthorType;
+      createdBy?: Forum.AuthorType;
       votes?: Forum.VoteType;
       voteCount?: number;
       comments?: Forum.CommentType[];

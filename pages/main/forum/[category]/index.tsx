@@ -65,7 +65,7 @@ export default function ArticleLists() {
           <PostBtn onClickNew={onClickNew} />
         )}
       </UtilWrapper>
-      {articles ? (
+      {articles.total > 0 ? (
         articles.data.map((article) => (
           <ArticleThumbnail
             key={article.id}

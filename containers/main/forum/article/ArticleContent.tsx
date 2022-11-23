@@ -34,13 +34,20 @@ export default memo(function ArticleContent({
       <ContentWrapper>
         <Infos
           author={
-            post.createdBy.primaryProfile.displayName ||
-            (post.createdBy.userName as string)
+            post.createdBy
+              ? post.createdBy.primaryProfile.displayName ||
+                post.createdBy.userName ||
+                ''
+              : 'Deleted User'
           }
-          username={post.createdBy.userName as string}
+          username={
+            post.createdBy ? post.createdBy.userName || '' : 'Deleted User'
+          }
           tags={post.tags || []}
           timestamp={post.createdAt || new Date(Date.now()).toISOString()}
-          isAuthor={userName === post.createdBy.userName}
+          isAuthor={
+            post.createdBy ? userName === post.createdBy.userName : false
+          }
         >
           {(userName === post.createdBy.userName || isAdmin) && (
             <ArticleManageBtns

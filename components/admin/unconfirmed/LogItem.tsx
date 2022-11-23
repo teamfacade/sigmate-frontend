@@ -4,6 +4,7 @@ type PropsType = {
   id: number;
   name: string;
   discordUrl: string | null;
+  discordChannel: string | null;
   twitterHandle: string | null;
   onClickManageBtn: MouseEventHandler<HTMLButtonElement>;
 };
@@ -12,6 +13,7 @@ export default memo(function LogItem({
   id,
   name,
   discordUrl,
+  discordChannel,
   twitterHandle,
   onClickManageBtn,
 }: PropsType) {
@@ -28,6 +30,7 @@ export default memo(function LogItem({
             data-id={id}
             data-name={name}
             data-discord-url={discordUrl}
+            data-discord-channel={discordChannel}
             data-twitter-handle={twitterHandle}
             onClick={onClickManageBtn}
           >

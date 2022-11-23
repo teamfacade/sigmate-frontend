@@ -422,6 +422,9 @@ declare global {
       name: string;
       discordUrl: string | null;
       twitterHandle: string | null;
+      channel: {
+        discordChannel: string;
+      } | null;
     };
   }
 }

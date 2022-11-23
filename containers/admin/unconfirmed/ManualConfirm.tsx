@@ -17,6 +17,7 @@ type PropsType = {
   name: string;
   discordUrl: string | null;
   twitterHandle: string | null;
+  discordChannel: string | null;
   alreadyConfirmed: boolean;
 };
 
@@ -24,6 +25,7 @@ export default memo(function ManualConfirm({
   id,
   name: collectionName,
   discordUrl: initDiscordUrl,
+  discordChannel: initDiscordChannel,
   twitterHandle: initTwitterHandle,
   alreadyConfirmed,
 }: PropsType) {
@@ -33,7 +35,9 @@ export default memo(function ManualConfirm({
     initTwitterHandle || ''
   );
   const [discordUrl, setDiscordUrl] = useState<string>(initDiscordUrl || '');
-  const [discordChannelId, setDiscordChannelId] = useState<string>('');
+  const [discordChannelId, setDiscordChannelId] = useState<string>(
+    initDiscordChannel || ''
+  );
 
   const onChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
     const { name, value } = e.currentTarget;

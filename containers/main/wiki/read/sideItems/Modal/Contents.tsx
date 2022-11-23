@@ -1,5 +1,4 @@
 import {
-  memo,
   useState,
   useCallback,
   useRef,
@@ -113,7 +112,6 @@ export default (function Contents({ header, cid }: PropsType) {
         !debouncing
       ) {
         debouncing = true;
-        console.log(scrollHeight, scrollTop, 'FETCH');
         if (header === 'Debate')
           setContents((current) => {
             return (current as DebateType[]).concat(ExDebates);
@@ -121,7 +119,6 @@ export default (function Contents({ header, cid }: PropsType) {
         else setCurPage((cur) => cur + 1);
         timeoutID = setTimeout(() => {
           debouncing = false;
-          console.log('debouncing: ', debouncing);
         }, 500);
       }
     },

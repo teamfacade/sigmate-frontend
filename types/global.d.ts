@@ -144,6 +144,26 @@ declare global {
     [index: string]: T;
   }
 
+  namespace Leaderboad {
+    type ItemType = {
+      rank: number;
+      user: {
+        id: number;
+        userName: string;
+        primaryProfile?: UserProfileAttributes;
+      };
+      referral: number;
+      forum: {
+        postCreate: string;
+        commentCreate: string;
+      };
+      wiki: {
+        documentEdit: number;
+      };
+      total: number;
+    };
+  }
+
   namespace Minting {
     type CollectionType = {
       id?: number;

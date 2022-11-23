@@ -186,7 +186,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
               dispatch(setAgreeTerms(now));
               dispatch(setReferredBy(refCode));
               dispatch(setUserName(username));
-              await router.push('/main/wiki/Sigmate');
+              await router.push('/main/recent-edits');
             } else
               alert(
                 `Error while creating a user.\r\nERR: ${

@@ -48,7 +48,6 @@ export default memo(function SideContent() {
       />
       {/* <BuyToken /> */}
       {router.pathname.startsWith('/main/wiki/') &&
-        router.pathname !== '/main/wiki/Sigmate' &&
         !router.pathname.startsWith('/main/wiki/search') && (
           <>
             <WhatsHappening cid={cid} />

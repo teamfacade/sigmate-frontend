@@ -7,7 +7,7 @@ import { WavingHand } from 'public/Icons/landingPage';
 export default function Buttons() {
   return (
     <Wrapper>
-      <Link href="/main/wiki/Sigmate" passHref>
+      <Link href="/main/recent-edits" passHref>
         <HandShake>
           <div>
             <WavingHand />

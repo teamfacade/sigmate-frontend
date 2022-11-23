@@ -37,7 +37,7 @@ export default function DeletAccountModal() {
       if (action.payload.status === 204) {
         dispatch(signOut());
         alert('Deleted your account.');
-        await router.push('/main/wiki/Sigmate');
+        await router.push('/main/recent-edits');
       } else {
         alert(
           `Error while deleting your account. ERR: ${action.payload.status}`

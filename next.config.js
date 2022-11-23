@@ -24,7 +24,7 @@ module.exports = {
       {
         source: '/user/:path',
         destination: '/user',
-        permanent: true,
+        permanent: false,
       },
     ];
   },

@@ -36,7 +36,7 @@ export default function Navbar() {
     <>
       <nav>
         <Wrapper>
-          <Link href="/main/wiki/Sigmate">
+          <Link href="/main/recent-edits">
             <Logo>Sigmate</Logo>
           </Link>
           <SideHidingWrapper showMenu={showMenu}>

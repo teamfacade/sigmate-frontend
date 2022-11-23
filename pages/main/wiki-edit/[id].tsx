@@ -19,7 +19,7 @@ export default function WikiEditPage({
   const dispatch = useAppDispatch();
 
   if (!document) {
-    router.push('/main/wiki/Sigmate');
+    router.push('/main/recent-edits');
     return (
       <LargeText>There's no such document you are trying to edit.</LargeText>
     );

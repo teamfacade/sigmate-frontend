@@ -61,7 +61,7 @@ export default function ArticleLists() {
     <>
       <UtilWrapper>
         {/* <Search white placeholder="Search..." /> */}
-        {(router.query.notice === 'false' || isAdmin) && (
+        {(router.query.category !== '24' || isAdmin) && (
           <PostBtn onClickNew={onClickNew} />
         )}
       </UtilWrapper>

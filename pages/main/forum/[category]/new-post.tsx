@@ -40,7 +40,7 @@ export default function WritePost({
       alert(
         'Something went wrong!\r\nFailed to load article contents.\r\nPlease try again.'
       );
-    if (router.query.notice === 'true' && !isAdmin) router.back();
+    if (router.query.category === '24' && !isAdmin) router.back();
   }, []);
 
   const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {

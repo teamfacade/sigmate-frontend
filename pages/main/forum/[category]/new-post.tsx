@@ -10,7 +10,7 @@ import {
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { parseTags } from 'lib/main/forum/parseTags';
 import { getPrevArticleContent } from 'lib/main/forum/getForumDatas';
@@ -29,6 +29,7 @@ export default function WritePost({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { isAdmin } = useAppSelector(({ account }) => account);
   const [title, setTitle] = useState(prevTitle);
   const [content, setContent] = useState(prevContent);
   const [tag, setTag] = useState(tags.toString());
@@ -39,6 +40,7 @@ export default function WritePost({
       alert(
         'Something went wrong!\r\nFailed to load article contents.\r\nPlease try again.'
       );
+    if (router.query.notice === 'true' && !isAdmin) router.back();
   }, []);
 
   const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback((e) => {

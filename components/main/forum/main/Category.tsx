@@ -19,7 +19,7 @@ export default memo(function Category({
   imageURL,
 }: PropsType) {
   return (
-    <Link href={`/main/forum/${id}`}>
+    <Link href={`/main/forum/${id}?notice=${name === 'Notice'}`}>
       <a>
         <Wrapper>
           {imageURL ? (

@@ -75,7 +75,7 @@ export default function WritePost({
             title,
             content,
             categories: [Number.parseInt(router.query.category as string, 10)],
-            tags: tag.split(','),
+            tags: tag.split(',').filter((t) => t.length > 0),
           },
         })
       ).then((action: any) => {

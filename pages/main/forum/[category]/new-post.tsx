@@ -33,6 +33,7 @@ export default function WritePost({
   const [title, setTitle] = useState(prevTitle);
   const [content, setContent] = useState(prevContent);
   const [tag, setTag] = useState(tags.toString());
+  const [pending, setPending] = useState<boolean>(false);
   const titleRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -67,6 +68,7 @@ export default function WritePost({
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
     if (title === '') titleRef.current?.focus();
     else {
+      setPending(true);
       dispatch(
         AuthRequiredAxios({
           method: articleID ? 'PATCH' : 'POST',
@@ -84,6 +86,7 @@ export default function WritePost({
             `/main/forum/${router.query.category}/${action.payload.data.forumPost.id}`
           );
         else alert('Something went wrong!\r\nPlease try again.');
+        setPending(false);
       });
     }
   }, [title, content, tag, articleID]);
@@ -104,7 +107,7 @@ export default function WritePost({
         onBlur={onBlurTagTextArea}
       />
       <BtnWrapper>
-        <BlueBtn onClick={onClick}>
+        <BlueBtn onClick={onClick} disabled={pending}>
           {articleID !== undefined ? 'Save' : 'Post'}
         </BlueBtn>
       </BtnWrapper>

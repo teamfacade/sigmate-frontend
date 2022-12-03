@@ -3,11 +3,13 @@ import {
   useCallback,
   ChangeEventHandler,
   FormEventHandler,
+  useEffect,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { getArticleReadData } from 'lib/main/wiki/getWikiData';
-import { useAppDispatch } from 'hooks/reduxStoreHooks';
+import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
+import { store } from 'store/store';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { WikiEdit, Summary } from 'containers/main/wiki/edit';
 import { LargeText } from 'components/global';
@@ -17,6 +19,7 @@ export default function WikiEditPage({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { isAdmin, isTester } = useAppSelector(({ account }) => account);
 
   if (!document) {
     router.push('/main/recent-edits');
@@ -24,6 +27,21 @@ export default function WikiEditPage({
       <LargeText>There's no such document you are trying to edit.</LargeText>
     );
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      const { isAdmin: _isAdmin, isTester: _isTester } = (
+        store.getState() as ReduxState.RootStateType
+      ).account;
+      if (!(_isAdmin || _isTester)) {
+        alert(
+          "You don't have a right to edit the article yet.\r\nAsk Sigmate team for permission on our discord."
+        );
+        router.back();
+      }
+    }, 700);
+  }, []);
+
   const [title, setTitle] = useState(document.title);
   const [selectedOption, setSelectedOption] = useState<
     ReactSelect.OptionType[]
@@ -147,16 +165,24 @@ export default function WikiEditPage({
 
   return (
     <form onSubmit={onSave}>
-      <WikiEdit
-        types={selectedOption}
-        onChangeTypes={onChangeTypes}
-        title={title}
-        setTitle={setTitle}
-        blocks={blocks}
-        setBlocks={setBlocks}
-        keyInfo={document.keyInfo}
-      />
-      <Summary summary={summary} pending={pending} onChange={onSummaryChange} />
+      {(isAdmin || isTester) && (
+        <>
+          <WikiEdit
+            types={selectedOption}
+            onChangeTypes={onChangeTypes}
+            title={title}
+            setTitle={setTitle}
+            blocks={blocks}
+            setBlocks={setBlocks}
+            keyInfo={document.keyInfo}
+          />
+          <Summary
+            summary={summary}
+            pending={pending}
+            onChange={onSummaryChange}
+          />
+        </>
+      )}
     </form>
   );
 }

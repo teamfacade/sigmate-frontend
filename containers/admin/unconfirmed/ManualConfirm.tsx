@@ -12,12 +12,28 @@ import { SectionWrapper } from 'components/global';
 import { NamedInput, NameAndContent } from 'components/admin/global';
 import { BlueBtnStyle } from 'styles/styleLib';
 
+const discordAccounts: { id: number; account: string }[] = [
+  {
+    id: 1,
+    account: '',
+  },
+  {
+    id: 2,
+    account: 'limeahn',
+  },
+  {
+    id: 3,
+    account: 'kwang',
+  },
+];
+
 type PropsType = {
   id: number;
   name: string;
   discordUrl: string | null;
   twitterHandle: string | null;
   discordChannel: string | null;
+  accountId: number | null;
   alreadyConfirmed: boolean;
 };
 
@@ -27,6 +43,7 @@ export default memo(function ManualConfirm({
   discordUrl: initDiscordUrl,
   discordChannel: initDiscordChannel,
   twitterHandle: initTwitterHandle,
+  accountId: initAccountId,
   alreadyConfirmed,
 }: PropsType) {
   const dispatch = useAppDispatch();
@@ -38,23 +55,28 @@ export default memo(function ManualConfirm({
   const [discordChannelId, setDiscordChannelId] = useState<string>(
     initDiscordChannel || ''
   );
+  const [accountId, setAccountId] = useState<number>(initAccountId || 0);
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    const { name, value } = e.currentTarget;
-    switch (name) {
-      case 'twitterHandle':
-        setTwitterHandle(value);
-        break;
-      case 'discordUrl':
-        setDiscordUrl(value);
-        break;
-      case 'discordChannelId':
-        setDiscordChannelId(value);
-        break;
-      default:
-        break;
-    }
-  }, []);
+  const onChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> =
+    useCallback((e) => {
+      const { name, value } = e.currentTarget;
+      switch (name) {
+        case 'twitterHandle':
+          setTwitterHandle(value);
+          break;
+        case 'discordUrl':
+          setDiscordUrl(value);
+          break;
+        case 'discordChannelId':
+          setDiscordChannelId(value);
+          break;
+        case 'accountId':
+          setAccountId(parseInt(value, 10));
+          break;
+        default:
+          break;
+      }
+    }, []);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
     e.preventDefault();
@@ -67,6 +89,8 @@ export default memo(function ManualConfirm({
       (elements.namedItem('discordUrl') as HTMLInputElement).value || '';
     const DiscordChannelId =
       (elements.namedItem('discordChannelId') as HTMLInputElement).value || '';
+    const AccountId =
+      (elements.namedItem('accountId') as HTMLSelectElement).value || '';
 
     dispatch(
       AuthRequiredAxios({
@@ -76,6 +100,7 @@ export default memo(function ManualConfirm({
           discordUrl: DiscordUrl,
           discordChannel: DiscordChannelId,
           twitterHandle: TwitterHandle,
+          discordAccountId: AccountId,
         },
         url: alreadyConfirmed
           ? '/admin/collection/confirmed'
@@ -122,6 +147,16 @@ export default memo(function ManualConfirm({
           value={discordChannelId}
           onChange={onChange}
         />
+        <div>
+          <p>Discord account</p>
+          <select name="accountId" onChange={onChange} defaultValue={accountId}>
+            {discordAccounts?.map((discordAccount) => (
+              <option key={discordAccount.id} value={discordAccount.id}>
+                {discordAccount.account}
+              </option>
+            ))}
+          </select>
+        </div>
         <ConfirmBtn type="submit" disabled={pending}>
           {pending ? 'This takes some time...' : 'Confirm'}
         </ConfirmBtn>

@@ -13,7 +13,7 @@ import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { ReadBlock } from 'containers/main/wiki/read';
 import { VerdictModal } from 'containers/main/wiki/read/verdictModal';
 import { ReadKeyInfo, Title, Types } from 'components/main/wiki/read';
-import styles, { BlueBtnStyle } from 'styles/styleLib';
+import { BlueBtnStyle } from 'styles/styleLib';
 
 type PropsType = {
   document: Wiki.DocumentType;
@@ -22,7 +22,9 @@ type PropsType = {
 export default function WikiArticle({ document }: PropsType) {
   const router = useRouter();
   const { signedIn } = useAppSelector(({ auth }) => auth);
-  const { userName } = useAppSelector(({ account }) => account);
+  const { userName, isTester, isAdmin } = useAppSelector(
+    ({ account }) => account
+  );
 
   const [showModal, setShowModal] = useState<Wiki.ModalDataType>({
     blockID: '',
@@ -83,9 +85,11 @@ export default function WikiArticle({ document }: PropsType) {
     <Wrapper>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Title title={document.title} />
-        <EditBtn disabled={pending} onClick={onClickEdit}>
-          {pending ? '...' : 'Edit'}
-        </EditBtn>
+        {(isTester === true || isAdmin === true) && (
+          <EditBtn disabled={pending} onClick={onClickEdit}>
+            {pending ? '...' : 'Edit'}
+          </EditBtn>
+        )}
       </div>
       <Types types={document.types || []} />
       {document.keyInfo && (

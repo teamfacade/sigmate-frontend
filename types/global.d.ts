@@ -424,6 +424,9 @@ declare global {
       twitterHandle: string | null;
       channel: {
         discordChannel: string;
+        account: {
+          id: number;
+        };
       } | null;
     };
   }

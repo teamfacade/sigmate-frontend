@@ -66,7 +66,7 @@ export default function Unconfirmed() {
   }, [curPage, showModal]);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
-    const { id, name, discordUrl, twitterHandle, discordChannel } =
+    const { id, name, discordUrl, twitterHandle, discordChannel, accountId } =
       e.currentTarget.dataset;
     if (id && name)
       setShowModal({
@@ -76,6 +76,9 @@ export default function Unconfirmed() {
         twitterHandle: twitterHandle || null,
         channel: {
           discordChannel: discordChannel || '',
+          account: {
+            id: parseInt(accountId || '1', 10),
+          },
         },
       });
   }, []);
@@ -130,6 +133,7 @@ export default function Unconfirmed() {
                 discordUrl={showModal.discordUrl}
                 twitterHandle={showModal.twitterHandle}
                 discordChannel={showModal.channel?.discordChannel || null}
+                accountId={showModal.channel?.account.id || null}
                 alreadyConfirmed={false}
               />
             )}

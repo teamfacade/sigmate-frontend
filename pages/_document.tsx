@@ -47,6 +47,7 @@ export default class MyDocument extends Document {
           <link
             href="https://fonts.cdnfonts.com/css/claris-sans"
             rel="stylesheet"
+            crossOrigin="true"
           />
           <link
             rel="preconnect"
@@ -56,10 +57,12 @@ export default class MyDocument extends Document {
           <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
             rel="stylesheet"
+            crossOrigin="true"
           />
           <link
             href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap"
             rel="stylesheet"
+            crossOrigin="true"
           />
           <link
             rel="apple-touch-icon"

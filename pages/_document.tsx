@@ -47,7 +47,6 @@ export default class MyDocument extends Document {
           <link
             href="https://fonts.cdnfonts.com/css/claris-sans"
             rel="stylesheet"
-            crossOrigin="true"
           />
           <link
             rel="preconnect"

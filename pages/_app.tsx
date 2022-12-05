@@ -7,6 +7,7 @@ import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { MainLayout, UserLayout, AdminLayout, Heads } from 'layouts';
 import { Navbar, Footer } from 'containers/global';
 import 'styles/globals.css';
+import 'public/fonts/styles.css';
 import 'styles/Calendars.css';
 import 'styles/ShowModal.css';
 import 'styles/Fade.css';

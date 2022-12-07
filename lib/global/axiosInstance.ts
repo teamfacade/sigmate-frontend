@@ -23,7 +23,6 @@ export const RenewAccessToken: (
   refreshToken: string,
   config: any
 ) => Promise<RenewResultType> = async (refreshToken: string, config: any) => {
-  console.log('Try renewing access token. Config:', config);
   if (renewingAccess) {
     return { result: 'Renewing' as RenewResultResultsType };
   }

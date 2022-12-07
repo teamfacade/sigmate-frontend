@@ -21,11 +21,11 @@ export default memo(function Links({ onClickShowMenu }: PropsType) {
           <a onClick={onClickShowMenu}>Forum</a>
         </Link>
       </li>
-      <li>
+      {/* <li>
         <Link href="/main/upcoming">
           <a onClick={onClickShowMenu}>Upcoming</a>
         </Link>
-      </li>
+      </li> */}
       <li>
         <Link href="/main/leaderboard">
           <a onClick={onClickShowMenu}>Leaderboard</a>

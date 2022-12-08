@@ -15,7 +15,7 @@ import { BlueBtnStyle } from 'styles/styleLib';
 const discordAccounts: { id: number; account: string }[] = [
   {
     id: 1,
-    account: '',
+    account: 'None',
   },
   {
     id: 2,
@@ -24,6 +24,10 @@ const discordAccounts: { id: number; account: string }[] = [
   {
     id: 3,
     account: 'kwang',
+  },
+  {
+    id: 4,
+    account: 'jin',
   },
 ];
 

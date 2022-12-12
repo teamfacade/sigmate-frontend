@@ -63,7 +63,7 @@ const Btn = styled.button<{
 }>`
     display: block;
     position: relative;
-    width: ${({ width }) => width || '490px'};
+    width: ${({ width }) => width || 'min(90vw, 490px)'};
     height: ${({ height }) => height || '67px'};
     padding: 0;
     border-radius: 8px;

@@ -11,6 +11,7 @@ type PropsType = {
   height?: string;
   disabled?: boolean;
   done?: boolean;
+  label?: string;
 };
 
 type SVGIcon = ReturnType<typeof Google>;
@@ -32,6 +33,7 @@ export default function OAuthBtn({
   height,
   disabled,
   done,
+  label,
 }: PropsType) {
   const Icon = Icons[service];
 
@@ -50,7 +52,9 @@ export default function OAuthBtn({
         {done ? (
           <p>Connected!</p>
         ) : (
-          <p>{disabled ? 'Connecting...' : `Continue with ${service}`}</p>
+          <p>
+            {disabled ? 'Connecting...' : label || `Continue with ${service}`}
+          </p>
         )}
       </FlexWrapper>
     </Btn>

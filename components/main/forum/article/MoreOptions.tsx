@@ -35,7 +35,7 @@ export default function MoreOptions({
   return (
     <Wrapper>
       <TransparentBtn name="More" onClick={onClick}>
-        &#8285;
+        &equiv;
       </TransparentBtn>
       {showOptions && (
         <>
@@ -87,7 +87,7 @@ const Wrapper = styled.div`
 
 const TransparentBtn = styled.button`
   ${TransparentBtnStyle};
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   color: ${styles.colors.logColor};
 `;

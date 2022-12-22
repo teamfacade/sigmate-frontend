@@ -8,17 +8,21 @@ import styles from 'styles/styleLib';
 type PropsType = {
   id: number;
   category: string;
+  tags: any[];
   title: string;
   content: string;
   imageURL: string;
+  isAuthor?: boolean;
 };
 
 export default memo(function Content({
   id,
   category,
+  tags,
   title,
   content,
   imageURL,
+  isAuthor = false,
 }: PropsType) {
   return (
     <Link href={`/main/forum/${category}/${id}`}>
@@ -29,6 +33,12 @@ export default memo(function Content({
             <EllipsisContent>{`${content.slice(0, 650)}${
               content.length > 650 ? '...' : ''
             }`}</EllipsisContent>
+            <TagWrapper isAuthor={isAuthor}>
+              {tags.slice(0, 5).map((tag) => (
+                <Tag key={tag}>{`#${tag}`}</Tag>
+              ))}
+              {tags.length > 5 && <Tag>...</Tag>}
+            </TagWrapper>
           </TextWrapper>
           {imageURL && (
             <ImageWrapper width="350px" height="365px">
@@ -45,7 +55,6 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: start;
   height: fit-content;
-  max-height: 260px;
   padding: 20px;
   overflow: hidden;
 `;
@@ -53,8 +62,30 @@ const Wrapper = styled.div`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100% - 300px);
+  max-height: 260px;
   margin-right: 20px;
+`;
+
+const Tag = styled.p`
+  margin-right: 4px;
+  color: ${styles.colors.forumSubTextColor};
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 140%;
+  white-space: pre;
+`;
+
+const TagWrapper = styled.div<{ isAuthor: boolean }>`
+  flex: 1 1 calc(100% - 440px);
+  margin: 12px 0 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-overflow-ellipsis: ${styles.colors.forumSubTextColor};
+
+  p {
+    display: inline;
+    white-space: nowrap;
+  }
 `;
 
 const Title = styled.p`

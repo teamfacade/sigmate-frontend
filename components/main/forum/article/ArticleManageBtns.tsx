@@ -36,6 +36,7 @@ const ArticleManageBtnWrapper = styled.div`
     font-size: 15px;
     font-weight: 500;
     line-height: 160%;
+    height: 33px;
   }
 
   a + button {
@@ -43,11 +44,11 @@ const ArticleManageBtnWrapper = styled.div`
   }
 `;
 
-const DeleteBtn = styled.button`
+const EditBtn = styled.button`
   ${BlueBtnStyle};
 `;
 
-const EditBtn = styled.button`
+const DeleteBtn = styled.button`
   ${BlueBtnStyle};
   background-color: ${styles.colors.lightThumbsUpColor};
   color: ${styles.colors.emphColor};

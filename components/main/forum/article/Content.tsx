@@ -10,9 +10,11 @@ type PropsType = {
   title: string;
   content: string;
   imageUrls: string[];
+  tags: any[];
   commentCount: number;
   onSubmitComment: FormEventHandler<HTMLFormElement>;
   onClickReport: MouseEventHandler<HTMLButtonElement>;
+  isAuthor?: boolean;
 };
 
 export default memo(function Content({
@@ -20,9 +22,11 @@ export default memo(function Content({
   title,
   content,
   imageUrls,
+  tags,
   commentCount,
   onSubmitComment,
   onClickReport,
+  isAuthor = false,
 }: PropsType) {
   return (
     <Wrapper>
@@ -37,6 +41,12 @@ export default memo(function Content({
             </Outer>
           )}
           {content}
+          <TagWrapper isAuthor={isAuthor}>
+            {tags.slice(0, 5).map((tag) => (
+              <Tag key={tag}>{`#${tag}`}</Tag>
+            ))}
+            {tags.length > 5 && <Tag>...</Tag>}
+          </TagWrapper>
         </MainText>
       </MainContentWrapper>
       <UtilBtns commentCount={commentCount} onClickReport={onClickReport} />
@@ -73,13 +83,34 @@ const Title = styled.p`
 `;
 
 const MainContentWrapper = styled.div`
-  min-height: 365px;
   margin-bottom: 15px;
 `;
 
 const MainText = styled.span`
   color: ${styles.colors.logColor};
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 160%;
+`;
+
+const Tag = styled.p`
+  margin-right: 4px;
+  color: ${styles.colors.forumSubTextColor};
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 140%;
+  white-space: pre;
+`;
+
+const TagWrapper = styled.div<{ isAuthor: boolean }>`
+  flex: 1 1 calc(100% - 440px);
+  margin: 12px 0 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-overflow-ellipsis: ${styles.colors.forumSubTextColor};
+
+  p {
+    display: inline;
+    white-space: nowrap;
+  }
 `;

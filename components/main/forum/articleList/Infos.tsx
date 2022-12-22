@@ -7,32 +7,24 @@ import styles from 'styles/styleLib';
 type PropsType = {
   author: string;
   username: string;
-  tags: any[];
   timestamp: string;
   children?: ReactNode;
-  isAuthor?: boolean;
 };
 
 export default memo(function Infos({
   author,
   username,
-  tags,
   timestamp,
   children,
-  isAuthor = false,
 }: PropsType) {
   return (
     <Wrapper>
-      <Link href={`/main/profile/${username}`} passHref>
-        <Author>{author}</Author>
-      </Link>
-      <TextWrapper isAuthor={isAuthor}>
-        {tags.slice(0, 5).map((tag) => (
-          <Text key={tag}>{`#${tag}`}</Text>
-        ))}
-        {tags.length > 5 && <Text>...</Text>}
-      </TextWrapper>
-      <Text>{convertDate(new Date(timestamp), 'MonthDDYYYY', '. ')}</Text>
+      <InnerWrapper>
+        <Link href={`/main/profile/${username}`} passHref>
+          <Author>{author}</Author>
+        </Link>
+        <Text>{convertDate(new Date(timestamp), 'MonthDDYYYY', '. ')}</Text>
+      </InnerWrapper>
       {children}
     </Wrapper>
   );
@@ -40,11 +32,16 @@ export default memo(function Infos({
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   height: 60px;
   padding: 20px;
   border-bottom: 1px solid ${styles.colors.dividerColor};
+`;
+
+const InnerWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Author = styled.a`
@@ -61,21 +58,8 @@ const Author = styled.a`
   text-overflow: ellipsis;
 `;
 
-const TextWrapper = styled.div<{ isAuthor: boolean }>`
-  flex: 1 1 calc(100% - 440px);
-  margin-right: 16px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-overflow-ellipsis: ${styles.colors.forumSubTextColor};
-
-  p {
-    display: inline;
-    white-space: nowrap;
-  }
-`;
-
 const Text = styled.p`
-  margin-right: 4px;
+  margin: 0 4px 0 0;
   color: ${styles.colors.forumSubTextColor};
   font-size: 15px;
   font-weight: 500;

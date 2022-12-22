@@ -76,7 +76,7 @@ export default memo(function Comment({
   const router = useRouter();
   const [showOptions, setShowOptions] = useState(false);
   const [showCommentEdit, setShowCommentEdit] = useState(false);
-  const [showReplies, setShowReplies] = useState(false);
+  const [showReplies, setShowReplies] = useState(true);
   const [commentText, setCommentText] = useState(text);
 
   const { data: fetchedReplies = initialSWRData } = useSWRImmutable(
@@ -170,15 +170,17 @@ export default memo(function Comment({
           showCommentEdit={showCommentEdit}
         />
       </FlexWrapper>
-      <CommentReplies
-        category={category}
-        articleID={articleID}
-        commentID={commentID}
-        replies={fetchedReplies.data}
-        show={showReplies}
-        onClickReport={onClickReport}
-        onSubmitComment={onSubmitComment}
-      />
+      {isReply === false && (
+        <CommentReplies
+          category={category}
+          articleID={articleID}
+          commentID={commentID}
+          replies={fetchedReplies.data}
+          show={showReplies}
+          onClickReport={onClickReport}
+          onSubmitComment={onSubmitComment}
+        />
+      )}
     </Wrapper>
   );
 });

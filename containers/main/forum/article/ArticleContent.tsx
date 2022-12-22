@@ -43,11 +43,7 @@ export default memo(function ArticleContent({
           username={
             post.createdBy ? post.createdBy.userName || '' : 'Deleted User'
           }
-          tags={post.tags || []}
           timestamp={post.createdAt || new Date(Date.now()).toISOString()}
-          isAuthor={
-            post.createdBy ? userName === post.createdBy.userName : false
-          }
         >
           {(userName === post.createdBy?.userName || isAdmin) && (
             <ArticleManageBtns
@@ -63,6 +59,10 @@ export default memo(function ArticleContent({
           title={post.title}
           content={post.content}
           imageUrls={post.imageUrls || []}
+          tags={post.tags || []}
+          isAuthor={
+            post.createdBy ? userName === post.createdBy.userName : false
+          }
           commentCount={commentCount}
           onSubmitComment={onSubmitComment}
           onClickReport={onClickReport}

@@ -36,14 +36,10 @@ export default memo(function ArticleThumbnail({
         category={category}
       />
       <ContentWrapper>
-        <Infos
-          author={author}
-          username={username}
-          tags={tags}
-          timestamp={timestamp}
-        />
+        <Infos author={author} username={username} timestamp={timestamp} />
         <Content
           id={id}
+          tags={tags}
           category={category}
           title={title}
           content={content}
@@ -57,7 +53,6 @@ export default memo(function ArticleThumbnail({
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 340px;
   margin-top: 18px;
   border-radius: 8px;
   background-color: #ffffff;

@@ -217,7 +217,7 @@ export default function MintingSchedule() {
           unmountOnExit
           nodeRef={ModalRef}
         >
-          <Modal onMouseDown={onMouseDown} ref={ModalRef}>
+          <Modal height="initial" onMouseDown={onMouseDown} ref={ModalRef}>
             {showModal.type !== 'Category' ? (
               <EditSchedule type={showModal.type} id={showModal.id} />
             ) : (

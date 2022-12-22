@@ -84,6 +84,10 @@ const LongBtn = styled.button<{ name: string; width?: string }>`
     margin-top: 9px;
   }
 
+  svg {
+    filter: ${({ name }) => (name !== 'Metamask' ? 'grayscale(1)' : 'none')};
+  }
+
   div {
     display: inline-flex;
     flex-direction: row;

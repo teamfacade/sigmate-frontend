@@ -30,6 +30,10 @@
     line-height: 1.125em;
 }
 
+.my-calendar .react-calendar__navigation__arrow {
+    color: #276BFF !important;
+}
+
 .my-calendar .react-calendar__navigation button {
     min-width: 44px;
     background: none;

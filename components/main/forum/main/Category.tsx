@@ -22,13 +22,15 @@ export default memo(function Category({
     <Link href={`/main/forum/${id}`}>
       <a>
         <Wrapper>
-          {imageURL ? (
-            <ImageWrapper width="100%" height="150px">
-              <Image src={imageURL} alt={`${name} category thumbnail`} />
-            </ImageWrapper>
-          ) : (
-            <NoImage />
-          )}
+          <div style={{ boxShadow: 'rgb(228 228 228) 0px 1px 3px 0px' }}>
+            {imageURL ? (
+              <ImageWrapper width="100%" height="150px">
+                <Image src={imageURL} alt={`${name} category thumbnail`} />
+              </ImageWrapper>
+            ) : (
+              <NoImage />
+            )}
+          </div>
           <Name>{name}</Name>
           <Description>{description}</Description>
         </Wrapper>

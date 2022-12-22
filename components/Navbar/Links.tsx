@@ -72,6 +72,7 @@ const LinksWrapper = styled.ul`
     font-weight: 700;
     font-family: 'Inter', sans-serif;
     white-space: nowrap;
+    line-height: 160%;
 
     :hover {
       color: ${darken(0.1, styles.colors.dimTextColor)};

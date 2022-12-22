@@ -213,7 +213,9 @@ export default memo(function ExternalLinks() {
 });
 
 const Wrapper = styled.div`
-  @media (min-width: 729px) {
+  width: calc(100% - 400px);
+
+  @media (min-width: 987px) {
     display: flex;
     justify-content: start;
 
@@ -221,7 +223,7 @@ const Wrapper = styled.div`
       margin-left: 40px;
     }
   }
-  @media (max-width: 728px) {
+  @media (max-width: 986px) {
     display: inline-grid;
   }
 
@@ -231,7 +233,7 @@ const Wrapper = styled.div`
 
     li:first-child {
       margin-bottom: 8px;
-      color: black;
+      color: #353535;
       font-size: 16px;
       font-weight: bold;
     }
@@ -241,7 +243,7 @@ const Wrapper = styled.div`
     list-style-type: none;
     margin-bottom: 10px;
     color: ${styles.colors.lightTextColor};
-    font-size: 13px;
+    font-size: 16px;
     font-family: 'Inter', sans-serif;
 
     a {

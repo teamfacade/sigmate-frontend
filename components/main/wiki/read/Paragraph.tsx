@@ -21,7 +21,7 @@ export default memo(function Paragraph({ content }: PropsType) {
 const Div = styled.div`
   color: #222222;
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 160%;
 
   p {

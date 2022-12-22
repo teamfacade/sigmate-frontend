@@ -76,7 +76,7 @@ const Text = styled.div`
     color: ${styles.colors.logColor};
     font-size: 13px;
     font-weight: 300;
-    line-height: 17px;
+    line-height: 160%;
   }
 
   li {

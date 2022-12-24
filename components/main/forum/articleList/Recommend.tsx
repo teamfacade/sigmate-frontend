@@ -154,7 +154,7 @@ const Btn = styled.button<{ name: string; userLikes: boolean | null }>`
           (userLikes === false && name === 'Down')
         )
           return styles.colors.emphColor;
-        return styles.colors.forumSubTextColor;
+        return styles.colors.emptyColor;
       }};
     }
   }

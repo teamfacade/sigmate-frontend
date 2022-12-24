@@ -67,6 +67,7 @@ export const BlueBtnStyle = `
   background-color: ${styles.colors.emphColor};
   color: #ffffff;
   font-size: 18px;
+  font-weight: 600;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
   

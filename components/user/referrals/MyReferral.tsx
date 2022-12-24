@@ -68,7 +68,7 @@ const MyCode = memo(styled.p`
 const CopyBtn = styled.button`
   width: 200px;
   height: 30px;
-  margin: 8px 8px 8px 0;
+  margin: 8px 8px 8px 32px;
   border: none;
   border-radius: 8px;
   background-color: ${styles.colors.emphColor};

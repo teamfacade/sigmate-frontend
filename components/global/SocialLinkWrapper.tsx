@@ -14,6 +14,7 @@ const SocialLinkWrapper = styled.div<{
     height: ${({ btnHeight }) => btnHeight};
     border: none;
     border-radius: 8px;
+    overflow: hidden;
     cursor: pointer;
 
     > div {

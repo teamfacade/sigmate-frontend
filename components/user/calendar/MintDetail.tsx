@@ -23,7 +23,7 @@ export default memo(function MintDetail({ mint }: PropsType) {
   }
   return (
     <Wrapper>
-      <ImageWrapper width="680px" height="300px">
+      <ImageWrapper width="100%" height="300px">
         <Image
           loader={loaderProp}
           src={
@@ -83,13 +83,13 @@ export default memo(function MintDetail({ mint }: PropsType) {
 });
 
 const Wrapper = styled.div`
-  width: 680px;
+  width: 100%;
   z-index: 10;
 `;
 
 const Descriptions = styled.div`
-  width: 680px;
-  padding: 20px;
+  width: 100%;
+  padding: 12px 20px 20px 20px;
   background-color: #ffffff;
 `;
 
@@ -97,11 +97,12 @@ const FlexWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin-bottom: 14px;
 `;
 
 const Content = styled.div`
-  margin: 0;
+  margin: 8px 0 0 0;
   font-size: 20px;
   color: ${styles.colors.boldTextColor};
 `;
@@ -112,6 +113,7 @@ const Name = styled(Content)`
 
 const BtnWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 31px;
 `;
@@ -119,9 +121,11 @@ const BtnWrapper = styled.div`
 const InnerBtnWrapper = styled.div`
   display: flex;
   align-items: flex-end;
+  flex-wrap: wrap;
 
-  a {
-    margin-left: 7px;
+  & > button,
+  & > a {
+    margin-right: 7px;
   }
 `;
 
@@ -129,6 +133,7 @@ const LinkBtn = styled.button<{ mintPage: boolean }>`
   width: ${({ mintPage }) => (mintPage ? '153px' : '137px')};
   height: 32px;
   padding: 6px ${({ mintPage }) => (mintPage ? '29px' : '32px')} 7px;
+  margin-top: 7px;
   border-radius: 8px;
   border: 1px solid ${styles.colors.emphColor};
   background-color: ${({ mintPage }) =>
@@ -136,8 +141,4 @@ const LinkBtn = styled.button<{ mintPage: boolean }>`
   font-size: 15px;
   white-space: nowrap;
   color: ${({ mintPage }) => (mintPage ? '#FFFFFF' : styles.colors.emphColor)};
-
-  & + & {
-    margin-left: 7px;
-  }
 `;

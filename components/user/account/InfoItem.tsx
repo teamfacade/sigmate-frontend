@@ -51,6 +51,7 @@ const Wrapper = styled.div`
 
 const Header = memo(styled.h2`
   margin: 0 0 15px 0;
+  color: ${styles.colors.logoColor};
   font-size: 18px;
   font-weight: bold;
   white-space: pre;
@@ -64,7 +65,6 @@ const Textarea = styled.textarea<{ inputHeight: string }>`
   margin: 0 0 5px 0;
   border: 1px solid ${styles.colors.lightBorderColor};
   border-radius: 8px;
-  background-color: #fafbfc;
   color: ${styles.colors.textColor};
   line-height: 27px;
   font-size: 18px;
@@ -83,10 +83,9 @@ const Textarea = styled.textarea<{ inputHeight: string }>`
 
 const Content = styled.span<{ inputHeight: string }>`
   display: block;
-  height: ${({ inputHeight }) => inputHeight};
-  padding: 5px 10px;
+  padding: 5px 0;
   margin: 0 0 5px 0;
-  border: 1px solid #dfe0e8;
+  border: 1px solid transparent;
   border-radius: 8px;
   color: ${styles.colors.textColor};
   line-height: 27px;
@@ -96,8 +95,8 @@ const Content = styled.span<{ inputHeight: string }>`
 
 const Description = memo(styled.p<{ isValid?: boolean }>`
   margin: 12px 0 0 0;
-  padding-left: 10px;
   color: ${({ isValid }) => (isValid ? styles.colors.logColor : `#E54646`)};
   font-size: 14px;
   white-space: pre-wrap;
+  line-height: 160%;
 `);

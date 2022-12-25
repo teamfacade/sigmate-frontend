@@ -151,7 +151,11 @@ export default function Upcoming() {
         unmountOnExit
         nodeRef={ModalRef}
       >
-        <Modal ref={ModalRef} onMouseDown={onClickBackground}>
+        <Modal
+          height="fit-content"
+          ref={ModalRef}
+          onMouseDown={onClickBackground}
+        >
           {showModal !== -1 && schedules?.data && (
             <ScheduleDetail
               schedule={

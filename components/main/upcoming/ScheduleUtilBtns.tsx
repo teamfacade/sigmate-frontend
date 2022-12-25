@@ -74,7 +74,7 @@ const BtnWrapper = styled.div`
 
 const AddCalenderBtn = styled.button`
   flex: 0 0 176px;
-  padding: 7px 30px;
+  padding: 10px 30px;
   margin: 0;
   background-color: #e9f0ff;
   color: ${styles.colors.emphColor};
@@ -87,7 +87,7 @@ const AddCalenderBtn = styled.button`
 `;
 
 const MintBtn = styled.button`
-  padding: 7px 38px;
+  padding: 10px 38px;
   margin: 0 0 0 10px;
   background-color: ${styles.colors.emphColor};
   color: #ffffff;

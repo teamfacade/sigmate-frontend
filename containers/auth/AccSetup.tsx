@@ -238,6 +238,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
         onClick={onClick}
         width="470px"
         height="61px"
+        label="Connect Metamask"
       />
       {!signedWithMetamask && (
         <WalletDescription>
@@ -257,7 +258,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
               target="_blank"
               rel="noreferrer"
             >
-              Sigmate terms of service.
+              Sigmate Terms of Service.
             </a>
           </label>
         </DisclaimWrapper>
@@ -275,7 +276,7 @@ export default function AccSetup({ signedWithMetamask }: PropsType) {
           </label>
         </DisclaimWrapper>
         <SignUp name="SignUp" type="submit" disabled={pending}>
-          Sign Up
+          Sign up
         </SignUp>
       </form>
     </Wrapper>

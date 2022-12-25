@@ -39,7 +39,7 @@ export default memo(
       }, []);
 
     return (
-      <Modal ref={ref}>
+      <Modal fixedWidth height="initial" ref={ref}>
         <SectionWrapper
           onClickBack={showDetail ? onClickBack : undefined}
           header={showDetail || date || 'MM.DD.YYYY'}

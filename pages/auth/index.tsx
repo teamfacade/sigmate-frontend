@@ -46,14 +46,8 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  flex-wrap: wrap-reverse;
   position: relative;
   height: 100%;
-
-  @media (max-width: 640px) {
-    display: inline-block;
-    overflow: hidden;
-  }
 `;
 
 const LeftWrapper = styled.div`
@@ -65,6 +59,9 @@ const LeftWrapper = styled.div`
 `;
 
 const RightWrapper = styled.div`
+  @media (max-width: 787px) {
+    display: none;
+  }
   min-width: 250px;
   width: 30vw;
   height: 100%;

@@ -235,7 +235,7 @@ export default function AuthComponents({ signedIn }: PropsType) {
 
   return (
     <div>
-      <Header>Log in / sign up</Header>
+      <Header>Log in / Sign up</Header>
       <BtnWrapper>
         <span>
           <OAuthBtn

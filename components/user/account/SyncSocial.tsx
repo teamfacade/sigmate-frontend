@@ -43,11 +43,11 @@ export default function SyncSocial() {
 
 const Description = styled.p`
   max-width: 500px;
-  height: 37px;
-  margin: 0 0 15px 0;
+  margin: 0 0 10px 0;
   color: ${styles.colors.textColor};
   font-size: 14px;
   white-space: pre-wrap;
+  line-height: 160%;
 
   a {
     color: ${styles.colors.emphColor};

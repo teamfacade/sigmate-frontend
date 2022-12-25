@@ -37,9 +37,7 @@ const textStyle = `
   line-height: 160%;
 `;
 
-const Wrapper = styled.div`
-  margin: 0 0 25px 0;
-`;
+const Wrapper = styled.div``;
 
 const Name = styled.p`
   margin: 0 0 5px 0;

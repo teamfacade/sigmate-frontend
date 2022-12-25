@@ -9,7 +9,7 @@ import {
   PageMoveBtns,
   LargeText,
 } from 'components/global';
-import { MyReferral, RefTotal } from 'components/user/referrals';
+import { MyReferral, RefTotal, ReferralEmpty } from 'components/user/referrals';
 
 export type RefLogType = {
   id: number;
@@ -60,8 +60,11 @@ export default function Referrals() {
             (store.getState() as ReduxState.RootStateType).account.referralCode
           }
         />
-        <ReferralLogs refLogs={refLogs} />
-        {refTotal === 0 && <LargeText>No one ;(</LargeText>}
+        {refTotal === 0 ? (
+          <ReferralEmpty />
+        ) : (
+          <ReferralLogs refLogs={refLogs} />
+        )}
         {totalPage > 0 && (
           <PageMoveBtns
             curPage={curPage}

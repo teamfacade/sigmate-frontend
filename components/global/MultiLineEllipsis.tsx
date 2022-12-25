@@ -11,7 +11,6 @@ const MultiLineEllipsis = styled.div<{ line: number; lineHeight: string }>`
     return `
         -webkit-line-clamp: ${line || '1'};
         line-height: ${lineHeight || '13px'};
-        max-height: ${Number.parseInt(lineHeight.substring(0, 2), 10) * line}px;
       `;
   }};
 `;

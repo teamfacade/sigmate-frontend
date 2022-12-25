@@ -32,13 +32,13 @@ const Wrapper = styled.div<{ platform: string }>`
     switch (platform) {
       case 'd':
         return `
-            border-color: #C1E2FF;
-            background-color: #ECF6FF;
+            border-color: #9DB0EC;
+            background-color: #CFDAFF;
           `;
       case 't':
         return `
-            border-color: #9DB0EC;
-            background-color: #CFDAFF;
+        border-color: #C1E2FF;
+            background-color: #ECF6FF;
           `;
       default:
         return ``;

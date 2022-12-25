@@ -69,7 +69,7 @@ export default memo(function Content({
         />
       ) : (
         <>
-          <EllipsisText line={2} lineHeight="130%">
+          <EllipsisText line={2} lineHeight="160%">
             <DynamicMarkdown content={content} />
           </EllipsisText>
           <BtnWrapper>

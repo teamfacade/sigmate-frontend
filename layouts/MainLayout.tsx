@@ -53,7 +53,7 @@ const Wrapper = styled.div`
 
 const Section = styled.section`
   @media (min-width: 729px) {
-    width: calc(100vw - 362px);
+    width: calc(100vw - 430px);
     max-width: 1080px;
     margin-right: 40px;
   }
@@ -67,7 +67,7 @@ const Section = styled.section`
 `;
 
 const Aside = styled.aside`
-  max-width: 252px;
+  max-width: 320px;
 
   @media (max-width: 728px) {
     max-width: unset;

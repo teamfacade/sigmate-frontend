@@ -67,18 +67,19 @@ const LinksWrapper = styled.ul`
   }
 
   a {
-    color: ${styles.colors.linkColor};
-    font-size: 16px;
-    font-weight: bold;
+    color: ${styles.colors.dimTextColor};
+    font-size: 18px;
+    font-weight: 700;
     font-family: 'Inter', sans-serif;
     white-space: nowrap;
+    line-height: 160%;
 
     :hover {
-      color: ${darken(0.1, styles.colors.linkColor)};
+      color: ${darken(0.1, styles.colors.dimTextColor)};
     }
 
     :active {
-      color: ${darken(0.2, styles.colors.linkColor)};
+      color: ${darken(0.2, styles.colors.dimTextColor)};
     }
   }
 `;

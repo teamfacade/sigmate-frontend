@@ -40,6 +40,8 @@ export default memo(function Schedules({
 });
 
 const GriddyWrapper = styled.div`
+  position: relative;
+  top: -20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

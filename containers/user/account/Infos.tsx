@@ -23,6 +23,7 @@ import {
   PFP,
   SocialsPublicityToggles,
 } from 'components/user/account';
+import styles, { BlueBtnStyle } from '../../../styles/styleLib';
 
 /* @todo :
      프로필 사진 변경 버튼 추가
@@ -230,9 +231,9 @@ export default function Infos({ setShowModal }: PropsType) {
               <EditBtn name="edit" onClick={onClick}>
                 {edit ? 'Save' : 'Edit'}
               </EditBtn>
-              <EditBtn name="delete" onClick={onClick}>
+              <DeleteBtn name="delete" onClick={onClick}>
                 Delete account
-              </EditBtn>
+              </DeleteBtn>
             </BtnWrapper>
           </InfoWrapper>
         </Wrapper>
@@ -258,21 +259,20 @@ const InfoWrapper = memo(styled.div`
 const BtnWrapper = styled.div`
   display: inline-flex;
   float: right;
+  margin-top: 24px;
 `;
 
-const EditBtn = memo(styled.button`
-  padding: 7px 15px;
-  margin-top: 20px;
-  background-color: #0070f3;
-  color: white;
-  outline: none;
-  border: none;
-  border-radius: 8px;
-  font-weight: bolder;
-  font-family: 'Inter', sans-serif;
-  text-align: center;
+const EditBtn = styled.button`
+  ${BlueBtnStyle};
+  height: auto;
+  padding: 11px 50px;
+`;
 
-  & + & {
-    margin-left: 8px;
-  }
-`);
+const DeleteBtn = styled.button`
+  ${BlueBtnStyle};
+  height: auto;
+  padding: 11px 40px;
+  margin-left: 12px;
+  background-color: ${styles.colors.lightThumbsUpColor};
+  color: ${styles.colors.emphColor};
+`;

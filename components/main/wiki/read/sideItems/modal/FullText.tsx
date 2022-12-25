@@ -41,9 +41,9 @@ const Text = styled.div`
     width: 100%;
     margin: 5px 0 0 0;
     color: ${styles.colors.logColor};
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 300;
-    line-height: 160%;
+    line-height: 130%;
     white-space: pre-line;
     line-break: anywhere;
   }

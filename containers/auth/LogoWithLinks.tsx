@@ -25,6 +25,5 @@ const Wrapper = styled.div`
 
 const SocialLinkWrapper = styled.div`
   position: absolute;
-  right: 77px;
-  bottom: 77px;
+  bottom: 72px;
 `;

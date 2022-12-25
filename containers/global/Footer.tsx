@@ -9,7 +9,6 @@ export default memo(function Footer() {
     <footer>
       <div style={{ width: '100%' }}>
         <Wrapper>
-          <Logo>Sigmate</Logo>
           <OuterWrapper>
             <SocialLinkWrapper>
               <p>Social Link</p>
@@ -38,29 +37,20 @@ const OuterWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 
-  @media (max-width: 728px) {
+  @media (max-width: 986px) {
     display: block;
   }
 `;
 
-const Logo = styled.p`
-  margin: 0 40px 0 0;
-  color: ${styles.colors.logoColor};
-  font-size: 35px;
-  font-weight: 500;
-  font-family: 'Claris Sans', sans-serif;
-  cursor: pointer;
-`;
-
 const Copyright = styled.div`
-  @media (min-width: 729px) {
+  @media (min-width: 987px) {
     float: right;
 
     p {
       white-space: nowrap;
     }
   }
-  @media (max-width: 728px) {
+  @media (max-width: 986px) {
     float: left;
     padding-left: 30px;
     p {

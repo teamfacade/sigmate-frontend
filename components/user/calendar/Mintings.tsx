@@ -40,11 +40,9 @@ export default function Mintings({ mintings, onClickMintItem }: PropsType) {
 
 const Grid = styled.div`
   position: relative;
-  left: 6px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 183px auto;
-  row-gap: 12px;
+  left: -2px;
+  display: flex;
+  flex-wrap: wrap;
   height: 580px;
   overflow-y: auto;
 `;

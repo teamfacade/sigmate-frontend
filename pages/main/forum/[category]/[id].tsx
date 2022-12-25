@@ -189,9 +189,7 @@ export default function Article({
               setCurPage={setCurPage}
             />
           ) : (
-            <BasicWrapper>
-              <LargeText>No comments yet :(</LargeText>
-            </BasicWrapper>
+            <LargeText>No comments yet :(</LargeText>
           )}
         </Comments>
       </Wrapper>

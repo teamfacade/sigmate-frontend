@@ -69,7 +69,7 @@ export default memo(function Content({
         />
       ) : (
         <>
-          <EllipsisText line={2} lineHeight="21px">
+          <EllipsisText line={2} lineHeight="130%">
             <DynamicMarkdown content={content} />
           </EllipsisText>
           <BtnWrapper>
@@ -167,6 +167,6 @@ const EllipsisText = styled(MultiLineEllipsis)`
   width: 100%;
   margin: 5px 0 0 0;
   color: ${styles.colors.logColor};
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 300;
 `;

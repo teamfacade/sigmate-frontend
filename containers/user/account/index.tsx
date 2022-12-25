@@ -29,7 +29,7 @@ export default function Account() {
         unmountOnExit
         nodeRef={ModalRef}
       >
-        <Modal onMouseDown={onMouseDown} ref={ModalRef}>
+        <Modal height="initial" onMouseDown={onMouseDown} ref={ModalRef}>
           <DeletAccountModal />
         </Modal>
       </CSSTransition>

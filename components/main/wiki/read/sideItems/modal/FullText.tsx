@@ -43,7 +43,7 @@ const Text = styled.div`
     color: ${styles.colors.logColor};
     font-size: 16px;
     font-weight: 300;
-    line-height: 130%;
+    line-height: 160%;
     white-space: pre-line;
     line-break: anywhere;
   }

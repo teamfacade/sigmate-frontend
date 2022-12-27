@@ -373,6 +373,7 @@ declare global {
       tags?: any[];
       imageUrls?: string[];
       createdAt?: string;
+      categories?: any[];
     };
   }
 

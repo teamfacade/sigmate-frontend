@@ -3,10 +3,9 @@ import { useRouter } from 'next/router';
 import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
-import { PageMoveBtns } from 'components/global';
+import { PageMoveBtns, BasicWrapper } from 'components/global';
 import { NoArticleYet } from 'components/main/wiki/read';
-import { SearchResult } from 'components/main/wiki/search';
-import styles from 'styles/styleLib';
+import { SearchResult , SearchTitle } from 'components/main/wiki/search';
 import { AxiosError } from 'axios';
 
 const limit = 50;
@@ -39,9 +38,12 @@ export default function SearchResultPage() {
   );
 
   return (
-    <div>
-      <H1>{`Search for: ${router.query.title}`}</H1>
-      <Wrapper>
+    <>
+      <UtilWrapper>
+        <NoArticleYet title="" />
+      </UtilWrapper>
+      <BasicWrapper>
+        <SearchTitle searched={router.query.title as string} />
         {searchResults?.data?.map((result) => (
           <SearchResult
             key={result.id}
@@ -57,24 +59,14 @@ export default function SearchResultPage() {
             setCurPage={setCurPage}
           />
         )}
-      </Wrapper>
-      <NoArticleYet title="" />
-    </div>
+      </BasicWrapper>
+    </>
   );
 }
 
-const Wrapper = styled.div`
-  padding-bottom: 32px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid ${styles.colors.hrColor};
-`;
-
-const H1 = styled.h1`
-  margin: 0 0 18px 0;
-  color: ${styles.colors.logoColor};
-  font-size: 40px;
-  font-weight: bold;
-  line-height: 110%;
-  text-align: left;
-  padding-bottom: 32px;
+const UtilWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
 `;

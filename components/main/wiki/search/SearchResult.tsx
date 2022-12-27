@@ -55,6 +55,7 @@ const EllipsisText = styled(multiLineEllipsis)`
   margin: 0 0 8px 0;
   color: ${styles.colors.logColor};
   font-size: 14px;
+  word-break: break-all;
 `;
 
 const Title = styled.h1`

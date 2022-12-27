@@ -233,11 +233,12 @@ const Wrapper = styled.div`
 `;
 
 const LargeText = styled.p`
+  padding-bottom: 25px;
   margin: auto;
   text-align: center;
-  color: #96b8d7;
+  color: #c3cdd7;
   font-family: 'Claris Sans', sans-serif;
-  font-size: 50px;
+  font-size: 65px;
   font-weight: 200;
-  line-height: 150%;
+  line-height: 110%;
 `;

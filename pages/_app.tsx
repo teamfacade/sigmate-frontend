@@ -54,7 +54,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             !(
               router.pathname === '/main' ||
               router.pathname.startsWith('/main/forum') ||
-              router.pathname.startsWith('/main/upcoming')
+              router.pathname.startsWith('/main/upcoming') ||
+              router.pathname.startsWith('/main/wiki/search')
             )
           }
           onSearch={onSearch}

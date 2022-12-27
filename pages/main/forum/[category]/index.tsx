@@ -9,6 +9,7 @@ import { PostBtn } from 'components/main/forum/articleList';
 import useSWR, { Fetcher } from 'swr';
 import Axios from 'lib/global/axiosInstance';
 import { useAppSelector } from 'hooks/reduxStoreHooks';
+import styles from 'styles/styleLib';
 
 const limit = 10;
 
@@ -60,6 +61,11 @@ export default function ArticleLists() {
   return (
     <>
       <UtilWrapper>
+        {articles.data[0]?.categories && (
+          <CategoryName>
+            {articles.data[0].categories[0].name || ''}
+          </CategoryName>
+        )}
         {/* <Search white placeholder="Search..." /> */}
         {(router.query.category !== '24' || isAdmin) && (
           <PostBtn onClickNew={onClickNew} />
@@ -100,8 +106,15 @@ export default function ArticleLists() {
 const UtilWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 40px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`;
+
+const CategoryName = styled.p`
+  margin: 0;
+  font-weight: 700;
+  font-size: 35px;
+  color: ${styles.colors.headerColor};
 `;
 
 const LargeText = styled.p`

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import styles from 'styles/styleLib';
+import multiLineEllipsis from '../../../global/MultiLineEllipsis';
 
 type PropsType = {
   id: number;
@@ -12,12 +13,14 @@ export default function SearchResult({ id, title, textContent }: PropsType) {
   return (
     <Wrapper>
       <FlexWrapper>
-        <h1>{title}</h1>
-        {/* <p>{textContent}</p> */}
+        <Title>{title}</Title>
         <Link href={`/main/wiki/${id}`}>
-          <a>
+          <div>
+            <EllipsisText line={3} lineHeight="160%">
+              {textContent}
+            </EllipsisText>
             <button type="button">Go to document</button>
-          </a>
+          </div>
         </Link>
       </FlexWrapper>
     </Wrapper>
@@ -25,55 +28,40 @@ export default function SearchResult({ id, title, textContent }: PropsType) {
 }
 
 const Wrapper = styled.div`
-  h1 {
-    margin: 0 0 18px 0;
-    color: ${styles.colors.logoColor};
-    font-size: 28px;
-    font-weight: bold;
-    line-height: 110%;
-    text-align: left;
-  }
-
-  & + & {
-    border-top: 1px solid rgb(222, 222, 222);
-    padding-top: 36px;
-    margin-top: 36px;
-  }
+  border-top: 1px solid #d7dce4;
+  padding: 13px 0 17px 0;
 `;
 
 const FlexWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @media (max-width: 728px) {
-    flex-direction: column;
-    align-items: flex-start;
-
-    button {
-      margin-top: 20px !important;
-    }
-  }
-
-  p {
-    max-height: 34px;
-    margin: 0 16px 0 0;
-    color: ${styles.colors.logColor};
-    font-size: 14px;
-    overflow: hidden;
-  }
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
 
   button {
-    width: 200px;
-    height: 40px;
     margin: 0;
+    background: none;
+    padding: 0;
     border: none;
-    border-radius: 8px;
-    background-color: ${styles.colors.emphColor};
-    font-size: 18px;
-    cursor: pointer;
-    text-align: center;
-    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    color: ${styles.colors.emphColor};
     white-space: nowrap;
+    float: right;
   }
+`;
+
+const EllipsisText = styled(multiLineEllipsis)`
+  margin: 0 0 8px 0;
+  color: ${styles.colors.logColor};
+  font-size: 14px;
+  word-break: break-all;
+`;
+
+const Title = styled.h1`
+  margin: 0 0 10px 0;
+  color: ${styles.colors.logoColor};
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left;
 `;

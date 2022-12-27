@@ -91,6 +91,8 @@ const MainText = styled.span`
   font-size: 14px;
   font-weight: 500;
   line-height: 160%;
+  white-space: pre-line;
+  word-break: break-all;
 `;
 
 const Tag = styled.p`

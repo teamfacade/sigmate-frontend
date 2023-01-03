@@ -52,9 +52,14 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
         </Th>
         <VerdictBlock
           id={_keyInfo.id}
+          /*
           verificationCounts={_keyInfo.verificationCounts}
           opinionCount={_keyInfo.opinionCount}
           myVerification={_keyInfo.myVerification}
+          */
+          verificationCounts={{ verifyCount: 0, beAwareCount: 0 }}
+          myVerification={null}
+          opinionCount={0}
           setShowModal={
             setShowModal as Dispatch<SetStateAction<Wiki.ModalDataType>>
           }

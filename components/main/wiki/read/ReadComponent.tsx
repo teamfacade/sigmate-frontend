@@ -8,7 +8,9 @@ type PropsType = {
 
 const Components: StringKeyObj<typeof Paragraph> = {
   p: Paragraph,
+  paragraph: Paragraph,
   h: Heading,
+  header: Heading,
 };
 
 export default memo(function ReadComponent({ element, content }: PropsType) {
@@ -16,7 +18,9 @@ export default memo(function ReadComponent({ element, content }: PropsType) {
 
   switch (element) {
     case 'p':
+    case 'paragraph':
     case 'h':
+    case 'header':
       return <Component content={content} />;
     default:
       return null;

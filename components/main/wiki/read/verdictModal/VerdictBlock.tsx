@@ -13,7 +13,7 @@ import { VerdictBtn } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';
 
 type PropsType = {
-  id: number;
+  id: number | string;
   setShowModal: Dispatch<SetStateAction<Wiki.ModalDataType>>;
   verificationCounts: Wiki.VerificationCountType;
   myVerification: boolean | null;

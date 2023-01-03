@@ -333,6 +333,138 @@ export async function getArticleReadData(id: string) {
   }
 }
 
+export async function getArticleReadNewData() {
+  return {
+    id: 1,
+    title: 'Bellygom world official',
+    data: {
+      time: 1672746714118,
+      blocks: [
+        {
+          id: 'Y-J0EWN3Er',
+          type: 'paragraph',
+          data: {
+            text: 'hi',
+          },
+        },
+        {
+          id: 'oz5PFvYFpn',
+          type: 'header',
+          data: {
+            text: 'hello',
+            level: 2,
+          },
+        },
+        {
+          id: '072DQvOpYb',
+          type: 'paragraph',
+          data: {
+            text: 'how are you?',
+          },
+        },
+        {
+          id: '0lmhVGV4aP',
+          type: 'paragraph',
+          data: {
+            text: 'ajhfalkj',
+          },
+        },
+        {
+          id: 'KoEs90Ived',
+          type: 'paragraph',
+          data: {
+            text: 'lalal a jaik i?<br>adsfew',
+          },
+        },
+      ],
+    },
+    keyInfo: {
+      name: {
+        id: 2,
+        textContent: 'Bellygom World Official',
+      },
+      thumbnail: {
+        id: 2,
+        textContent:
+          'https://i.seadn.io/gcs/files/ed4380136946111c0a73f0f18ede3700.gif?w=500&auto=format',
+      },
+      team: {
+        id: 15,
+        element: 'td',
+        textContent: 'teat',
+        opinionCount: 0,
+        myVerification: null,
+      },
+      history: {
+        id: 16,
+        element: 'td',
+        textContent: '',
+        opinionCount: 0,
+        myVerification: null,
+      },
+      category: {
+        id: 17,
+        element: 'td',
+        style: null,
+        textContent: '',
+        opinionCount: 0,
+        myVerification: null,
+      },
+      utility: {
+        id: 18,
+        element: 'td',
+        textContent: '',
+        opinionCount: 0,
+        myVerification: null,
+      },
+      mintingPriceWl: {
+        id: 19,
+        element: 'td',
+        textContent: '',
+        opinionCount: 0,
+        myVerification: null,
+      },
+      mintingPricePublic: {
+        id: 20,
+        element: 'td',
+        textContent: '',
+        opinionCount: 0,
+        myVerification: null,
+      },
+      floorPrice: {
+        id: 21,
+        element: 'td',
+        textContent: '0.1456825',
+        opinionCount: 0,
+        myVerification: null,
+      },
+      discordUrl: {
+        id: 22,
+        element: 'td',
+        textContent: 'https://discord.gg/invite/TDYtz2fcSN',
+        opinionCount: 0,
+        myVerification: null,
+      },
+      twitterHandle: {
+        id: 23,
+        element: 'td',
+        textContent: '',
+        opinionCount: 0,
+        myVerification: null,
+      },
+      websiteUrl: {
+        id: 24,
+        element: 'td',
+        textContent: 'https://www.bellygom.world/',
+        opinionCount: 0,
+        myVerification: null,
+      },
+    },
+    types: [],
+    version: '2.26.4',
+  };
+}
+
 export {
   KeyInfoIndex,
   KeyInfoTitles,

@@ -4,22 +4,26 @@ import {
   ChangeEventHandler,
   FormEventHandler,
   useEffect,
+  useRef,
 } from 'react';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { getArticleReadData } from 'lib/main/wiki/getWikiData';
-import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
+// import { useAppDispatch, useAppSelector } from 'hooks/reduxStoreHooks';
+import { useAppSelector } from 'hooks/reduxStoreHooks';
 import { store } from 'store/store';
-import { AuthRequiredAxios } from 'store/modules/authSlice';
+// import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { WikiEdit, Summary } from 'containers/main/wiki/edit';
 import { LargeText } from 'components/global';
+import { EditorCore } from '@react-editor-js/core';
 
 export default function WikiEditPage({
   document,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const { isAdmin, isTester } = useAppSelector(({ account }) => account);
+  const editorCoreRef = useRef(null);
 
   if (!document) {
     router.push('/main/recent-edits');
@@ -80,11 +84,11 @@ export default function WikiEditPage({
   );
 
   const onSave: FormEventHandler<HTMLFormElement> = useCallback(
-    (e) => {
+    async (e) => {
       setPending(true);
       const collection: any = {};
       e.preventDefault();
-      const { id } = document;
+      // const { id } = document;
       const { elements } = e.currentTarget;
 
       if (document.keyInfo) {
@@ -125,6 +129,7 @@ export default function WikiEditPage({
         alert('A wiki document must have contents.');
         return;
       }
+      /**
       dispatch(
         AuthRequiredAxios({
           method: 'PATCH',
@@ -144,9 +149,9 @@ export default function WikiEditPage({
           await router.push(`/main/wiki/${id}`);
         } else {
           setPending(false);
-          /** Validated errors */
+          // Validated errors
           if (action.payload.status === 400) {
-            /** Price should be a string */
+            // Price should be a string
             const errorData = action.payload.data.validationErrors[0];
             if (errorData?.msg === 'NOT_FLOAT')
               alert(
@@ -159,6 +164,13 @@ export default function WikiEditPage({
           }
         }
       });
+       */
+      if (editorCoreRef.current) {
+        setPending(false);
+        const data = await (editorCoreRef.current as EditorCore).save();
+        // eslint-disable-next-line no-console
+        console.log('data', data);
+      }
     },
     [selectedOption, blocks, document, title, router]
   );
@@ -175,6 +187,7 @@ export default function WikiEditPage({
             blocks={blocks}
             setBlocks={setBlocks}
             keyInfo={document.keyInfo}
+            editorCoreRef={editorCoreRef}
           />
           <Summary
             summary={summary}

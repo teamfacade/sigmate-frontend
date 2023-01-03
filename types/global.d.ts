@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 import { AppProps } from 'next/app';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { OutputData } from '@editorjs/editorjs';
 
 declare global {
   interface Window {
@@ -284,7 +285,7 @@ declare global {
       };
       element: string;
       textContent: string;
-      verificationCounts: VerificationCountType;
+      verificationCounts?: VerificationCountType;
       opinionCount: number;
       myVerification?: MyVerificationType;
     };
@@ -294,6 +295,15 @@ declare global {
       title: string;
       structure: number[];
       blocks?: StringKeyObj<Wiki.DocumentBlockType>;
+      keyInfo?: Wiki.KeyInfoType;
+      types: Forum.CategoryType[];
+      createdBy?: Forum.AuthorType;
+    };
+
+    type NewDataDocumentType = {
+      id: number;
+      title: string;
+      data: OutputData;
       keyInfo?: Wiki.KeyInfoType;
       types: Forum.CategoryType[];
       createdBy?: Forum.AuthorType;

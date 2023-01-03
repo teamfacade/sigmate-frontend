@@ -1,4 +1,10 @@
-import { useCallback, SetStateAction, Dispatch, memo } from 'react';
+import {
+  useCallback,
+  SetStateAction,
+  Dispatch,
+  memo,
+  MutableRefObject,
+} from 'react';
 import styled from 'styled-components';
 import { createNewBlock } from 'lib/main/wiki/utils';
 import { EditBlock } from 'containers/main/wiki/edit';
@@ -6,6 +12,12 @@ import { SectionWrapper } from 'components/global';
 import { EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
 import { SelectTypes } from 'components/main/wiki/new';
 import styles from 'styles/styleLib';
+
+import dynamic from 'next/dynamic';
+
+const NewEditor = dynamic(() => import('containers/main/wiki/edit/NewEditor'), {
+  ssr: false,
+});
 
 type PropsType = {
   title: string;
@@ -15,6 +27,7 @@ type PropsType = {
   blocks: Wiki.DocumentBlockType[];
   setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
   keyInfo?: Wiki.KeyInfoType;
+  editorCoreRef: MutableRefObject<null>;
 };
 
 export default memo(function WikiEdit({
@@ -25,6 +38,7 @@ export default memo(function WikiEdit({
   blocks,
   setBlocks,
   keyInfo,
+  editorCoreRef,
 }: PropsType) {
   const onClickSelect: (id: number, tag: string) => void = useCallback(
     (id, tag) => {
@@ -80,6 +94,7 @@ export default memo(function WikiEdit({
             />
           );
         })}
+        <NewEditor editorCoreRef={editorCoreRef} />
       </ContentWrapper>
     </SectionWrapper>
   );

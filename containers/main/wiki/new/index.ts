@@ -4,3 +4,5 @@ export { default as NewArticle } from './NewArticle';
 
 export { default as BasicInfos } from './BasicInfos';
 export { default as WriteNew } from './WriteNew';
+
+export { default as NewArticleNewEditor } from './NewArticleNewEditor';

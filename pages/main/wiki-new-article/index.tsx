@@ -1,5 +1,10 @@
 import { useState, useCallback, useEffect, MouseEventHandler } from 'react';
-import { Guidelines, Categorize, NewArticle } from 'containers/main/wiki/new';
+import {
+  Guidelines,
+  Categorize,
+  NewArticle,
+  NewArticleNewEditor,
+} from 'containers/main/wiki/new';
 
 export default function MakeNewArticle() {
   const [phase, setPhase] = useState(3);
@@ -25,7 +30,7 @@ export default function MakeNewArticle() {
     case 2:
       return <Categorize onClick={onClickStart} />;
     case 3:
-      return <NewArticle topic={topic} />;
+      return <NewArticleNewEditor topic={topic} />;
     default:
       break;
   }

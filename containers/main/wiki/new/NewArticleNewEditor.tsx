@@ -7,6 +7,7 @@ import { BasicInfos, WriteNew } from 'containers/main/wiki/new';
 import { SectionWrapper } from 'components/global';
 import { DisclaimWrapper } from 'components/main/wiki/edit';
 import BlueBtn from 'components/main/wiki/BlueBtn';
+import { EditorCore } from '@react-editor-js/core';
 
 type PropsType = {
   topic: string;
@@ -125,7 +126,7 @@ export default function NewArticle({ topic }: PropsType) {
   );
 
   const onSubmitArticle: FormEventHandler<HTMLFormElement> = useCallback(
-    (e) => {
+    async (e) => {
       setPending(true);
       const collection: any = {};
       e.preventDefault();
@@ -159,39 +160,46 @@ export default function NewArticle({ topic }: PropsType) {
         alert('A wiki document must have contents.');
         return;
       }
-      dispatch(
-        AuthRequiredAxios({
-          method: 'PATCH',
-          url: `/wiki/d/${id}`,
-          data: {
-            document: {
-              title,
-              categories: selectedOption.map((selected) => selected.value),
-              blocks,
-            },
-            collection,
-          },
-        })
-      ).then(async (action: any) => {
-        if (action.payload.status === 200) {
-          alert('Created a new document!');
-          await router.push(`/main/wiki/${id}`);
-        } else {
-          setPending(false);
-          /** Validated errors */
-          if (action.payload.status === 400) {
-            /** Price should be a string */
-            const errorData = action.payload.data.validationErrors[0];
-            if (errorData?.msg === 'NOT_FLOAT')
-              alert(
-                `Price must be a floating number.\r\nError at: ${errorData.value}`
-              );
-          } else
-            alert(
-              `Error while creating new article. ERR: ${action.payload.status}`
-            );
-        }
-      });
+      /*
+            dispatch(
+                AuthRequiredAxios({
+                    method: 'PATCH',
+                    url: `/wiki/d/${id}`,
+                    data: {
+                        document: {
+                            title,
+                            categories: selectedOption.map((selected) => selected.value),
+                            blocks,
+                        },
+                        collection,
+                    },
+                })
+            ).then(async (action: any) => {
+                if (action.payload.status === 200) {
+                    alert('Created a new document!');
+                    await router.push(`/main/wiki/${id}`);
+                } else {
+                    setPending(false);
+                    // Validated errors
+                    if (action.payload.status === 400) {
+                        // Price should be a string
+                        const errorData = action.payload.data.validationErrors[0];
+                        if (errorData?.msg === 'NOT_FLOAT')
+                            alert(
+                                `Price must be a floating number.\r\nError at: ${errorData.value}`
+                            );
+                    } else
+                        alert(
+                            `Error while creating new article. ERR: ${action.payload.status}`
+                        );
+                }
+            });
+             */
+      if (editorCoreRef.current) {
+        setPending(false);
+        const data = await (editorCoreRef.current as EditorCore).save();
+        console.log('data', data);
+      }
     },
     [id, title, selectedOption, blocks, keyInfo]
   );

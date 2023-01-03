@@ -1,10 +1,22 @@
-import { useCallback, SetStateAction, Dispatch, memo } from 'react';
+import {
+  useCallback,
+  SetStateAction,
+  Dispatch,
+  memo,
+  MutableRefObject,
+} from 'react';
 import styled from 'styled-components';
 import { createNewBlock } from 'lib/main/wiki/utils';
 import { EditBlock } from 'containers/main/wiki/edit';
 import { EditableTitle, EditKeyInfo } from 'components/main/wiki/edit';
 import { SelectTypes } from 'components/main/wiki/new';
 import styles from 'styles/styleLib';
+
+import dynamic from 'next/dynamic';
+
+const NewEditor = dynamic(() => import('containers/main/wiki/edit/NewEditor'), {
+  ssr: false,
+});
 
 type PropsType = {
   topic: string;
@@ -14,6 +26,7 @@ type PropsType = {
   blocks: Wiki.DocumentBlockType[];
   setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
   keyInfo: Wiki.KeyInfoType;
+  editorCoreRef: MutableRefObject<null>;
 };
 
 export default memo(function WriteNew({
@@ -24,6 +37,7 @@ export default memo(function WriteNew({
   blocks,
   setBlocks,
   keyInfo,
+  editorCoreRef,
 }: PropsType) {
   // @todo 언젠가 children 구조가 생기면 setBlocks 로직을 parent id 존재 유무에 따라 바꾸기
   const onClickSelect: (id: number, tag: string) => void = useCallback(
@@ -72,7 +86,8 @@ export default memo(function WriteNew({
             <EditKeyInfo keyInfos={keyInfo} />
           </>
         )}
-        {blocks.map((block) => {
+
+        {/* blocks.map((block) => {
           return (
             <EditBlock
               key={block.id}
@@ -84,7 +99,8 @@ export default memo(function WriteNew({
               onFinishFix={onFinishFix}
             />
           );
-        })}
+        }) */}
+        <NewEditor editorCoreRef={editorCoreRef} />
       </ContentWrapper>
     </div>
   );

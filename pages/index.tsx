@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { Introduction } from 'containers/landing';
+import { Introduction, CorrelationAlg } from 'containers/landing';
 
 export default function MyApp() {
   return (
     <Wrapper>
       <Introduction />
+      <CorrelationAlg />
     </Wrapper>
   );
 }

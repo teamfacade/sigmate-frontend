@@ -1,5 +1,6 @@
 export { default as SigmateLogo } from './SigmateLogo.svg';
 export { default as ReadingGlass } from './ReadingGlass.svg';
+export { default as Correlation } from './Correlation.svg';
 
 export { default as WavingHand } from './WavingHand.svg';
 
@@ -10,7 +11,6 @@ export { default as Membership } from './Membership.png';
 export { default as CrossValidation } from './CrossValidation.png';
 export { default as Raffle } from './Raffle.png';
 export { default as Community } from './Community.png';
-export { default as Correlation } from './Correlation.png';
 export { default as Write2Earn } from './Write2Earn.png';
 
 export { default as WritingHand } from './WritingHand.svg';

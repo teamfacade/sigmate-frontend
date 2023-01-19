@@ -8,41 +8,48 @@ import { CorrelationEx } from 'public/Icons/landingPage';
 export default function CorrelationAlg() {
   return (
     <Wrapper>
-      <div>
-        <Title />
-        <Content>
-          <ImageWrapper width="100%" height="100%">
-            <Image
-              src={CorrelationEx}
-              layout="fill"
-              objectFit="contain"
-              priority
-            />
-          </ImageWrapper>
-          <BlurFilter>
-            <p>Coming soon</p>
-          </BlurFilter>
-        </Content>
-      </div>
+      <Title />
+      <Description>
+        More Reasonable Valuation Model using both On&Off Chain Data
+      </Description>
+      <Content>
+        <ImageWrapper width="100%" height="100%">
+          <Image
+            src={CorrelationEx}
+            layout="fill"
+            objectFit="contain"
+            priority
+          />
+        </ImageWrapper>
+        <BlurFilter>
+          <p>Coming soon</p>
+        </BlurFilter>
+      </Content>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 42px min(72px, calc((100% - 300px) / 2)) 112px;
-  background-color: #ffffff;
+  padding: 50px 0 100px 0;
+`;
 
-  > div {
-    position: relative;
-    max-width: 1280px;
-    margin: auto;
-  }
+const Description = styled.p`
+  margin: 0 0 40px 0;
+  color: ${styles.colors.darkTextColor};
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 150%;
+  text-align: center;
 `;
 
 const Content = styled.div`
   position: relative;
-  width: 100%;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  width: 90vw;
+  transform: translateX(-50%);
   aspect-ratio: 4.67;
   border-radius: 8px;
   background-color: #ffffff;
@@ -66,7 +73,7 @@ const BlurFilter = styled.div`
     transform: translate(-50%, -50%);
     margin: 0;
     text-align: center;
-    color: #96b8d7;
+    color: #767676;
     font-family: 'Claris Sans', sans-serif;
     font-size: 5vw;
     font-weight: 200;

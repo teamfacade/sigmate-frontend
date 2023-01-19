@@ -1,6 +1,5 @@
 import { memo } from 'react';
 import styled from 'styled-components';
-import { etherium as Etherium } from 'public/Icons';
 import styles from 'styles/styleLib';
 
 type PropsType = {
@@ -26,7 +25,6 @@ export default memo(function MyDrawItem({
         <Name>{name}</Name>
         <Issuer>{issuer}</Issuer>
         <MintInfoWrapper>
-          <Etherium />
           <p>{mintPrice}</p>
           <p>{mintDate}</p>
         </MintInfoWrapper>

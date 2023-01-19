@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { apple as Apple, googlePlay as GooglePlay } from 'public/Icons';
 
 type PropsType = {
   platform: 'Google' | 'Apple';
@@ -8,7 +7,6 @@ type PropsType = {
 export default function DownloadBtn({ platform }: PropsType) {
   return (
     <Btn type="button">
-      {platform === 'Apple' ? <Apple width="30" /> : <GooglePlay width="29" />}
       <Subheader>
         {platform === 'Apple' ? 'App Store   ' : 'Google Play'}
       </Subheader>

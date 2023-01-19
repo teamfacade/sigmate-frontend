@@ -1,4 +1,6 @@
 export { default as SigmateLogo } from './SigmateLogo.svg';
+export { default as ReadingGlass } from './ReadingGlass.svg';
+
 export { default as WavingHand } from './WavingHand.svg';
 
 export { default as Wiki } from './Wiki.png';

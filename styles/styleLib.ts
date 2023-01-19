@@ -3,6 +3,7 @@ const colors = {
   modalContentBgColor: '#FDFDFD' as const,
   dividerColor: '#D7DCE4' as const,
   logoColor: '#475366' as const,
+  landingIntroText: '#374254' as const,
   logColor: '#626262' as const,
   emphColor: '#276BFF' as const,
   textColor: '#464646' as const,

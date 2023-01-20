@@ -1,3 +1,4 @@
 export { default as Introduction } from './Introduction';
 export { default as CorrelationAlg } from './CorrelationAlg';
-export { default as Features } from './Features';
+export { default as Wikis } from './Wikis';
+export { default as Calendar } from './Calendar';

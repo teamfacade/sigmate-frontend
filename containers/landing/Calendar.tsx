@@ -1,45 +1,40 @@
+import Image from 'next/image';
+import Link from 'next/link';
 import styled from 'styled-components';
-import { Title, InfoTable } from 'components/landing/Calendar';
-import styles from 'styles/styleLib';
+import { ImageWrapper } from 'components/global';
+import { Details } from 'components/landing/Calendar';
+import { UpcomingExample } from 'public/Icons/landingPage';
 
 export default function Calendar() {
   return (
     <Wrapper>
-      <div>
-        <Title />
-        <Text>
-          Catching up with NFT schedules is difficult. We make it easier for
-          you.
-        </Text>
-        <InfoTable
-          title="Minting Calendar"
-          description="Provides all the information of upcoming NFT minting schedules"
-        />
-        <InfoTable
-          title="Personal Calendar"
-          description="Select watchlist of your interest and keep your alarmed with Personal Calendar"
-        />
-      </div>
+      <Link href="/main/upcoming" passHref>
+        <TransparentBtn>
+          <ImageWrapper width="700px" height="625px">
+            <Image
+              src={UpcomingExample}
+              alt="Example image"
+              layout="fill"
+              objectFit="contain"
+            />
+          </ImageWrapper>
+        </TransparentBtn>
+      </Link>
+      <Details />
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  width: 100%;
-  padding: 42px min(72px, calc((100% - 300px) / 2)) 85px;
-  background-color: ${styles.colors.emptyColor};
-
-  > div {
-    position: relative;
-    max-width: 1280px;
-    margin: auto;
-  }
+  display: flex;
+  align-items: center;
+  padding: 0 108px 165px 108px;
 `;
 
-const Text = styled.p`
-  margin: 0 0 60px 0;
-  color: ${styles.colors.darkTextColor};
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 180%;
+const TransparentBtn = styled.button`
+  display: block;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
 `;

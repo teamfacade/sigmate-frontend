@@ -4,12 +4,17 @@ import { ImageWrapper } from 'components/global';
 import { Texts } from 'components/landing/Features';
 import { Roadmap } from 'public/Icons/landingPage';
 
-export default function Features() {
+export default function Wikis() {
   return (
     <Wrapper>
       <Texts />
-      <ImageWrapper width="100%" height="100%">
-        <Image src={Roadmap} alt="Main page image" />
+      <ImageWrapper width="100%" height="600px">
+        <Image
+          src={Roadmap}
+          alt="Main page image"
+          layout="fill"
+          objectFit="contain"
+        />
       </ImageWrapper>
     </Wrapper>
   );

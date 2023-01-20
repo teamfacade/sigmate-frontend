@@ -1,55 +1,23 @@
 import styled from 'styled-components';
-import { Feature } from 'components/landing/Features';
-import styles from 'styles/styleLib';
-
-const features: string[] = [
-  'Wiki',
-  'Offchain',
-  'Calendar',
-  'Membership',
-  'CrossValidation',
-  'Raffle',
-  'Community',
-  'Correlation',
-  'Write2Earn',
-];
+import Image from 'next/image';
+import { ImageWrapper } from 'components/global';
+import { Texts } from 'components/landing/Features';
+import { Roadmap } from 'public/Icons/landingPage';
 
 export default function Features() {
   return (
     <Wrapper>
-      <div>
-        <FeaturesWrapper>
-          {features.map((feature) => {
-            return <Feature key={feature} feature={feature} />;
-          })}
-        </FeaturesWrapper>
-      </div>
+      <Texts />
+      <ImageWrapper width="100%" height="100%">
+        <Image src={Roadmap} alt="Main page image" />
+      </ImageWrapper>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 52px;
-  background-color: ${styles.colors.lightThumbsUpColor};
-
-  > div {
-    position: relative;
-    max-width: 1280px;
-    margin: auto;
-  }
-`;
-
-const FeaturesWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-
-  > div {
-    position: relative;
-    width: calc(33% - 28px);
-    min-width: 300px;
-    aspect-ratio: 1.56;
-    margin: 14px;
-  }
+  align-items: center;
+  padding: 0 0 232px 108px;
 `;

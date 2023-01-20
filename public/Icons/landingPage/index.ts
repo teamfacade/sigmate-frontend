@@ -1,6 +1,7 @@
 export { default as SigmateLogo } from './SigmateLogo.svg';
 export { default as ReadingGlass } from './ReadingGlass.svg';
 export { default as Correlation } from './Correlation.svg';
+export { default as BookIcon } from './BookIcon.svg';
 
 export { default as WavingHand } from './WavingHand.svg';
 

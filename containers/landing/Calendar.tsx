@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { ImageWrapper } from 'components/global';
+import { ImageWrapper, TransparentBtn } from 'components/global';
 import { Details } from 'components/landing/Calendar';
 import { UpcomingExample } from 'public/Icons/landingPage';
 
@@ -29,12 +29,4 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   padding: 0 108px 165px 108px;
-`;
-
-const TransparentBtn = styled.button`
-  display: block;
-  padding: 0;
-  margin: 0;
-  background: none;
-  border: none;
 `;

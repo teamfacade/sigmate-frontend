@@ -5,6 +5,8 @@ export { default as BookIcon } from './BookIcon.svg';
 export { default as CalendarIcon } from './CalendarIcon.svg';
 export { default as UpcomingExample } from './UpcomingExample.png';
 export { default as UpcomingDetail } from './UpcomingDetail.png';
+export { default as ForumIcon } from './ForumIcon.svg';
+export { default as ForumCaptureImg } from './ForumCaptureImg.png';
 
 export { default as CorrelationEx } from './CorrelationEx.png';
 export { default as Roadmap } from './Roadmap.png';

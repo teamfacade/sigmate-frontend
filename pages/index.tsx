@@ -4,6 +4,7 @@ import {
   CorrelationAlg,
   Wikis,
   Calendar,
+  Forum,
 } from 'containers/landing';
 
 export default function MyApp() {
@@ -12,6 +13,7 @@ export default function MyApp() {
       <Introduction />
       <Wikis />
       <Calendar />
+      <Forum />
       <CorrelationAlg />
     </Wrapper>
   );

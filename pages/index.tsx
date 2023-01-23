@@ -6,6 +6,7 @@ import {
   Calendar,
   Forum,
 } from 'containers/landing';
+import styles from 'styles/styleLib';
 
 export default function MyApp() {
   return (
@@ -23,5 +24,5 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  background-color: #f3f7ff;
+  background-color: ${styles.colors.landingBlue};
 `;

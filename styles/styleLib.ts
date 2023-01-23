@@ -46,6 +46,7 @@ const colors = {
   negativeTextColor: '#E54646' as const,
   negativeBgColor: '#FDECEC' as const,
   pinkBgColor: '#FFE4EE' as const,
+  landingBlue: '#F3F7FF' as const,
 };
 
 const shadows = {

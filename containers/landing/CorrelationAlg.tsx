@@ -31,7 +31,7 @@ export default function CorrelationAlg() {
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 50px 0 100px 0;
+  padding: 100px 0;
 `;
 
 const Description = styled.p`

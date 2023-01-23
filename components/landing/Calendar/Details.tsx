@@ -1,8 +1,6 @@
-import Image from 'next/image';
 import styled from 'styled-components';
-import { ImageWrapper } from 'components/global';
 import styles from 'styles/styleLib';
-import { UpcomingDetail, CalendarIcon } from 'public/Icons/landingPage';
+import { CalendarIcon } from 'public/Icons/landingPage';
 
 export default function Details() {
   return (
@@ -12,14 +10,6 @@ export default function Details() {
         <Title>Calendar</Title>
       </div>
       <Explanation>Keep you updated with upcoming drops</Explanation>
-      <ImageWrapper width="500px" height="480px">
-        <Image
-          src={UpcomingDetail}
-          alt="Detail example image"
-          layout="fill"
-          objectFit="contain"
-        />
-      </ImageWrapper>
     </Wrapper>
   );
 }

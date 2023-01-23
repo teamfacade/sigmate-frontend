@@ -28,5 +28,5 @@ export default function Calendar() {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  padding: 0 108px 165px 108px;
+  padding: 112px;
 `;

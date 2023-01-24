@@ -8,25 +8,38 @@ import { UpcomingExample } from 'public/Icons/landingPage';
 export default function Calendar() {
   return (
     <Wrapper>
-      <Link href="/main/upcoming" passHref>
-        <TransparentBtn>
-          <ImageWrapper width="700px" height="625px">
-            <Image
-              src={UpcomingExample}
-              alt="Example image"
-              layout="fill"
-              objectFit="contain"
-            />
-          </ImageWrapper>
-        </TransparentBtn>
-      </Link>
-      <Details />
+      <div>
+        <Link href="/main/upcoming" passHref>
+          <ShadowedTransparentBtn>
+            <ImageWrapper width="700px" height="625px">
+              <Image
+                src={UpcomingExample}
+                alt="Example image"
+                layout="fill"
+                objectFit="contain"
+              />
+            </ImageWrapper>
+          </ShadowedTransparentBtn>
+        </Link>
+        <Details />
+      </div>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
+  > div {
+    display: flex;
+    align-items: center;
+    margin: auto;
+  }
   display: flex;
-  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
   padding: 112px;
+`;
+
+const ShadowedTransparentBtn = styled(TransparentBtn)`
+  border-radius: 26px;
+  box-shadow: 0 1.5px 76px 0 rgb(123, 123, 123, 0.25);
 `;

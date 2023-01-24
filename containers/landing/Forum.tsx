@@ -3,6 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { ImageWrapper, TransparentBtn } from 'components/global';
 import { Texts } from 'components/landing/Forum';
+import styles from 'styles/styleLib';
 import { ForumExample } from 'public/Icons/landingPage';
 
 export default function Forum() {
@@ -11,16 +12,15 @@ export default function Forum() {
       <div>
         <Texts />
         <Link href="/main/forum" passHref>
-          <TransparentBtn>
+          <CurvedTransparentBtn>
             <ImageWrapper width="1200px" height="600px">
               <Image
                 src={ForumExample}
                 alt="Forum capture image"
                 layout="fill"
-                objectFit="contain"
               />
             </ImageWrapper>
-          </TransparentBtn>
+          </CurvedTransparentBtn>
         </Link>
       </div>
     </Wrapper>
@@ -37,4 +37,13 @@ const Wrapper = styled.div`
     margin: auto;
   }
   background-color: #ffffff;
+`;
+
+const CurvedTransparentBtn = styled(TransparentBtn)`
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  border: 2.5px solid ${styles.colors.darkGrayBorderColor};
+  border-bottom: none;
+  overflow: hidden;
+  box-shadow: ${styles.shadows.landingBlueShadow};
 `;

@@ -17,7 +17,7 @@ export default function Details() {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 34px;
+  margin-left: 64px;
 
   > div:first-child {
     display: flex;

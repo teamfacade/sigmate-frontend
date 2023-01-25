@@ -9,8 +9,8 @@ export default function TopBar() {
       <MenuBtn>
         <Menu />
       </MenuBtn>
-      <Link href="/main/recent-edits" passHref>
-        <LaunchBtn>Launch app</LaunchBtn>
+      <Link href="/auth" passHref>
+        <LaunchBtn>Sign in</LaunchBtn>
       </Link>
     </Wrapper>
   );
@@ -23,7 +23,6 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 150px;
 `;
 
 const MenuBtn = styled.button`
@@ -33,7 +32,7 @@ const MenuBtn = styled.button`
 
 const LaunchBtn = styled.button`
   ${BlueBtnStyle};
-  padding: 16px 54px;
+  padding: 14px 50px;
   height: auto;
   border-radius: 6px;
   font-size: 24px;

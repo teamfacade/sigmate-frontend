@@ -40,6 +40,6 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  padding: 86px 0 86px 112px;
+  padding: 110px 0 110px 112px;
   background-color: #ffffff;
 `;

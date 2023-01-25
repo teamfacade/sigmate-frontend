@@ -34,7 +34,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     width: fit-content;
-    padding: 83px 190px 0 190px;
+    padding: 110px 190px 0 190px;
     margin: auto;
   }
   background-color: #ffffff;

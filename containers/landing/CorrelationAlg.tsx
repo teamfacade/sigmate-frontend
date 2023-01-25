@@ -13,13 +13,8 @@ export default function CorrelationAlg() {
         More Reasonable Valuation Model using both On&Off Chain Data
       </Description>
       <Content>
-        <ImageWrapper width="100%" height="100%">
-          <Image
-            src={CorrelationEx}
-            layout="fill"
-            objectFit="contain"
-            priority
-          />
+        <ImageWrapper width="1175px" height="100%">
+          <Image src={CorrelationEx} layout="fill" priority />
         </ImageWrapper>
         <BlurFilter>
           <p>Coming soon</p>
@@ -31,7 +26,7 @@ export default function CorrelationAlg() {
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 100px 0;
+  padding: 130px 0;
 `;
 
 const Description = styled.p`
@@ -48,7 +43,7 @@ const Content = styled.div`
   left: 50%;
   display: flex;
   justify-content: center;
-  width: 90vw;
+  width: 1175px;
   transform: translateX(-50%);
   aspect-ratio: 4.67;
   border-radius: 8px;

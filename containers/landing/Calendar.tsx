@@ -37,7 +37,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  padding: 112px;
+  padding: 140px;
 `;
 
 const ShadowedTransparentBtn = styled(TransparentBtn)`

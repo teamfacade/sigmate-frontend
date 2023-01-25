@@ -53,6 +53,10 @@ const Input = styled.input`
   :focus-visible {
     outline: none;
   }
+
+  ::placeholder {
+    color: #98a2b2;
+  }
 `;
 
 const TransparentBtn = styled.button`

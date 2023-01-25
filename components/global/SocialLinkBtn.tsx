@@ -3,6 +3,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { ImageWrapper } from 'components/global';
+import {
+  TwitterUrl,
+  DiscordUrl,
+  TelegramUrl,
+  MediumUrl,
+} from 'lib/global/ExternalLinks';
 import { Twitter, Discord, Telegram, Medium } from 'public/Icons/global';
 import styles from 'styles/styleLib';
 
@@ -21,22 +27,22 @@ const Links: StringKeyObj<LinkDetailType> = {
   Twitter: {
     icon: Twitter,
     bgColor: styles.colors.twitterLogoColor,
-    href: 'https://twitter.com/OfficialSigmate',
+    href: TwitterUrl,
   },
   Discord: {
     icon: Discord,
     bgColor: '#6175C3',
-    href: 'https://discord.gg/jzwrEkbmwZ',
+    href: DiscordUrl,
   },
   Telegram: {
     icon: Telegram,
     bgColor: '#03AFE5',
-    href: 'https://t.me/officialsigmate',
+    href: TelegramUrl,
   },
   Medium: {
     icon: Medium,
     bgColor: '#12100E',
-    href: 'https://medium.com/@officialsigmate',
+    href: MediumUrl,
   },
 };
 

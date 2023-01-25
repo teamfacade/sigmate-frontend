@@ -1,16 +1,24 @@
 import styled from 'styled-components';
-import { Logo, TopBar, SearchBar } from 'components/landing/Introduction';
+import {
+  Logo,
+  TopBar,
+  SearchBar,
+  BlackSocialLinks,
+} from 'components/landing/Introduction';
 import styles from 'styles/styleLib';
 
 export default function Introduction() {
   return (
     <Wrapper>
-      <TopBar />
-      <ContentsWrapper>
-        <Logo />
-        <Phrase>All you need to know about your NFT</Phrase>
-        <SearchBar />
-      </ContentsWrapper>
+      <div style={{ position: 'relative', width: '100%', height: '!100%' }}>
+        <TopBar />
+        <ContentsWrapper>
+          <Logo />
+          <Phrase>All you need to know about your NFT</Phrase>
+          <SearchBar />
+        </ContentsWrapper>
+        <BlackSocialLinks />
+      </div>
     </Wrapper>
   );
 }

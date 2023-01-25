@@ -35,7 +35,7 @@ const Form = styled.form`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 65%;
+  width: 150%;
   padding: 19px 34px 21px 34px;
   border-radius: 10px;
   background: #ffffff;

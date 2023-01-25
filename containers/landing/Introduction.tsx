@@ -10,7 +10,7 @@ import styles from 'styles/styleLib';
 export default function Introduction() {
   return (
     <Wrapper>
-      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <CenterAllocatingDiv>
         <TopBar />
         <ContentsWrapper>
           <Logo />
@@ -18,7 +18,7 @@ export default function Introduction() {
           <SearchBar />
         </ContentsWrapper>
         <BlackSocialLinks />
-      </div>
+      </CenterAllocatingDiv>
     </Wrapper>
   );
 }
@@ -27,6 +27,15 @@ const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   padding: 48px;
+`;
+
+const CenterAllocatingDiv = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ContentsWrapper = styled.div`

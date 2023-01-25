@@ -5,6 +5,7 @@ import {
   Wikis,
   Calendar,
   Forum,
+  GoUpBtn,
 } from 'containers/landing';
 import styles from 'styles/styleLib';
 
@@ -16,6 +17,7 @@ export default function MyApp() {
       <Calendar />
       <Forum />
       <CorrelationAlg />
+      <GoUpBtn />
     </Wrapper>
   );
 }

@@ -10,7 +10,7 @@ import styles from 'styles/styleLib';
 export default function Introduction() {
   return (
     <Wrapper>
-      <div style={{ position: 'relative', width: '100%', height: '!100%' }}>
+      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <TopBar />
         <ContentsWrapper>
           <Logo />

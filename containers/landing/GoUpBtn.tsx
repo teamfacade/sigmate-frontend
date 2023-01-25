@@ -1,9 +1,6 @@
-import Image from 'next/image';
 import { useCallback, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import { ImageWrapper } from 'components/global';
 import { UpIcon } from 'public/Icons/landingPage';
-import styles from 'styles/styleLib';
 
 export default function GoUpBtn() {
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(

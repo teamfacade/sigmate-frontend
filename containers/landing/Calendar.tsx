@@ -17,6 +17,7 @@ export default function Calendar() {
                 alt="Example image"
                 layout="fill"
                 objectFit="contain"
+                priority
               />
             </ImageWrapper>
           </ShadowedTransparentBtn>

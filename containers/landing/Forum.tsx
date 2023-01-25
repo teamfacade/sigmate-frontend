@@ -18,6 +18,7 @@ export default function Forum() {
                 src={ForumExample}
                 alt="Forum capture image"
                 layout="fill"
+                priority
               />
             </ImageWrapper>
           </CurvedTransparentBtn>

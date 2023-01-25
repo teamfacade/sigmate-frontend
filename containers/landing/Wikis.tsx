@@ -22,6 +22,7 @@ export default function Wikis() {
               alt="Main page image"
               layout="fill"
               objectFit="contain"
+              priority
             />
           </ImageWrapper>
         </div>

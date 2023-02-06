@@ -1,12 +1,10 @@
 import { memo } from 'react';
 import styled from 'styled-components';
-import { DrawImage } from 'public/Icons';
 import styles from 'styles/styleLib';
 
 export default memo(function Introduction() {
   return (
     <Wrapper>
-      <DrawImage />
       <PhraseWrapper>
         <Heading>Event & Draw</Heading>
         <p>

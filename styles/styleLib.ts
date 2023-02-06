@@ -3,6 +3,7 @@ const colors = {
   modalContentBgColor: '#FDFDFD' as const,
   dividerColor: '#D7DCE4' as const,
   logoColor: '#475366' as const,
+  landingIntroText: '#374254' as const,
   logColor: '#626262' as const,
   emphColor: '#276BFF' as const,
   textColor: '#464646' as const,
@@ -20,6 +21,7 @@ const colors = {
   tableRowColor: '#FAFBFC' as const,
   hrColor: '#DEDEDE' as const,
   lightGrayBorderColor: '#ECECEC' as const,
+  darkGrayBorderColor: '#CECECE' as const,
   lightBorderColor: '#EBEEF2' as const,
   darkBorderColor: '#E4E4E4' as const,
   profileDescriptionColor: '#A3B6CC' as const,
@@ -45,6 +47,7 @@ const colors = {
   negativeTextColor: '#E54646' as const,
   negativeBgColor: '#FDECEC' as const,
   pinkBgColor: '#FFE4EE' as const,
+  landingBlue: '#F3F7FF' as const,
 };
 
 const shadows = {
@@ -52,6 +55,7 @@ const shadows = {
   containerShadow: `0 1px 3px 0 ${colors.darkBorderColor}`,
   modalShadow: '0 4px 4px 0 rgba(0, 0, 0, .25)',
   blueShadow: '5px 4px 40px 0 rgba(184, 215, 243, 0.5)',
+  landingBlueShadow: '6.5px 6.5px 34px 9.5px #E6EBF3',
 };
 
 const styles = {

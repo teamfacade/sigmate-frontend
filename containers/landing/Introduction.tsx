@@ -1,39 +1,57 @@
 import styled from 'styled-components';
-import { Logo, Phrase, Buttons } from 'components/landing/Introduction';
+import {
+  Logo,
+  TopBar,
+  SearchBar,
+  BlackSocialLinks,
+} from 'components/landing/Introduction';
+import styles from 'styles/styleLib';
 
 export default function Introduction() {
   return (
     <Wrapper>
-      <div>
-        <Logo />
-        <TextLogo>Sigmate</TextLogo>
-        <Phrase />
-        <Buttons />
-      </div>
+      <CenterAllocatingDiv>
+        <TopBar />
+        <ContentsWrapper>
+          <Logo />
+          <Phrase>All you need to know about your NFT</Phrase>
+          <SearchBar />
+        </ContentsWrapper>
+        <BlackSocialLinks />
+      </CenterAllocatingDiv>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  width: 100%;
-  padding: 88px min(72px, calc((100% - 300px) / 2)) 80px
-    min(72px, calc((100% - 300px) / 2));
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  border-bottom: 15px solid #09b0e6;
-  background: #c9e5ff;
-
-  > div {
-    position: relative;
-    max-width: 1280px;
-    margin: auto;
-  }
+  width: 100vw;
+  height: 100vh;
+  padding: 48px;
 `;
 
-const TextLogo = styled.p`
-  margin: 10px 0 10px 0;
-  color: #282e39;
-  font-size: 60px;
-  font-weight: 100;
-  font-family: 'Claris Sans', sans-serif;
+const CenterAllocatingDiv = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ContentsWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1280px;
+  margin: auto;
+`;
+
+const Phrase = styled.p`
+  margin: 0 0 38px 0;
+  color: ${styles.colors.landingIntroText};
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 120%;
+  text-align: center;
 `;

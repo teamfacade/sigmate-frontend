@@ -1,45 +1,46 @@
+import Image from 'next/image';
+import Link from 'next/link';
 import styled from 'styled-components';
-import { Title, InfoTable } from 'components/landing/Calendar';
-import styles from 'styles/styleLib';
+import { ImageWrapper, TransparentBtn } from 'components/global';
+import { Details } from 'components/landing/Calendar';
+import { UpcomingExample } from 'public/Icons/landingPage';
 
 export default function Calendar() {
   return (
     <Wrapper>
       <div>
-        <Title />
-        <Text>
-          Catching up with NFT schedules is difficult. We make it easier for
-          you.
-        </Text>
-        <InfoTable
-          title="Minting Calendar"
-          description="Provides all the information of upcoming NFT minting schedules"
-        />
-        <InfoTable
-          title="Personal Calendar"
-          description="Select watchlist of your interest and keep your alarmed with Personal Calendar"
-        />
+        <Link href="/main/upcoming" passHref>
+          <ShadowedTransparentBtn>
+            <ImageWrapper width="700px" height="625px">
+              <Image
+                src={UpcomingExample}
+                alt="Example image"
+                layout="fill"
+                objectFit="contain"
+                priority
+              />
+            </ImageWrapper>
+          </ShadowedTransparentBtn>
+        </Link>
+        <Details />
       </div>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  width: 100%;
-  padding: 42px min(72px, calc((100% - 300px) / 2)) 85px;
-  background-color: ${styles.colors.emptyColor};
-
   > div {
-    position: relative;
-    max-width: 1280px;
+    display: flex;
+    align-items: center;
     margin: auto;
   }
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 140px;
 `;
 
-const Text = styled.p`
-  margin: 0 0 60px 0;
-  color: ${styles.colors.darkTextColor};
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 180%;
+const ShadowedTransparentBtn = styled(TransparentBtn)`
+  border-radius: 26px;
+  box-shadow: 0 1.5px 76px 0 rgb(123, 123, 123, 0.25);
 `;

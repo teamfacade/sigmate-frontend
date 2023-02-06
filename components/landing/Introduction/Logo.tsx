@@ -1,18 +1,29 @@
 import styled from 'styled-components';
+import styles from 'styles/styleLib';
 import { SigmateLogo } from 'public/Icons/landingPage';
 
 export default function Logo() {
   return (
-    <Bg>
+    <Wrapper>
       <SigmateLogo />
-    </Bg>
+      <TextLogo>Sigmate</TextLogo>
+    </Wrapper>
   );
 }
 
-const Bg = styled.div`
-  width: fit-content;
-  padding: 13px 13px 10px 11px;
-  border-radius: 10px;
-  background: #ffffff;
-  box-shadow: 0 1px 120px 0 #7fb6e8;
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 25px;
+`;
+
+const TextLogo = styled.p`
+  margin: 0 0 0 14px;
+  color: ${styles.colors.landingIntroText};
+  font-size: 80px;
+  font-weight: 100;
+  font-family: 'Claris Sans', sans-serif;
+  line-height: 120%;
+  letter-spacing: 1.6px;
 `;

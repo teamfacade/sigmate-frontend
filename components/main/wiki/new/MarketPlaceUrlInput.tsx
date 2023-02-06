@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components';
 import Select from 'react-select';
 import BlueBtn from 'components/main/wiki/BlueBtn';
-import { MARKETPLACES, MarketplaceType } from 'lib/main/wiki/constants';
+import { MARKETPLACES } from 'lib/main/wiki/constants';
 import styles from 'styles/styleLib';
 
 const options: ReactSelect.OptionType[] = MARKETPLACES.map((marketplace) => ({
@@ -29,8 +29,8 @@ const selectStyles: ReactSelect.CustomStyleType = {
 
 type PropsType = {
   basicPending: boolean;
-  basicFetched: MarketplaceType;
-  setBasicFetched: Dispatch<SetStateAction<MarketplaceType>>;
+  basicFetched: Wiki.MarketplaceType;
+  setBasicFetched: Dispatch<SetStateAction<Wiki.MarketplaceType>>;
   onSubmit: FormEventHandler<HTMLFormElement>;
 };
 

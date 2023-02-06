@@ -9,6 +9,7 @@ import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 import { AppProps } from 'next/app';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { MARKETPLACES, EditableKeyInfos } from 'lib/main/wiki/constants';
 
 declare global {
   interface Window {
@@ -260,6 +261,12 @@ declare global {
       twitterHandle: DocumentBlockType;
       websiteUrl: DocumentBlockType;
     };
+
+    type EditableKeyInfosType = {
+      [K in typeof EditableKeyInfos[number]]: string | undefined;
+    };
+
+    type MarketplaceType = typeof MARKETPLACES[number] | undefined;
 
     type ModalDataType = {
       blockID: string;

@@ -1,7 +1,6 @@
 import { FormEventHandler, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { InitialKeyInfos } from 'lib/main/wiki/getWikiData';
-import { MarketplaceType } from 'lib/main/wiki/constants';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { BasicInfos, WriteNew } from 'containers/main/wiki/new';
@@ -17,7 +16,8 @@ export default function NewArticle({ topic }: PropsType) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [pending, setPending] = useState<boolean>(false);
-  const [basicFetched, setBasicFetched] = useState<MarketplaceType>(undefined);
+  const [basicFetched, setBasicFetched] =
+    useState<Wiki.MarketplaceType>(undefined);
   const [id, setId] = useState<number>(-1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedOption, setSelectedOption] = useState<

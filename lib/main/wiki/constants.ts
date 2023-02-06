@@ -1,5 +1,4 @@
 const MARKETPLACES = <const>['opensea', 'unregistered'];
-type MarketplaceType = typeof MARKETPLACES[number] | undefined;
 
 const KeyInfoIndex: StringKeyObj<number> = {
   Name: 0,
@@ -50,8 +49,8 @@ const KeyInfoBlockIds: string[] = [
 
 export {
   MARKETPLACES,
-  type MarketplaceType,
   KeyInfoIndex,
   KeyInfoTitles,
   KeyInfoBlockIds,
+  EditableKeyInfos,
 };

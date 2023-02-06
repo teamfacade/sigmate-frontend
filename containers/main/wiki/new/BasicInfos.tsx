@@ -1,12 +1,11 @@
 import { memo, FormEventHandler, Dispatch, SetStateAction } from 'react';
 import { MarketPlaceUrlInput, TokenInfoInput } from 'components/main/wiki/new';
-import { MarketplaceType } from 'lib/main/wiki/constants';
 
 type PropsType = {
   topic: string;
   basicPending: boolean;
-  basicFetched: MarketplaceType;
-  setBasicFetched: Dispatch<SetStateAction<MarketplaceType>>;
+  basicFetched: Wiki.MarketplaceType;
+  setBasicFetched: Dispatch<SetStateAction<Wiki.MarketplaceType>>;
   onSubmit: FormEventHandler<HTMLFormElement>;
 };
 

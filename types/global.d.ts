@@ -9,7 +9,11 @@ import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 import { AppProps } from 'next/app';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { MARKETPLACES, EditableKeyInfos } from 'lib/main/wiki/constants';
+import {
+  MARKETPLACES,
+  EditableKeyInfos,
+  KeyInfoBlockIds,
+} from 'lib/main/wiki/constants';
 
 declare global {
   interface Window {
@@ -240,30 +244,16 @@ declare global {
       contentId: string;
     };
 
+    type KeyInfoDataType =
+      | { id: number; textContent: string }
+      | DocumentBlockType;
+
     type KeyInfoType = {
-      [index: string];
-      name: {
-        id: number;
-        textContent: string;
-      };
-      thumbnail: {
-        id: number;
-        textContent: string;
-      };
-      team: DocumentBlockType;
-      history: DocumentBlockType;
-      category: DocumentBlockType;
-      utility: DocumentBlockType;
-      mintingPriceWl: DocumentBlockType;
-      mintingPricePublic: DocumentBlockType;
-      floorPrice: DocumentBlockType;
-      discordUrl: DocumentBlockType;
-      twitterHandle: DocumentBlockType;
-      websiteUrl: DocumentBlockType;
+      [K in typeof KeyInfoBlockIds[number] | string]: KeyInfoDataType;
     };
 
     type EditableKeyInfosType = {
-      [K in typeof EditableKeyInfos[number]]: string | undefined;
+      [K in typeof EditableKeyInfos[number] | string]: string | undefined;
     };
 
     type MarketplaceType = typeof MARKETPLACES[number] | undefined;

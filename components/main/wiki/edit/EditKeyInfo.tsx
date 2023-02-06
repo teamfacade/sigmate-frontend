@@ -14,16 +14,6 @@ import { ImageWrapper } from 'components/global';
 import styles from 'styles/styleLib';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
-type EditableKeyInfosType = {
-  [index: string]: string;
-  team: string;
-  history: string;
-  category: string;
-  utility: string;
-  whitelist: string;
-  public: string;
-};
-
 type PropsType = {
   keyInfos: Wiki.KeyInfoType;
 };
@@ -53,13 +43,16 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
   );
 
   const [editableKeyInfos, setEditableKeyInfos] =
-    useState<EditableKeyInfosType>({
+    useState<Wiki.EditableKeyInfosType>({
       team: keyInfos.team.textContent,
       history: keyInfos.history.textContent,
       category: keyInfos.category.textContent,
       utility: keyInfos.utility.textContent,
-      whitelist: keyInfos.mintingPriceWl.textContent,
-      public: keyInfos.mintingPricePublic.textContent,
+      mintingPriceWl: keyInfos.mintingPriceWl.textContent,
+      mintingPricePublic: keyInfos.mintingPricePublic.textContent,
+      discordUrl: keyInfos.discordUrl.textContent,
+      twitterHandle: keyInfos.twitterHandle.textContent,
+      websiteUrl: keyInfos.websiteUrl.textContent,
     });
 
   const onChange: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement> =
@@ -93,13 +86,13 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
         case 'Whitelist':
           setEditableKeyInfos((current) => ({
             ...current,
-            whitelist: value,
+            mintingPriceWl: value,
           }));
           break;
         case 'Public':
           setEditableKeyInfos((current) => ({
             ...current,
-            public: value,
+            mintingPricePublic: value,
           }));
           break;
         default:

@@ -45,11 +45,13 @@ export default function WikiArticle({ document }: PropsType) {
             myVerification: targetBlock.myVerification,
           };
       } else if (Number.isNaN(targetID) && document.keyInfo) {
-        const targetBlock: Wiki.DocumentBlockType =
+        const targetBlock: Wiki.KeyInfoDataType =
           document.keyInfo[showModal.blockID];
         return {
-          verificationCounts: targetBlock.verificationCounts,
-          myVerification: targetBlock.myVerification,
+          verificationCounts: (targetBlock as Wiki.DocumentBlockType)
+            .verificationCounts,
+          myVerification: (targetBlock as Wiki.DocumentBlockType)
+            .myVerification,
         };
       }
     }

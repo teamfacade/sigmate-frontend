@@ -30,7 +30,7 @@ const KeyInfoTitles: string[] = [
   'Official Website',
 ];
 
-const KeyInfoBlockIds: string[] = [
+const KeyInfoBlockIds = <const>[
   'name',
   'thumbnail',
   'team',
@@ -43,8 +43,18 @@ const KeyInfoBlockIds: string[] = [
   'discordUrl',
   'twitterHandle',
   'websiteUrl',
-  'paymentTokens',
-  'marketplace',
+];
+
+const EditableKeyInfos = <const>[
+  'team',
+  'history',
+  'category',
+  'utility',
+  'mintingPriceWl',
+  'mintingPricePublic',
+  'discordUrl',
+  'twitterHandle',
+  'websiteUrl',
 ];
 
 export {

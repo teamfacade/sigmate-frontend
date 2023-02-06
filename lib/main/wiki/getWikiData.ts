@@ -80,16 +80,6 @@ const SigmateDocument: Wiki.DocumentType = {
       id: KeyInfoIndex.OfficialSite,
       textContent: 'https://www.sigmate.io',
     },
-    paymentTokens: {
-      ...ExBlock,
-      id: KeyInfoIndex.Chain,
-      textContent: 'SIGMA',
-    },
-    marketplace: {
-      ...ExBlock,
-      id: KeyInfoIndex.Marketplace,
-      textContent: 'Sigmate',
-    },
   },
   structure: [1, 2, 3, 4, 5],
   types: [{ id: 1, name: 'Platform', description: '', thumbnail: '' }],

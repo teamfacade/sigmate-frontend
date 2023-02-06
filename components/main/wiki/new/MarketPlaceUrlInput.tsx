@@ -47,7 +47,7 @@ export default memo(function MarketPlaceUrlInput({
    */
   const onChange: ReactSelect.SingleSelectChangeEventHandler = useCallback(
     (selected) => {
-      if (selected) setBasicFetched(selected?.value as MarketplaceType);
+      if (selected) setBasicFetched(selected?.value as Wiki.MarketplaceType);
     },
     []
   );

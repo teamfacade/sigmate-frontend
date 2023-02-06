@@ -1,6 +1,7 @@
 import { FormEventHandler, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { InitialKeyInfos } from 'lib/main/wiki/getWikiData';
+import { MarketplaceType } from 'lib/main/wiki/constants';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { useAppDispatch } from 'hooks/reduxStoreHooks';
 import { BasicInfos, WriteNew } from 'containers/main/wiki/new';
@@ -16,7 +17,7 @@ export default function NewArticle({ topic }: PropsType) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [pending, setPending] = useState<boolean>(false);
-  const [basicFetched, setBasicFetched] = useState(false);
+  const [basicFetched, setBasicFetched] = useState<MarketplaceType>(undefined);
   const [id, setId] = useState<number>(-1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedOption, setSelectedOption] = useState<
@@ -91,7 +92,7 @@ export default function NewArticle({ topic }: PropsType) {
               twitterHandle: keyInfoBlocks.twitterHandle,
               websiteUrl: keyInfoBlocks.websiteUrl,
             }));
-            setBasicFetched(true);
+            setBasicFetched('opensea');
           } else if (action.payload.status === 409) {
             if (data.msg === 'ERR_DOCUMENT_ALREADY_EXISTS') {
               router.push(`/main/wiki-edit/${data.document.id}`);
@@ -197,13 +198,13 @@ export default function NewArticle({ topic }: PropsType) {
 
   return (
     <SectionWrapper header="Start New Article" marginBottom="20px">
-      {!basicFetched && (
-        <BasicInfos
-          topic={topic}
-          basicPending={pending}
-          onSubmit={onSubmitBasicInfo}
-        />
-      )}
+      <BasicInfos
+        topic={topic}
+        basicPending={pending}
+        basicFetched={basicFetched}
+        setBasicFetched={setBasicFetched}
+        onSubmit={onSubmitBasicInfo}
+      />
       {(basicFetched || topic === 'Others') && (
         <form onSubmit={onSubmitArticle}>
           <WriteNew

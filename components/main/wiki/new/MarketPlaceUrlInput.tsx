@@ -1,28 +1,78 @@
-import { memo, FormEventHandler, useState, useCallback } from 'react';
+import {
+  memo,
+  FormEventHandler,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+} from 'react';
 import styled from 'styled-components';
-import styles from 'styles/styleLib';
+import Select from 'react-select';
 import BlueBtn from 'components/main/wiki/BlueBtn';
+import { MARKETPLACES, MarketplaceType } from 'lib/main/wiki/constants';
+import styles from 'styles/styleLib';
+
+const options: ReactSelect.OptionType[] = MARKETPLACES.map((marketplace) => ({
+  value: marketplace,
+  label: marketplace,
+}));
+
+const selectStyles: ReactSelect.CustomStyleType = {
+  control: (base) => ({
+    ...base,
+    width: 200,
+    height: 40,
+    marginRight: 20,
+    borderRadius: 8,
+    border: `1px solid ${styles.colors.lightBorderColor}`,
+  }),
+};
 
 type PropsType = {
   basicPending: boolean;
+  basicFetched: MarketplaceType;
+  setBasicFetched: Dispatch<SetStateAction<MarketplaceType>>;
   onSubmit: FormEventHandler<HTMLFormElement>;
 };
 
 export default memo(function MarketPlaceUrlInput({
   basicPending,
+  basicFetched,
+  setBasicFetched,
   onSubmit,
 }: PropsType) {
+  /**
+   * @listener
+   * Change event listener for React Select component.
+   * Disables the Input && submit button component when user selected 'unregistered'.
+   */
+  const onChange: ReactSelect.SingleSelectChangeEventHandler = useCallback(
+    (selected) => {
+      if (selected) setBasicFetched(selected?.value as MarketplaceType);
+    },
+    []
+  );
+
   return (
     <form onSubmit={onSubmit}>
+      <Name>Marketplace Collection URL</Name>
       <Wrapper>
-        <Name>Marketplace Collection URL</Name>
         <Input
           type="url"
           name="MarketPlaceUrl"
           placeholder="https://opensea.io/collection/..."
           required
+          disabled={basicFetched === 'unregistered'}
         />
-        <SubmitBtn width="135px" disabled={basicPending}>
+        <Select
+          styles={selectStyles}
+          options={options}
+          placeholder="Marketplace"
+          onChange={onChange}
+        />
+        <SubmitBtn
+          width="135px"
+          disabled={basicPending || basicFetched === 'unregistered'}
+        >
           {basicPending ? '...' : 'Submit'}
         </SubmitBtn>
       </Wrapper>
@@ -31,13 +81,16 @@ export default memo(function MarketPlaceUrlInput({
 });
 
 const textStyle = `
-    color: ${styles.colors.logColor};
+  color: ${styles.colors.logColor};
   font-size: 17px;
   font-weight: 500;
   line-height: 160%;
 `;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const Name = styled.p`
   margin: 0 0 5px 0;

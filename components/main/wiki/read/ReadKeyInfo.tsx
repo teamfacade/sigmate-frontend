@@ -5,7 +5,7 @@ import {
   KeyInfoBlockIds,
   KeyInfoIndex,
   KeyInfoTitles,
-} from 'lib/main/wiki/getWikiData';
+} from 'lib/main/wiki/constants';
 import { ImageWrapper } from 'components/global';
 import { VerdictBlock } from 'components/main/wiki/read/verdictModal';
 import styles from 'styles/styleLib';

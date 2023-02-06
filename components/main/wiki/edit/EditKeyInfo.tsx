@@ -9,7 +9,7 @@ import Image from 'next/image';
 import useSWR, { Fetcher } from 'swr';
 import styled from 'styled-components';
 import Axios from 'lib/global/axiosInstance';
-import { KeyInfoIndex, KeyInfoTitles } from 'lib/main/wiki/getWikiData';
+import { KeyInfoIndex, KeyInfoTitles } from 'lib/main/wiki/constants';
 import { ImageWrapper } from 'components/global';
 import styles from 'styles/styleLib';
 import UserImageEx from 'public/Icons/user/account/UserImageEx.png';

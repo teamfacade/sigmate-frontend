@@ -1,4 +1,10 @@
-import { ActionMeta, MultiValue, SingleValue } from 'react-select';
+import {
+  ActionMeta,
+  GroupBase,
+  MultiValue,
+  SingleValue,
+  StylesConfig,
+} from 'react-select';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 import { AppProps } from 'next/app';
@@ -128,6 +134,12 @@ declare global {
       option: MultiValue<OptionType>,
       actionMeta: ActionMeta<OptionType>
     ) => void;
+
+    type CustomStyleType = StylesConfig<
+      ReactSelect.OptionType,
+      false,
+      GroupBase<ReactSelect.OptionType>
+    >;
   }
 
   type CollectionCategoryType = {

@@ -13,11 +13,7 @@ const options: ReactSelect.OptionType[] = [
   { value: 'Content', label: 'Thread content' },
 ];
 
-const customStyles: StylesConfig<
-  ReactSelect.OptionType,
-  false,
-  GroupBase<ReactSelect.OptionType>
-> = {
+const customStyles: ReactSelect.CustomStyleType = {
   control: (base) => ({
     ...base,
     width: 200,

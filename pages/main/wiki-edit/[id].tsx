@@ -13,6 +13,10 @@ import { store } from 'store/store';
 import { AuthRequiredAxios } from 'store/modules/authSlice';
 import { WikiEdit, Summary } from 'containers/main/wiki/edit';
 import { LargeText } from 'components/global';
+import {
+  createCollectionJSON,
+  keyInfoValidationErrorHandler,
+} from 'components/main/wiki/edit/KeyInfo/utils';
 
 export default function WikiEditPage({
   document,
@@ -82,38 +86,12 @@ export default function WikiEditPage({
   const onSave: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       setPending(true);
-      const collection: any = {};
+      let collection: Wiki.EditableKeyInfosType = {};
       e.preventDefault();
       const { id } = document;
       const { elements } = e.currentTarget;
 
-      if (document.keyInfo) {
-        const team = elements.namedItem('Team') as HTMLTextAreaElement;
-        const history = elements.namedItem('History') as HTMLTextAreaElement;
-        const category = elements.namedItem('Category') as HTMLSelectElement;
-        const utility = elements.namedItem('Utility') as HTMLTextAreaElement;
-        const mintingPriceWl = elements.namedItem(
-          'Whitelist'
-        ) as HTMLTextAreaElement;
-        const mintingPricePublic = elements.namedItem(
-          'Public'
-        ) as HTMLTextAreaElement;
-
-        if (team.value === '') {
-          setPending(false);
-          alert('NFT Collection document must have team information.');
-          team.focus();
-          return;
-        }
-        collection.team = team.value;
-        collection.history = history.value;
-        collection.category = category.value;
-        collection.utility = utility.value;
-        if (mintingPriceWl.value !== '')
-          collection.mintingPriceWl = mintingPriceWl.value;
-        if (mintingPricePublic.value !== '')
-          collection.mintingPricePublic = mintingPricePublic.value;
-      }
+      if (document.keyInfo) collection = createCollectionJSON(elements);
       if (title === '') {
         setPending(false);
         alert('A wiki document should have a title.');
@@ -148,10 +126,8 @@ export default function WikiEditPage({
           if (action.payload.status === 400) {
             /** Price should be a string */
             const errorData = action.payload.data.validationErrors[0];
-            if (errorData?.msg === 'NOT_FLOAT')
-              alert(
-                `Price must be a floating number.\r\nError at: ${errorData.value}`
-              );
+            if (errorData)
+              keyInfoValidationErrorHandler(errorData.msg, errorData.param);
           } else {
             alert(
               `Error while creating new article. ERR: ${action.payload.status}`

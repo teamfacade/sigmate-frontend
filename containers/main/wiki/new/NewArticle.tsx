@@ -7,7 +7,10 @@ import { BasicInfos, WriteNew } from 'containers/main/wiki/new';
 import { SectionWrapper } from 'components/global';
 import { DisclaimWrapper } from 'components/main/wiki/edit';
 import BlueBtn from 'components/main/wiki/BlueBtn';
-import { createCollectionJSON } from 'components/main/wiki/edit/KeyInfo/utils';
+import {
+  createCollectionJSON,
+  keyInfoValidationErrorHandler,
+} from 'components/main/wiki/edit/KeyInfo/utils';
 
 type PropsType = {
   topic: string;
@@ -175,10 +178,8 @@ export default function NewArticle({ topic }: PropsType) {
           if (action.payload.status === 400) {
             /** Price should be a string */
             const errorData = action.payload.data.validationErrors[0];
-            if (errorData?.msg === 'NOT_FLOAT')
-              alert(
-                `Price must be a floating number.\r\nError at: ${errorData.value}`
-              );
+            if (errorData)
+              keyInfoValidationErrorHandler(errorData.msg, errorData.param);
           } else
             alert(
               `Error while creating new article. ERR: ${action.payload.status}`

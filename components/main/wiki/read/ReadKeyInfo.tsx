@@ -2,7 +2,7 @@ import { Dispatch, memo, SetStateAction } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import {
-  KeyInfoBlockIds,
+  KeyInfoDataNames,
   KeyInfoIndex,
   KeyInfoTitles,
 } from 'lib/main/wiki/constants';
@@ -60,7 +60,7 @@ export default memo(function ReadKeyInfo({ keyInfo, setShowModal }: PropsType) {
           setShowModal={
             setShowModal as Dispatch<SetStateAction<Wiki.ModalDataType>>
           }
-          isKeyInfo={KeyInfoBlockIds[i]}
+          isKeyInfo={KeyInfoDataNames[i]}
         >
           <Td>
             {

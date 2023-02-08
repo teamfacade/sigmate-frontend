@@ -1,4 +1,4 @@
-import { KeyInfoTitles, KeyInfoBlockIds } from 'lib/main/wiki/constants';
+import { KeyInfoTitles, KeyInfoDataNames } from 'lib/main/wiki/constants';
 
 export const createCollectionJSON: (
   elements: HTMLFormControlsCollection
@@ -17,7 +17,7 @@ export const createCollectionJSON: (
         ).value;
         break;
       default:
-        collection[KeyInfoBlockIds[index]] = (
+        collection[KeyInfoDataNames[index]] = (
           elements.namedItem(componentName) as HTMLTextAreaElement
         ).value;
     }

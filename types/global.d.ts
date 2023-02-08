@@ -12,7 +12,7 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import {
   MARKETPLACES,
   EditableKeyInfos,
-  KeyInfoBlockIds,
+  KeyInfoDataNames,
 } from 'lib/main/wiki/constants';
 
 declare global {
@@ -249,7 +249,7 @@ declare global {
       | DocumentBlockType;
 
     type KeyInfoType = {
-      [K in typeof KeyInfoBlockIds[number] | string]: KeyInfoDataType;
+      [K in typeof KeyInfoDataNames[number] | string]: KeyInfoDataType;
     };
 
     type EditableKeyInfosType = {

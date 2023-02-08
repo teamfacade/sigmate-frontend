@@ -9,7 +9,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import {
   EditableKeyInfos,
-  KeyInfoBlockIds,
+  KeyInfoDataNames,
   KeyInfoIndex,
   KeyInfoTitles,
 } from 'lib/main/wiki/constants';
@@ -35,14 +35,14 @@ const loaderProp = ({ src }) => {
 
 const compoName2stateKey: (name: string) => string = (name) => {
   const index = KeyInfoTitles.findIndex((title) => title.startsWith(name));
-  return KeyInfoBlockIds[index];
+  return KeyInfoDataNames[index];
 };
 
 /**
  * All constants are in lib/main/wiki/constants.
  *
  * KeyInfo component's name:  KeyInfoTitles[i].split(' ')[0]
- * editableKeyInfos' key:     EditableKeyInfos (=== KeyInfoBlockIds)
+ * editableKeyInfos' key:     EditableKeyInfos (=== KeyInfoDataNames)
  */
 export default memo(function EditKeyInfo({
   keyInfos,

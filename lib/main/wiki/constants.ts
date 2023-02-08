@@ -30,7 +30,7 @@ const KeyInfoTitles: string[] = [
   'Official Website',
 ];
 
-const KeyInfoBlockIds = <const>[
+const KeyInfoDataNames = <const>[
   'name',
   'thumbnail',
   'team',
@@ -45,7 +45,7 @@ const KeyInfoBlockIds = <const>[
   'websiteUrl',
 ];
 
-/** NonEditable data in KeyInfoBlockIds are omitted. Nothing different. */
+/** NonEditable data in KeyInfoDataNames are omitted. Nothing different. */
 const EditableKeyInfos = <const>[
   'team',
   'history',
@@ -62,6 +62,6 @@ export {
   MARKETPLACES,
   KeyInfoIndex,
   KeyInfoTitles,
-  KeyInfoBlockIds,
+  KeyInfoDataNames,
   EditableKeyInfos,
 };

@@ -9,6 +9,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import {
   EditableKeyInfos,
+  KeyInfoBlockIds,
   KeyInfoIndex,
   KeyInfoTitles,
 } from 'lib/main/wiki/constants';
@@ -24,6 +25,7 @@ import UserImageEx from 'public/Icons/user/account/UserImageEx.png';
 
 type PropsType = {
   keyInfos: Wiki.KeyInfoType;
+  ExtendEditable: boolean;
 };
 
 // @ts-ignore
@@ -31,65 +33,46 @@ const loaderProp = ({ src }) => {
   return src;
 };
 
-export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
+const compoName2stateKey: (name: string) => string = (name) => {
+  const index = KeyInfoTitles.findIndex((title) => title.startsWith(name));
+  return KeyInfoBlockIds[index];
+};
+
+/**
+ * All constants are in lib/main/wiki/constants.
+ *
+ * KeyInfo component's name:  KeyInfoTitles[i].split(' ')[0]
+ * editableKeyInfos' key:     EditableKeyInfos (=== KeyInfoBlockIds)
+ */
+export default memo(function EditKeyInfo({
+  keyInfos,
+  ExtendEditable,
+}: PropsType) {
   const [editableKeyInfos, setEditableKeyInfos] =
     useState<Wiki.EditableKeyInfosType>(() => {
       const initialState: Wiki.EditableKeyInfosType = {};
       EditableKeyInfos.forEach((keyinfo) => {
         initialState[keyinfo] = keyInfos[keyinfo].textContent;
       });
-
       return initialState;
     });
 
   const onChange: ChangeEventHandler<HTMLTextAreaElement | HTMLSelectElement> =
     useCallback((e) => {
       const { name, value } = e.currentTarget;
-      switch (name) {
-        case 'Team':
-          setEditableKeyInfos((current) => ({
-            ...current,
-            team: value,
-          }));
-          break;
-        case 'History':
-          setEditableKeyInfos((current) => ({
-            ...current,
-            history: value,
-          }));
-          break;
-        case 'Category':
-          setEditableKeyInfos((current) => ({
-            ...current,
-            category: value,
-          }));
-          break;
-        case 'Utility':
-          setEditableKeyInfos((current) => ({
-            ...current,
-            utility: value,
-          }));
-          break;
-        case 'Whitelist':
-          setEditableKeyInfos((current) => ({
-            ...current,
-            mintingPriceWl: value,
-          }));
-          break;
-        case 'Public':
-          setEditableKeyInfos((current) => ({
-            ...current,
-            mintingPricePublic: value,
-          }));
-          break;
-        default:
-          break;
-      }
+
+      setEditableKeyInfos((current) => {
+        const newState: Wiki.EditableKeyInfosType = { ...current };
+        newState[compoName2stateKey(name)] = value;
+
+        return newState;
+      });
     }, []);
 
   const TableRows = useMemo(() => {
     return Object.values(keyInfos).map((keyInfo, i) => {
       const title = KeyInfoTitles[i];
+      const componentName = title.split(' ')[0];
 
       if (i === KeyInfoIndex.Name) {
         return (
@@ -112,14 +95,14 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
           </ImageWrapper>
         );
       }
+      if (i === KeyInfoIndex.Category) {
+        return <CategorySelect title={title} onChange={onChange} />;
+      }
       if (
         i === KeyInfoIndex.Team ||
         i === KeyInfoIndex.History ||
-        i === KeyInfoIndex.Utility ||
-        i === KeyInfoIndex.WLPrice ||
-        i === KeyInfoIndex.PublicPrice
+        i === KeyInfoIndex.Utility
       ) {
-        const componentName = title.split(' ')[0];
         return (
           <EditableKeyInfo
             componentName={componentName}
@@ -129,9 +112,15 @@ export default memo(function EditKeyInfo({ keyInfos }: PropsType) {
           />
         );
       }
-      if (i === KeyInfoIndex.Category) {
-        return <CategorySelect title={title} onChange={onChange} />;
-      }
+      if (ExtendEditable)
+        return (
+          <EditableKeyInfo
+            componentName={componentName}
+            title={title}
+            value={editableKeyInfos[compoName2stateKey(componentName)] || ''}
+            onChange={onChange}
+          />
+        );
       return (
         <UnEditableKeyInfo title={title} value={keyInfo.textContent} i={i} />
       );

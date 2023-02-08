@@ -7,6 +7,7 @@ import { BasicInfos, WriteNew } from 'containers/main/wiki/new';
 import { SectionWrapper } from 'components/global';
 import { DisclaimWrapper } from 'components/main/wiki/edit';
 import BlueBtn from 'components/main/wiki/BlueBtn';
+import { createCollectionJSON } from 'components/main/wiki/edit/KeyInfo/utils';
 
 type PropsType = {
   topic: string;
@@ -63,7 +64,7 @@ export default function NewArticle({ topic }: PropsType) {
         ).then((action: any) => {
           const { status, data } = action.payload;
           setPending(false);
-          if (action.payload.status === 201) {
+          if (status === 201) {
             setId(action.payload.data.document.id);
             setTitle(action.payload.data.document.collection.name);
             const {
@@ -93,7 +94,7 @@ export default function NewArticle({ topic }: PropsType) {
               websiteUrl: keyInfoBlocks.websiteUrl,
             }));
             setBasicFetched('opensea');
-          } else if (action.payload.status === 409) {
+          } else if (status === 409) {
             if (data.msg === 'ERR_DOCUMENT_ALREADY_EXISTS') {
               router.push(`/main/wiki-edit/${data.document.id}`);
             }
@@ -127,26 +128,18 @@ export default function NewArticle({ topic }: PropsType) {
   const onSubmitArticle: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       setPending(true);
-      const collection: any = {};
+      let collection: Wiki.EditableKeyInfosType = {};
       e.preventDefault();
       const { elements } = e.currentTarget;
 
       if (topic !== 'Others') {
-        const team = elements.namedItem('Team') as HTMLTextAreaElement;
-        const history = elements.namedItem('History') as HTMLTextAreaElement;
-        const category = elements.namedItem('Category') as HTMLSelectElement;
-        const utility = elements.namedItem('Utility') as HTMLTextAreaElement;
-
-        if (team.value === '') {
+        collection = createCollectionJSON(elements);
+        if (collection.team === '') {
           setPending(false);
           alert('NFT Collection document must have team information.');
-          team.focus();
+          (elements.namedItem('Team') as HTMLTextAreaElement).focus();
           return;
         }
-        collection.team = team.value;
-        collection.history = history.value;
-        collection.category = category.value;
-        collection.utility = utility.value;
       }
       if (title === '') {
         setPending(false);
@@ -215,6 +208,7 @@ export default function NewArticle({ topic }: PropsType) {
             blocks={blocks}
             setBlocks={setBlocks}
             keyInfo={keyInfo}
+            marketPlace={basicFetched}
           />
           <DisclaimWrapper>
             <input id="TOS" type="checkbox" required />

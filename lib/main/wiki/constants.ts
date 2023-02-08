@@ -45,6 +45,7 @@ const KeyInfoBlockIds = <const>[
   'websiteUrl',
 ];
 
+/** NonEditable data in KeyInfoBlockIds are omitted. Nothing different. */
 const EditableKeyInfos = <const>[
   'team',
   'history',

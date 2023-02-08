@@ -14,6 +14,7 @@ type PropsType = {
   blocks: Wiki.DocumentBlockType[];
   setBlocks: Dispatch<SetStateAction<Wiki.DocumentBlockType[]>>;
   keyInfo: Wiki.KeyInfoType;
+  marketPlace: Wiki.MarketplaceType;
 };
 
 export default memo(function WriteNew({
@@ -24,6 +25,7 @@ export default memo(function WriteNew({
   blocks,
   setBlocks,
   keyInfo,
+  marketPlace,
 }: PropsType) {
   // @todo 언젠가 children 구조가 생기면 setBlocks 로직을 parent id 존재 유무에 따라 바꾸기
   const onClickSelect: (id: number, tag: string) => void = useCallback(
@@ -69,7 +71,10 @@ export default memo(function WriteNew({
                 onChangeTypes as ReactSelect.MultiSelectChangeEventHandler
               }
             />
-            <EditKeyInfo keyInfos={keyInfo} />
+            <EditKeyInfo
+              keyInfos={keyInfo}
+              ExtendEditable={marketPlace === 'unregistered'}
+            />
           </>
         )}
         {blocks.map((block) => {

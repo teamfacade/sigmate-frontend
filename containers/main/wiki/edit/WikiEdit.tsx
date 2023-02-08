@@ -66,7 +66,7 @@ export default memo(function WikiEdit({
           value={types}
           onChange={onChangeTypes as ReactSelect.MultiSelectChangeEventHandler}
         />
-        {keyInfo && <EditKeyInfo keyInfos={keyInfo} />}
+        {keyInfo && <EditKeyInfo keyInfos={keyInfo} ExtendEditable={false} />}
         {blocks.map((block) => {
           return (
             <EditBlock

@@ -188,32 +188,32 @@ const InitialKeyInfos: Wiki.KeyInfoType = {
   mintingPriceWl: {
     ...ExBlock,
     id: KeyInfoIndex.WLPrice,
-    textContent: '0.25 ETH',
+    textContent: '',
   },
   mintingPricePublic: {
     ...ExBlock,
     id: KeyInfoIndex.PublicPrice,
-    textContent: '0.5 ETH',
+    textContent: '',
   },
   floorPrice: {
     ...ExBlock,
     id: KeyInfoIndex.CurrentPrice,
-    textContent: '1.4 ETH',
+    textContent: '',
   },
   discordUrl: {
     ...ExBlock,
     id: KeyInfoIndex.Discord,
-    textContent: 'https://www.naver.com',
+    textContent: '',
   },
   twitterHandle: {
     ...ExBlock,
     id: KeyInfoIndex.Twitter,
-    textContent: 'https://www.twitter.com/sigmateOfficial',
+    textContent: '',
   },
   websiteUrl: {
     ...ExBlock,
     id: KeyInfoIndex.OfficialSite,
-    textContent: 'https://www.sigmate.io',
+    textContent: '',
   },
 };
 

@@ -66,7 +66,7 @@ export default memo(function MarketPlaceUrlInput({
         <Select
           styles={selectStyles}
           options={options}
-          placeholder="Marketplace"
+          defaultValue={{ value: 'opensea', label: 'opensea' }}
           onChange={onChange}
         />
         <SubmitBtn

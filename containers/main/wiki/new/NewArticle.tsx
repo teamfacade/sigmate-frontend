@@ -110,6 +110,8 @@ export default function NewArticle({ topic }: PropsType) {
             if (data.msg === 'ERR_DOCUMENT_ALREADY_EXISTS') {
               router.push(`/main/wiki-edit/${data.document.id}`);
             }
+          } else if (data === 'Unauthorized') {
+            router.push('/auth');
           } else {
             alert(
               `Error while fetching collection info. ERR:${action.payload.status}.\r\nPlease try again.`
@@ -117,7 +119,7 @@ export default function NewArticle({ topic }: PropsType) {
           }
         });
       } else if (topic === 'Token') {
-      /** Not used now */
+        /** Not used now */
         setPending(false);
         // eslint-disable-next-line no-console
         console.log(

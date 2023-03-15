@@ -23,7 +23,6 @@ export const RenewAccessToken: (
   refreshToken: string,
   config: any
 ) => Promise<RenewResultType> = async (refreshToken: string, config: any) => {
-  console.log('Try renewing access token. Config:', config);
   if (renewingAccess) {
     return { result: 'Renewing' as RenewResultResultsType };
   }
@@ -35,8 +34,7 @@ export const RenewAccessToken: (
       result: 'Success' as RenewResultResultsType,
       accessToken: res.data.accessToken,
     }))
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
       return {
         result: 'SignOutNeeded' as RenewResultResultsType,
       };
@@ -45,28 +43,5 @@ export const RenewAccessToken: (
       renewingAccess = false;
     });
 };
-
-/*
-const RenewRefreshToken: (config: any) => Promise<RenewResultType> = async (
-  config
-) => {
-  console.log('Try renewing refresh token. Config:', config);
-  if (renewingRefresh) return { result: 'Renewing' as RenewResultResultsType };
-
-  renewingRefresh = true;
-  return Axios.post('/auth/token/renew/refresh', config)
-    .then((res) => ({
-      result: 'Success' as RenewResultResultsType,
-      accessToken: res.data.accessToken,
-      refreshToken: res.data.refreshToken,
-    }))
-    .catch(() => {
-
-    })
-    .finally(() => {
-      renewingRefresh = false;
-    });
-};
-*/
 
 export default Axios;

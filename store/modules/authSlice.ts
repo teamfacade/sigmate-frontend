@@ -24,6 +24,11 @@ export const signOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
   }
 );
 
+/**
+ *  @redux-thunk
+ *  Check login status, then sends https request to server using axios.
+ *  Always returns {status: number, data: object}.
+ */
 export const AuthRequiredAxios = createAsyncThunk<
   Promise<any>,
   { method: string; url: string; data?: any; retryCount?: number },
@@ -91,7 +96,6 @@ export const AuthRequiredAxios = createAsyncThunk<
           };
         }
       } catch (err: any) {
-        alert(`Error while renewing access token. ERR: ${err.status}`);
         return {
           status: err.status,
           data: e.data,

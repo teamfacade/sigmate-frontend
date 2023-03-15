@@ -31,6 +31,10 @@ export default function NewArticle({ topic }: PropsType) {
   const [title, setTitle] = useState('');
   const [blocks, setBlocks] = useState<Wiki.DocumentBlockType[]>([]);
 
+  /**
+   *  @handler
+   *  Select type of this article. Can select multiple types.
+   */
   const onChangeTypes: ReactSelect.MultiSelectChangeEventHandler = useCallback(
     (selected) => {
       if (selected) {
@@ -40,6 +44,11 @@ export default function NewArticle({ topic }: PropsType) {
     []
   );
 
+  /**
+   *  @handler
+   *  Submit basic info to make an article.
+   *  Sends opensea url slug when topic is collection.
+   */
   const onSubmitBasicInfo: FormEventHandler<HTMLFormElement> = useCallback(
     async (e) => {
       e.preventDefault();
@@ -108,6 +117,7 @@ export default function NewArticle({ topic }: PropsType) {
           }
         });
       } else if (topic === 'Token') {
+      /** Not used now */
         setPending(false);
         // eslint-disable-next-line no-console
         console.log(
@@ -128,6 +138,10 @@ export default function NewArticle({ topic }: PropsType) {
     []
   );
 
+  /**
+   *  @handler
+   *  Submit current contents as new article.
+   */
   const onSubmitArticle: FormEventHandler<HTMLFormElement> = useCallback(
     (e) => {
       setPending(true);
@@ -135,6 +149,7 @@ export default function NewArticle({ topic }: PropsType) {
       e.preventDefault();
       const { elements } = e.currentTarget;
 
+      /** Currently this if statement has no effect. Always executed. */
       if (topic !== 'Others') {
         collection = createCollectionJSON(elements);
         if (collection.team === '') {
@@ -176,7 +191,6 @@ export default function NewArticle({ topic }: PropsType) {
           setPending(false);
           /** Validated errors */
           if (action.payload.status === 400) {
-            /** Price should be a string */
             const errorData = action.payload.data.validationErrors[0];
             if (errorData)
               keyInfoValidationErrorHandler(errorData.msg, errorData.param);

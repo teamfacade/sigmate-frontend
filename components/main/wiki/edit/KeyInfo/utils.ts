@@ -1,5 +1,9 @@
 import { KeyInfoTitles, KeyInfoDataNames } from 'lib/main/wiki/constants';
 
+/**
+ *  @param elements: inputs in key info form
+ *  @return : JSON containing key info data of current article
+ */
 export const createCollectionJSON: (
   elements: HTMLFormControlsCollection
 ) => Wiki.EditableKeyInfosType = (elements) => {

@@ -9,6 +9,7 @@ type PropsType = {
   onSubmit: FormEventHandler<HTMLFormElement>;
 };
 
+/** Currently only collection is used as topic. */
 export default memo(function BasicInfos({
   topic,
   basicPending,

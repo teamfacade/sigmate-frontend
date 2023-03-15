@@ -47,9 +47,18 @@ export default memo(function MarketPlaceUrlInput({
    */
   const onChange: ReactSelect.SingleSelectChangeEventHandler = useCallback(
     (selected) => {
-      if (selected) setBasicFetched(selected?.value as Wiki.MarketplaceType);
+      const marketplace = selected?.value;
+      if (marketplace === 'unregistered')
+        setBasicFetched(selected?.value as Wiki.MarketplaceType);
+      else if (
+        basicFetched &&
+        window.confirm(
+          "Contents you have written won't be saved.\r\nAre you sure about changing the marketplace?"
+        )
+      )
+        setBasicFetched(undefined);
     },
-    []
+    [basicFetched]
   );
 
   return (
@@ -66,7 +75,13 @@ export default memo(function MarketPlaceUrlInput({
         <Select
           styles={selectStyles}
           options={options}
+          placeholder="marketplace"
           defaultValue={{ value: 'opensea', label: 'opensea' }}
+          value={
+            basicFetched
+              ? { value: basicFetched, label: basicFetched }
+              : undefined
+          }
           onChange={onChange}
         />
         <SubmitBtn

@@ -1,7 +1,7 @@
 // import Embed from '@editorjs/embed'
 import Table from '@editorjs/table';
 import List from '@editorjs/list';
-// import Warning from '@editorjs/warning'
+import Warning from '@editorjs/warning';
 // import Code from '@editorjs/code'
 import LinkTool from '@editorjs/link';
 import Image from '@editorjs/image';
@@ -18,12 +18,41 @@ export const EDITOR_JS_TOOLS = {
   // NOTE: Paragraph is default tool. Declare only when you want to change paragraph option.
   // paragraph: Paragraph,
   // embed: Embed,
-  table: Table,
-  list: List,
-  // warning: Warning,
+  table: {
+    class: Table,
+    inlineToolbar: true,
+    config: {
+      rows: 2,
+      cols: 3,
+    },
+  },
+  list: {
+    class: List,
+    inlineToolbar: true,
+    config: {
+      defaultStyle: 'unordered',
+    },
+  },
+  warning: {
+    class: Warning,
+    inlineToolbar: true,
+    shortcut: 'CMD+SHIFT+W',
+    config: {
+      titlePlaceholder: 'Title',
+      messagePlaceholder: 'Message',
+    },
+  },
   // code: Code,
   linkTool: LinkTool,
-  image: Image,
+  image: {
+    class: Image,
+    config: {
+      endpoints: {
+        byFile: 'http://localhost:8008/uploadFile', // Your backend file uploader endpoint
+        byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
+      },
+    },
+  },
   // raw: Raw,
   header: Header,
   // quote: Quote,

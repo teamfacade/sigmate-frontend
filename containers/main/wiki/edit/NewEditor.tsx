@@ -1,5 +1,6 @@
 import { MutableRefObject, useCallback } from 'react';
 import { createReactEditorJS } from 'react-editor-js';
+import styled from 'styled-components';
 import { EDITOR_JS_TOOLS } from 'lib/global/editorTools';
 import { EditorCore } from '@react-editor-js/core';
 
@@ -59,6 +60,15 @@ export default function NewEditor({ editorCoreRef }: PropsType) {
       defaultValue={defaultValue}
       onInitialize={handleInitialize}
       tools={EDITOR_JS_TOOLS}
-    />
+      holder="margin-eraser"
+    >
+      <Div id="margin-eraser" />
+    </ReactEditorJS>
   );
 }
+
+const Div = styled.div`
+  div {
+    margin-left: 0;
+  }
+`;

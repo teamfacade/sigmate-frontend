@@ -104,7 +104,7 @@ export default function WikiArticleNewData({ document }: PropsType) {
             key={block.id}
             id={block.id as string}
             element={block.type}
-            content={block.data.text}
+            content={block.data}
             verificationCounts={{ verifyCount: 0, beAwareCount: 0 }}
             myVerification={null}
             opinionCount={0}

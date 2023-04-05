@@ -1,11 +1,11 @@
 import { memo, Dispatch, SetStateAction } from 'react';
-import { ReadComponent } from 'components/main/wiki/read';
+import { ReadComponent, NewReadComponent } from 'components/main/wiki/read';
 import { VerdictBlock } from 'components/main/wiki/read/verdictModal';
 
 type PropsType = {
   id: string;
   element: string;
-  content: string;
+  content: any;
   verificationCounts: Wiki.VerificationCountType;
   myVerification: boolean | null;
   opinionCount: number;
@@ -29,7 +29,8 @@ export default memo(function NewReadBlock({
       myVerification={myVerification}
       opinionCount={opinionCount}
     >
-      <ReadComponent element={element} content={content} />
+      {/* <ReadComponent element={element} content={content} /> */}
+      <NewReadComponent element={element} content={content} />
     </VerdictBlock>
   );
 });

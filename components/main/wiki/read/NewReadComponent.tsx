@@ -6,6 +6,7 @@ import {
   TableBlock,
   ListBlock,
 } from 'editorjs-blocks-react-renderer';
+import styles from 'styles/styleLib';
 
 type PropsType = {
   element: string;
@@ -30,8 +31,34 @@ export default memo(function ReadComponent({ element, content }: PropsType) {
   );
 });
 
+const tableStyle = `
+  > table {
+    border-collapse: collapse;
+    border-top: 1px solid ${styles.colors.hrColor};
+    border-bottom: 1px solid ${styles.colors.hrColor};
+    
+    > thead > tr {
+      border-bottom: 2px solid ${styles.colors.hrColor};
+    }
+    
+    > tbody > tr:not(:first-child) {
+      border-top: 1px solid ${styles.colors.hrColor};
+    }
+    
+    th:not(:last-child), td:not(:last-child) {
+      border-right: 1px solid ${styles.colors.hrColor};
+    }
+    
+    th, td {
+      padding: 8px;
+    }
+  }
+`;
+
 const MarginErase = styled.div`
   > * {
     margin: 0;
   }
+
+  ${tableStyle};
 `;
